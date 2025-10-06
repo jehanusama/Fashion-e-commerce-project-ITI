@@ -1,0 +1,71 @@
+.image-side {
+    background-image: url('../images/Image.png');
+    background-size: cover;
+    background-position: center;
+}
+
+.auth-form {
+    width: 100%;
+}
+
+.btn-success {
+    background-color: #0F6546 !important;
+    border: none;
+}
+
+.btn-success:hover {
+    background-color: #0f4a30 !important;
+}
+
+a {
+    color: #0b0b0b;
+}
+
+a:hover {
+    color: #0F6546;
+}
+
+
+@media (max-width: 767px) {
+    .image-side {
+        max-height: 40vh !important;
+        position: relative;
+    }
+
+    .auth-form {
+        position: absolute;
+        top: 29%;
+        left: 50%;
+        transform: translateX(-50%);
+        max-width: 90%;
+        background: #fff;
+        padding: 18px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    }
+}
+
+
+@media (max-width: 991px) {
+
+    .auth-form .form-check-label,
+    .auth-form .forgot-password {
+        font-size: 14px !important;
+    }
+}
+
+@media (min-width: 768px) {
+    .image-side {
+        min-height: 100vh;
+    }
+
+    .auth-form {
+        max-width: 420px;
+    }
+}
+
+@media (min-width: 992px) {
+    .auth-form {
+        max-width: 500px;
+    }
+}
