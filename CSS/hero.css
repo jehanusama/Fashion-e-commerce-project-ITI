@@ -1,0 +1,50 @@
+.hero-section {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  height: 407px;
+  margin: 40px auto;       /* Margin حول الصورة */
+  padding: 20px;           /* Padding داخلي */
+  background-image: url('./images/hero section.jpg'); /* ضع هنا صورة الهيرو الخاصة بك */
+  background-size: cover;
+  background-position: center;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.hero-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #fff;
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.hero-divider {
+  width: 80px;
+  border: 2px solid #fff;
+  margin: 0 auto 15px auto;
+}
+
+.btn-hero {
+  background-color: #fff;
+  color:  hsl(158,74%,23%);
+  border: none;
+  padding: 10px 25px;
+  font-size: 1rem;
+  border-radius: 28px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-hero:hover {
+  background-color: hsl(158,74%,20%);
+}

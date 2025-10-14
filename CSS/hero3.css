@@ -1,0 +1,131 @@
+.hero3 {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 40px 20px;
+  background: rgba(236, 236, 240, 0.5);
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.hero3::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(236, 236, 240, 0.2);
+  border-radius: 12px;
+}
+
+.hero3 .container {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.hero3-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 36px;
+  color: hsl(240, 5%, 20%);
+  margin-bottom: 15px;
+}
+
+.hero3-text {
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  color: #444;
+  margin-bottom: 25px;
+  line-height: 1.5;
+  max-width: 600px;
+}
+
+.hero3-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 28px;
+  padding: 10px 15px;
+  background: #fff;
+  width: 300px;
+  max-width: 100%;
+}
+
+.email-icon {
+  color: #888;
+  font-size: 16px;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+
+.hero3-input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  background: transparent;
+}
+
+.hero3-btn {
+  background-color: hsl(158, 74%, 23%);
+  color: #fff;
+  border: none;
+  border-radius: 28px;
+  padding: 10px 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+  height: 42px;
+}
+
+.hero3-btn:hover {
+  background-color: #fff;
+  color: hsl(158, 74%, 28%);
+}
+
+/* 📱 Responsive adjustments */
+@media (max-width: 768px) {
+  .hero3 {
+    padding: 30px 15px;
+  }
+
+  .hero3-title {
+    font-size: 34px;
+    margin-bottom: 10px;
+  }
+
+  .hero3-text {
+    font-size: 15px;
+    margin-bottom: 18px;
+  }
+
+  .hero3-form {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .input-wrapper,
+  .hero3-btn {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .hero3-btn {
+    padding: 10px 30px;
+    font-size: 0.95rem;
+  }
+}
