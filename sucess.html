@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Password Updated</title>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    body {
+      background: #ffffff;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* محتوى SweetAlert */
+    .swal2-popup {
+      width: 580px !important; /* نفس عرض الكارت */
+      padding: 40px 40px !important;
+      border-radius: 14px !important;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* الزرار الاحترافي */
+    .swal2-confirm.custom-btn {
+      width: 500px !important;  /* ياخد كامل عرض الكارت */
+      font-size: 16px;          /* حجم الخط واضح */
+      font-weight: 600;
+      background-color: #0F6546 !important;
+      color: #fff !important;
+      border-radius: 14px !important; /* نفس حواف الكارت */
+      padding: 14px 0;           /* ارتفاع مناسب للزرار */
+      margin: 20px auto 0 auto;  /* مسافة فوق الزرار، مركز بشكل أفقي */
+      display: block;
+      transition: background 0.2s;
+    }
+
+    .swal2-confirm.custom-btn:hover {
+      background-color: #0c5038 !important;
+    }
+
+    /* نص العنوان */
+    .swal2-title {
+      font-size: 22px !important;
+      font-weight: 600 !important;
+      color: #111827 !important;
+    }
+
+    /* نص الرسالة */
+    .swal2-html-container {
+      font-size: 16px !important;
+      color: #828282 !important;
+      line-height: 24px !important;
+      margin-top: 12px;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    Swal.fire({
+      icon: 'success',
+      title: 'Password Updated!',
+      html: 'Your password has been successfully changed.',
+      confirmButtonText: 'Continue',
+      customClass: {
+        confirmButton: 'custom-btn'
+      },
+      allowOutsideClick: false,
+      allowEscapeKey: false
+    }).then(() => {
+      // بعد الضغط على Continue نرجع المستخدم لصفحة تسجيل الدخول
+      window.location.href = "login.html";
+    });
+  </script>
+</body>
+</html>
