@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Filter - Custom Color</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Define the Primary Color */
+        :root {
+            --primary-color: #0F6546; /* Your requested deep green */
+            --light-blue: #1e90ff;
+            --mid-green: #3cb371;
+            --orange-red: #ff4500;
+            --dark-navy: #191970;
+        }
+
+        /* Base Filter Container */
+        .filter-container {
+            border: 1px solid #e0e0e0;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 300px;
+            margin: 20px ; /* Centered for demo */
+        }
+
+        /* Section Titles */
+        .filter-section-title {
+            font-weight: bold;
+            color: #343a40;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        /* Price Range Inputs */
+        .price-range-inputs {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            margin-bottom: 25px;
+        }
+        .price-range-inputs input {
+            text-align: center;
+        }
+        
+        /* Price Range Track (The full grey line) */
+        .price-range-track {
+            height: 5px;
+            background: #e9ecef;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        /* Active Price Range (The colored line between inputs) */
+        .price-range-active {
+            height: 5px;
+            background-color: var(--primary-color); /* Uses the custom color */
+            position: absolute;
+            border-radius: 5px;
+            transition: left 0.2s ease, width 0.2s ease; /* Smooth visual update */
+        }
+        
+        /* Color Filter Circles */
+        .color-circle {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+            cursor: pointer;
+            border: 2px solid transparent; 
+        }
+        
+        /* Custom Color Mapping */
+        .color-blue { background-color: var(--light-blue); }
+        .color-green { background-color: var(--mid-green); }
+        .color-orange { background-color: var(--orange-red); }
+        .color-darkblue { background-color: var(--dark-navy); }
+        
+        .color-item {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Active state for Color Filter */
+        .active-color { 
+            border-color: #343a40 !important; /* Dark border to show selection */
+            box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
+        }
+
+        /* Customize Checkbox color to match the primary theme */
+        .form-check-input:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        .form-check-input:focus {
+            box-shadow: 0 0 0 0.25rem rgba(15, 101, 70, 0.25); /* Custom focus ring */
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="filter-container shadow-sm">
+    
+    <h5 class="filter-section-title">Filter By Price</h5>
+    <div class="price-range-track">
+        <div id="price-range-active" class="price-range-active"></div>
+    </div>
+    
+    <div class="price-range-inputs">
+        <input type="number" id="min-price" class="form-control form-control-sm" value="200" min="0">
+        <input type="number" id="max-price" class="form-control form-control-sm" value="1000" min="0">
+    </div>
+
+    <h5 class="filter-section-title">Filter by size</h5>
+    <div class="mb-3">
+        <div class="form-check"><input class="form-check-input" type="checkbox" value="XS" id="size-xs"><label class="form-check-label" for="size-xs">XS</label></div>
+        <div class="form-check"><input class="form-check-input" type="checkbox" value="S" id="size-s"><label class="form-check-label" for="size-s">S</label></div>
+        <div class="form-check"><input class="form-check-input" type="checkbox" value="M" id="size-m"><label class="form-check-label" for="size-m">M</label></div>
+        <div class="form-check"><input class="form-check-input" type="checkbox" value="L" id="size-l"><label class="form-check-label" for="size-l">L</label></div>
+        <div class="form-check"><input class="form-check-input" type="checkbox" value="XL" id="size-xl"><label class="form-check-label" for="size-xl">XL</label></div>
+        <div class="form-check"><input class="form-check-input" type="checkbox" value="XXL" id="size-xxl"><label class="form-check-label" for="size-xxl">XXL</label></div>
+    </div>
+    
+    <hr class="my-3">
+
+    <h5 class="filter-section-title">Categories</h5>
+    <div class="mb-3">
+        <div class="form-check"><input class="form-check-input" type="checkbox" value="Jeans" id="cat-jeans"><label class="form-check-label" for="cat-jeans">Jeans</label></div>
+        <div class="form-check"><input class="form-check-input" type="checkbox" value="Jacket" id="cat-jacket"><label class="form-check-label" for="cat-jacket">Jacket</label></div>
+        <div class="form-check"><input class="form-check-input" type="checkbox" value="Pullover" id="cat-pullover"><label class="form-check-label" for="cat-pullover">Pullover</label></div>
+        <div class="form-check"><input class="form-check-input" type="checkbox" value="T-shirt" id="cat-tshirt"><label class="form-check-label" for="cat-tshirt">T-shirt</label></div>
+        <div class="form-check"><input class="form-check-input" type="checkbox" value="Homewear" id="cat-homewear"><label class="form-check-label" for="cat-homewear">Homewear</label></div>
+        <div class="form-check"><input class="form-check-input" type="checkbox" value="Perfume" id="cat-perfume"><label class="form-check-label" for="cat-perfume">Perfume</label></div>
+        <div class="form-check"><input class="form-check-input" type="checkbox" value="Sportwear" id="cat-sportwear"><label class="form-check-label" for="cat-sportwear">Sportwear</label></div>
+    </div>
+    
+    <hr class="my-3">
+
+    <h5 class="filter-section-title">Color</h5>
+    <div id="color-filter-group">
+        <div class="color-item"><span class="color-circle color-blue" data-color="Blue" onclick="toggleColor(this)"></span>Blue</div>
+        <div class="color-item"><span class="color-circle color-green" data-color="Green" onclick="toggleColor(this)"></span>Green</div>
+        <div class="color-item"><span class="color-circle color-orange" data-color="Orange" onclick="toggleColor(this)"></span>Orange</div>
+        <div class="color-item"><span class="color-circle color-darkblue" data-color="Dark Blue" onclick="toggleColor(this)"></span>Dark Blue</div>
+    </div>
+    
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // --- Configuration and State ---
+    const minPriceInput = document.getElementById('min-price');
+    const maxPriceInput = document.getElementById('max-price');
+    const priceRangeActive = document.getElementById('price-range-active');
+    const MIN_VISUAL_RANGE = 0; // Minimum value for the visual track
+    const MAX_VISUAL_RANGE = 2000; // Maximum value for the visual track (assumed max product price)
+
+    let currentFilters = {
+        price: { min: parseInt(minPriceInput.value), max: parseInt(maxPriceInput.value) },
+        sizes: [],
+        categories: [],
+        colors: []
+    };
+
+    // --- Price Range Visual and Data Update ---
+    function updatePriceTrackAndFilters() {
+        let minVal = parseInt(minPriceInput.value) || MIN_VISUAL_RANGE;
+        let maxVal = parseInt(maxPriceInput.value) || MAX_VISUAL_RANGE;
+        
+        // Ensure min is not greater than max (for robustness)
+        if (minVal > maxVal) {
+            [minVal, maxVal] = [maxVal, minVal]; 
+        }
+        
+        // VISUAL UPDATE (for the blue/green line)
+        const totalVisualRange = MAX_VISUAL_RANGE - MIN_VISUAL_RANGE;
+        const leftPercent = ((minVal - MIN_VISUAL_RANGE) / totalVisualRange) * 100;
+        const widthPercent = ((maxVal - minVal) / totalVisualRange) * 100;
+        
+        priceRangeActive.style.left = leftPercent + '%';
+        priceRangeActive.style.width = widthPercent + '%';
+        
+        // DATA UPDATE: Now call the central filtering function
+        applyFilters();
+    }
+    
+    // --- Color Selection Logic ---
+    function toggleColor(element) {
+        element.classList.toggle('active-color');
+        applyFilters(); // Trigger filter after changing color state
+    }
+
+    // --- Central Filtering Function ---
+    function applyFilters() {
+        // 1. Gather Price Data
+        currentFilters.price.min = parseInt(minPriceInput.value);
+        currentFilters.price.max = parseInt(maxPriceInput.value);
+
+        // 2. Gather Checkbox Data (Sizes & Categories)
+        function getSelectedCheckboxes(selector) {
+            return Array.from(document.querySelectorAll(selector + ':checked'))
+                        .map(checkbox => checkbox.value);
+        }
+        
+        // Note: You must list all IDs here for a real application
+        currentFilters.sizes = getSelectedCheckboxes('#size-xs, #size-s, #size-m, #size-l, #size-xl, #size-xxl'); 
+        currentFilters.categories = getSelectedCheckboxes('#cat-jeans, #cat-jacket, #cat-pullover, #cat-tshirt, #cat-homewear, #cat-perfume, #cat-sportwear'); 
+
+        // 3. Gather Color Data
+        currentFilters.colors = Array.from(document.querySelectorAll('.color-circle.active-color'))
+                                   .map(circle => circle.getAttribute('data-color'));
+
+        // --- EXECUTE THE FILTERING (Placeholder) ---
+        // This is where you would send the data to your server or filter a local list.
+        console.log("Current Filters State:", currentFilters);
+        // console.log("--- Trigger product list refresh here ---");
+    }
+
+    // --- Event Listeners Initialization ---
+    
+    // A. Price listeners
+    minPriceInput.addEventListener('input', updatePriceTrackAndFilters);
+    maxPriceInput.addEventListener('input', updatePriceTrackAndFilters);
+
+    // B. Checkbox listeners (Sizes and Categories)
+    document.querySelectorAll('.form-check-input').forEach(input => {
+        input.addEventListener('change', applyFilters);
+    });
+
+    // Initial setup call
+    updatePriceTrackAndFilters();
+</script>
+
+</body>
+</html>
