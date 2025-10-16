@@ -1,0 +1,860 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wearopia — Cart</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; }
+    
+    body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #FEFEFE;
+      color: #121212;
+      margin: 0;
+      padding: 0;
+      line-height: 1.5;
+    }
+
+    .container-custom {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb-nav {
+      font-size: 14px;
+      color: #605F5F;
+      margin-bottom: 24px;
+    }
+    .breadcrumb-nav a {
+      color: #605F5F;
+      text-decoration: none;
+    }
+    .breadcrumb-nav a:hover {
+      color: #121212;
+    }
+
+    /* Steps */
+    .steps-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 48px;
+      margin-bottom: 48px;
+      justify-content: center;
+    }
+    
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .step-circle {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 16px;
+    }
+    
+    .step-item.active .step-circle {
+      background: #198754;
+      color: #fff;
+    }
+    
+    .step-item.inactive .step-circle {
+      background: #E6E8EC;
+      color: #777E90;
+    }
+    
+    .step-label {
+      font-size: 16px;
+      font-weight: 500;
+      color: #23262F;
+    }
+    
+    .step-item.inactive .step-label {
+      color: #777E90;
+    }
+
+    /* Main Layout */
+    .cart-layout {
+      display: grid;
+      grid-template-columns: 1fr 413px;
+      gap: 64px;
+      align-items: start;
+    }
+
+    /* Left Side - Products */
+    .products-section {
+      background: #FCFCFD;
+      border: 1px solid #E6E8EC;
+      border-radius: 16px;
+    }
+
+    .products-header {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      padding: 24px;
+      border-bottom: 1px solid #E6E8EC;
+      font-size: 12px;
+      font-weight: 700;
+      color: #777E90;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .product-item {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      align-items: center;
+      padding: 24px;
+      border-bottom: 1px solid #E6E8EC;
+      gap: 16px;
+    }
+
+    .product-item:last-child {
+      border-bottom: none;
+    }
+
+    .product-info {
+      display: flex;
+      gap: 16px;
+    }
+
+    .product-img {
+      width: 80px;
+      height: 80px;
+      border-radius: 12px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .product-details {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .product-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #23262F;
+      line-height: 1.4;
+    }
+
+    .product-variant {
+      font-size: 13px;
+      color: #777E90;
+    }
+
+    .btn-remove {
+      background: none;
+      border: none;
+      color: #198754;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 0;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 6px;
+      transition: color 0.2s;
+    }
+
+    .btn-remove:hover {
+      color: #23262F;
+    }
+
+    .qty-box {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid #E6E8EC;
+      border-radius: 90px;
+      overflow: hidden;
+      background: white;
+    }
+
+    .qty-btn {
+      width: 36px;
+      height: 36px;
+      border: none;
+      background: transparent;
+      color: #23262F;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+      font-weight: 400;
+    }
+
+    .qty-btn:hover {
+      background: #F4F5F6;
+    }
+
+    .qty-input {
+      width: 40px;
+      height: 36px;
+      border: none;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 600;
+      outline: none;
+      background: transparent;
+    }
+
+    .price-text {
+      font-size: 15px;
+      font-weight: 600;
+      color: #23262F;
+    }
+
+    /* Right Side - Summary */
+    .summary-box {
+      background: #FCFCFD;
+      border: 1px solid #E6E8EC;
+      border-radius: 16px;
+      padding: 32px;
+      position: sticky;
+      top: 24px;
+    }
+
+    .summary-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 24px;
+      color: #23262F;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    .summary-label {
+      color: #777E90;
+      font-weight: 400;
+    }
+
+    .summary-value {
+      color: #23262F;
+      font-weight: 600;
+    }
+
+    .shipping-options {
+      margin: 20px 0;
+      padding: 20px 0;
+      border-top: 1px solid #E6E8EC;
+      border-bottom: 1px solid #E6E8EC;
+    }
+
+    .radio-option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      cursor: pointer;
+      padding: 8px 0;
+    }
+
+    .radio-option:last-child {
+      margin-bottom: 0;
+    }
+
+    .radio-option input[type="radio"] {
+      margin-right: 10px;
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    .radio-left {
+      display: flex;
+      align-items: center;
+      
+    }
+
+    .radio-option label {
+      font-size: 14px;
+      color: #23262F;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .radio-price {
+      font-size: 14px;
+      color: #777E90;
+      font-weight: 500;
+    }
+
+    .summary-total {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid #E6E8EC;
+      font-size: 20px;
+      font-weight: 700;
+      color: #23262F;
+    }
+
+    .btn-checkout {
+      width: 100%;
+      background:#198754;
+      color: white;
+      border: none;
+      padding: 16px;
+      border-radius: 90px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 24px;
+      transition: all 0.3s;
+    }
+
+    .btn-checkout:hover {
+      background: #141416;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(35, 38, 47, 0.16);
+    }
+
+    .btn-checkout:active {
+      transform: translateY(0);
+    }
+
+    .coupon-section {
+      margin-top: 32px;
+      padding-top: 32px;
+      border-top: 1px solid #E6E8EC;
+    }
+
+    .coupon-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #23262F;
+    }
+
+    .coupon-subtitle {
+      font-size: 13px;
+      color: #777E90;
+      margin-bottom: 16px;
+    }
+
+    .coupon-input-group {
+      display: flex;
+      gap: 12px;
+    }
+
+    .coupon-input {
+      flex: 1;
+      padding: 12px 16px;
+      border: 1px solid #E6E8EC;
+      border-radius: 90px;
+      font-size: 14px;
+      outline: none;
+      transition: all 0.2s;
+      background: white;
+    }
+
+    .coupon-input:focus {
+      border-color: #23262F;
+    }
+
+    .btn-apply {
+      padding: 12px 28px;
+      background: #198754;
+      color: white;
+      border: none;
+      border-radius: 90px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-apply:hover {
+      background: #141416;
+    }
+
+    /* Toast Notification */
+    .toast-container {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      z-index: 9999;
+    }
+
+    .toast-notification {
+      background: white;
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 320px;
+      animation: slideInRight 0.3s ease;
+      border-left: 4px solid;
+    }
+
+    .toast-success {
+      border-left-color: #58BD7D;
+    }
+
+    .toast-error {
+      border-left-color: #FF6A55;
+    }
+
+    .toast-warning {
+      border-left-color: #FFB020;
+    }
+
+    .toast-icon {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+
+    .toast-content {
+      flex: 1;
+    }
+
+    .toast-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #23262F;
+      margin-bottom: 2px;
+    }
+
+    .toast-message {
+      font-size: 13px;
+      color: #777E90;
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(100px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        transform: translateX(100px);
+      }
+    }
+
+    @media (max-width: 991px) {
+      .cart-layout {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .products-header {
+        display: none;
+      }
+
+      .product-item {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .product-info {
+        grid-column: 1;
+      }
+
+      .steps-wrapper {
+        gap: 20px;
+      }
+
+      .step-label {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="toast-container" id="toast-container"></div>
+
+  <div class="container-custom">
+    
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-nav">
+      <a href="#">Home</a> / <span>Cart</span>
+    </div>
+
+    <!-- Steps -->
+    <div class="steps-wrapper">
+      <div class="step-item active">
+        <div class="step-circle">1</div>
+        <div class="step-label">Shopping cart</div>
+      </div>
+      <div class="step-item inactive">
+        <div class="step-circle">2</div>
+        <div class="step-label">Checkout details</div>
+      </div>
+      <div class="step-item inactive">
+        <div class="step-circle">3</div>
+        <div class="step-label">Order complete</div>
+      </div>
+    </div>
+
+    <!-- Main Layout -->
+    <div class="cart-layout">
+      
+      <!-- Left: Products -->
+      <div class="products-section">
+        <div class="products-header">
+          <div>Product</div>
+          <div style="text-align: center;">Quantity</div>
+          <div style="text-align: right;">Price</div>
+          <div style="text-align: right;">Subtotal</div>
+        </div>
+
+        <div id="products-list">
+          
+          <!-- Product 1 -->
+          <div class="product-item" data-price="19">
+            <div class="product-info">
+              <img src="https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=800&auto=format&fit=crop" class="product-img" alt="Jogger">
+              <div class="product-details">
+                <div class="product-name">Grey Acid Wash Wide Leg Jogger</div>
+                <div class="product-variant">Color: Black</div>
+                <button class="btn-remove" data-name="Grey Acid Wash Wide Leg Jogger">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M2 2L14 14M14 2L2 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                  Remove
+                </button>
+              </div>
+            </div>
+            <div style="text-align: center;">
+              <div class="qty-box">
+                <button class="qty-btn qty-dec">−</button>
+                <input type="text" class="qty-input" value="2" readonly>
+                <button class="qty-btn qty-inc">+</button>
+              </div>
+            </div>
+            <div style="text-align: right;">
+              <div class="price-text">$19.00</div>
+            </div>
+            <div style="text-align: right;">
+              <div class="price-text item-subtotal">$38.00</div>
+            </div>
+          </div>
+
+          <!-- Product 2 -->
+          <div class="product-item" data-price="19">
+            <div class="product-info">
+              <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=800&auto=format&fit=crop" class="product-img" alt="Table">
+              <div class="product-details">
+                <div class="product-name">Tray Table</div>
+                <div class="product-variant">Color: Red</div>
+                <button class="btn-remove" data-name="Tray Table">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M2 2L14 14M14 2L2 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                  Remove
+                </button>
+              </div>
+            </div>
+            <div style="text-align: center;">
+              <div class="qty-box">
+                <button class="qty-btn qty-dec">−</button>
+                <input type="text" class="qty-input" value="2" readonly>
+                <button class="qty-btn qty-inc">+</button>
+              </div>
+            </div>
+            <div style="text-align: right;">
+              <div class="price-text">$19.00</div>
+            </div>
+            <div style="text-align: right;">
+              <div class="price-text item-subtotal">$38.00</div>
+            </div>
+          </div>
+
+          <!-- Product 3 -->
+          <div class="product-item" data-price="39">
+            <div class="product-info">
+              <img src="https://images.unsplash.com/photo-1507473885765-e6ed057f782c?q=80&w=800&auto=format&fit=crop" class="product-img" alt="Lamp">
+              <div class="product-details">
+                <div class="product-name">Table lamp</div>
+                <div class="product-variant">Color: Gold</div>
+                <button class="btn-remove" data-name="Table lamp">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M2 2L14 14M14 2L2 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                  Remove
+                </button>
+              </div>
+            </div>
+            <div style="text-align: center;">
+              <div class="qty-box">
+                <button class="qty-btn qty-dec">−</button>
+                <input type="text" class="qty-input" value="1" readonly>
+                <button class="qty-btn qty-inc">+</button>
+              </div>
+            </div>
+            <div style="text-align: right;">
+              <div class="price-text">$39.00</div>
+            </div>
+            <div style="text-align: right;">
+              <div class="price-text item-subtotal">$39.00</div>
+            </div>
+          </div>
+
+          <!-- Product 4 -->
+          <div class="product-item" data-price="19">
+            <div class="product-info">
+              <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=800&auto=format&fit=crop" class="product-img" alt="Table">
+              <div class="product-details">
+                <div class="product-name">Tray Table</div>
+                <div class="product-variant">Color: Red</div>
+                <button class="btn-remove" data-name="Tray Table">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M2 2L14 14M14 2L2 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                  Remove
+                </button>
+              </div>
+            </div>
+            <div style="text-align: center;">
+              <div class="qty-box">
+                <button class="qty-btn qty-dec">−</button>
+                <input type="text" class="qty-input" value="2" readonly>
+                <button class="qty-btn qty-inc">+</button>
+              </div>
+            </div>
+            <div style="text-align: right;">
+              <div class="price-text">$19.00</div>
+            </div>
+            <div style="text-align: right;">
+              <div class="price-text item-subtotal">$38.00</div>
+            </div>
+          </div>
+
+          <!-- Product 5 -->
+          <div class="product-item" data-price="39">
+            <div class="product-info">
+              <img src="https://images.unsplash.com/photo-1507473885765-e6ed057f782c?q=80&w=800&auto=format&fit=crop" class="product-img" alt="Lamp">
+              <div class="product-details">
+                <div class="product-name">Table lamp</div>
+                <div class="product-variant">Color: Gold</div>
+                <button class="btn-remove" data-name="Table lamp">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M2 2L14 14M14 2L2 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                  Remove
+                </button>
+              </div>
+            </div>
+            <div style="text-align: center;">
+              <div class="qty-box">
+                <button class="qty-btn qty-dec">−</button>
+                <input type="text" class="qty-input" value="1" readonly>
+                <button class="qty-btn qty-inc">+</button>
+              </div>
+            </div>
+            <div style="text-align: right;">
+              <div class="price-text">$39.00</div>
+            </div>
+            <div style="text-align: right;">
+              <div class="price-text item-subtotal">$39.00</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Right: Summary -->
+      <div class="summary-box">
+        <div class="summary-title">Cart summary</div>
+
+        <div class="shipping-options">
+          <label class="radio-option">
+            <div class="radio-left">
+              <input type="radio" name="shipping" value="0" checked>
+              <span>Free shipping</span>
+            </div>
+            <span class="radio-price">$0.00</span>
+          </label>
+          <label class="radio-option">
+            <div class="radio-left">
+              <input type="radio" name="shipping" value="15">
+              <span>Express shipping</span>
+            </div>
+            <span class="radio-price">+$15.00</span>
+          </label>
+          <label class="radio-option">
+            <div class="radio-left">
+              <input type="radio" name="shipping" value="21">
+              <span>Pick Up</span>
+            </div>
+            <span class="radio-price">%21.00</span>
+          </label>
+        </div>
+
+        <div class="summary-row">
+          <span class="summary-label">Subtotal</span>
+          <span class="summary-value" id="subtotal">$1234.00</span>
+        </div>
+
+        <div class="summary-total">
+          <span>Total</span>
+          <span id="total">$1345.00</span>
+        </div>
+
+        <button class="btn-checkout">Checkout</button>
+
+        <div class="coupon-section">
+          <div class="coupon-title">Have a coupon?</div>
+          <div class="coupon-subtitle">Add your code for an instant cart discount</div>
+          <div class="coupon-input-group">
+            <input type="text" class="coupon-input" placeholder="Coupon Code" id="coupon-input">
+            <button class="btn-apply" id="apply-coupon">Apply</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // Toast Notification System
+    function showToast(title, message, type = 'success') {
+      const container = document.getElementById('toast-container');
+      
+      const icons = {
+        success: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#58BD7D"/><path d="M8 12L11 15L16 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+        error: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#FF6A55"/><path d="M15 9L9 15M9 9L15 15" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>',
+        warning: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#FFB020"/><path d="M12 7V13M12 16V17" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>'
+      };
+
+      const toast = document.createElement('div');
+      toast.className = `toast-notification toast-${type}`;
+      toast.innerHTML = `
+        ${icons[type]}
+        <div class="toast-content">
+          <div class="toast-title">${title}</div>
+          <div class="toast-message">${message}</div>
+        </div>
+      `;
+
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.animation = 'fadeOut 0.3s ease forwards';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    function updateTotals() {
+      let subtotal = 0;
+      document.querySelectorAll('.product-item').forEach(item => {
+        const price = parseFloat(item.dataset.price);
+        const qty = parseInt(item.querySelector('.qty-input').value);
+        const itemTotal = price * qty;
+        item.querySelector('.item-subtotal').textContent = '$' + itemTotal.toFixed(2);
+        subtotal += itemTotal;
+      });
+
+      const shipping = parseFloat(document.querySelector('input[name="shipping"]:checked').value);
+      const total = subtotal + shipping;
+
+      document.getElementById('subtotal').textContent = '$' + subtotal.toFixed(2);
+      document.getElementById('total').textContent = '$' + total.toFixed(2);
+    }
+
+    // Quantity buttons
+    document.querySelectorAll('.qty-dec').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const input = this.parentElement.querySelector('.qty-input');
+        let val = parseInt(input.value);
+        if (val > 1) {
+          input.value = val - 1;
+          updateTotals();
+        }
+      });
+    });
+
+    document.querySelectorAll('.qty-inc').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const input = this.parentElement.querySelector('.qty-input');
+        let val = parseInt(input.value);
+        input.value = val + 1;
+        updateTotals();
+      });
+    });
+
+    // Remove buttons
+    document.querySelectorAll('.btn-remove').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const productName = this.dataset.name;
+        this.closest('.product-item').remove();
+        updateTotals();
+        showToast('Item Removed', `${productName} has been removed from your cart`, 'success');
+      });
+    });
+
+    // Shipping change
+    document.querySelectorAll('input[name="shipping"]').forEach(radio => {
+      radio.addEventListener('change', updateTotals);
+    });
+
+    // Coupon
+    document.getElementById('apply-coupon').addEventListener('click', function() {
+      const code = document.getElementById('coupon-input').value.trim().toUpperCase();
+      
+      if (!code) {
+        showToast('Missing Code', 'Please enter a coupon code', 'warning');
+        return;
+      }
+
+      const validCoupons = {
+        'SAVE10': { discount: 10, type: 'percentage' },
+        'SAVE20': { discount: 20, type: 'percentage' },
+        'FLAT50': { discount: 50, type: 'fixed' }
+      };
+
+      if (validCoupons[code]) {
+        const coupon = validCoupons[code];
+        if (coupon.type === 'percentage') {
+          showToast('Coupon Applied!', `You saved ${coupon.discount}% on your order`, 'success');
+        } else {
+          showToast('Coupon Applied!', `You saved $${coupon.discount} on your order`, 'success');
+        }
+        document.getElementById('coupon-input').value = '';
+      } else {
+        showToast('Invalid Code', 'The coupon code you entered is not valid', 'error');
+      }
+    });
+
+    // Initial calculation
+    updateTotals();
+  </script>
+
+</body>
+</html>
