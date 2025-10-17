@@ -32,3 +32,5 @@ document.querySelectorAll('.thumb[data-src]').forEach(el => {
                 selectedColorText.textContent = btn.getAttribute('data-color');
             });
         });
+
+  
