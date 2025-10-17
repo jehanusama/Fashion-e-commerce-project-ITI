@@ -1,5 +1,176 @@
+.product-images {
+    width: 100%;
+    max-width: 588px;
+    margin: 0 auto;
+}
+
+.main-image-container {
+    width: 100%;
+    height: 480px;
+    overflow: hidden;
+    border-radius: 12px;
+    margin-bottom: 12px;
+}
+
+.main-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.3s ease;
+}
+
+.thumbs-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.thumb,
+.more-box {
+    flex: 1;
+    height: 110px;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.thumb:hover {
+    transform: scale(1.05);
+}
+
+.thumb.active {
+    border: 2px solid #198754;
+}
+
+.more-box {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #198754;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px dashed #198754;
+    background-color: #f8f9fa;
+}
+
+.more-box:hover {
+    background-color: #e8f5eb;
+    transform: scale(1.05);
+}
+
+.color-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid black;
+    cursor: pointer;
+
+}
+
+.color-circle.black {
+    background-color: #000;
+}
+
+.color-circle.navy {
+    background-color: #101828;
+}
+
+.color-circle.grey {
+    background-color: #d1d1d1;
+}
+
+.color-circle.white {
+    background-color: #fff;
+}
+
+.color-circle.selected {
+    border: 3px solid #198754;
+}
+
 .size-btn.active {
-    background: #1f513f;
-    color: #fff;
-    border-color: #1f513f;
+    background-color: #1f513f !important;
+    color: #fff !important;
+    border-color: #1f513f !important;
+}
+
+.add-to-cart-btn {
+    background-color: #1f513f;
+    border: none;
+    width: 40%;
+    transition: all 0.3s ease;
+}
+
+.add-to-cart-btn:hover {
+    background-color: #146c43;
+}
+
+.payment-icon {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #fff;
+    padding: 4px;
+    width: 50px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.payment-icon img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+@media (max-width: 991px) {
+    .main-image-container {
+        height: 400px;
+    }
+
+    .thumb,
+    .more-box {
+        height: 90px;
+    }
+}
+
+@media (max-width: 767px) {
+    section {
+        padding: 2rem 1rem !important;
+    }
+
+    .main-image-container {
+        height: 340px;
+    }
+
+    .thumb,
+    .more-box {
+        height: 75px;
+    }
+
+    .add-to-cart-btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-image-container {
+        height: 280px;
+    }
+
+    .thumb,
+    .more-box {
+        height: 65px;
+    }
+
+    h2 {
+        font-size: 1.4rem;
+    }
 }
