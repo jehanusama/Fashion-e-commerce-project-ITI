@@ -362,42 +362,13 @@
     .item-color {
       font-size: 12px;
       color: #6C7275;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
 
-    .item-qty {
-      display: inline-flex;
-      align-items: center;
-      border: 1px solid #6C7275;
-      border-radius: 4px;
-      background: #FFF;
-    }
-
-    .qty-btn {
-      width: 28px;
-      height: 28px;
-      border: none;
-      background: none;
-      color: #000;
-      font-size: 18px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .qty-btn:hover {
-      background: #F3F5F7;
-    }
-
-    .qty-display {
-      width: 32px;
-      text-align: center;
+    .item-qty-text {
       font-size: 12px;
-      font-weight: 600;
-      border-left: 1px solid #6C7275;
-      border-right: 1px solid #6C7275;
-      padding: 4px 0;
+      color: #6C7275;
+      font-weight: 500;
     }
 
     .item-price {
@@ -832,7 +803,8 @@ function renderCheckoutItems(items) {
         <div class="item-name">${item.name}</div>
         <div class="item-color">${item.variant}</div>
         <div class="item-qty">
-          <button class="qty-btn" onclick="updateQty(${index}, 1)">+</button>
+<span id="cart-items-count">Items: 0</span>
+          
         </div>
       </div>
       <div class="item-price">${(item.price * item.qty).toFixed(2)}</div>
@@ -1047,9 +1019,153 @@ if (expiryInput) {
     e.target.value = value;
   });
 }
+
+
+
+  // simulate getting cart items from localStorage or session
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  // حساب عدد العناصر
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+  // تحديث الرقم في الصفحة
+  document.getElementById("cart-items-count").textContent = `Items: ${totalItems}`;
+
+بهف
+// --- HELPER: read cart/checkount data from known keys (robust) ---
+function getCartData() {
+  // try checkout data in sessionStorage first (used by checkout page)
+  const checkoutRaw = sessionStorage.getItem('wearopia_checkout_data');
+  if (checkoutRaw) {
+    try {
+      const parsed = JSON.parse(checkoutRaw);
+      if (parsed && Array.isArray(parsed.items)) return parsed;
+    } catch (e) { /* ignore parse error */ }
+  }
+
+  // fallback to cart in localStorage (used by site cart)
+  const cartRaw = localStorage.getItem('wearopia_cart_v1') || localStorage.getItem('wearopia_cart');
+  if (cartRaw) {
+    try {
+      const parsed = JSON.parse(cartRaw);
+      // normalize to { items: [...] }
+      if (Array.isArray(parsed)) return { items: parsed };
+      if (parsed && Array.isArray(parsed.items)) return parsed;
+    } catch (e) { /* ignore */ }
+  }
+
+  return { items: [] };
+}
+
+// --- update cart counts (badge + any global displays) ---
+function updateCartCounts() {
+  const data = getCartData();
+  const totalQty = data.items.reduce((s, it) => s + (Number(it.qty) || Number(it.quantity) || 0), 0);
+
+  // update top navbar badge (if exists)
+  const cartBadge = document.getElementById('cartCount');
+  if (cartBadge) {
+    cartBadge.textContent = totalQty;
+    if (totalQty > 0) cartBadge.classList.add('show'); // keep existing behavior
+    else cartBadge.classList.remove('show');
+  }
+
+  // update any global element that should show total items (optional)
+  const globalCountEls = document.querySelectorAll('.global-cart-items-count');
+  globalCountEls.forEach(el => el.textContent = totalQty);
+}
+
+// --- render order items: show qty as plain text, remove qty-btn ---
+function renderCheckoutItems(items) {
+  const container = document.getElementById('orderItemsContainer');
+  if (!container) return;
+
+  const itemsHTML = items.map((item, index) => {
+    const qty = Number(item.qty) || Number(item.quantity) || 1;
+    const price = Number(item.price) || 0;
+    const totalPrice = (price * qty).toFixed(2);
+
+    return `
+      <div class="order-item" data-index="${index}">
+        <div class="item-image" style="background-image: url('${item.image || ''}');"></div>
+        <div class="item-details">
+          <div class="item-name">${item.name || 'Product'}</div>
+          <div class="item-color">${item.variant || ''}</div>
+          <div class="item-qty-text">Quantity: <span class="item-qty-value">${qty}</span></div>
+        </div>
+        <div class="item-price">${totalPrice}</div>
+      </div>
+    `;
+  }).join('');
+
+  container.innerHTML = itemsHTML;
+}
+
+// --- recalc totals (unchanged behavior but ensure numbers are correct) ---
+function recalculateTotals(data) {
+  let subtotal = 0;
+  (data.items || []).forEach(item => {
+    const qty = Number(item.qty) || Number(item.quantity) || 1;
+    const price = Number(item.price) || 0;
+    subtotal += price * qty;
+  });
+
+  document.getElementById('subtotal').textContent = `${subtotal.toFixed(2)}`;
+
+  let discount = 0;
+  if (data.coupon) {
+    const discountBadge = document.getElementById('discountBadge');
+    if (discountBadge) discountBadge.style.display = 'flex';
+    document.getElementById('couponCode').textContent = data.coupon.code || 'Coupon';
+
+    if (data.coupon.type === 'percentage') discount = subtotal * (data.coupon.value / 100);
+    else discount = Number(data.coupon.value) || 0;
+
+    document.getElementById('discountValue').textContent = `-${discount.toFixed(2)}`;
+  } else {
+    const discountBadge = document.getElementById('discountBadge');
+    if (discountBadge) discountBadge.style.display = 'none';
+  }
+
+  const shipping = Number(data.shipping) || 0;
+  document.getElementById('shippingCost').textContent = shipping > 0 ? `${shipping.toFixed(2)}` : 'Free';
+
+  const total = subtotal + shipping - discount;
+  document.getElementById('total').textContent = `${total.toFixed(2)}`;
+
+  // persist computed fields
+  data.subtotal = subtotal;
+  data.discount = discount;
+  data.total = total;
+  sessionStorage.setItem('wearopia_checkout_data', JSON.stringify(data));
+}
+
+// --- initialize page: load data, render, update counts ---
+document.addEventListener('DOMContentLoaded', function() {
+  const checkoutData = getCartData();
+
+  // render list
+  renderCheckoutItems(checkoutData.items || []);
+
+  // recalc totals and write them (if checkout-style object)
+  recalculateTotals(checkoutData);
+
+  // update global cart count/badge
+  updateCartCounts();
+
+  // optional: observe storage changes from other tabs/windows
+  window.addEventListener('storage', (e) => {
+    if (['wearopia_checkout_data', 'wearopia_cart_v1', 'wearopia_cart'].includes(e.key)) {
+      const newData = getCartData();
+      renderCheckoutItems(newData.items || []);
+      recalculateTotals(newData);
+      updateCartCounts();
+    }
+  });
+});
+</script>
+
 </script>
 
 </body>
-</html>Qty(${index}, -1)">−</button>
-          <div class="qty-display">${item.qty}</div>
-          <button class="qty-btn" onclick="update
+</html>
