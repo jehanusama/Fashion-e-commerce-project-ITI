@@ -1,620 +1,487 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Wearopia – Product Details</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Product Details</title>
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-  <link rel="stylesheet" href="./CSS/navbar.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    :root {
-      --brand: #198754;
-      --muted: #6C7275;
-      --bg: #FFF;
-    }
-    
-    body {
-      font-family: "Inter", system-ui, Arial;
-      background: var(--bg);
-      color: #111;
-      margin: 0;
-    }
-
-    .container-custom {
-      max-width: 1280px;
-      margin: 40px auto;
-      padding: 0 24px;
-    }
-
-    .product-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 64px;
-      align-items: start;
-    }
-
-    /* Product Images */
-    .product-images {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .main-image {
-      width: 100%;
-      border-radius: 16px;
-      max-height: 500px;
-      object-fit: cover;
-      background: #F3F5F7;
-    }
-
-    .thumbs-container {
-      display: flex;
-      gap: 12px;
-    }
-
-    .thumb {
-      width: 80px;
-      height: 80px;
-      border-radius: 12px;
-      cursor: pointer;
-      border: 2px solid transparent;
-      transition: all 0.2s;
-      object-fit: cover;
-    }
-
-    .thumb:hover {
-      border-color: var(--brand);
-    }
-
-    .thumb.active {
-      border-color: var(--brand);
-    }
-
-    /* Product Info */
-    .product-info {
-      padding-top: 20px;
-    }
-
-    .product-title {
-      font-size: 32px;
-      font-weight: 700;
-      margin-bottom: 16px;
-      color: #000;
-    }
-
-    .rating-wrapper {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 20px;
-    }
-
-    .stars {
-      color: #FFB800;
-      font-size: 18px;
-    }
-
-    .reviews-count {
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .price-wrapper {
-      display: flex;
-      align-items: baseline;
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-
-    .current-price {
-      font-size: 32px;
-      font-weight: 700;
-      color: #000;
-    }
-
-    .old-price {
-      font-size: 20px;
-      color: var(--muted);
-      text-decoration: line-through;
-    }
-
-    /* Color Selection */
-    .selection-section {
-      margin-bottom: 24px;
-    }
-
-    .selection-label {
-      font-size: 14px;
-      font-weight: 600;
-      color: #000;
-      margin-bottom: 12px;
-    }
-
-    .color-circles {
-      display: flex;
-      gap: 12px;
-    }
-
-    .color-circle {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      border: 2px solid #E8ECEF;
-      cursor: pointer;
-      transition: all 0.2s;
-      position: relative;
-    }
-
-    .color-circle:hover {
-      transform: scale(1.1);
-    }
-
-    .color-circle.active {
-      border-color: var(--brand);
-      box-shadow: 0 0 0 2px white, 0 0 0 4px var(--brand);
-    }
-
-    /* Size Selection */
-    .size-buttons {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .size-btn {
-      min-width: 60px;
-      height: 44px;
-      border: 1px solid #E8ECEF;
-      background: white;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .size-btn:hover {
-      border-color: var(--brand);
-    }
-
-    .size-btn.active {
-      background: var(--brand);
-      color: white;
-      border-color: var(--brand);
-    }
-
-    /* Action Buttons */
-    .action-buttons {
-      display: flex;
-      gap: 16px;
-      margin: 32px 0;
-    }
-
-    .btn-add-cart {
-      flex: 1;
-      height: 52px;
-      background: var(--brand);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: all 0.3s;
-    }
-
-    .btn-add-cart:hover {
-      background: #146c43;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 16px rgba(25, 135, 84, 0.3);
-    }
-
-    .btn-wishlist {
-      width: 52px;
-      height: 52px;
-      background: white;
-      border: 1px solid #E8ECEF;
-      border-radius: 8px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
-    }
-
-    .btn-wishlist:hover {
-      border-color: var(--brand);
-      color: var(--brand);
-    }
-
-    .free-shipping-badge {
-      background: #F3F5F7;
-      padding: 16px;
-      border-radius: 8px;
-      font-size: 14px;
-      color: var(--muted);
-    }
-
-    /* Toast */
-    .toast-container {
-      position: fixed;
-      top: 24px;
-      right: 24px;
-      z-index: 9999;
-    }
-
-    .toast-custom {
-      background: white;
-      border-radius: 12px;
-      padding: 16px 20px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 320px;
-      animation: slideIn 0.3s ease;
-    }
-
-    .toast-icon {
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 8px;
-      background: rgba(25, 135, 84, 0.1);
-      color: var(--brand);
-      font-size: 20px;
-    }
-
-    .toast-content strong {
-      font-size: 14px;
-      color: #000;
-      display: block;
-      margin-bottom: 4px;
-    }
-
-    .toast-content div {
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    @keyframes slideIn {
-      from {
-        transform: translateX(400px);
-        opacity: 0;
-      }
-      to {
-        transform: translateX(0);
-        opacity: 1;
-      }
-    }
-
-    @keyframes slideOut {
-      to {
-        opacity: 0;
-        transform: translateX(400px);
-      }
-    }
-
-    @media (max-width: 768px) {
-      .product-grid {
-        grid-template-columns: 1fr;
-        gap: 32px;
-      }
-
-      .product-title {
-        font-size: 24px;
-      }
-
-      .current-price {
-        font-size: 24px;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
+  <link rel="stylesheet" href="CSS/product-details.css">
 </head>
+
 <body>
 
-<!-- Toast Container -->
-<div class="toast-container" id="toastContainer"></div>
-
-<!-- Navbar -->
-<div class="navbar-wrapper">
-  <nav class="navbar">
-    <button class="menu-toggle" id="menuToggle" aria-label="Menu">
-      <i class="bi bi-list"></i>
-    </button>
-    <a href="index.html" class="navbar-brand">Wearopia</a>
-    <ul class="navbar-menu">
-      <li><a href="#">Man</a></li>
-      <li><a href="#">Women</a></li>
-      <li><a href="#">Kids</a></li>
-      <li><a href="#">Accessory</a></li>
-    </ul>
-    <div class="search-container">
-      <i class="bi bi-search search-icon"></i>
-      <input type="text" class="search-box" placeholder="Search for outfits...">
-    </div>
-    <div class="navbar-actions">
-      <a href="login.html" id="loginBtn">
-        <i class="bi bi-box-arrow-in-right"></i>
-        <span>Login</span>
-      </a>
-      <a href="#" id="wishlistBtn">
-        <i class="bi bi-heart"></i>
-        <span>Wishlist</span>
-        <span class="badge-count" id="wishlistCount">0</span>
-      </a>
-      <a href="shopping-cart.html" id="cartBtn">
-        <i class="bi bi-bag"></i>
-        <span>Cart</span>
-        <span class="badge-count" id="cartCount">0</span>
-      </a>
-    </div>
-    <div class="mobile-dropdown" id="mobileMenu">
-      <ul>
+  <!-- Navbar -->
+  <div class="navbar-wrapper">
+    <nav class="navbar">
+      <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+        <i class="bi bi-list"></i>
+      </button>
+      <a href="index.html" class="navbar-brand">Wearopia</a>
+      <ul class="navbar-menu">
         <li><a href="#">Man</a></li>
         <li><a href="#">Women</a></li>
         <li><a href="#">Kids</a></li>
         <li><a href="#">Accessory</a></li>
       </ul>
-      <div class="mobile-search">
+      <div class="search-container">
         <i class="bi bi-search search-icon"></i>
         <input type="text" class="search-box" placeholder="Search for outfits...">
       </div>
-    </div>
-  </nav>
-</div>
-
-<div class="container-custom">
-  <div class="product-grid">
-    <!-- Product Images -->
-    <div class="product-images">
-      <img id="mainImage" class="main-image" src="Images/shoes.png" alt="Product">
-      <div class="thumbs-container">
-        <img src="Images/shoes.png" class="thumb active" data-src="Images/shoes.png" alt="Thumb 1">
-        <img src="Images/black t-shirt.png" class="thumb" data-src="Images/black t-shirt.png" alt="Thumb 2">
-        <img src="Images/Image.png" class="thumb" data-src="Images/Image.png" alt="Thumb 3">
-      </div>
-    </div>
-
-    <!-- Product Info -->
-    <div class="product-info">
-      <h1 class="product-title">Grey Acid Wash Wide Leg Jogger</h1>
-      
-      <div class="rating-wrapper">
-        <div class="stars">
-          <i class="bi bi-star-fill"></i>
-          <i class="bi bi-star-fill"></i>
-          <i class="bi bi-star-fill"></i>
-          <i class="bi bi-star-fill"></i>
-          <i class="bi bi-star-half"></i>
-        </div>
-        <span class="reviews-count">4.5 (212 reviews)</span>
-      </div>
-
-      <div class="price-wrapper">
-        <div class="current-price">$215.00</div>
-        <div class="old-price">$290.00</div>
-      </div>
-
-      <!-- Color Selection -->
-      <div class="selection-section">
-        <div class="selection-label">Color: <span id="selectedColor">Black</span></div>
-        <div class="color-circles">
-          <button class="color-circle active" data-color="Black" style="background: #111;"></button>
-          <button class="color-circle" data-color="Navy" style="background: #1f3a93;"></button>
-          <button class="color-circle" data-color="Grey" style="background: #888;"></button>
-          <button class="color-circle" data-color="White" style="background: #fff; border: 2px solid #E8ECEF;"></button>
-        </div>
-      </div>
-
-      <!-- Size Selection -->
-      <div class="selection-section">
-        <div class="selection-label">Size:</div>
-        <div class="size-buttons">
-          <button class="size-btn active" data-size="XS">XS</button>
-          <button class="size-btn" data-size="S">S</button>
-          <button class="size-btn" data-size="M">M</button>
-          <button class="size-btn" data-size="L">L</button>
-          <button class="size-btn" data-size="XL">XL</button>
-        </div>
-      </div>
-
-      <!-- Action Buttons -->
-      <div class="action-buttons">
-        <button id="addToCartBtn" class="btn-add-cart">
-          <i class="bi bi-cart3"></i>
-          Add to Cart
-        </button>
-        <button id="addToWishlistBtn" class="btn-wishlist">
+      <div class="navbar-actions">
+        <a href="#" class="search-link" style="display: none;">
+          <i class="bi bi-search"></i>
+          <span>Search</span>
+        </a>
+        <a href="login.html" id="loginBtn">
+          <i class="bi bi-box-arrow-in-right"></i>
+          <span>Login</span>
+        </a>
+        <a href="#" id="wishlistBtn">
           <i class="bi bi-heart"></i>
-        </button>
+          <span>Wishlist</span>
+          <span class="badge-count" id="wishlistCount">0</span>
+        </a>
+        <a href="shopping-cart.html" id="cartBtn">
+          <i class="bi bi-bag"></i>
+          <span>Cart</span>
+          <span class="badge-count" id="cartCount">0</span>
+        </a>
+      </div>
+      <div class="mobile-dropdown" id="mobileMenu">
+        <ul>
+          <li><a href="#">Man</a></li>
+          <li><a href="#">Women</a></li>
+          <li><a href="#">Kids</a></li>
+          <li><a href="#">Accessory</a></li>
+        </ul>
+        <div class="mobile-search">
+          <i class="bi bi-search search-icon"></i>
+          <input type="text" class="search-box" placeholder="Search for outfits...">
+        </div>
+      </div>
+    </nav>
+    <!--end of nav bar-->
+    <!--breadcrumb-->
+    <div aria-label="breadcrumb" class="breadcrumb-custom px-5 pt-3 mx-5">
+      <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="#">Men </a></li>
+        <li class="breadcrumb-item active" aria-current="page">Grey Acid Wash Wide Leg Jogger</li>
+      </ol>
+    </div>
+
+    <!--end of breadcrumb-->
+    <section class="container-fluid pb-5 pt-3 px-md-5">
+      <div class="row align-items-start g-5">
+        <!--images section-->
+        <div class="col-lg-6">
+          <div class="product-images">
+            <div class="main-image-container">
+              <img src="Images/shoes.png" id="mainImage" class="main-image" alt="Main Product Image">
+            </div>
+            <!--small images-->
+            <div class="thumbs-container">
+              <div class="thumb active" data-src="Images/black hoddie.png">
+                <img src="Images/shoes.png" alt="Thumb 1">
+              </div>
+              <div class="thumb" data-src="Images/black t-shirt.png">
+                <img src="Images/black t-shirt.png" alt="Thumb 2">
+              </div>
+              <div class="thumb" data-src="images/Image.png">
+                <img src="Images/Image.png" alt="Thumb 3">
+              </div>
+              <div class="thumb" data-src="images/back.png">
+                <img src="Images/back.png" alt="Thumb 4">
+              </div>
+              <div class="more-box">+4 more</div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-lg-6">
+          <h2 class="h3 mb-3 fw-bold">Grey Acid Wash Wide Leg Jogger</h2>
+
+          <div>
+            <span class="d-inline-flex text-warning fs-5">
+              <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-half"></i>
+            </span>
+            <span class="text-muted ms-2">4.5 (212 reviews)</span>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+            <div class="d-flex align-items-baseline gap-3 mb-3">
+              <div class="h4 mb-0 fw-semibold">$215.00</div>
+              <div class="text-muted text-decoration-line-through fs-5">$290.00</div>
+            </div>
+            <button class="btn  p-2"><i class="bi bi-heart"></i> Add to wish list</button>
+          </div>
+
+          <div class="mb-3">
+            <strong>Color:</strong>
+            <span id="selectedColor" class="ms-2 fw-semibold">Black</span>
+            <div class="d-flex align-items-center gap-2 mt-2 color-buttons">
+              <button data-color="Black" class="color-circle black"></button>
+              <button data-color="Navy" class="color-circle navy"></button>
+              <button data-color="Grey" class="color-circle grey"></button>
+              <button data-color="White" class="color-circle white"></button>
+            </div>
+          </div>
+
+          <hr>
+
+          <div class="my-3">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <div>
+                <strong>Size:</strong>
+                <span id="selectedSize" class="ms-2 fw-semibold">XS</span>
+              </div>
+              <a href="#" class="text-decoration-underline text-dark">View size guide</a>
+            </div>
+            <div class="d-flex flex-wrap gap-2">
+              <button class="btn btn-outline-secondary size-btn active">XS</button>
+              <button class="btn btn-outline-secondary size-btn">S</button>
+              <button class="btn btn-outline-secondary size-btn">M</button>
+              <button class="btn btn-outline-secondary size-btn">L</button>
+              <button class="btn btn-outline-secondary size-btn">XL</button>
+              <button class="btn btn-outline-secondary size-btn">XXL</button>
+            </div>
+          </div>
+
+          <hr>
+
+          <div class="d-flex align-items-center justify-content-between gap-3 my-4 flex-wrap">
+            <button class="btn text-white fw-medium fs-6 py-2 add-to-cart-btn">
+              <i class="bi bi-cart3"></i> Add to Cart
+            </button>
+            <a href="#" class="text-decoration-none text-dark ms-auto"><i class="bi bi-geo-alt"></i> Find in
+              store</a>
+          </div>
+
+          <div class="bg-light p-3 fs-6 mb-3">
+            Enjoy <strong class="text-decoration-underline">FREE express</strong> &
+            <strong class="text-decoration-underline">Free Returns</strong> on orders over £35!<br>
+            <small class="text-muted">Kindly place your order by 6pm on December 22nd for expedited
+              processing</small>
+          </div>
+
+          <div>
+            <div class="mb-2"><strong>Payment method</strong></div>
+            <div class="d-flex align-items-center flex-wrap gap-2">
+              <div class="d-flex gap-2">
+                <div class="payment-icon">
+                  <img src="Images/visa-.webp" alt="Visa" />
+                </div>
+                <div class="payment-icon">
+                  <img src="Images/masrers.png" alt="MasterCard" />
+                </div>
+                <div class="payment-icon">
+                  <img src="Images/instapaay.png" alt="Instapay" />
+                </div>
+              </div>
+              <a href="#" class="text-decoration-underline text-dark ms-3">Learn more</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container mt-1">
+      <!-- Tabs -->
+      <ul class="nav nav-tabs border-0" id="productTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active fw-semibold" id="details-tab" data-bs-toggle="tab" data-bs-target="#details"
+            type="button" role="tab">Product Details</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link fw-semibold" id="care-tab" data-bs-toggle="tab" data-bs-target="#care" type="button"
+            role="tab">Care Guide</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link fw-semibold" id="size-tab" data-bs-toggle="tab" data-bs-target="#size" type="button"
+            role="tab">Size Chart</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link fw-semibold" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews"
+            type="button" role="tab">Reviews</button>
+        </li>
+      </ul>
+
+      <!-- Tabs Content -->
+      <div class="tab-content mt-4" id="productTabsContent">
+        <!-- Product Details -->
+        <div class="tab-pane fade show active text-secondary" id="details" role="tabpanel">
+          <p>Step into a realm of unparalleled off-duty style with these grey acid wash joggers that effortlessly
+            marry fashion with
+            comfort. Crafted for those committed to style even on their days off, these joggers feature a chic
+            drawstring waist and
+            a wide leg cut. The distinctive acid wash adds a touch of urban edge, making these joggers a versatile
+            choice for
+            leisurely pursuits and relaxed outings. Elevate your casual wardrobe with the perfect blend of
+            fashion-forward design
+            and comfort-driven details, redefining off-duty elegance with every step.</p>
+          <ul>
+            <li>Dark grey</li>
+            <li>Acid wash finish</li>
+            <li>Drawstring waist</li>
+            <li>Side slit pockets</li>
+            <li>Pin tuck pleat</li>
+            <li>Wide leg</li>
+            <li>Model is 5'9"/175cm and wears UK 10/EU 38/US 6</li>
+            <li>Product Code: 891545803</li>
+          </ul>
+        </div>
+
+        <!-- Care Guide -->
+        <div class="tab-pane fade text-secondary" id="care" role="tabpanel">
+          <ul>
+            <li>Machine wash cold with similar colors</li>
+            <li>Do not bleach</li>
+            <li>Tumble dry low</li>
+            <li>Cool iron if needed</li>
+            <li>Do not dry clean</li>
+          </ul>
+        </div>
+
+        <!-- Size Chart -->
+        <div class="tab-pane fade" id="size" role="tabpanel">
+          <div class="table-responsive">
+            <table class="table table-bordered text-center align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th>Size</th>
+                  <th>Length (cm)</th>
+                  <th>Width (cm)</th>
+                  <th>Sleeve (cm)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Small</td>
+                  <td>65</td>
+                  <td>48</td>
+                  <td>58</td>
+                </tr>
+                <tr>
+                  <td>Medium</td>
+                  <td>67</td>
+                  <td>50</td>
+                  <td>59</td>
+                </tr>
+                <tr>
+                  <td>Large</td>
+                  <td>69</td>
+                  <td>52</td>
+                  <td>60</td>
+                </tr>
+                <tr>
+                  <td>XL</td>
+                  <td>71</td>
+                  <td>54</td>
+                  <td>61</td>
+                </tr>
+                <tr>
+                  <td>XXL</td>
+                  <td>73</td>
+                  <td>56</td>
+                  <td>62</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Reviews -->
+        <div class="tab-pane fade" id="reviews" role="tabpanel">
+          <div class="mb-3 border-bottom pb-3">
+            <h6 class="fw-semibold mb-1">Sarah M.</h6>
+            <div class="text-warning mb-2">
+              <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                class="bi bi-star-fill"></i><i class="bi bi-star"></i>
+            </div>
+            <p class="mb-0">Really comfy joggers! Perfect fit and love the acid wash look.</p>
+          </div>
+          <div class="mb-3 border-bottom pb-3">
+            <h6 class="fw-semibold mb-1">Layla A.</h6>
+            <div class="text-warning mb-2">
+              <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                class="bi bi-star"></i><i class="bi bi-star"></i>
+            </div>
+            <p class="mb-0">Nice material but runs a bit long for my height.</p>
+          </div>
+          <div>
+            <h6 class="fw-semibold mb-1">Hana R.</h6>
+            <div class="text-warning mb-2">
+              <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+            </div>
+            <p class="mb-0">Love them! Definitely getting another pair.</p>
+          </div>
+        </div>
       </div>
 
-      <div class="free-shipping-badge">
-        <i class="bi bi-truck"></i> Free express & returns on orders over $35
+      <!-- Related Products -->
+      <div class="my-5">
+        <h5 class="fw-semibold mb-3">Related Product</h5>
+        <div class="row g-4">
+          <div class="col-6 col-md-3">
+            <div class="related-product text-center">
+              <img src="Images/black hoddie.png" class="img-fluid rounded mb-2" alt="">
+              <div class="d-flex">
+                <p class="mb-1 me-4 text-start text-secondary">Urban Bliss Black Ribbed Waist Roll Neck Jumper
+                </p>
+                <p class="fw-semibold">$340.00</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="related-product text-center">
+              <img src="Images/kid.jpg" class="img-fluid rounded mb-2" alt="">
+              <div class="d-flex">
+                <p class="mb-1 me-4 text-start text-secondary">Pink Check Teddy Lounge Joggers</p>
+                <p class="fw-semibold">$140.00</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="related-product text-center">
+              <img src="Images/man.jpg" class="img-fluid rounded mb-2" alt="">
+              <div class="d-flex">
+                <p class="mb-1 me-4 text-start text-secondary">Dark Grey Glitter Waffle Lounge Joggers</p>
+                <p class="fw-semibold">$240.00</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="related-product text-center">
+              <img src="Images/womenjpg.jpg" class="img-fluid rounded mb-2" alt="">
+              <div class="d-flex">
+                <p class="mb-1 me-4 text-start text-secondary">Maternity Black Jersey High Waist Leggings</p>
+                <p class="fw-semibold">$250.00</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
+    <!--stay in style-->
+    <section class="hero3 text-center py-5" style="background-color: #f1f1f5;">
+      <div class="container px-4">
+        <h2 class="fw-bold text-dark mb-3" style="font-family: 'Poppins', sans-serif;">
+          Stay in Style
+        </h2>
+        <p class="text-secondary mb-4 mx-auto" style="max-width: 600px; font-family: 'Poppins', sans-serif;">
+          Subscribe to our newsletter and be the first to know about new arrivals, exclusive offers, and fashion
+          tips.
+        </p>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-// Storage keys
-const CART_KEY = 'wearopia_cart_v1';
-const WISHLIST_KEY = 'wearopia_wishlist';
+        <form class="d-flex flex-column flex-sm-row justify-content-center align-items-center gap-3 mt-3 w-100">
+          <div class="position-relative" style="max-width: 340px; width: 100%;">
+            <i class="fa-solid fa-envelope text-muted position-absolute top-50 start-0 translate-middle-y ms-3"></i>
+            <input type="email" class="form-control ps-5 rounded-pill shadow-sm border-0" placeholder="Enter your email"
+              required />
+          </div>
 
-// Product data
-const product = {
-  id: 'prod_jogger_001',
-  name: 'Grey Acid Wash Wide Leg Jogger',
-  price: 215.00,
-  image: 'Images/shoes.png',
-  color: 'Black',
-  size: 'XS'
-};
+          <button type="submit" class="btn fw-semibold text-white rounded-pill px-4 py-2"
+            style="background-color: hsl(158, 74%, 23%); min-width: 130px;">
+            Subscribe
+          </button>
+        </form>
+      </div>
+    </section>
+    <!--end of stay in style-->
 
-// Load cart
-function loadCart() {
-  try {
-    const raw = localStorage.getItem(CART_KEY);
-    return raw ? JSON.parse(raw) : { items: [] };
-  } catch {
-    return { items: [] };
-  }
-}
+    <!--footer component-->
+    <footer class="container-fluid bg-white d-flex align-items-center custom-footer">
+      <div class="container">
+        <div class="row gy-4 gx-5">
+          <div class="col-12 col-md-6 col-lg-3">
+            <h4 class="fw-bold text-success mb-3 fs-3">Wearopia</h4>
+            <p class="text-secondary small mb-4">
+              Discover your unique style with our curated collection of modern fashion pieces.
+            </p>
 
-// Save cart
-function saveCart(state) {
-  localStorage.setItem(CART_KEY, JSON.stringify(state));
-  updateBadges();
-}
+            <ul class="list-unstyled text-secondary small mb-4">
+              <li class="mb-2">
+                <i class="fa-solid fa-location-dot me-2"></i>123 Fashion Street, Style City, SC 12345
+              </li>
+              <li class="mb-2">
+                <i class="fa-solid fa-phone me-2"></i>+1 (555) 123-STYLE
+              </li>
+              <li>
+                <i class="fa-solid fa-envelope me-2"></i>hello@stylehub.com
+              </li>
+            </ul>
 
-// Load wishlist
-function loadWishlist() {
-  try {
-    const raw = localStorage.getItem(WISHLIST_KEY);
-    return raw ? JSON.parse(raw) : [];
-  } catch {
-    return [];
-  }
-}
+            <div class="d-flex gap-3">
+              <a href="#"
+                class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 social-icon">
+                <i class="fa-brands fa-facebook-f"></i>
+              </a>
+              <a href="#"
+                class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 social-icon">
+                <i class="fa-brands fa-twitter"></i>
+              </a>
+              <a href="#"
+                class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 social-icon">
+                <i class="fa-brands fa-instagram"></i>
+              </a>
+              <a href="#"
+                class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 social-icon">
+                <i class="fa-brands fa-youtube"></i>
+              </a>
+            </div>
+          </div>
+          <div class="col-12 col-md-3 col-lg-3">
+            <h5 class="fw-semibold text-black fs-6 mb-3">Quick Links</h5>
+            <ul class="list-unstyled text-secondary small">
+              <li class="mb-2">New Arrivals</li>
+              <li class="mb-2">Best Sellers</li>
+              <li class="mb-2">Sale</li>
+              <li class="mb-2">Gift Cards</li>
+              <li>Style Guide</li>
+            </ul>
+          </div>
+          <div class="col-12 col-md-3 col-lg-3">
+            <h5 class="fw-semibold text-black fs-6 mb-3">Customer Care</h5>
+            <ul class="list-unstyled text-secondary small">
+              <li class="mb-2">Contact Us</li>
+              <li class="mb-2">Size Guide</li>
+              <li class="mb-2">Shipping & Returns</li>
+              <li class="mb-2">Track Your Order</li>
+              <li>FAQ</li>
+            </ul>
+          </div>
+          <div class="col-12 col-md-6 col-lg-3">
+            <h5 class="fw-semibold text-black fs-6 mb-3">Company</h5>
+            <ul class="list-unstyled text-secondary small">
+              <li class="mb-2">About Us</li>
+              <li class="mb-2">Careers</li>
+              <li class="mb-2">Press</li>
+              <li class="mb-2">Sustainability</li>
+              <li>Investors</li>
+            </ul>
+          </div>
 
-// Save wishlist
-function saveWishlist(arr) {
-  localStorage.setItem(WISHLIST_KEY, JSON.stringify(arr));
-  updateBadges();
-}
+        </div>
+      </div>
+    </footer>
+    <!--end of footer-->
 
-// Update badges
-function updateBadges() {
-  const cart = loadCart();
-  const qty = cart.items.reduce((s, i) => s + i.qty, 0);
-  document.getElementById('cartCount').textContent = qty;
-  if (qty > 0) document.getElementById('cartCount').classList.add('show');
 
-  const wl = loadWishlist();
-  document.getElementById('wishlistCount').textContent = wl.length;
-  if (wl.length > 0) document.getElementById('wishlistCount').classList.add('show');
-}
-
-// Show toast
-function showToast(title, msg) {
-  const container = document.getElementById('toastContainer');
-  const toast = document.createElement('div');
-  toast.className = 'toast-custom';
-  toast.innerHTML = `
-    <div class="toast-icon">✓</div>
-    <div class="toast-content">
-      <strong>${title}</strong>
-      <div>${msg}</div>
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+      <div id="toastContainer"></div>
     </div>
-  `;
-  container.appendChild(toast);
-  
-  setTimeout(() => {
-    toast.style.animation = 'slideOut 0.3s ease forwards';
-    setTimeout(() => toast.remove(), 300);
-  }, 3000);
-}
 
-// Thumbnail clicks
-document.querySelectorAll('.thumb').forEach(thumb => {
-  thumb.addEventListener('click', function() {
-    document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
-    this.classList.add('active');
-    document.getElementById('mainImage').src = this.dataset.src;
-  });
-});
 
-// Color selection
-document.querySelectorAll('.color-circle').forEach(btn => {
-  btn.addEventListener('click', function() {
-    document.querySelectorAll('.color-circle').forEach(b => b.classList.remove('active'));
-    this.classList.add('active');
-    const color = this.dataset.color;
-    document.getElementById('selectedColor').textContent = color;
-    product.color = color;
-  });
-});
-
-// Size selection
-document.querySelectorAll('.size-btn').forEach(btn => {
-  btn.addEventListener('click', function() {
-    document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
-    this.classList.add('active');
-    product.size = this.dataset.size;
-  });
-});
-
-// Add to cart
-document.getElementById('addToCartBtn').addEventListener('click', () => {
-  const state = loadCart();
-  const existing = state.items.find(i => 
-    i.id === product.id && 
-    i.size === product.size && 
-    i.color === product.color
-  );
-  
-  if (existing) {
-    existing.qty += 1;
-  } else {
-    state.items.push({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      image: product.image,
-      qty: 1,
-      size: product.size,
-      variant: `Color: ${product.color}`
-    });
-  }
-  
-  saveCart(state);
-  showToast('Added to cart', `${product.name} • ${product.size}`);
-});
-
-// Add to wishlist
-document.getElementById('addToWishlistBtn').addEventListener('click', () => {
-  const wl = loadWishlist();
-  if (!wl.includes(product.id)) {
-    wl.push(product.id);
-    saveWishlist(wl);
-    showToast('Added to wishlist', 'You can view it in your wishlist');
-  } else {
-    showToast('Already in wishlist', 'This product is already in your wishlist');
-  }
-});
-
-// Navbar mobile toggle
-const menuToggle = document.getElementById('menuToggle');
-const mobileMenu = document.getElementById('mobileMenu');
-
-menuToggle.addEventListener('click', () => {
-  mobileMenu.classList.toggle('show');
-  const icon = menuToggle.querySelector('i');
-  if (mobileMenu.classList.contains('show')) {
-    icon.classList.remove('bi-list');
-    icon.classList.add('bi-x');
-  } else {
-    icon.classList.remove('bi-x');
-    icon.classList.add('bi-list');
-  }
-});
-
-// Initialize
-updateBadges();
-</script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="JavaScript/product-details.js"></script>
 </body>
+
 </html>
