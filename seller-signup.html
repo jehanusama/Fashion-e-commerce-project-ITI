@@ -169,7 +169,7 @@
             <button type="submit" class="signup-button">Sign Up</button>
 
             <div class="signin-link">
-              <span>Already have an account? </span><a href="#">Sign In</a>
+              <span>Already have an account? </span><a href="login.html">Sign In</a>
             </div>
           </form>
         </div>
@@ -177,69 +177,11 @@
     </div>
   </div>
 
-  <script>
-    // Password toggle
-    document.querySelectorAll('.password-toggle').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const input = btn.previousElementSibling;
-        const openIcon = btn.querySelector('.eye-open');
-        const closedIcon = btn.querySelector('.eye-closed');
-        const text = btn.querySelector('.toggle-text');
-        const isHidden = input.type === 'password';
-        input.type = isHidden ? 'text' : 'password';
-        openIcon.style.display = isHidden ? 'none' : 'block';
-        closedIcon.style.display = isHidden ? 'block' : 'none';
-        text.textContent = isHidden ? 'Hide' : 'Show';
-      });
-    });
+  
 
-    // Validation
-    const form = document.getElementById('sellerSignupForm');
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+<script src="Auth/signup.js"></script>
 
-    const fields = ['storeName','storeAddress','email','password','confirmPassword'];
-    fields.forEach(id => {
-      const input = document.getElementById(id);
-      input.addEventListener('input', () => validateField(input));
-      input.addEventListener('blur', () => validateField(input));
-    });
-
-    function validateField(input){
-      let message='';
-      if(input.id==='storeName' && input.value.trim().length<3){message='Store Name must be at least 3 characters';}
-      if(input.id==='storeAddress' && input.value.trim().length<3){message='Store Address must be at least 3 characters';}
-      if(input.id==='email' && !emailPattern.test(input.value)){message='Enter a valid email address';}
-      if(input.id==='password' && !passwordPattern.test(input.value)){
-        message='Password must be 8+ chars, include uppercase, lowercase, number & symbol';
-      }
-      if(input.id==='confirmPassword'){
-        const password=document.getElementById('password').value;
-        if(input.value!==password){message='Passwords do not match';}
-      }
-      const errorEl=input.parentElement.querySelector('.error-message');
-      if(message){
-        input.classList.add('error');
-        errorEl.textContent=message;
-      }else{
-        input.classList.remove('error');
-        errorEl.textContent='';
-      }
-    }
-
-    form.addEventListener('submit', e=>{
-      e.preventDefault();
-      let valid=true;
-      fields.forEach(id=>{
-        const el=document.getElementById(id);
-        validateField(el);
-        if(el.classList.contains('error')) valid=false;
-      });
-      if(valid){
-        alert('✅ Seller Sign up successful!');
-        form.reset();
-      }
-    });
-  </script>
 </body>
 </html>

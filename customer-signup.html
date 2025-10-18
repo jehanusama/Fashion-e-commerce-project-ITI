@@ -266,67 +266,136 @@
       </div>
     </div>
   </div>
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  // 👁️ Toggle Password Visibility
+  document.querySelectorAll(".password-toggle").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const input = btn.previousElementSibling;
+      const openIcon = btn.querySelector(".eye-open");
+      const closedIcon = btn.querySelector(".eye-closed");
+      const text = btn.querySelector(".toggle-text");
+      const isHidden = input.type === "password";
+      input.type = isHidden ? "text" : "password";
+      openIcon.style.display = isHidden ? "none" : "block";
+      closedIcon.style.display = isHidden ? "block" : "none";
+      text.textContent = isHidden ? "Hide" : "Show";
+    });
+  });
 
-  <script>
-    document.querySelectorAll('.password-toggle').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const input = btn.previousElementSibling;
-        const openIcon = btn.querySelector('.eye-open');
-        const closedIcon = btn.querySelector('.eye-closed');
-        const text = btn.querySelector('.toggle-text');
-        const isHidden = input.type === 'password';
-        input.type = isHidden ? 'text' : 'password';
-        openIcon.style.display = isHidden ? 'none' : 'block';
-        closedIcon.style.display = isHidden ? 'block' : 'none';
-        text.textContent = isHidden ? 'Hide' : 'Show';
+  const form = document.getElementById("signupForm");
+  const fields = ["name", "email", "password", "confirmPassword"];
+
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const passwordPattern =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+  // ✅ Validation
+  fields.forEach((id) => {
+    const input = document.getElementById(id);
+    input.addEventListener("input", () => validateField(input));
+    input.addEventListener("blur", () => validateField(input));
+  });
+
+  function validateField(input) {
+    let message = "";
+    if (input.id === "name" && input.value.trim().length < 3)
+      message = "Name must be at least 3 characters";
+    if (input.id === "email" && !emailPattern.test(input.value))
+      message = "Enter a valid email address";
+    if (input.id === "password" && !passwordPattern.test(input.value))
+      message =
+        "Password must be 8+ chars, include uppercase, lowercase, number & symbol";
+    if (input.id === "confirmPassword") {
+      const password = document.getElementById("password").value;
+      if (input.value !== password) message = "Passwords do not match";
+    }
+
+    const errorEl = input.parentElement.querySelector(".error-message");
+    if (message) {
+      input.classList.add("error");
+      errorEl.textContent = message;
+    } else {
+      input.classList.remove("error");
+      errorEl.textContent = "";
+    }
+  }
+
+  // 🚀 Submit
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    let valid = true;
+    fields.forEach((id) => {
+      const el = document.getElementById(id);
+      validateField(el);
+      if (el.classList.contains("error")) valid = false;
+    });
+
+    if (!valid) {
+      Swal.fire({
+        title: "Invalid Form!",
+        text: "Please fix the highlighted errors before submitting.",
+        icon: "error",
       });
-    });
+      return;
+    }
 
-    const form = document.getElementById('signupForm');
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    const fields = ['name','email','password','confirmPassword'];
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const role = "customer";
 
-    fields.forEach(id => {
-      const input = document.getElementById(id);
-      input.addEventListener('input', () => validateField(input));
-      input.addEventListener('blur', () => validateField(input));
-    });
+    // 🔐 Load users from localStorage
+    const existingUsersEncrypted = localStorage.getItem("users");
+    let users = [];
 
-    function validateField(input){
-      let message='';
-      if(input.id==='name' && input.value.trim().length<3){message='Name must be at least 3 characters';}
-      if(input.id==='email' && !emailPattern.test(input.value)){message='Enter a valid email address';}
-      if(input.id==='password' && !passwordPattern.test(input.value)){
-        message='Password must be 8+ chars, include uppercase, lowercase, number & symbol';
-      }
-      if(input.id==='confirmPassword'){
-        const password=document.getElementById('password').value;
-        if(input.value!==password){message='Passwords do not match';}
-      }
-      const errorEl=input.parentElement.querySelector('.error-message');
-      if(message){
-        input.classList.add('error');
-        errorEl.textContent=message;
-      }else{
-        input.classList.remove('error');
-        errorEl.textContent='';
+    if (existingUsersEncrypted) {
+      try {
+        const bytes = CryptoJS.AES.decrypt(existingUsersEncrypted, "mySecretKey");
+        const decryptedData = bytes.toString(CryptoJS.enc.Utf8);
+        users = JSON.parse(decryptedData);
+      } catch (e) {
+        users = [];
       }
     }
 
-    form.addEventListener('submit',e=>{
-      e.preventDefault();
-      let valid=true;
-      fields.forEach(id=>{
-        const el=document.getElementById(id);
-        validateField(el);
-        if(el.classList.contains('error')) valid=false;
+    // 🚫 Check for duplicate email
+    const isEmailTaken = users.some((u) => u.email === email);
+    if (isEmailTaken) {
+      Swal.fire({
+        title: "Email Already Registered!",
+        text: "Please use another email address.",
+        icon: "error",
       });
-      if(valid){
-        alert('✅ Sign up successful!');
-        form.reset();
-      }
+      return;
+    }
+
+    // 🆕 Create new user
+    const newUser = { name, email, password, role };
+    users.push(newUser);
+
+    // 🔐 Save encrypted
+    const updatedUsersEncrypted = CryptoJS.AES.encrypt(
+      JSON.stringify(users),
+      "mySecretKey"
+    ).toString();
+    localStorage.setItem("users", updatedUsersEncrypted);
+
+    // ✅ Success
+    Swal.fire({
+      title: "Account Created Successfully!",
+      text: "Welcome to Wearopia 💚",
+      icon: "success",
+    }).then(() => {
+      form.reset();
+      window.location.href = "login.html";
     });
-  </script>
+  });
+});
+</script>
+
 </body>
 </html>
