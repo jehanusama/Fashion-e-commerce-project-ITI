@@ -4,11 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Wearopia – Checkout</title>
-  <link rel="stylesheet" href="./CSS/hero3.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <link rel="stylesheet" href="./CSS/navbar.css">
+  <link rel="stylesheet" href="CSS/checkout.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
@@ -705,21 +707,109 @@
   </div>
 </div>
 
-<section class="hero3 d-flex flex-column justify-content-center align-items-center text-center">
-  <div class="container">
-    <h2 class="hero3-title">Stay in Style</h2>
-    <p class="hero3-text">
-      Subscribe to our newsletter and be the first to know about new arrivals, exclusive offers, and fashion tips.
+
+<!--stay in style-->
+<section class="hero3 text-center py-5" style="background-color: #f1f1f5;">
+  <div class="container px-4">
+    <h2 class="fw-bold text-dark mb-3" style="font-family: 'Poppins', sans-serif;">
+      Stay in Style
+    </h2>
+    <p class="text-secondary mb-4 mx-auto" style="max-width: 600px; font-family: 'Poppins', sans-serif;">
+      Subscribe to our newsletter and be the first to know about new arrivals, exclusive offers, and fashion
+      tips.
     </p>
-    <form class="hero3-form d-flex align-items-center justify-content-center">
-      <div class="input-wrapper">
-        <i class="fa-solid fa-envelope email-icon"></i>
-        <input type="email" placeholder="Enter your email" class="hero3-input" required />
+
+    <form class="d-flex flex-column flex-sm-row justify-content-center align-items-center gap-3 mt-3 w-100">
+      <div class="position-relative" style="max-width: 340px; width: 100%;">
+        <i class="fa-solid fa-envelope text-muted position-absolute top-50 start-0 translate-middle-y ms-3"></i>
+        <input type="email" class="form-control ps-5 rounded-pill shadow-sm border-0" placeholder="Enter your email"
+          required />
       </div>
-      <button type="submit" class="btn hero3-btn">Subscribe</button>
+
+      <button type="submit" class="btn fw-semibold text-white rounded-pill px-4 py-2"
+        style="background-color: hsl(158, 74%, 23%); min-width: 130px;">
+        Subscribe
+      </button>
     </form>
   </div>
 </section>
+<!--end of stay in style-->
+<!--footer component-->
+<footer class="container-fluid bg-white d-flex align-items-center custom-footer">
+  <div class="container">
+    <div class="row gy-4 gx-5">
+      <div class="col-12 col-md-6 col-lg-3">
+        <h4 class="fw-bold text-success mb-3 fs-3">Wearopia</h4>
+        <p class="text-secondary small mb-4">
+          Discover your unique style with our curated collection of modern fashion pieces.
+        </p>
+
+        <ul class="list-unstyled text-secondary small mb-4">
+          <li class="mb-2">
+            <i class="fa-solid fa-location-dot me-2"></i>123 Fashion Street, Style City, SC 12345
+          </li>
+          <li class="mb-2">
+            <i class="fa-solid fa-phone me-2"></i>+1 (555) 123-STYLE
+          </li>
+          <li>
+            <i class="fa-solid fa-envelope me-2"></i>hello@stylehub.com
+          </li>
+        </ul>
+
+        <div class="d-flex gap-3">
+          <a href="#"
+            class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 social-icon">
+            <i class="fa-brands fa-facebook-f"></i>
+          </a>
+          <a href="#"
+            class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 social-icon">
+            <i class="fa-brands fa-twitter"></i>
+          </a>
+          <a href="#"
+            class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 social-icon">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+          <a href="#"
+            class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 social-icon">
+            <i class="fa-brands fa-youtube"></i>
+          </a>
+        </div>
+      </div>
+      <div class="col-12 col-md-3 col-lg-3">
+        <h5 class="fw-semibold text-black fs-6 mb-3">Quick Links</h5>
+        <ul class="list-unstyled text-secondary small">
+          <li class="mb-2">New Arrivals</li>
+          <li class="mb-2">Best Sellers</li>
+          <li class="mb-2">Sale</li>
+          <li class="mb-2">Gift Cards</li>
+          <li>Style Guide</li>
+        </ul>
+      </div>
+      <div class="col-12 col-md-3 col-lg-3">
+        <h5 class="fw-semibold text-black fs-6 mb-3">Customer Care</h5>
+        <ul class="list-unstyled text-secondary small">
+          <li class="mb-2">Contact Us</li>
+          <li class="mb-2">Size Guide</li>
+          <li class="mb-2">Shipping & Returns</li>
+          <li class="mb-2">Track Your Order</li>
+          <li>FAQ</li>
+        </ul>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3">
+        <h5 class="fw-semibold text-black fs-6 mb-3">Company</h5>
+        <ul class="list-unstyled text-secondary small">
+          <li class="mb-2">About Us</li>
+          <li class="mb-2">Careers</li>
+          <li class="mb-2">Press</li>
+          <li class="mb-2">Sustainability</li>
+          <li>Investors</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</footer>
+<!--end of footer-->
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
