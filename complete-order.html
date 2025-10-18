@@ -1,51 +1,467 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>order complete</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="CSS/complete-order.css">
-</head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wearopia – Order Complete</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="./CSS/navbar.css">
+  <link rel="stylesheet" href="./CSS/hero3.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Inter", -apple-system, sans-serif;
+      background: #FFF;
+      color: #000;
+      margin: 0;
+    }
+
+    .container-custom {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+
+    .breadcrumb-nav {
+      font-size: 14px;
+      color: #605F5F;
+      margin-bottom: 24px;
+    }
+
+    .breadcrumb-nav a {
+      color: #605F5F;
+      text-decoration: none;
+    }
+
+    .breadcrumb-nav a:hover {
+      color: #121212;
+    }
+
+    .steps-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 48px;
+      margin-bottom: 48px;
+      justify-content: center;
+    }
+
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .step-circle {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    .step-item.completed .step-circle {
+      background: #198754;
+      color: #fff;
+    }
+
+    .step-label {
+      font-size: 16px;
+      font-weight: 500;
+      color: #23262F;
+    }
+
+    .success-card {
+      background: #FFF;
+      border: 1px solid #E6E8EC;
+      border-radius: 16px;
+      padding: 64px 40px;
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #198754 0%, #146c43 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      animation: scaleIn 0.5s ease;
+    }
+
+    .success-icon i {
+      font-size: 40px;
+      color: white;
+    }
+
+    @keyframes scaleIn {
+      from {
+        transform: scale(0);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .thank-you-text {
+      font-size: 18px;
+      color: #777E90;
+      margin-bottom: 16px;
+    }
+
+    .order-title {
+      font-size: 36px;
+      font-weight: 700;
+      color: #23262F;
+      margin-bottom: 32px;
+    }
+
+    .product-images {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin: 32px 0;
+      flex-wrap: wrap;
+    }
+
+    .product-thumb {
+      width: 100px;
+      height: 100px;
+      border-radius: 12px;
+      object-fit: cover;
+      border: 1px solid #E6E8EC;
+      background: #F3F5F7;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .order-details {
+      background: #F8F9FA;
+      border-radius: 12px;
+      padding: 32px;
+      margin: 32px 0;
+      text-align: left;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      font-size: 16px;
+    }
+
+    .detail-row:last-child {
+      margin-bottom: 0;
+      padding-top: 16px;
+      border-top: 2px solid #E6E8EC;
+    }
+
+    .detail-label {
+      color: #777E90;
+      font-weight: 500;
+    }
+
+    .detail-value {
+      color: #23262F;
+      font-weight: 600;
+    }
+
+    .order-code {
+      color: #198754;
+      font-weight: 700;
+    }
+
+    .btn-purchase-history {
+      display: inline-block;
+      background: #198754;
+      color: white;
+      text-decoration: none;
+      padding: 14px 32px;
+      border-radius: 90px;
+      font-size: 16px;
+      font-weight: 600;
+      transition: all 0.3s;
+      margin-top: 24px;
+    }
+
+    .btn-purchase-history:hover {
+      background: #146c43;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(25, 135, 84, 0.3);
+      color: white;
+    }
+
+    .confetti {
+      font-size: 32px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .success-card {
+        padding: 40px 24px;
+      }
+
+      .order-title {
+        font-size: 28px;
+      }
+
+      .product-images {
+        flex-wrap: wrap;
+      }
+
+      .product-thumb {
+        width: 80px;
+        height: 80px;
+      }
+
+      .steps-wrapper {
+        gap: 20px;
+      }
+
+      .step-label {
+        display: none;
+      }
+
+      .order-details {
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
 <body>
 
-    <div class="bg-white text-center p-5 rounded-4 shadow-sm custom-order-container">
-
-        <h5 class="text-secondary mb-2 fs-3">Thank you! 🎉</h5>
-        <h2 class="fw-bold mb-4 fs-1">Your order has been <br>received</h2>
-
-        <div class="d-flex justify-content-center flex-wrap gap-4 my-4">
-            <img src="Images/black hoddie.png" alt="Product 1" class="rounded-3 custom-img">
-            <img src="Images/black t-shirt.png" alt="Product 2" class="rounded-3 custom-img">
-            <img src="Images/shoes.png" alt="Product 3" class="rounded-3 custom-img">
-        </div>
-
-        <div class="text-start mx-auto mb-4 custom-details">
-            <div class="d-flex justify-content-between mb-1">
-                <span class="fw-semibold">Order code:</span>
-                <span class="text-success">#0123_45678</span>
-            </div>
-            <div class="d-flex justify-content-between mb-1">
-                <span class="fw-semibold">Date:</span>
-                <span class="text-success">October 19, 2023</span>
-            </div>
-            <div class="d-flex justify-content-between mb-1">
-                <span class="fw-semibold">Total:</span>
-                <span class="text-success">$1,345.00</span>
-            </div>
-            <div class="d-flex justify-content-between mb-1">
-                <span class="fw-semibold">Payment method:</span>
-                <span class="text-success">Credit Card</span>
-            </div>
-        </div>
-
-        <button class="btn text-white rounded-pill py-2 px-4 custom-btn">
-            Purchase history
-        </button>
-
+<!-- Navbar -->
+<div class="navbar-wrapper">
+  <nav class="navbar">
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+      <i class="bi bi-list"></i>
+    </button>
+    <a href="index.html" class="navbar-brand">Wearopia</a>
+    <ul class="navbar-menu">
+      <li><a href="#">Man</a></li>
+      <li><a href="#">Women</a></li>
+      <li><a href="#">Kids</a></li>
+      <li><a href="#">Accessory</a></li>
+    </ul>
+    <div class="search-container">
+      <i class="bi bi-search search-icon"></i>
+      <input type="text" class="search-box" placeholder="Search for outfits...">
     </div>
-</body>
+    <div class="navbar-actions">
+      <a href="login.html" id="loginBtn">
+        <i class="bi bi-box-arrow-in-right"></i>
+        <span>Login</span>
+      </a>
+      <a href="#" id="wishlistBtn">
+        <i class="bi bi-heart"></i>
+        <span>Wishlist</span>
+        <span class="badge-count" id="wishlistCount">0</span>
+      </a>
+      <a href="shopping-cart.html" id="cartBtn">
+        <i class="bi bi-bag"></i>
+        <span>Cart</span>
+        <span class="badge-count" id="cartCount">0</span>
+      </a>
+    </div>
+    <div class="mobile-dropdown" id="mobileMenu">
+      <ul>
+        <li><a href="#">Man</a></li>
+        <li><a href="#">Women</a></li>
+        <li><a href="#">Kids</a></li>
+        <li><a href="#">Accessory</a></li>
+      </ul>
+      <div class="mobile-search">
+        <i class="bi bi-search search-icon"></i>
+        <input type="text" class="search-box" placeholder="Search for outfits...">
+      </div>
+    </div>
+  </nav>
+</div>
 
+<div class="container-custom">
+  <!-- Breadcrumb -->
+  <div class="breadcrumb-nav">
+    <a href="index.html">Home</a> / 
+    <a href="shopping-cart.html">Cart</a> / 
+    <a href="checkout.html">Checkout</a> / 
+    <span>Order complete</span>
+  </div>
+
+  <!-- Steps -->
+  <div class="steps-wrapper">
+    <div class="step-item completed">
+      <div class="step-circle">✓</div>
+      <div class="step-label">Shopping cart</div>
+    </div>
+    <div class="step-item completed">
+      <div class="step-circle">✓</div>
+      <div class="step-label">Checkout details</div>
+    </div>
+    <div class="step-item completed">
+      <div class="step-circle">✓</div>
+      <div class="step-label">Order complete</div>
+    </div>
+  </div>
+
+  <!-- Success Card -->
+  <div class="success-card">
+    <div class="success-icon">
+      <i class="bi bi-check-lg"></i>
+    </div>
+
+    <div class="thank-you-text">Thank you! <span class="confetti">🎉</span></div>
+    <h1 class="order-title">Your order has been received</h1>
+
+    <!-- Product Images -->
+    <div class="product-images" id="productImages">
+      <!-- Images will be loaded dynamically -->
+    </div>
+
+    <!-- Order Details -->
+    <div class="order-details">
+      <div class="detail-row">
+        <span class="detail-label">Order code:</span>
+        <span class="detail-value order-code" id="orderCode">#0123_45678</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Date:</span>
+        <span class="detail-value" id="orderDate">October 19, 2023</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Total:</span>
+        <span class="detail-value" id="orderTotal">$1,345.00</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Payment method:</span>
+        <span class="detail-value" id="paymentMethod">Credit Card</span>
+      </div>
+    </div>
+
+    <a href="index.html" class="btn-purchase-history">Continue Shopping</a>
+  </div>
+</div>
+
+<section class="hero3 d-flex flex-column justify-content-center align-items-center text-center">
+  <div class="container">
+    <h2 class="hero3-title">Stay in Style</h2>
+    <p class="hero3-text">
+      Subscribe to our newsletter and be the first to know about new arrivals, exclusive offers, and fashion tips.
+    </p>
+    <form class="hero3-form d-flex align-items-center justify-content-center">
+      <div class="input-wrapper">
+        <i class="fa-solid fa-envelope email-icon"></i>
+        <input type="email" placeholder="Enter your email" class="hero3-input" required />
+      </div>
+      <button type="submit" class="btn hero3-btn">Subscribe</button>
+    </form>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// Navbar functionality
+const menuToggle = document.getElementById('menuToggle');
+const mobileMenu = document.getElementById('mobileMenu');
+
+menuToggle.addEventListener('click', () => {
+  mobileMenu.classList.toggle('show');
+  const icon = menuToggle.querySelector('i');
+  
+  if (mobileMenu.classList.contains('show')) {
+    icon.classList.remove('bi-list');
+    icon.classList.add('bi-x');
+  } else {
+    icon.classList.remove('bi-x');
+    icon.classList.add('bi-list');
+  }
+});
+
+// Format date
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  return date.toLocaleDateString('en-US', options);
+}
+
+// Load order completion data
+function loadOrderData() {
+  try {
+    const orderData = sessionStorage.getItem('wearopia_order_complete');
+    
+    if (!orderData) {
+      console.log('No order data found, redirecting...');
+      window.location.href = 'index.html';
+      return null;
+    }
+    
+    return JSON.parse(orderData);
+  } catch (e) {
+    console.error('Error loading order data:', e);
+    window.location.href = 'index.html';
+    return null;
+  }
+}
+
+// Render order completion
+function renderOrderCompletion(orderData) {
+  // Render product images (max 3)
+  const productImages = document.getElementById('productImages');
+  const imagesToShow = orderData.items.slice(0, 3);
+  
+  productImages.innerHTML = imagesToShow.map(item => `
+    <div class="product-thumb" style="background-image: url('${item.image}');"></div>
+  `).join('');
+  
+  // Set order details
+  document.getElementById('orderCode').textContent = orderData.orderId;
+  document.getElementById('orderDate').textContent = formatDate(orderData.orderDate);
+  document.getElementById('orderTotal').textContent = `$${orderData.total.toFixed(2)}`;
+  document.getElementById('paymentMethod').textContent = orderData.payment.method;
+}
+
+// Initialize page
+document.addEventListener('DOMContentLoaded', function() {
+  const orderData = loadOrderData();
+  
+  if (orderData) {
+    renderOrderCompletion(orderData);
+    
+    // Optional: Clear order data after a delay to prevent going back
+    setTimeout(() => {
+      sessionStorage.removeItem('wearopia_order_complete');
+    }, 5000);
+  }
+  
+  // Reset cart badge
+  const cartBadge = document.getElementById('cartCount');
+  cartBadge.textContent = '0';
+  cartBadge.classList.remove('show');
+});
+</script>
+
+</body>
 </html>

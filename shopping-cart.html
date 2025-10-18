@@ -3,153 +3,13 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Wearopia — Cart (final)</title>
-
-  <!-- Fonts & Bootstrap -->
-       <link rel="stylesheet" href="./CSS/hero3.css">
+  <title>Wearopia – Cart</title>
+  <link rel="stylesheet" href="./CSS/hero3.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-   <link rel="stylesheet" href="./CSS/navbar.css">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-</head>
-
-<body>
-
-<!-- Navbar -->
-<div class="navbar-wrapper">
-  <nav class="navbar">
-    <!-- Menu Toggle (Mobile) -->
-    <button class="menu-toggle" id="menuToggle" aria-label="Menu">
-      <i class="bi bi-list"></i>
-    </button>
-
-    <!-- Logo -->
-    <a href="index.html" class="navbar-brand">Wearopia</a>
-
-    <!-- Navigation Menu (Desktop/Tablet) -->
-    <ul class="navbar-menu">
-      <li><a href="#">Man</a></li>
-      <li><a href="#">Women</a></li>
-      <li><a href="#">Kids</a></li>
-      <li><a href="#">Accessory</a></li>
-    </ul>
-
-    <!-- Search Box (Desktop) -->
-    <div class="search-container">
-      <i class="bi bi-search search-icon"></i>
-      <input type="text" class="search-box" placeholder="Search for outfits...">
-    </div>
-
-    <!-- Right Actions -->
-    <div class="navbar-actions">
-      <a href="#" class="search-link" style="display: none;">
-        <i class="bi bi-search"></i>
-        <span>Search</span>
-      </a>
-      <a href="login.html" id="loginBtn">
-        <i class="bi bi-box-arrow-in-right"></i>
-        <span>Login</span>
-      </a>
-      <a href="#" id="wishlistBtn">
-        <i class="bi bi-heart"></i>
-        <span>Wishlist</span>
-        <span class="badge-count" id="wishlistCount">0</span>
-      </a>
-      <a href="shopping-cart.html" id="cartBtn">
-        <i class="bi bi-bag"></i>
-        <span>Cart</span>
-        <span class="badge-count" id="cartCount">0</span>
-      </a>
-    </div>
-
-    <!-- Mobile Dropdown Menu -->
-    <div class="mobile-dropdown" id="mobileMenu">
-      <ul>
-        <li><a href="#" >Man</a></li>
-        <li><a href="#">Women</a></li>
-        <li><a href="#">Kids</a></li>
-        <li><a href="#">Accessory</a></li>
-      </ul>
-      <div class="mobile-search">
-        <i class="bi bi-search search-icon"></i>
-        <input type="text" class="search-box" placeholder="Search for outfits...">
-      </div>
-    </div>
-  </nav>
-</div>
-
-
-
-<script>
-// Variables
-let wishlistCount = 0;
-let cartCount = 0;
-
-const wishlistBadge = document.getElementById('wishlistCount');
-//const cartBadge = document.getElementById('cartCount');
-const menuToggle = document.getElementById('menuToggle');
-const mobileMenu = document.getElementById('mobileMenu');
-
-// Add to Wishlist
-function addToWishlist() {
-  wishlistCount++;
-  wishlistBadge.textContent = wishlistCount;
-  wishlistBadge.classList.add('show');
-}
-
-// Add to Cart
-function addToCart() {
-  cartCount++;
-  cartBadge.textContent = cartCount;
-  cartBadge.classList.add('show');
-}
-
-// Mobile Menu Toggle
-menuToggle.addEventListener('click', () => {
-  mobileMenu.classList.toggle('show');
-  const icon = menuToggle.querySelector('i');
-  
-  if (mobileMenu.classList.contains('show')) {
-    icon.classList.remove('bi-list');
-    icon.classList.add('bi-x');
-  } else {
-    icon.classList.remove('bi-x');
-    icon.classList.add('bi-list');
-  }
-});
-
-// Close mobile menu when clicking on links
-const mobileLinks = mobileMenu.querySelectorAll('a');
-mobileLinks.forEach(link => {
-  link.addEventListener('click', (e) => {
-    mobileLinks.forEach(l => l.classList.remove('active'));
-    link.classList.add('active');
-    
-    if (window.innerWidth <= 768) {
-      mobileMenu.classList.remove('show');
-      const icon = menuToggle.querySelector('i');
-      icon.classList.remove('bi-x');
-      icon.classList.add('bi-list');
-    }
-  });
-});
-
-// Desktop menu active state
-const desktopLinks = document.querySelectorAll('.navbar-menu a');
-desktopLinks.forEach(link => {
-  link.addEventListener('click', (e) => {
-    e.preventDefault();
-    desktopLinks.forEach(l => l.classList.remove('active'));
-    link.classList.add('active');
-  });
-});
-
-
-</script>
-
+  <link rel="stylesheet" href="./CSS/navbar.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     body { font-family: "Inter", sans-serif; background:#FEFEFE; color:#121212; margin:0; line-height:1.5; }
@@ -170,6 +30,7 @@ desktopLinks.forEach(link => {
     .products-section { background:#FCFCFD; border:1px solid #E6E8EC; border-radius:16px; }
     .products-header { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; padding:24px; border-bottom:1px solid #E6E8EC; font-size:12px; font-weight:700; color:#777E90; text-transform:uppercase; letter-spacing:1px; }
     .product-item { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; align-items:center; padding:24px; border-bottom:1px solid #E6E8EC; gap:16px; background:transparent; transition:transform .28s ease, opacity .28s ease; }
+    .product-item.removing { opacity:0; transform:translateX(-20px); }
     .product-item:last-child { border-bottom:none; }
     .product-info { display:flex; gap:16px; }
     .product-img { width:80px; height:80px; border-radius:12px; object-fit:cover; flex-shrink:0; }
@@ -208,7 +69,16 @@ desktopLinks.forEach(link => {
     .btn-apply { padding:12px 28px; background:#198754; color:white; border:none; border-radius:90px; font-size:14px; font-weight:600; cursor:pointer; transition:all .2s; white-space:nowrap; }
     .btn-apply:hover { background:#141416; }
 
-    /* Hero3 */
+    /* Toast Notifications */
+    .toast-container { position:fixed; top:24px; right:24px; z-index:9999; display:flex; flex-direction:column; gap:12px; }
+    .toast-notification { display:flex; align-items:center; gap:12px; background:white; padding:16px 20px; border-radius:12px; box-shadow:0 8px 24px rgba(0,0,0,.12); min-width:320px; animation:slideIn .3s ease; }
+    .toast-icon { width:24px; height:24px; flex-shrink:0; }
+    .toast-content { flex:1; }
+    .toast-title { font-size:14px; font-weight:600; color:#23262F; margin-bottom:4px; }
+    .toast-message { font-size:13px; color:#777E90; }
+    @keyframes slideIn { from { transform:translateX(400px); opacity:0; } to { transform:translateX(0); opacity:1; } }
+    @keyframes fadeOut { to { opacity:0; transform:translateX(400px); } }
+
     .hero3 { padding:80px 0; text-align:center; background:#F8F9FA; }
     .hero3-title { font-size:36px; font-weight:700; margin-bottom:16px; color:#23262F; }
     .hero3-text { font-size:16px; margin-bottom:24px; color:#777E90; }
@@ -230,14 +100,66 @@ desktopLinks.forEach(link => {
 </head>
 <body>
 
-<div class="container-custom">
+<!-- Toast Container -->
+<div class="toast-container" id="toast-container"></div>
 
-  <!-- Breadcrumb -->
+<!-- Navbar -->
+<div class="navbar-wrapper">
+  <nav class="navbar">
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+      <i class="bi bi-list"></i>
+    </button>
+    <a href="index.html" class="navbar-brand">Wearopia</a>
+    <ul class="navbar-menu">
+      <li><a href="#">Man</a></li>
+      <li><a href="#">Women</a></li>
+      <li><a href="#">Kids</a></li>
+      <li><a href="#">Accessory</a></li>
+    </ul>
+    <div class="search-container">
+      <i class="bi bi-search search-icon"></i>
+      <input type="text" class="search-box" placeholder="Search for outfits...">
+    </div>
+    <div class="navbar-actions">
+      <a href="#" class="search-link" style="display: none;">
+        <i class="bi bi-search"></i>
+        <span>Search</span>
+      </a>
+      <a href="login.html" id="loginBtn">
+        <i class="bi bi-box-arrow-in-right"></i>
+        <span>Login</span>
+      </a>
+      <a href="#" id="wishlistBtn">
+        <i class="bi bi-heart"></i>
+        <span>Wishlist</span>
+        <span class="badge-count" id="wishlistCount">0</span>
+      </a>
+      <a href="shopping-cart.html" id="cartBtn">
+        <i class="bi bi-bag"></i>
+        <span>Cart</span>
+        <span class="badge-count" id="cartCount">0</span>
+      </a>
+    </div>
+    <div class="mobile-dropdown" id="mobileMenu">
+      <ul>
+        <li><a href="#">Man</a></li>
+        <li><a href="#">Women</a></li>
+        <li><a href="#">Kids</a></li>
+        <li><a href="#">Accessory</a></li>
+      </ul>
+      <div class="mobile-search">
+        <i class="bi bi-search search-icon"></i>
+        <input type="text" class="search-box" placeholder="Search for outfits...">
+      </div>
+    </div>
+  </nav>
+</div>
+
+<div class="container-custom">
   <div class="breadcrumb-nav">
-    <a href="#">Home</a> / <span>Cart</span>
+    <a href="index.html">Home</a> / <span>Cart</span>
   </div>
 
-  <!-- Steps -->
   <div class="steps-wrapper">
     <div class="step-item active">
       <div class="step-circle">1</div>
@@ -253,10 +175,7 @@ desktopLinks.forEach(link => {
     </div>
   </div>
 
-  <!-- Main Layout -->
   <div class="cart-layout">
-
-    <!-- Left: Products -->
     <div class="products-section">
       <div class="products-header">
         <div>Product</div>
@@ -265,12 +184,81 @@ desktopLinks.forEach(link => {
         <div style="text-align:right;">Subtotal</div>
       </div>
 
-      <div id="products-list" aria-live="polite" style="visibility:hidden;">
-        <!-- JS will populate products -->
+      <div id="products-list" aria-live="polite">
+        <div class="product-item" data-id="1" data-name="Grey Acid Wash Wide Leg Jogger" data-variant="Color: Black" data-image="Images/shoes.png" data-price="215">
+          <div class="product-info">
+            <img src="Images/shoes.png" class="product-img" alt="Jogger">
+            <div class="product-details">
+              <div class="product-name">Grey Acid Wash Wide Leg Jogger</div>
+              <div class="product-variant">Color: Black</div>
+              <button class="btn-remove" data-name="Grey Acid Wash Wide Leg Jogger">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M2 2L14 14M14 2L2 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg> Remove
+              </button>
+            </div>
+          </div>
+          <div style="text-align:center;">
+            <div class="qty-box">
+              <button class="qty-btn qty-dec">−</button>
+              <input type="text" class="qty-input" value="2" readonly>
+              <button class="qty-btn qty-inc">+</button>
+            </div>
+          </div>
+          <div style="text-align:right;"><div class="price-text">$215.00</div></div>
+          <div style="text-align:right;"><div class="price-text item-subtotal">$430.00</div></div>
+        </div>
+
+        <div class="product-item" data-id="2" data-name="Tray Table" data-variant="Color: Red" data-image="Images/black t-shirt.png" data-price="19">
+          <div class="product-info">
+            <img src="Images/black t-shirt.png" class="product-img" alt="Table">
+            <div class="product-details">
+              <div class="product-name">Tray Table</div>
+              <div class="product-variant">Color: Red</div>
+              <button class="btn-remove" data-name="Tray Table">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M2 2L14 14M14 2L2 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg> Remove
+              </button>
+            </div>
+          </div>
+          <div style="text-align:center;">
+            <div class="qty-box">
+              <button class="qty-btn qty-dec">−</button>
+              <input type="text" class="qty-input" value="2" readonly>
+              <button class="qty-btn qty-inc">+</button>
+            </div>
+          </div>
+          <div style="text-align:right;"><div class="price-text">$19.00</div></div>
+          <div style="text-align:right;"><div class="price-text item-subtotal">$38.00</div></div>
+        </div>
+
+        <div class="product-item" data-id="3" data-name="Table lamp" data-variant="Color: Gold" data-image="Images/Image.png" data-price="39">
+          <div class="product-info">
+            <img src="Images/Image.png" class="product-img" alt="Lamp">
+            <div class="product-details">
+              <div class="product-name">Table lamp</div>
+              <div class="product-variant">Color: Gold</div>
+              <button class="btn-remove" data-name="Table lamp">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M2 2L14 14M14 2L2 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg> Remove
+              </button>
+            </div>
+          </div>
+          <div style="text-align:center;">
+            <div class="qty-box">
+              <button class="qty-btn qty-dec">−</button>
+              <input type="text" class="qty-input" value="1" readonly>
+              <button class="qty-btn qty-inc">+</button>
+            </div>
+          </div>
+          <div style="text-align:right;"><div class="price-text">$39.00</div></div>
+          <div style="text-align:right;"><div class="price-text item-subtotal">$39.00</div></div>
+        </div>
       </div>
     </div>
 
-    <!-- Right: Summary -->
     <div class="summary-box">
       <div class="summary-title">Cart summary</div>
 
@@ -294,7 +282,7 @@ desktopLinks.forEach(link => {
             <input type="radio" name="shipping" value="21">
             <span>Pick Up</span>
           </div>
-          <span class="radio-price">%21.00</span>
+          <span class="radio-price">$21.00</span>
         </label>
       </div>
 
@@ -308,7 +296,7 @@ desktopLinks.forEach(link => {
         <span id="total">$0.00</span>
       </div>
 
-      <button class="btn-checkout">Checkout</button>
+      <button class="btn-checkout" id="checkoutBtn">Checkout</button>
 
       <div class="coupon-section">
         <div class="coupon-title">Have a coupon?</div>
@@ -319,214 +307,153 @@ desktopLinks.forEach(link => {
         </div>
       </div>
     </div>
-
   </div>
 </div>
 
-<!-- Hero3 section -->
 <section class="hero3">
   <div class="container">
     <h2 class="hero3-title">Stay in Style</h2>
-    <p class="hero3-text">
-      Subscribe to our newsletter and be the first to know about new arrivals, exclusive offers, and fashion tips.
-    </p>
+    <p class="hero3-text">Subscribe to our newsletter and be the first to know about new arrivals.</p>
     <form class="hero3-form">
       <input type="email" placeholder="Enter your email" class="hero3-input" required />
       <button type="submit" class="hero3-btn">Subscribe</button>
     </form>
   </div>
-</section
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</section>
 
-  <script>
-    /* ----------------- Utilities & State ----------------- */
-    const productsList = document.getElementById('products-list');
-    const subtotalEl = document.getElementById('subtotal');
-    const totalEl = document.getElementById('total');
-    const cartBadge = document.getElementById('ccount');
-    const toastContainer = document.getElementById('toast-container');
-    const STORAGE_KEY = 'wearopia_cart_v1';
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// Navbar functionality
+const menuToggle = document.getElementById('menuToggle');
+const mobileMenu = document.getElementById('mobileMenu');
+let wishlistCount = 0;
 
-    // helper: show toast
-    function showToast(title, message, type = 'success') {
-      const icons = {
-        success: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#58BD7D"/><path d="M8 12L11 15L16 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-        error: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#FF6A55"/><path d="M15 9L9 15M9 9L15 15" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>',
-        warning: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#FFB020"/><path d="M12 7V13M12 16V17" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>'
-      };
-      const toast = document.createElement('div');
-      toast.className = `toast-notification toast-${type}`;
-      toast.innerHTML = `${icons[type]}<div class="toast-content"><div class="toast-title">${title}</div><div class="toast-message">${message}</div></div>`;
-      toastContainer.appendChild(toast);
-      setTimeout(()=>{ toast.style.animation='fadeOut .3s ease forwards'; setTimeout(()=>toast.remove(),300); },3000);
-    }
+const wishlistBadge = document.getElementById('wishlistCount');
 
-    // read initial items from DOM (only used if no saved state)
-    function readInitialFromDOM() {
-      const items = [];
-      productsList.querySelectorAll('.product-item').forEach(item => {
-        items.push({
-          id: item.dataset.id || cryptoRandomId(),
-          name: item.dataset.name || item.querySelector('.product-name')?.textContent || 'Item',
-          variant: item.dataset.variant || item.querySelector('.product-variant')?.textContent || '',
-          image: item.dataset.image || item.querySelector('.product-img')?.src || '',
-          price: parseFloat(item.dataset.price) || 0,
-          qty: parseInt(item.querySelector('.qty-input')?.value) || 1
-        });
-      });
-      return items;
-    }
+menuToggle.addEventListener('click', () => {
+  mobileMenu.classList.toggle('show');
+  const icon = menuToggle.querySelector('i');
+  if (mobileMenu.classList.contains('show')) {
+    icon.classList.remove('bi-list');
+    icon.classList.add('bi-x');
+  } else {
+    icon.classList.remove('bi-x');
+    icon.classList.add('bi-list');
+  }
+});
 
-    // tiny random id if none (stable for this session)
-    function cryptoRandomId() {
-      return 'id_' + Math.random().toString(36).slice(2,9);
-    }
+// Cart Variables
+const productsList = document.getElementById('products-list');
+const subtotalEl = document.getElementById('subtotal');
+const totalEl = document.getElementById('total');
+const cartBadge = document.getElementById('cartCount');
+const toastContainer = document.getElementById('toast-container');
+const STORAGE_KEY = 'wearopia_cart_v1';
 
-    // save state
-    function saveState(state) {
-      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e){ /* ignore */ }
-    }
+// Toast notification
+function showToast(title, message, type = 'success') {
+  const icons = {
+    success: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#58BD7D"/><path d="M8 12L11 15L16 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    error: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#FF6A55"/><path d="M15 9L9 15M9 9L15 15" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>',
+    warning: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#FFB020"/><path d="M12 7V13M12 16V17" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>'
+  };
+  const toast = document.createElement('div');
+  toast.className = `toast-notification toast-${type}`;
+  toast.innerHTML = `${icons[type]}<div class="toast-content"><div class="toast-title">${title}</div><div class="toast-message">${message}</div></div>`;
+  toastContainer.appendChild(toast);
+  setTimeout(() => { toast.style.animation = 'fadeOut .3s ease forwards'; setTimeout(() => toast.remove(), 300); }, 3000);
+}
 
-    // load state
-    function loadState() {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return null;
-        return JSON.parse(raw);
-      } catch(e){ return null; }
-    }
+// Update totals
+function updateTotals() {
+  const items = [...productsList.querySelectorAll('.product-item')];
+  let subtotal = 0, qtySum = 0;
+  items.forEach(it => {
+    const price = parseFloat(it.dataset.price) || 0;
+    const qty = parseInt(it.querySelector('.qty-input').value) || 0;
+    const itemTotal = price * qty;
+    const subEl = it.querySelector('.item-subtotal');
+    if (subEl) subEl.textContent = '$' + itemTotal.toFixed(2);
+    subtotal += itemTotal;
+    qtySum += qty;
+  });
+  const shipping = parseFloat(document.querySelector('input[name="shipping"]:checked')?.value || 0);
+  const total = subtotal + shipping;
+  subtotalEl.textContent = '$' + subtotal.toFixed(2);
+  totalEl.textContent = '$' + total.toFixed(2);
 
-    // render products into DOM from state (keeps markup shape)
-    function renderProducts(state) {
-      // build html for each item (keep same structure as original)
-      const html = state.map(item => `
-        <div class="product-item" data-id="${escapeHtml(item.id)}" data-price="${item.price}" data-image="${escapeHtml(item.image)}" data-name="${escapeHtml(item.name)}" data-variant="${escapeHtml(item.variant)}">
-          <div class="product-info">
-            <img src="${escapeHtml(item.image)}" class="product-img" alt="${escapeHtml(item.name)}">
-            <div class="product-details">
-              <div class="product-name">${escapeHtml(item.name)}</div>
-              <div class="product-variant">${escapeHtml(item.variant)}</div>
-              <button class="btn-remove" data-name="${escapeHtml(item.name)}"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 2L14 14M14 2L2 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> Remove</button>
-            </div>
-          </div>
-          <div style="text-align:center;">
-            <div class="qty-box">
-              <button class="qty-btn qty-dec">−</button>
-              <input type="text" class="qty-input" value="${item.qty}" readonly>
-              <button class="qty-btn qty-inc">+</button>
-            </div>
-          </div>
-          <div style="text-align:right;"><div class="price-text">$${item.price.toFixed(2)}</div></div>
-          <div style="text-align:right;"><div class="price-text item-subtotal">$${(item.price*item.qty).toFixed(2)}</div></div>
-        </div>
-      `).join('');
-      productsList.innerHTML = html;
-      productsList.style.visibility = 'visible';
-    }
+  cartBadge.textContent = qtySum;
+  if (qtySum > 0) cartBadge.classList.add('show'); else cartBadge.classList.remove('show');
+  
+  persistFromDOM();
+}
 
-    // small helper to escape inserted values
-    function escapeHtml(s){ return (s+'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+// Save state
+function persistFromDOM() {
+  const items = [...productsList.querySelectorAll('.product-item')].map(it => ({
+    id: it.dataset.id,
+    name: it.dataset.name,
+    variant: it.dataset.variant,
+    image: it.dataset.image,
+    price: parseFloat(it.dataset.price) || 0,
+    qty: parseInt(it.querySelector('.qty-input').value) || 1
+  }));
+  const shipping = document.querySelector('input[name="shipping"]:checked')?.value || '0';
+  const state = { items, shipping: parseFloat(shipping) || 0 };
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) { }
+}
 
-    // compute totals and update UI + navbar badge
-    function updateTotals() {
-      const items = [...productsList.querySelectorAll('.product-item')];
-      let subtotal = 0, qtySum = 0;
-      items.forEach(it=>{
-        const price = parseFloat(it.dataset.price) || 0;
-        const qty = parseInt(it.querySelector('.qty-input').value) || 0;
-        const itemTotal = price*qty;
-        const subEl = it.querySelector('.item-subtotal');
-        if(subEl) subEl.textContent = '$' + itemTotal.toFixed(2);
-        subtotal += itemTotal;
-        qtySum += qty;
-      });
-      const shipping = parseFloat(document.querySelector('input[name="shipping"]:checked')?.value || 0);
-      const total = subtotal + shipping;
-      subtotalEl.textContent = '$' + subtotal.toFixed(2);
-      totalEl.textContent = '$' + total.toFixed(2);
+// Handle clicks
+productsList.addEventListener('click', (e) => {
+  const inc = e.target.closest('.qty-inc');
+  const dec = e.target.closest('.qty-dec');
+  if (inc || dec) {
+    const box = (inc || dec).closest('.qty-box');
+    const input = box.querySelector('.qty-input');
+    let v = parseInt(input.value) || 0;
+    v = inc ? v + 1 : Math.max(1, v - 1);
+    input.value = v;
+    updateTotals();
+    return;
+  }
 
-      // update navbar badge
-      cartBadge.textContent = qtySum;
-      if (qtySum > 0) cartBadge.classList.add('show'); else cartBadge.classList.remove('show');
-
-      // persist state automatically
-      persistFromDOM();
-    }
-
-    // persist state by reading DOM
-    function persistFromDOM() {
-      const items = [...productsList.querySelectorAll('.product-item')].map(it=>({
-        id: it.dataset.id,
-        name: it.dataset.name,
-        variant: it.dataset.variant,
-        image: it.dataset.image,
-        price: parseFloat(it.dataset.price)||0,
-        qty: parseInt(it.querySelector('.qty-input').value)||1
-      }));
-      const shipping = document.querySelector('input[name="shipping"]:checked')?.value || '0';
-      const coupon = document.getElementById('coupon-input').value || '';
-      const state = { items, shipping: parseFloat(shipping)||0, coupon };
-      saveState(state);
-    }
-
-    /* ------------- Events (delegated) ------------- */
-
-    // handle qty inc/dec & remove via delegation
-    productsList.addEventListener('click', (e)=>{
-      const inc = e.target.closest('.qty-inc');
-      const dec = e.target.closest('.qty-dec');
-      if (inc || dec) {
-        const box = (inc || dec).closest('.qty-box');
-        const input = box.querySelector('.qty-input');
-        let v = parseInt(input.value)||0;
-        v = inc ? v+1 : Math.max(1, v-1);
-        input.value = v;
-        updateTotals();
-        return;
-      }
-
-      const rem = e.target.closest('.btn-remove');
-      if (rem) {
-        const item = rem.closest('.product-item');
-        const name = rem.dataset.name || 'Item';
-        // animate removal: add class then remove after transition
-        item.classList.add('removing');
-        // allow animation then remove
-        item.addEventListener('transitionend', function onEnd(ev){
-          // ensure we only remove after either opacity or transform transition finishes
-          item.removeEventListener('transitionend', onEnd);
-          item.remove();
-          updateTotals();
-          showToast('Item Removed', `${name} has been removed from your cart`, 'success');
-        });
-      }
+  const rem = e.target.closest('.btn-remove');
+  if (rem) {
+    const item = rem.closest('.product-item');
+    const name = rem.dataset.name || 'Item';
+    item.classList.add('removing');
+    item.addEventListener('transitionend', function onEnd(ev) {
+      item.removeEventListener('transitionend', onEnd);
+      item.remove();
+      updateTotals();
+      showToast('Item Removed', `${name} has been removed from your cart`, 'success');
     });
+  }
+});
 
-    // shipping change
-    document.querySelectorAll('input[name="shipping"]').forEach(r=>r.addEventListener('change', updateTotals));
+// Shipping change
+document.querySelectorAll('input[name="shipping"]').forEach(r => r.addEventListener('change', updateTotals));
 
-    // coupon apply (keeps same behavior)
-    // coupon apply (applies actual discount)
-document.getElementById('apply-coupon').addEventListener('click', ()=>{
+// Coupon apply
+document.getElementById('apply-coupon').addEventListener('click', () => {
   const input = document.getElementById('coupon-input');
   const code = input.value.trim().toUpperCase();
-  if (!code) { showToast('Missing Code','Please enter a coupon code','warning'); return; }
+  if (!code) { showToast('Missing Code', 'Please enter a coupon code', 'warning'); return; }
 
-  // قائمة الكوبونات
-  const valid = { 
-    'WEAR10': { discount:10, type:'percentage' },
-    'SAVE10': { discount:10, type:'percentage' },
-    'SAVE20': { discount:20, type:'percentage' },
-    'FLAT50': { discount:50, type:'fixed' }
+  const valid = {
+    'JENKATEMW': { discount: 25, type: 'fixed' },
+    'SAVE25': { discount: 25, type: 'fixed' },
+    'WEAR10': { discount: 10, type: 'percentage' },
+    'SAVE20': { discount: 20, type: 'percentage' }
   };
 
   if (!valid[code]) {
-    showToast('Invalid Code','The coupon code you entered is not valid','error');
+    showToast('Invalid Code', 'The coupon code you entered is not valid', 'error');
     return;
   }
 
   const coupon = valid[code];
-  const subtotal = parseFloat(subtotalEl.textContent.replace('$','')) || 0;
+  const subtotal = parseFloat(subtotalEl.textContent.replace('$', '')) || 0;
   const shipping = parseFloat(document.querySelector('input[name="shipping"]:checked')?.value || 0);
 
   let discountValue = 0;
@@ -534,58 +461,61 @@ document.getElementById('apply-coupon').addEventListener('click', ()=>{
   else discountValue = coupon.discount;
 
   const total = subtotal + shipping - discountValue;
-
   totalEl.textContent = '$' + total.toFixed(2);
 
   showToast('Coupon Applied!', `You saved ${coupon.type === 'percentage' ? coupon.discount + '%' : '$' + coupon.discount} on your order`, 'success');
   
-  // حفظ الكوبون في الذاكرة
-  const saved = loadState() || {};
-  saved.coupon = code;
-  saveState(saved);
+  const saved = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+  saved.coupon = { code, type: coupon.type, value: coupon.discount };
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
 
   input.value = '';
 });
 
+// Checkout button
+document.getElementById('checkoutBtn').addEventListener('click', function() {
+  const items = [...productsList.querySelectorAll('.product-item')].map(it => ({
+    id: it.dataset.id,
+    name: it.dataset.name,
+    variant: it.dataset.variant,
+    image: it.dataset.image,
+    price: parseFloat(it.dataset.price) || 0,
+    qty: parseInt(it.querySelector('.qty-input').value) || 1
+  }));
 
-    /* ---------- Init sequence: restore state (no flicker) ---------- */
-    (function init(){
-      // hide container until we render to avoid flicker
-      productsList.style.visibility = 'hidden';
+  if (items.length === 0) {
+    showToast('Empty Cart', 'Please add items to your cart before checkout', 'warning');
+    return;
+  }
 
-      const saved = loadState();
-      if (saved && Array.isArray(saved.items)) {
-        // render saved state
-        renderProducts(saved.items);
-        // restore shipping & coupon
-        if (saved.shipping) {
-          const r = document.querySelector(`input[name="shipping"][value="${saved.shipping}"]`);
-          if (r) r.checked = true;
-        }
-        if (saved.coupon) document.getElementById('coupon-input').value = saved.coupon;
-      } else {
-        // first load: read items pre-baked in DOM, build state and save
-        const initial = readInitialFromDOM();
-        renderProducts(initial);
-        saveState({ items: initial, shipping: parseFloat(document.querySelector('input[name="shipping"]:checked')?.value||0), coupon: '' });
-      }
+  const subtotal = parseFloat(subtotalEl.textContent.replace('$', '')) || 0;
+  const shipping = parseFloat(document.querySelector('input[name="shipping"]:checked')?.value || 0);
+  const total = parseFloat(totalEl.textContent.replace('$', '')) || 0;
 
-      // now visible and totals computed
-      updateTotals();
+  // Get saved coupon
+  const saved = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+  const coupon = saved.coupon || null;
 
-      // navbar scroll shadow
-      window.addEventListener('scroll', ()=> document.getElementById('nav').classList.toggle('scrolled', window.scrollY>10));
-    })();
+  const checkoutData = { 
+    items, 
+    subtotal, 
+    shipping, 
+    total,
+    coupon,
+    timestamp: Date.now() 
+  };
 
-    // Expose some helpers for console (optional)
-    window.__wearopia = { updateTotals, loadState, saveState };
+  try {
+    sessionStorage.setItem('wearopia_checkout_data', JSON.stringify(checkoutData));
+    window.location.href = 'checkout.html';
+  } catch (e) {
+    showToast('Error', 'Could not proceed to checkout. Please try again.', 'error');
+  }
+});
 
-
-
-
+// Initialize
+updateTotals();
 </script>
-
-  
 
 </body>
 </html>

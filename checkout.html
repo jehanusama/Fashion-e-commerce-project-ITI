@@ -3,139 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Wearopia — Checkout</title>
-      <link rel="stylesheet" href="./CSS/hero3.css">
+  <title>Wearopia – Checkout</title>
+  <link rel="stylesheet" href="./CSS/hero3.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
+  <link rel="stylesheet" href="./CSS/navbar.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<style>
-:root { --green:#195d33; --white:#fff; }
-
-body { font-family:"Poppins",sans-serif; margin:0; background:var(--white); }
-
-.navbar-wrapper {
-  position:sticky; top:0; z-index:1000;
-  background:var(--white);
-  box-shadow:0 4px 4px rgba(0,0,0,.25);
-  transition:box-shadow .3s, background .3s;
-}
-.navbar-wrapper.scrolled {
-  box-shadow:0 4px 12px rgba(0,0,0,.15);
-  background:rgba(255,255,255,.98);
-  backdrop-filter:blur(6px);
-}
-
-
-    
-.navbar {
-  max-width:1440px; margin:auto;
-  padding:20px 80px;
-  display:flex; justify-content:space-between; align-items:center;
-  gap:40px;
-}
-
-
-
-.navbar-brand {
-  font-weight:700; font-size:22px; color:var(--green); text-decoration:none;
-}
-
-.navbar-nav .nav-link {
-  font-size:15px; color:#222; padding:0 10px;
-  transition:color .2s;
-}
-.navbar-nav .nav-link:hover,
-.navbar-nav .nav-link.active {
-  color:var(--green); font-weight:600;
-}
-
-.search-box {
-  position:relative; width:240px; margin:0 30px;
-}
-.search-box input {
-  width:100%; height:36px; border:1px solid #ccc; border-radius:20px;
-  padding:5px 35px 5px 15px; font-size:14px;
-}
-.search-box i {
-  position:absolute; right:12px; top:50%; transform:translateY(-50%); color:#777;
-}
-
-.navbar-icons {
-  display:flex; align-items:center; gap:24px;
-}
-.navbar-icons a {
-  display:flex; align-items:center; gap:6px;
-  text-decoration:none; color:#333;
-  transition:color .2s, transform .2s;
-}
-.navbar-icons a:hover {
-  color:var(--green); transform:scale(1.05);
-}
-
-.badge-count {
-  position:absolute; top:-6px; right:-10px;
-  width:18px; height:18px;
-  background:var(--green); color:#fff;
-  font-size:10px; border-radius:50%;
-  display:flex; align-items:center; justify-content:center;
-  opacity:0; transform:scale(.5);
-  transition:.3s;
-}
-.badge-count.show { opacity:1; transform:scale(1); }
-
-@media (max-width:992px) {
-  .navbar { flex-direction:column; padding:16px 20px; }
-  .navbar-toggler { position:absolute; right:20px; top:22px; border:none; }
-  .navbar-collapse { width:100%; padding:15px; margin-top:10px; box-shadow:0 4px 4px rgba(0,0,0,.1); }
-  .navbar-nav { flex-direction:column; gap:10px; }
-  .navbar-nav .nav-link { padding:8px 0; border-bottom:1px solid #eee; }
-  .search-box { width:100%; margin:15px 0; }
-  .navbar-icons { justify-content:space-around; padding-top:10px; border-top:1px solid #eee; }
-}
-</style>
-</head>
-
-<body>
-<div class="navbar-wrapper" id="nav">
-  <nav class="navbar navbar-expand-lg">
-    <a class="navbar-brand" href="index.html">Wearopia</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="menu">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-lg-center">
-        <li class="nav-item"><a class="nav-link active" href="#">Man</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Women</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Kids</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Accessory</a></li>
-      </ul>
-
-      <div class="search-box">
-        <input type="text" placeholder="Search for outfits..." />
-        <i class="bi bi-search"></i>
-      </div>
-
-      <div class="navbar-icons">
-        <a href="./login.html"><i class="bi bi-box-arrow-in-right"></i><span>Login</span></a>
-        <a href="#" id="wishlist"><i class="bi bi-heart"></i><span>Wishlist</span><span class="badge-count" id="wcount">0</span></a>
-        <a href="shopping-cart.html" id="cart"><i class="bi bi-bag"></i><span>Cart</span><span class="badge-count" id="ccount">0</span></a>
-      </div>
-    </div>
-  </nav>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-let w=0,c=0;
-const wc=document.getElementById("wcount"), cc=document.getElementById("ccount");
-function addToWishlist(){wc.textContent=++w;wc.classList.add("show")}
-function addToCart(){cc.textContent=++c;cc.classList.add("show")}
-window.addEventListener("scroll",()=>document.getElementById("nav").classList.toggle("scrolled",window.scrollY>10));
-</script>
   <style>
     * {
       box-sizing: border-box;
@@ -148,10 +23,131 @@ window.addEventListener("scroll",()=>document.getElementById("nav").classList.to
       color: #000;
     }
 
+    /* Toast Notifications */
+    .toast-container { 
+      position:fixed; 
+      top:24px; 
+      right:24px; 
+      z-index:9999; 
+      display:flex; 
+      flex-direction:column; 
+      gap:12px; 
+    }
+    .toast-notification { 
+      display:flex; 
+      align-items:center; 
+      gap:12px; 
+      background:white; 
+      padding:16px 20px; 
+      border-radius:12px; 
+      box-shadow:0 8px 24px rgba(0,0,0,.12); 
+      min-width:320px; 
+      animation:slideIn .3s ease; 
+    }
+    .toast-icon { 
+      width:24px; 
+      height:24px; 
+      flex-shrink:0; 
+    }
+    .toast-content { 
+      flex:1; 
+    }
+    .toast-title { 
+      font-size:14px; 
+      font-weight:600; 
+      color:#23262F; 
+      margin-bottom:4px; 
+    }
+    .toast-message { 
+      font-size:13px; 
+      color:#777E90; 
+    }
+    @keyframes slideIn { 
+      from { 
+        transform:translateX(400px); 
+        opacity:0; 
+      } 
+      to { 
+        transform:translateX(0); 
+        opacity:1; 
+      } 
+    }
+    @keyframes fadeOut { 
+      to { 
+        opacity:0; 
+        transform:translateX(400px); 
+      } 
+    }
+
     .checkout-container {
       max-width: 1120px;
       margin: 0 auto;
       padding: 40px 20px;
+    }
+
+    .back-to-cart {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #198754;
+      text-decoration: none;
+      font-weight: 500;
+      margin-bottom: 24px;
+      transition: color 0.2s;
+    }
+
+    .back-to-cart:hover {
+      color: #146c43;
+    }
+
+    .steps-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 48px;
+      margin-bottom: 48px;
+      justify-content: center;
+    }
+
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .step-circle {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    .step-item.active .step-circle {
+      background: #198754;
+      color: #fff;
+    }
+
+    .step-item.completed .step-circle {
+      background: #198754;
+      color: #fff;
+    }
+
+    .step-item.inactive .step-circle {
+      background: #E6E8EC;
+      color: #777E90;
+    }
+
+    .step-label {
+      font-size: 16px;
+      font-weight: 500;
+      color: #23262F;
+    }
+
+    .step-item.inactive .step-label {
+      color: #777E90;
     }
 
     .checkout-grid {
@@ -160,7 +156,6 @@ window.addEventListener("scroll",()=>document.getElementById("nav").classList.to
       gap: 64px;
     }
 
-    /* Left Column */
     .form-section {
       background: #FFF;
       border: 1px solid #6C7275;
@@ -244,7 +239,6 @@ window.addEventListener("scroll",()=>document.getElementById("nav").classList.to
       margin-left: 8px;
     }
 
-    /* Payment Method */
     .payment-option {
       border: 1px solid #6C7275;
       border-radius: 4px;
@@ -293,7 +287,6 @@ window.addEventListener("scroll",()=>document.getElementById("nav").classList.to
       height: 24px;
     }
 
-    /* Place Order Button */
     .btn-place-order {
       width: 100%;
       height: 52px;
@@ -311,7 +304,11 @@ window.addEventListener("scroll",()=>document.getElementById("nav").classList.to
       background: #146c43;
     }
 
-    /* Right Column - Order Summary */
+    .btn-place-order:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
     .summary-card {
       background: #FFF;
       border: 1px solid #6C7275;
@@ -347,6 +344,8 @@ window.addEventListener("scroll",()=>document.getElementById("nav").classList.to
       background: #F3F5F7;
       border-radius: 6px;
       flex-shrink: 0;
+      background-size: cover;
+      background-position: center;
     }
 
     .item-details {
@@ -408,44 +407,6 @@ window.addEventListener("scroll",()=>document.getElementById("nav").classList.to
       text-align: right;
     }
 
-    /* Coupon Section */
-    .coupon-form {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 24px;
-    }
-
-    .coupon-input {
-      flex: 1;
-      height: 40px;
-      border: 1px solid #6C7275;
-      border-radius: 4px;
-      padding: 8px 12px;
-      font-size: 14px;
-    }
-
-    .coupon-input:focus {
-      border-color: #000;
-      outline: none;
-    }
-
-    .btn-apply {
-      height: 40px;
-      padding: 0 24px;
-      background: #198754;
-      color: #FFF;
-      border: none;
-      border-radius: 4px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .btn-apply:hover {
-      background: #146c43;
-    }
-
-    /* Discount Badge */
     .discount-badge {
       display: flex;
       align-items: center;
@@ -479,21 +440,6 @@ window.addEventListener("scroll",()=>document.getElementById("nav").classList.to
       color: #198754;
     }
 
-    .btn-remove-discount {
-      background: none;
-      border: none;
-      color: #198754;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-    }
-
-    .btn-remove-discount:hover {
-      text-decoration: underline;
-    }
-
-    /* Summary Lines */
     .summary-line {
       display: flex;
       justify-content: space-between;
@@ -509,12 +455,6 @@ window.addEventListener("scroll",()=>document.getElementById("nav").classList.to
     .summary-value {
       color: #000;
       font-weight: 600;
-    }
-
-    .summary-divider {
-      height: 1px;
-      background: #6C7275;
-      margin: 16px 0;
     }
 
     .total-line {
@@ -537,7 +477,6 @@ window.addEventListener("scroll",()=>document.getElementById("nav").classList.to
       color: #000;
     }
 
-    /* Responsive */
     @media (max-width: 992px) {
       .checkout-grid {
         grid-template-columns: 1fr;
@@ -546,6 +485,14 @@ window.addEventListener("scroll",()=>document.getElementById("nav").classList.to
       
       .form-section {
         padding: 24px;
+      }
+
+      .step-label {
+        display: none;
+      }
+
+      .steps-wrapper {
+        gap: 20px;
       }
     }
 
@@ -558,354 +505,551 @@ window.addEventListener("scroll",()=>document.getElementById("nav").classList.to
 </head>
 <body>
 
-  <div class="checkout-container">
-    <div class="checkout-grid">
-      
-      <!-- Left Column -->
-      <div>
-        <!-- Contact Information -->
-        <div class="form-section">
-          <h2 class="section-title">Contact Information</h2>
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label class="form-label">First Name</label>
-              <input type="text" class="form-control" placeholder="First name">
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">Last Name</label>
-              <input type="text" class="form-control" placeholder="Last name">
-            </div>
-            <div class="col-12">
-              <label class="form-label">Phone Number</label>
-              <input type="tel" class="form-control" placeholder="Phone number">
-            </div>
-            <div class="col-12">
-              <label class="form-label">Email Address</label>
-              <input type="email" class="form-control" placeholder="Your Email">
-            </div>
-          </div>
-        </div>
+<!-- Toast Container -->
+<div class="toast-container" id="toast-container"></div>
 
-        <!-- Shipping Address -->
-        <div class="form-section">
-          <h2 class="section-title">Shipping Address</h2>
-          <div class="row g-3">
-            <div class="col-12">
-              <label class="form-label">Street Address *</label>
-              <input type="text" class="form-control" placeholder="Stress Address">
-            </div>
-            <div class="col-12">
-              <label class="form-label">Country *</label>
-              <select class="form-select">
-                <option selected>Country</option>
-                <option value="1">United States</option>
-                <option value="2">United Kingdom</option>
-                <option value="3">Egypt</option>
-              </select>
-            </div>
-            <div class="col-12">
-              <label class="form-label">Town / City *</label>
-              <input type="text" class="form-control" placeholder="Town / City">
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">State</label>
-              <input type="text" class="form-control" placeholder="State">
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">Zip Code</label>
-              <input type="text" class="form-control" placeholder="Zip Code">
-            </div>
-            <div class="col-12">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="differentBilling">
-                <label class="form-check-label" for="differentBilling">
-                  Use a different billing address (optional)
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Payment Method -->
-        <div class="form-section">
-          <h2 class="section-title">Payment method</h2>
-          
-          <div class="payment-option active" onclick="selectPayment(this)">
-            <div class="payment-left">
-              <input type="radio" name="payment" class="payment-radio" checked>
-              <span class="payment-label">Pay by Card Credit</span>
-            </div>
-            <svg class="card-icon" viewBox="0 0 32 24" fill="none">
-              <rect width="32" height="24" rx="4" fill="#E8ECEF"/>
-              <rect x="2" y="8" width="28" height="3" fill="#6C7275"/>
-              <rect x="2" y="15" width="8" height="2" fill="#6C7275"/>
-            </svg>
-          </div>
-
-          <div class="payment-option" onclick="selectPayment(this)">
-            <div class="payment-left">
-              <input type="radio" name="payment" class="payment-radio">
-              <span class="payment-label">Cash on delivery</span>
-            </div>
-          </div>
-
-          <div id="cardFields" class="mt-3">
-            <div class="row g-3">
-              <div class="col-12">
-                <label class="form-label">Card Number</label>
-                <input type="text" class="form-control" placeholder="1234 1234 1234" maxlength="19">
-              </div>
-              <div class="col-md-6">
-                <label class="form-label">Expiration Date</label>
-                <input type="text" class="form-control" placeholder="MM/YY" maxlength="5">
-              </div>
-              <div class="col-md-6">
-                <label class="form-label">CVC</label>
-                <input type="text" class="form-control" placeholder="CVC code" maxlength="3">
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Place Order Button -->
-        <button class="btn-place-order">Place Order</button>
+<!-- Navbar -->
+<div class="navbar-wrapper">
+  <nav class="navbar">
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+      <i class="bi bi-list"></i>
+    </button>
+    <a href="index.html" class="navbar-brand">Wearopia</a>
+    <ul class="navbar-menu">
+      <li><a href="#">Man</a></li>
+      <li><a href="#">Women</a></li>
+      <li><a href="#">Kids</a></li>
+      <li><a href="#">Accessory</a></li>
+    </ul>
+    <div class="search-container">
+      <i class="bi bi-search search-icon"></i>
+      <input type="text" class="search-box" placeholder="Search for outfits...">
+    </div>
+    <div class="navbar-actions">
+      <a href="#" class="search-link" style="display: none;">
+        <i class="bi bi-search"></i>
+        <span>Search</span>
+      </a>
+      <a href="login.html" id="loginBtn">
+        <i class="bi bi-box-arrow-in-right"></i>
+        <span>Login</span>
+      </a>
+      <a href="#" id="wishlistBtn">
+        <i class="bi bi-heart"></i>
+        <span>Wishlist</span>
+        <span class="badge-count" id="wishlistCount">0</span>
+      </a>
+      <a href="shopping-cart.html" id="cartBtn">
+        <i class="bi bi-bag"></i>
+        <span>Cart</span>
+        <span class="badge-count" id="cartCount">0</span>
+      </a>
+    </div>
+    <div class="mobile-dropdown" id="mobileMenu">
+      <ul>
+        <li><a href="#">Man</a></li>
+        <li><a href="#">Women</a></li>
+        <li><a href="#">Kids</a></li>
+        <li><a href="#">Accessory</a></li>
+      </ul>
+      <div class="mobile-search">
+        <i class="bi bi-search search-icon"></i>
+        <input type="text" class="search-box" placeholder="Search for outfits...">
       </div>
+    </div>
+  </nav>
+</div>
 
-      <!-- Right Column - Order Summary -->
-      <div>
-        <div class="summary-card">
-          <h3 class="summary-title">Order summary</h3>
+<div class="checkout-container">
+  <a href="shopping-cart.html" class="back-to-cart">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+      <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Back to Cart
+  </a>
 
-          <!-- Order Items -->
-          <div class="order-item">
-            <div class="item-image"></div>
-            <div class="item-details">
-              <div class="item-name">Tray Table</div>
-              <div class="item-color">Color: Black</div>
-              <div class="item-qty">
-                <button class="qty-btn">−</button>
-                <div class="qty-display">2</div>
-                <button class="qty-btn">+</button>
-              </div>
-            </div>
-            <div class="item-price">$38.00</div>
-          </div>
-
-          <div class="order-item">
-            <div class="item-image"></div>
-            <div class="item-details">
-              <div class="item-name">Tray Table</div>
-              <div class="item-color">Color: Red</div>
-              <div class="item-qty">
-                <button class="qty-btn">−</button>
-                <div class="qty-display">2</div>
-                <button class="qty-btn">+</button>
-              </div>
-            </div>
-            <div class="item-price">$38.00</div>
-          </div>
-
-          <div class="order-item">
-            <div class="item-image"></div>
-            <div class="item-details">
-              <div class="item-name">Table lamp</div>
-              <div class="item-color">Color: gold</div>
-              <div class="item-qty">
-                <button class="qty-btn">−</button>
-                <div class="qty-display">1</div>
-                <button class="qty-btn">+</button>
-              </div>
-            </div>
-            <div class="item-price">$39.00</div>
-          </div>
-
-          <!-- Coupon Input -->
-          <div class="coupon-form">
-            <input type="text" class="coupon-input" placeholder="Input" id="couponInput">
-            <button class="btn-apply" onclick="applyCoupon()">Apply</button>
-          </div>
-
-          <!-- Applied Discount -->
-          <div class="discount-badge" id="discountBadge" style="display: none;">
-            <div class="discount-left">
-              <svg class="discount-icon" viewBox="0 0 24 24" fill="none">
-                <path d="M9 12L11 14L15 10M21 12C21 13.78 20.4722 15.5201 19.4832 17.0001C18.4943 18.4802 17.0887 19.6337 15.4442 20.3149C13.7996 20.9961 11.99 21.1743 10.2442 20.8271C8.49836 20.4798 6.89472 19.6226 5.63604 18.364C4.37737 17.1053 3.5202 15.5016 3.17294 13.7558C2.82567 12.01 3.0039 10.2004 3.68509 8.55585C4.36628 6.91131 5.51983 5.50571 6.99987 4.51677C8.47991 3.52784 10.22 3 12 3C14.387 3 16.6761 3.94821 18.364 5.63604C20.0518 7.32387 21 9.61305 21 12Z" stroke="#198754" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              <span class="discount-code">JenkateMW</span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 12px;">
-              <span class="discount-value">-$25.00</span>
-              <button class="btn-remove-discount" onclick="removeCoupon()">[Remove]</button>
-            </div>
-          </div>
-
-          <!-- Summary -->
-          <div class="summary-line">
-            <span class="summary-label">Shipping</span>
-            <span class="summary-value">Free</span>
-          </div>
-          <div class="summary-line">
-            <span class="summary-label">Subtotal</span>
-            <span class="summary-value" id="subtotal">$99.00</span>
-          </div>
-
-          <div class="total-line">
-            <span class="total-label">Total</span>
-            <span class="total-value" id="total">$234.00</span>
-          </div>
-        </div>
-      </div>
-
+  <!-- Steps -->
+  <div class="steps-wrapper">
+    <div class="step-item completed">
+      <div class="step-circle">✓</div>
+      <div class="step-label">Shopping cart</div>
+    </div>
+    <div class="step-item active">
+      <div class="step-circle">2</div>
+      <div class="step-label">Checkout details</div>
+    </div>
+    <div class="step-item inactive">
+      <div class="step-circle">3</div>
+      <div class="step-label">Order complete</div>
     </div>
   </div>
-  <!--third hero section component  -->
+
+  <div class="checkout-grid">
+    <div>
+      <!-- Contact Information -->
+      <div class="form-section">
+        <h2 class="section-title">Contact Information</h2>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">First Name *</label>
+            <input type="text" class="form-control" placeholder="First name" id="firstName" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Last Name</label>
+            <input type="text" class="form-control" placeholder="Last name" id="lastName">
+          </div>
+          <div class="col-12">
+            <label class="form-label">Phone Number *</label>
+            <input type="tel" class="form-control" placeholder="Phone number" id="phone" required>
+          </div>
+          <div class="col-12">
+            <label class="form-label">Email Address *</label>
+            <input type="email" class="form-control" placeholder="Your Email" id="email" required>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shipping Address -->
+      <div class="form-section">
+        <h2 class="section-title">Shipping Address</h2>
+        <div class="row g-3">
+          <div class="col-12">
+            <label class="form-label">Street Address *</label>
+            <input type="text" class="form-control" placeholder="Street Address" id="address" required>
+          </div>
+          <div class="col-12">
+            <label class="form-label">Country *</label>
+            <select class="form-select" id="country" required>
+              <option value="">Select Country</option>
+              <option value="United States">United States</option>
+              <option value="United Kingdom">United Kingdom</option>
+              <option value="Egypt">Egypt</option>
+            </select>
+          </div>
+          <div class="col-12">
+            <label class="form-label">Town / City *</label>
+            <input type="text" class="form-control" placeholder="Town / City" id="city" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">State</label>
+            <input type="text" class="form-control" placeholder="State" id="state">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Zip Code</label>
+            <input type="text" class="form-control" placeholder="Zip Code" id="zipCode">
+          </div>
+          <div class="col-12">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="differentBilling">
+              <label class="form-check-label" for="differentBilling">
+                Use a different billing address (optional)
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payment Method -->
+      <div class="form-section">
+        <h2 class="section-title">Payment method</h2>
+        
+        <div class="payment-option active" onclick="selectPayment(this)">
+          <div class="payment-left">
+            <input type="radio" name="payment" class="payment-radio" value="Credit Card" checked>
+            <span class="payment-label">Pay by Card Credit</span>
+          </div>
+          <svg class="card-icon" viewBox="0 0 32 24" fill="none">
+            <rect width="32" height="24" rx="4" fill="#E8ECEF"/>
+            <rect x="2" y="8" width="28" height="3" fill="#6C7275"/>
+            <rect x="2" y="15" width="8" height="2" fill="#6C7275"/>
+          </svg>
+        </div>
+
+        <div class="payment-option" onclick="selectPayment(this)">
+          <div class="payment-left">
+            <input type="radio" name="payment" class="payment-radio" value="Cash on Delivery">
+            <span class="payment-label">Cash on delivery</span>
+          </div>
+        </div>
+
+        <div id="cardFields" class="mt-3">
+          <div class="row g-3">
+            <div class="col-12">
+              <label class="form-label">Card Number</label>
+              <input type="text" class="form-control" placeholder="1234 1234 1234 1234" maxlength="19" id="cardNumber">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Expiration Date</label>
+              <input type="text" class="form-control" placeholder="MM/YY" maxlength="5" id="expiryDate">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">CVC</label>
+              <input type="text" class="form-control" placeholder="CVC code" maxlength="3" id="cvc">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Place Order Button -->
+      <button class="btn-place-order" id="placeOrderBtn">Place Order</button>
+    </div>
+
+    <!-- Right Column - Order Summary -->
+    <div>
+      <div class="summary-card">
+        <h3 class="summary-title">Order summary</h3>
+
+        <!-- Order Items Container -->
+        <div id="orderItemsContainer"></div>
+
+        <!-- Discount Badge -->
+        <div class="discount-badge" id="discountBadge" style="display: none;">
+          <div class="discount-left">
+            <svg class="discount-icon" viewBox="0 0 24 24" fill="none">
+              <path d="M9 12L11 14L15 10M21 12C21 13.78 20.4722 15.5201 19.4832 17.0001C18.4943 18.4802 17.0887 19.6337 15.4442 20.3149C13.7996 20.9961 11.99 21.1743 10.2442 20.8271C8.49836 20.4798 6.89472 19.6226 5.63604 18.364C4.37737 17.1053 3.5202 15.5016 3.17294 13.7558C2.82567 12.01 3.0039 10.2004 3.68509 8.55585C4.36628 6.91131 5.51983 5.50571 6.99987 4.51677C8.47991 3.52784 10.22 3 12 3C14.387 3 16.6761 3.94821 18.364 5.63604C20.0518 7.32387 21 9.61305 21 12Z" stroke="#198754" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="discount-code" id="couponCode">Discount</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <span class="discount-value" id="discountValue">-$0.00</span>
+          </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="summary-line">
+          <span class="summary-label">Shipping</span>
+          <span class="summary-value" id="shippingCost">Free</span>
+        </div>
+        <div class="summary-line">
+          <span class="summary-label">Subtotal</span>
+          <span class="summary-value" id="subtotal">$0.00</span>
+        </div>
+
+        <div class="total-line">
+          <span class="total-label">Total</span>
+          <span class="total-value" id="total">$0.00</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <section class="hero3 d-flex flex-column justify-content-center align-items-center text-center">
   <div class="container">
     <h2 class="hero3-title">Stay in Style</h2>
     <p class="hero3-text">
       Subscribe to our newsletter and be the first to know about new arrivals, exclusive offers, and fashion tips.
     </p>
-
     <form class="hero3-form d-flex align-items-center justify-content-center">
       <div class="input-wrapper">
         <i class="fa-solid fa-envelope email-icon"></i>
-        <input
-          type="email"
-          placeholder="Enter your email"
-          class="hero3-input"
-          required
-        />
+        <input type="email" placeholder="Enter your email" class="hero3-input" required />
       </div>
       <button type="submit" class="btn hero3-btn">Subscribe</button>
     </form>
   </div>
 </section>
-<!--footer component-->
-    <footer class="container-fluid bg-white d-flex align-items-center py-[40px] px-[40px] md:px-[80px] lg:px-[120px] min-h-[372px]">
-        <div class="container">
-            <div class="row gy-4 gx-5">
-                <div class="col-12 col-md-6 col-lg-3">
-                    <h4 class="fw-bold text-success mb-3 fs-3">Wearopia</h4>
-                    <p class="text-secondary small mb-4">
-                        Discover your unique style with our curated collection of modern fashion pieces.
-                    </p>
-                    <ul class="list-unstyled text-secondary small mb-4">
-                        <li class="mb-2"><i class="fa-solid fa-location-dot me-2"></i>123 Fashion Street, Style City, SC
-                            12345</li>
-                        <li class="mb-2"><i class="fa-solid fa-phone me-2"></i>+1 (555) 123-STYLE</li>
-                        <li><i class="fa-solid fa-envelope me-2"></i>hello@stylehub.com</li>
-                    </ul>
-                    <div class="d-flex gap-3">
-                        <a href="#"
-                            class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 w-[36px] h-[36px]">
-                            <i class="fa-brands fa-facebook-f"></i>
-                        </a>
-                        <a href="#"
-                            class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 w-[36px] h-[36px]">
-                            <i class="fa-brands fa-twitter"></i>
-                        </a>
-                        <a href="#"
-                            class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 w-[36px] h-[36px]">
-                            <i class="fa-brands fa-instagram"></i>
-                        </a>
-                        <a href="#"
-                            class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 w-[36px] h-[36px]">
-                            <i class="fa-brands fa-youtube"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-12 col-md-3 col-lg-3">
-                    <h5 class="fw-semibold text-black fs-6 mb-3">Quick Links</h5>
-                    <ul class="list-unstyled text-secondary small">
-                        <li class="mb-2">New Arrivals</li>
-                        <li class="mb-2">Best Sellers</li>
-                        <li class="mb-2">Sale</li>
-                        <li class="mb-2">Gift Cards</li>
-                        <li>Style Guide</li>
-                    </ul>
-                </div>
-                <div class="col-12 col-md-3 col-lg-3">
-                    <h5 class="fw-semibold text-black fs-6 mb-3">Customer Care</h5>
-                    <ul class="list-unstyled text-secondary small">
-                        <li class="mb-2">Contact Us</li>
-                        <li class="mb-2">Size Guide</li>
-                        <li class="mb-2">Shipping & Returns</li>
-                        <li class="mb-2">Track Your Order</li>
-                        <li>FAQ</li>
-                    </ul>
-                </div>
-                <div class="col-12 col-md-6 col-lg-3">
-                    <h5 class="fw-semibold text-black fs-6 mb-3">Company</h5>
-                    <ul class="list-unstyled text-secondary small">
-                        <li class="mb-2">About Us</li>
-                        <li class="mb-2">Careers</li>
-                        <li class="mb-2">Press</li>
-                        <li class="mb-2">Sustainability</li>
-                        <li>Investors</li>
-                    </ul>
-                </div>
-            </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// Toast notification function
+function showToast(title, message, type = 'success') {
+  const toastContainer = document.getElementById('toast-container');
+  const icons = {
+    success: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#58BD7D"/><path d="M8 12L11 15L16 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    error: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#FF6A55"/><path d="M15 9L9 15M9 9L15 15" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>',
+    warning: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#FFB020"/><path d="M12 7V13M12 16V17" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>'
+  };
+  const toast = document.createElement('div');
+  toast.className = `toast-notification toast-${type}`;
+  toast.innerHTML = `${icons[type]}<div class="toast-content"><div class="toast-title">${title}</div><div class="toast-message">${message}</div></div>`;
+  toastContainer.appendChild(toast);
+  setTimeout(() => { 
+    toast.style.animation = 'fadeOut .3s ease forwards'; 
+    setTimeout(() => toast.remove(), 300); 
+  }, 3000);
+}
+
+// Navbar functionality
+const menuToggle = document.getElementById('menuToggle');
+const mobileMenu = document.getElementById('mobileMenu');
+let wishlistCount = 0;
+let cartCount = 0;
+
+const wishlistBadge = document.getElementById('wishlistCount');
+const cartBadge = document.getElementById('cartCount');
+
+menuToggle.addEventListener('click', () => {
+  mobileMenu.classList.toggle('show');
+  const icon = menuToggle.querySelector('i');
+  
+  if (mobileMenu.classList.contains('show')) {
+    icon.classList.remove('bi-list');
+    icon.classList.add('bi-x');
+  } else {
+    icon.classList.remove('bi-x');
+    icon.classList.add('bi-list');
+  }
+});
+
+// Payment selection
+function selectPayment(element) {
+  document.querySelectorAll('.payment-option').forEach(opt => {
+    opt.classList.remove('active');
+    opt.querySelector('.payment-radio').checked = false;
+  });
+  element.classList.add('active');
+  element.querySelector('.payment-radio').checked = true;
+
+  const cardFields = document.getElementById('cardFields');
+  const isCreditCard = element.querySelector('.payment-label').textContent === 'Pay by Card Credit';
+  cardFields.style.display = isCreditCard ? 'block' : 'none';
+}
+
+// Load checkout data
+function loadCheckoutData() {
+  try {
+    const data = sessionStorage.getItem('wearopia_checkout_data');
+    if (!data) {
+      showToast('Empty Cart', 'Your cart is empty. Redirecting to cart page...', 'warning');
+      setTimeout(() => window.location.href = 'shopping-cart.html', 1500);
+      return null;
+    }
+    return JSON.parse(data);
+  } catch (e) {
+    console.error('Error loading checkout data:', e);
+    return null;
+  }
+}
+
+// Render order items
+function renderCheckoutItems(items) {
+  const container = document.getElementById('orderItemsContainer');
+  const itemsHTML = items.map((item, index) => `
+    <div class="order-item" data-index="${index}">
+      <div class="item-image" style="background-image: url('${item.image}');"></div>
+      <div class="item-details">
+        <div class="item-name">${item.name}</div>
+        <div class="item-color">${item.variant}</div>
+        <div class="item-qty">
+          <button class="qty-btn" onclick="updateQty(${index}, 1)">+</button>
         </div>
-    </footer>
-    <!--end of footer-->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    function selectPayment(element) {
-      document.querySelectorAll('.payment-option').forEach(opt => {
-        opt.classList.remove('active');
-        opt.querySelector('.payment-radio').checked = false;
-      });
-      element.classList.add('active');
-      element.querySelector('.payment-radio').checked = true;
+      </div>
+      <div class="item-price">${(item.price * item.qty).toFixed(2)}</div>
+    </div>
+  `).join('');
+  
+  container.innerHTML = itemsHTML;
+}
 
-      // Show/hide card fields
-      const cardFields = document.getElementById('cardFields');
-      const isCreditCard = element.querySelector('.payment-label').textContent === 'Pay by Card Credit';
-      cardFields.style.display = isCreditCard ? 'block' : 'none';
+// Update quantity
+function updateQty(index, change) {
+  const checkoutData = loadCheckoutData();
+  if (!checkoutData) return;
+
+  checkoutData.items[index].qty = Math.max(1, checkoutData.items[index].qty + change);
+  sessionStorage.setItem('wearopia_checkout_data', JSON.stringify(checkoutData));
+  
+  renderCheckoutItems(checkoutData.items);
+  recalculateTotals(checkoutData);
+}
+
+// Recalculate totals
+function recalculateTotals(data) {
+  let subtotal = 0;
+  data.items.forEach(item => {
+    subtotal += item.price * item.qty;
+  });
+  
+  document.getElementById('subtotal').textContent = `${subtotal.toFixed(2)}`;
+  
+  // Handle coupon discount
+  let discount = 0;
+  if (data.coupon) {
+    const discountBadge = document.getElementById('discountBadge');
+    discountBadge.style.display = 'flex';
+    document.getElementById('couponCode').textContent = data.coupon.code;
+    
+    if (data.coupon.type === 'percentage') {
+      discount = subtotal * (data.coupon.value / 100);
+    } else {
+      discount = data.coupon.value;
     }
+    
+    document.getElementById('discountValue').textContent = `-${discount.toFixed(2)}`;
+  }
+  
+  const shipping = data.shipping || 0;
+  document.getElementById('shippingCost').textContent = shipping > 0 ? `${shipping.toFixed(2)}` : 'Free';
+  
+  const total = subtotal + shipping - discount;
+  document.getElementById('total').textContent = `${total.toFixed(2)}`;
+  
+  data.subtotal = subtotal;
+  data.discount = discount;
+  data.total = total;
+  sessionStorage.setItem('wearopia_checkout_data', JSON.stringify(data));
+}
 
-    function applyCoupon() {
-      const input = document.getElementById('couponInput');
-      const code = input.value.trim().toUpperCase();
-      
-      if (code === 'JENKATEMW' || code === 'SAVE25') {
-        document.getElementById('discountBadge').style.display = 'flex';
-        input.value = '';
-        updateTotal();
-      } else if (code) {
-        alert('Invalid coupon code');
-      }
+// Generate order ID
+function generateOrderId() {
+  const timestamp = Date.now();
+  const random = Math.floor(Math.random() * 10000);
+  return `#${timestamp.toString().slice(-5)}_${random}`;
+}
+
+// Place order
+function placeOrder() {
+  const firstName = document.getElementById('firstName').value.trim();
+  const lastName = document.getElementById('lastName').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const address = document.getElementById('address').value.trim();
+  const country = document.getElementById('country').value;
+  const city = document.getElementById('city').value.trim();
+  
+  // Validation
+  if (!firstName) {
+    showToast('Missing Information', 'Please enter your first name', 'warning');
+    document.getElementById('firstName').focus();
+    return;
+  }
+  
+  if (!phone) {
+    showToast('Missing Information', 'Please enter your phone number', 'warning');
+    document.getElementById('phone').focus();
+    return;
+  }
+  
+  if (!email) {
+    showToast('Missing Information', 'Please enter your email address', 'warning');
+    document.getElementById('email').focus();
+    return;
+  }
+  
+  // Email validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    showToast('Invalid Email', 'Please enter a valid email address', 'error');
+    document.getElementById('email').focus();
+    return;
+  }
+  
+  if (!address) {
+    showToast('Missing Information', 'Please enter your street address', 'warning');
+    document.getElementById('address').focus();
+    return;
+  }
+  
+  if (!country) {
+    showToast('Missing Information', 'Please select your country', 'warning');
+    document.getElementById('country').focus();
+    return;
+  }
+  
+  if (!city) {
+    showToast('Missing Information', 'Please enter your city', 'warning');
+    document.getElementById('city').focus();
+    return;
+  }
+  
+  const checkoutData = loadCheckoutData();
+  if (!checkoutData) {
+    showToast('Empty Cart', 'Your cart is empty', 'error');
+    return;
+  }
+  
+  // Get payment method
+  const paymentRadio = document.querySelector('input[name="payment"]:checked');
+  const paymentMethod = paymentRadio ? paymentRadio.value : 'Credit Card';
+  
+  // Create order data
+  const orderId = generateOrderId();
+  const orderData = {
+    orderId: orderId,
+    customer: {
+      firstName: firstName,
+      lastName: lastName,
+      phone: phone,
+      email: email
+    },
+    shipping: {
+      address: address,
+      country: country,
+      city: city,
+      state: document.getElementById('state').value,
+      zipCode: document.getElementById('zipCode').value
+    },
+    payment: {
+      method: paymentMethod
+    },
+    items: checkoutData.items,
+    subtotal: checkoutData.subtotal,
+    discount: checkoutData.discount || 0,
+    shipping: checkoutData.shipping || 0,
+    total: checkoutData.total,
+    coupon: checkoutData.coupon || null,
+    orderDate: new Date().toISOString()
+  };
+  
+  console.log('Order Data:', orderData);
+  
+  // Save order to sessionStorage for complete-order page
+  sessionStorage.setItem('wearopia_order_complete', JSON.stringify(orderData));
+  
+  // Clear checkout data and cart
+  sessionStorage.removeItem('wearopia_checkout_data');
+  localStorage.removeItem('wearopia_cart_v1');
+  
+  // Show success message and redirect
+  showToast('Order Placed!', 'Redirecting to order confirmation...', 'success');
+  
+  setTimeout(() => {
+    window.location.href = 'complete-order.html';
+  }, 1000);
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+  const checkoutData = loadCheckoutData();
+  
+  if (checkoutData) {
+    renderCheckoutItems(checkoutData.items);
+    recalculateTotals(checkoutData);
+    
+    // Update cart badge
+    const totalQty = checkoutData.items.reduce((sum, item) => sum + item.qty, 0);
+    cartBadge.textContent = totalQty;
+    if (totalQty > 0) cartBadge.classList.add('show');
+  }
+  
+  document.getElementById('placeOrderBtn').addEventListener('click', placeOrder);
+});
+
+// Format card number
+const cardNumberInput = document.getElementById('cardNumber');
+if (cardNumberInput) {
+  cardNumberInput.addEventListener('input', function(e) {
+    let value = e.target.value.replace(/\s/g, '');
+    let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+    e.target.value = formattedValue;
+  });
+}
+
+// Format expiry date
+const expiryInput = document.getElementById('expiryDate');
+if (expiryInput) {
+  expiryInput.addEventListener('input', function(e) {
+    let value = e.target.value.replace(/\D/g, '');
+    if (value.length >= 2) {
+      value = value.slice(0, 2) + '/' + value.slice(2, 4);
     }
-
-    function removeCoupon() {
-      document.getElementById('discountBadge').style.display = 'none';
-      updateTotal();
-    }
-
-    function updateTotal() {
-      const subtotal = 99;
-      const discount = document.getElementById('discountBadge').style.display === 'flex' ? 25 : 0;
-      const total = subtotal - discount;
-      
-      document.getElementById('total').textContent = '$' + total.toFixed(2);
-    }
-
-    // Format card number input
-    document.querySelector('input[placeholder="1234 1234 1234"]')?.addEventListener('input', function(e) {
-      let value = e.target.value.replace(/\s/g, '');
-      let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
-      e.target.value = formattedValue;
-    });
-
-    // Format expiry date
-    document.querySelector('input[placeholder="MM/YY"]')?.addEventListener('input', function(e) {
-      let value = e.target.value.replace(/\D/g, '');
-      if (value.length >= 2) {
-        value = value.slice(0, 2) + '/' + value.slice(2, 4);
-      }
-      e.target.value = value;
-    });
-  </script>
+    e.target.value = value;
+  });
+}
+</script>
 
 </body>
-</html>
+</html>Qty(${index}, -1)">−</button>
+          <div class="qty-display">${item.qty}</div>
+          <button class="qty-btn" onclick="update
