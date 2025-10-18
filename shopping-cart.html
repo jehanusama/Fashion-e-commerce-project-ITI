@@ -10,48 +10,155 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+   <link rel="stylesheet" href="./CSS/navbar.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<!-- Navbar -->
+<div class="navbar-wrapper">
+  <nav class="navbar">
+    <!-- Menu Toggle (Mobile) -->
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+      <i class="bi bi-list"></i>
+    </button>
+
+    <!-- Logo -->
+    <a href="index.html" class="navbar-brand">Wearopia</a>
+
+    <!-- Navigation Menu (Desktop/Tablet) -->
+    <ul class="navbar-menu">
+      <li><a href="#">Man</a></li>
+      <li><a href="#">Women</a></li>
+      <li><a href="#">Kids</a></li>
+      <li><a href="#">Accessory</a></li>
+    </ul>
+
+    <!-- Search Box (Desktop) -->
+    <div class="search-container">
+      <i class="bi bi-search search-icon"></i>
+      <input type="text" class="search-box" placeholder="Search for outfits...">
+    </div>
+
+    <!-- Right Actions -->
+    <div class="navbar-actions">
+      <a href="#" class="search-link" style="display: none;">
+        <i class="bi bi-search"></i>
+        <span>Search</span>
+      </a>
+      <a href="login.html" id="loginBtn">
+        <i class="bi bi-box-arrow-in-right"></i>
+        <span>Login</span>
+      </a>
+      <a href="#" id="wishlistBtn">
+        <i class="bi bi-heart"></i>
+        <span>Wishlist</span>
+        <span class="badge-count" id="wishlistCount">0</span>
+      </a>
+      <a href="shopping-cart.html" id="cartBtn">
+        <i class="bi bi-bag"></i>
+        <span>Cart</span>
+        <span class="badge-count" id="cartCount">0</span>
+      </a>
+    </div>
+
+    <!-- Mobile Dropdown Menu -->
+    <div class="mobile-dropdown" id="mobileMenu">
+      <ul>
+        <li><a href="#" >Man</a></li>
+        <li><a href="#">Women</a></li>
+        <li><a href="#">Kids</a></li>
+        <li><a href="#">Accessory</a></li>
+      </ul>
+      <div class="mobile-search">
+        <i class="bi bi-search search-icon"></i>
+        <input type="text" class="search-box" placeholder="Search for outfits...">
+      </div>
+    </div>
+  </nav>
+</div>
+
+
+
+<script>
+// Variables
+let wishlistCount = 0;
+let cartCount = 0;
+
+const wishlistBadge = document.getElementById('wishlistCount');
+//const cartBadge = document.getElementById('cartCount');
+const menuToggle = document.getElementById('menuToggle');
+const mobileMenu = document.getElementById('mobileMenu');
+
+// Add to Wishlist
+function addToWishlist() {
+  wishlistCount++;
+  wishlistBadge.textContent = wishlistCount;
+  wishlistBadge.classList.add('show');
+}
+
+// Add to Cart
+function addToCart() {
+  cartCount++;
+  cartBadge.textContent = cartCount;
+  cartBadge.classList.add('show');
+}
+
+// Mobile Menu Toggle
+menuToggle.addEventListener('click', () => {
+  mobileMenu.classList.toggle('show');
+  const icon = menuToggle.querySelector('i');
+  
+  if (mobileMenu.classList.contains('show')) {
+    icon.classList.remove('bi-list');
+    icon.classList.add('bi-x');
+  } else {
+    icon.classList.remove('bi-x');
+    icon.classList.add('bi-list');
+  }
+});
+
+// Close mobile menu when clicking on links
+const mobileLinks = mobileMenu.querySelectorAll('a');
+mobileLinks.forEach(link => {
+  link.addEventListener('click', (e) => {
+    mobileLinks.forEach(l => l.classList.remove('active'));
+    link.classList.add('active');
+    
+    if (window.innerWidth <= 768) {
+      mobileMenu.classList.remove('show');
+      const icon = menuToggle.querySelector('i');
+      icon.classList.remove('bi-x');
+      icon.classList.add('bi-list');
+    }
+  });
+});
+
+// Desktop menu active state
+const desktopLinks = document.querySelectorAll('.navbar-menu a');
+desktopLinks.forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    desktopLinks.forEach(l => l.classList.remove('active'));
+    link.classList.add('active');
+  });
+});
+
+
+</script>
+
 
   <style>
-    /* ---------- Navbar (unchanged layout & measurements) ---------- */
-    :root { --green:#195d33; --white:#fff; }
-    body { font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif; background:#FEFEFE; color:#121212; margin:0; line-height:1.5; }
-
-    .navbar-wrapper {
-      position:sticky; top:0; z-index:1000; background:var(--white);
-      box-shadow:0 4px 4px rgba(0,0,0,.25);
-      transition:box-shadow .3s, background .3s;
-    }
-    .navbar-wrapper.scrolled { box-shadow:0 4px 12px rgba(0,0,0,.15); background:rgba(255,255,255,.98); backdrop-filter:blur(6px); }
-    .navbar { max-width:1440px; margin:auto; padding:16px 120px; display:flex; justify-content:space-between; align-items:center; }
-    .navbar-brand { font-weight:700; font-size:22px; color:var(--green); text-decoration:none; }
-    .navbar-nav .nav-link { font-size:15px; color:#222; padding:0 10px; transition:color .2s; }
-    .navbar-nav .nav-link:hover, .navbar-nav .nav-link.active { color:var(--green); font-weight:600; }
-    .search-box { position:relative; width:240px; margin:0 30px; }
-    .search-box input { width:100%; height:36px; border:1px solid #ccc; border-radius:20px; padding:5px 35px 5px 15px; font-size:14px; }
-    .search-box i { position:absolute; right:12px; top:50%; transform:translateY(-50%); color:#777; }
-    .navbar-icons { display:flex; align-items:center; gap:24px; }
-    .navbar-icons a { display:flex; align-items:center; gap:6px; text-decoration:none; color:#333; transition:color .2s, transform .2s; position:relative; }
-    .navbar-icons a:hover { color:var(--green); transform:scale(1.05); }
-    .badge-count { position:absolute; top:-6px; right:-10px; width:18px; height:18px; background:var(--green); color:#fff; font-size:10px; border-radius:50%; display:flex; align-items:center; justify-content:center; opacity:0; transform:scale(.5); transition:.3s; }
-    .badge-count.show { opacity:1; transform:scale(1); }
-
-    @media (max-width:992px) {
-      .navbar { flex-direction:column; padding:16px 20px; }
-      .navbar-toggler { position:absolute; right:20px; top:22px; border:none; }
-      .navbar-collapse { width:100%; padding:15px; margin-top:10px; box-shadow:0 4px 4px rgba(0,0,0,.1); }
-      .navbar-nav { flex-direction:column; gap:10px; }
-      .navbar-nav .nav-link { padding:8px 0; border-bottom:1px solid #eee; }
-      .search-box { width:100%; margin:15px 0; }
-      .navbar-icons { justify-content:space-around; padding-top:10px; border-top:1px solid #eee; }
-    }
-
-    /* ---------- Cart page styling (kept visuals & spacing) ---------- */
+    body { font-family: "Inter", sans-serif; background:#FEFEFE; color:#121212; margin:0; line-height:1.5; }
     .container-custom { max-width:1280px; margin:0 auto; padding:40px 24px; }
     .breadcrumb-nav { font-size:14px; color:#605F5F; margin-bottom:24px; }
     .breadcrumb-nav a { color:#605F5F; text-decoration:none; }
     .breadcrumb-nav a:hover { color:#121212; }
 
-.steps-wrapper { display:flex; align-items:center; gap:48px; margin-bottom:48px; justify-content:center; }
+    .steps-wrapper { display:flex; align-items:center; gap:48px; margin-bottom:48px; justify-content:center; }
     .step-item { display:flex; align-items:center; gap:12px; }
     .step-circle { width:42px; height:42px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:16px; }
     .step-item.active .step-circle { background:#198754; color:#fff; }
@@ -69,15 +176,12 @@
     .product-details { display:flex; flex-direction:column; gap:8px; }
     .product-name { font-size:14px; font-weight:600; color:#23262F; line-height:1.4; }
     .product-variant { font-size:13px; color:#777E90; }
-
     .btn-remove { background:none; border:none; color:#198754; font-size:14px; font-weight:500; padding:0; cursor:pointer; display:inline-flex; align-items:center; gap:6px; margin-top:6px; transition:color .2s; }
     .btn-remove:hover { color:#23262F; }
-
     .qty-box { display:inline-flex; align-items:center; border:1px solid #E6E8EC; border-radius:90px; overflow:hidden; background:white; }
     .qty-btn { width:36px; height:36px; border:none; background:transparent; color:#23262F; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .2s; font-weight:400; }
     .qty-btn:hover { background:#F4F5F6; }
     .qty-input { width:40px; height:36px; border:none; text-align:center; font-size:14px; font-weight:600; outline:none; background:transparent; }
-
     .price-text { font-size:15px; font-weight:600; color:#23262F; }
 
     .summary-box { background:#FCFCFD; border:1px solid #E6E8EC; border-radius:16px; padding:32px; position:sticky; top:24px; }
@@ -85,19 +189,16 @@
     .summary-row { display:flex; justify-content:space-between; margin-bottom:16px; font-size:15px; }
     .summary-label { color:#777E90; font-weight:400; }
     .summary-value { color:#23262F; font-weight:600; }
-
     .shipping-options { margin:20px 0; padding:20px 0; border-top:1px solid #E6E8EC; border-bottom:1px solid #E6E8EC; }
     .radio-option { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; cursor:pointer; padding:8px 0; }
     .radio-option input[type="radio"] { margin-right:10px; width:18px; height:18px; cursor:pointer; }
     .radio-left { display:flex; align-items:center; }
     .radio-option label { font-size:14px; color:#23262F; cursor:pointer; font-weight:500; }
     .radio-price { font-size:14px; color:#777E90; font-weight:500; }
-
     .summary-total { display:flex; justify-content:space-between; margin-top:24px; padding-top:24px; border-top:1px solid #E6E8EC; font-size:20px; font-weight:700; color:#23262F; }
     .btn-checkout { width:100%; background:#198754; color:white; border:none; padding:16px; border-radius:90px; font-size:15px; font-weight:600; cursor:pointer; margin-top:24px; transition:all .3s; }
     .btn-checkout:hover { background:#141416; transform:translateY(-2px); box-shadow:0 8px 16px rgba(35,38,47,.16); }
     .btn-checkout:active { transform:translateY(0); }
-
     .coupon-section { margin-top:32px; padding-top:32px; border-top:1px solid #E6E8EC; }
     .coupon-title { font-size:16px; font-weight:600; margin-bottom:8px; color:#23262F; }
     .coupon-subtitle { font-size:13px; color:#777E90; margin-bottom:16px; }
@@ -107,27 +208,15 @@
     .btn-apply { padding:12px 28px; background:#198754; color:white; border:none; border-radius:90px; font-size:14px; font-weight:600; cursor:pointer; transition:all .2s; white-space:nowrap; }
     .btn-apply:hover { background:#141416; }
 
-    /* Toast */
-    .toast-container { position:fixed; top:24px; right:24px; z-index:9999; }
-    .toast-notification { background:white; border-radius:12px; padding:16px 20px; margin-bottom:12px; box-shadow:0 8px 24px rgba(0,0,0,.12); display:flex; align-items:center; gap:12px; min-width:320px; animation:slideInRight .3s ease; border-left:4px solid; }
-    .toast-success { border-left-color:#58BD7D; }
-    .toast-error { border-left-color:#FF6A55; }
-    .toast-warning { border-left-color:#FFB020; }
-    .toast-icon { width:24px; height:24px; flex-shrink:0; }
-    .toast-content { flex:1; }
-    .toast-title { font-size:14px; font-weight:600; color:#23262F; margin-bottom:2px; }
-    .toast-message { font-size:13px; color:#777E90; }
-    @keyframes slideInRight { from { opacity:0; transform:translateX(100px);} to { opacity:1; transform:translateX(0);} }
-    @keyframes fadeOut { to { opacity:0; transform:translateX(100px); } }
+    /* Hero3 */
+    .hero3 { padding:80px 0; text-align:center; background:#F8F9FA; }
+    .hero3-title { font-size:36px; font-weight:700; margin-bottom:16px; color:#23262F; }
+    .hero3-text { font-size:16px; margin-bottom:24px; color:#777E90; }
+    .hero3-form { display:flex; justify-content:center; gap:12px; flex-wrap:wrap; }
+    .hero3-input { padding:12px 16px; border-radius:90px; border:1px solid #E6E8EC; outline:none; width:250px; }
+    .hero3-btn { padding:12px 28px; border:none; border-radius:90px; background:#198754; color:#fff; cursor:pointer; font-weight:600; transition:0.3s; }
+    .hero3-btn:hover { background:#141416; }
 
-    /* Removal animation (slide + fade to the RIGHT) */
-    .removing {
-      transform: translateX(20px);
-      opacity: 0;
-      transition: transform .28s ease, opacity .28s ease;
-    }
-
-    /* Responsive cart adjustments */
     @media (max-width:991px) {
       .cart-layout { grid-template-columns:1fr; gap:32px; }
       .products-header { display:none; }
@@ -141,325 +230,112 @@
 </head>
 <body>
 
-  <!-- Navbar (exact) -->
-  <div class="navbar-wrapper" id="nav">
-    <nav class="navbar navbar-expand-lg">
-      <a class="navbar-brand" href="index.html">Wearopia</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+<div class="container-custom">
 
-      <div class="collapse navbar-collapse" id="menu">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-lg-center">
-          <li class="nav-item"><a class="nav-link" href="#">Man</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Women</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Kids</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Accessory</a></li>
-        </ul>
-
-        <div class="search-box">
-          <input type="text" placeholder="Search for outfits..." />
-          <i class="bi bi-search"></i>
-        </div>
-
-        <div class="navbar-icons">
-          <a href="./login.html"><i class="bi bi-box-arrow-in-right"></i><span>Login</span></a>
-          <a href="#" id="wishlist"><i class="bi bi-heart"></i><span>Wishlist</span><span class="badge-count" id="wcount">0</span></a>
-          <a href="#" id="cart-link"><i class="bi bi-bag"></i><span>Cart</span><span class="badge-count" id="ccount">0</span></a>
-        </div>
-      </div>
-    </nav>
+  <!-- Breadcrumb -->
+  <div class="breadcrumb-nav">
+    <a href="#">Home</a> / <span>Cart</span>
   </div>
 
-  <!-- Toast container -->
-  <div class="toast-container" id="toast-container"></div>
+  <!-- Steps -->
+  <div class="steps-wrapper">
+    <div class="step-item active">
+      <div class="step-circle">1</div>
+      <div class="step-label">Shopping cart</div>
+    </div>
+    <div class="step-item inactive">
+      <div class="step-circle">2</div>
+      <div class="step-label">Checkout details</div>
+    </div>
+    <div class="step-item inactive">
+      <div class="step-circle">3</div>
+      <div class="step-label">Order complete</div>
+    </div>
+  </div>
 
-  <!-- Page content -->
-  <div class="container-custom">
+  <!-- Main Layout -->
+  <div class="cart-layout">
 
-    <!-- Breadcrumb -->
-    <div class="breadcrumb-nav">
-      <a href="#">Home</a> / <span>Cart</span>
+    <!-- Left: Products -->
+    <div class="products-section">
+      <div class="products-header">
+        <div>Product</div>
+        <div style="text-align:center;">Quantity</div>
+        <div style="text-align:right;">Price</div>
+        <div style="text-align:right;">Subtotal</div>
+      </div>
+
+      <div id="products-list" aria-live="polite" style="visibility:hidden;">
+        <!-- JS will populate products -->
+      </div>
     </div>
 
-    <!-- Steps -->
-    <div class="steps-wrapper">
-      <div class="step-item active">
-        <div class="step-circle">1</div>
-        <div class="step-label">Shopping cart</div>
-      </div>
-      <div class="step-item inactive">
-        <div class="step-circle">2</div>
-        <div class="step-label">Checkout details</div>
-      </div>
-      <div class="step-item inactive">
-        <div class="step-circle">3</div>
-        <div class="step-label">Order complete</div>
-      </div>
-    </div>
+    <!-- Right: Summary -->
+    <div class="summary-box">
+      <div class="summary-title">Cart summary</div>
 
-    <!-- Main Layout -->
-    <div class="cart-layout">
-
-      <!-- Left: Products -->
-      <div class="products-section">
-        <div class="products-header">
-          <div>Product</div>
-          <div style="text-align:center;">Quantity</div>
-          <div style="text-align:right;">Price</div>
-          <div style="text-align:right;">Subtotal</div>
-        </div>
-
-        <div id="products-list" aria-live="polite" style="visibility:hidden;">
-          <!-- If localStorage empty, initial items will be loaded from this HTML first time.
-               After that, renderProducts() manages the DOM from saved state. -->
-          <div class="product-item" data-id="p1" data-price="19" data-image="https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=800&auto=format&fit=crop" data-name="Grey Acid Wash Wide Leg Jogger" data-variant="Color: Black">
-            <div class="product-info">
-              <img src="https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=800&auto=format&fit=crop" class="product-img" alt="Jogger">
-              <div class="product-details">
-                <div class="product-name">Grey Acid Wash Wide Leg Jogger</div>
-                <div class="product-variant">Color: Black</div>
-                <button class="btn-remove" data-name="Grey Acid Wash Wide Leg Jogger"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 2L14 14M14 2L2 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> Remove</button>
-              </div>
-            </div>
-            <div style="text-align:center;">
-              <div class="qty-box">
-                <button class="qty-btn qty-dec">−</button>
-                <input type="text" class="qty-input" value="2" readonly>
-                <button class="qty-btn qty-inc">+</button>
-              </div>
-            </div>
-            <div style="text-align:right;"><div class="price-text">$19.00</div></div>
-            <div style="text-align:right;"><div class="price-text item-subtotal">$38.00</div></div>
+      <div class="shipping-options">
+        <label class="radio-option">
+          <div class="radio-left">
+            <input type="radio" name="shipping" value="0" checked>
+            <span>Free shipping</span>
           </div>
-
-          <div class="product-item" data-id="p2" data-price="19" data-image="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=800&auto=format&fit=crop" data-name="Tray Table" data-variant="Color: Red">
-            <div class="product-info">
-              <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=800&auto=format&fit=crop" class="product-img" alt="Table">
-              <div class="product-details">
-                <div class="product-name">Tray Table</div>
-                <div class="product-variant">Color: Red</div>
-                <button class="btn-remove" data-name="Tray Table"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 2L14 14M14 2L2 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> Remove</button>
-              </div>
-            </div>
-            <div style="text-align:center;">
-              <div class="qty-box">
-                <button class="qty-btn qty-dec">−</button>
-                <input type="text" class="qty-input" value="2" readonly>
-                <button class="qty-btn qty-inc">+</button>
-              </div>
-            </div>
-            <div style="text-align:right;"><div class="price-text">$19.00</div></div>
-            <div style="text-align:right;"><div class="price-text item-subtotal">$38.00</div></div>
+          <span class="radio-price">$0.00</span>
+        </label>
+        <label class="radio-option">
+          <div class="radio-left">
+            <input type="radio" name="shipping" value="15">
+            <span>Express shipping</span>
           </div>
-
-          <div class="product-item" data-id="p3" data-price="39" data-image="https://images.unsplash.com/photo-1507473885765-e6ed057f782c?q=80&w=800&auto=format&fit=crop" data-name="Table lamp" data-variant="Color: Gold">
-            <div class="product-info">
-              <img src="https://images.unsplash.com/photo-1507473885765-e6ed057f782c?q=80&w=800&auto=format&fit=crop" class="product-img" alt="Lamp">
-              <div class="product-details">
-                <div class="product-name">Table lamp</div>
-                <div class="product-variant">Color: Gold</div>
-                <button class="btn-remove" data-name="Table lamp"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 2L14 14M14 2L2 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> Remove</button>
-              </div>
-            </div>
-            <div style="text-align:center;">
-              <div class="qty-box">
-                <button class="qty-btn qty-dec">−</button>
-                <input type="text" class="qty-input" value="1" readonly>
-                <button class="qty-btn qty-inc">+</button>
-              </div>
-            </div>
-            <div style="text-align:right;"><div class="price-text">$39.00</div></div>
-            <div style="text-align:right;"><div class="price-text item-subtotal">$39.00</div></div>
+          <span class="radio-price">+$15.00</span>
+        </label>
+        <label class="radio-option">
+          <div class="radio-left">
+            <input type="radio" name="shipping" value="21">
+            <span>Pick Up</span>
           </div>
-
-          <div class="product-item" data-id="p4" data-price="19" data-image="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=800&auto=format&fit=crop" data-name="Tray Table" data-variant="Color: Red">
-            <div class="product-info">
-              <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=800&auto=format&fit=crop" class="product-img" alt="Table">
-              <div class="product-details">
-                <div class="product-name">Tray Table</div>
-                <div class="product-variant">Color: Red</div>
-                <button class="btn-remove" data-name="Tray Table"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 2L14 14M14 2L2 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> Remove</button>
-              </div>
-            </div>
-            <div style="text-align:center;">
-              <div class="qty-box">
-                <button class="qty-btn qty-dec">−</button>
-                <input type="text" class="qty-input" value="2" readonly>
-                <button class="qty-btn qty-inc">+</button>
-              </div>
-            </div>
-            <div style="text-align:right;"><div class="price-text">$19.00</div></div>
-            <div style="text-align:right;"><div class="price-text item-subtotal">$38.00</div></div>
-          </div>
-
-          <div class="product-item" data-id="p5" data-price="39" data-image="https://images.unsplash.com/photo-1507473885765-e6ed057f782c?q=80&w=800&auto=format&fit=crop" data-name="Table lamp" data-variant="Color: Gold">
-            <div class="product-info">
-              <img src="https://images.unsplash.com/photo-1507473885765-e6ed057f782c?q=80&w=800&auto=format&fit=crop" class="product-img" alt="Lamp">
-              <div class="product-details">
-                <div class="product-name">Table lamp</div>
-                <div class="product-variant">Color: Gold</div>
-                <button class="btn-remove" data-name="Table lamp"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 2L14 14M14 2L2 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> Remove</button>
-              </div>
-            </div>
-            <div style="text-align:center;">
-              <div class="qty-box">
-                <button class="qty-btn qty-dec">−</button>
-                <input type="text" class="qty-input" value="1" readonly>
-                <button class="qty-btn qty-inc">+</button>
-              </div>
-            </div>
-            <div style="text-align:right;"><div class="price-text">$39.00</div></div>
-            <div style="text-align:right;"><div class="price-text item-subtotal">$39.00</div></div>
-          </div>
-
-        </div>
+          <span class="radio-price">%21.00</span>
+        </label>
       </div>
 
-      <!-- Right: Summary -->
-      <div class="summary-box">
-        <div class="summary-title">Cart summary</div>
+      <div class="summary-row">
+        <span class="summary-label">Subtotal</span>
+        <span class="summary-value" id="subtotal">$0.00</span>
+      </div>
 
-        <div class="shipping-options">
-          <label class="radio-option">
-            <div class="radio-left">
-              <input type="radio" name="shipping" value="0" checked>
-              <span>Free shipping</span>
-            </div>
-            <span class="radio-price">$0.00</span>
-          </label>
-          <label class="radio-option">
-            <div class="radio-left">
-              <input type="radio" name="shipping" value="15">
-              <span>Express shipping</span>
-            </div>
-            <span class="radio-price">+$15.00</span>
-          </label>
-          <label class="radio-option">
-            <div class="radio-left">
-              <input type="radio" name="shipping" value="21">
-              <span>Pick Up</span>
-            </div>
-            <span class="radio-price">%21.00</span>
-          </label>
-        </div>
-
-        <div class="summary-row">
-          <span class="summary-label">Subtotal</span>
-          <span class="summary-value" id="subtotal">$0.00</span>
-        </div>
-
-        <div class="summary-total">
-          <span>Total</span>
-          <span id="total">$0.00</span>
-        </div>
+      <div class="summary-total">
+        <span>Total</span>
+        <span id="total">$0.00</span>
+      </div>
 
       <button class="btn-checkout">Checkout</button>
 
-        <div class="coupon-section">
-          <div class="coupon-title">Have a coupon?</div>
-          <div class="coupon-subtitle">Add your code for an instant cart discount</div>
-          <div class="coupon-input-group">
-            <input type="text" class="coupon-input" placeholder="Coupon Code" id="coupon-input">
-            <button class="btn-apply" id="apply-coupon">Apply</button>
-          </div>
+      <div class="coupon-section">
+        <div class="coupon-title">Have a coupon?</div>
+        <div class="coupon-subtitle">Add your code for an instant cart discount</div>
+        <div class="coupon-input-group">
+          <input type="text" class="coupon-input" placeholder="Coupon Code" id="coupon-input">
+          <button class="btn-apply" id="apply-coupon">Apply</button>
         </div>
       </div>
-
     </div>
+
   </div>
-  <!--third hero section component  -->
-<section class="hero3 d-flex flex-column justify-content-center align-items-center text-center">
+</div>
+
+<!-- Hero3 section -->
+<section class="hero3">
   <div class="container">
     <h2 class="hero3-title">Stay in Style</h2>
     <p class="hero3-text">
       Subscribe to our newsletter and be the first to know about new arrivals, exclusive offers, and fashion tips.
     </p>
-
-    <form class="hero3-form d-flex align-items-center justify-content-center">
-      <div class="input-wrapper">
-        <i class="fa-solid fa-envelope email-icon"></i>
-        <input
-          type="email"
-          placeholder="Enter your email"
-          class="hero3-input"
-          required
-        />
-      </div>
-      <button type="submit" class="btn hero3-btn">Subscribe</button>
+    <form class="hero3-form">
+      <input type="email" placeholder="Enter your email" class="hero3-input" required />
+      <button type="submit" class="hero3-btn">Subscribe</button>
     </form>
   </div>
-</section>
-
-  <!--footer component-->
-    <footer class="container-fluid bg-white d-flex align-items-center py-[40px] px-[40px] md:px-[80px] lg:px-[120px] min-h-[372px]">
-        <div class="container">
-            <div class="row gy-4 gx-5">
-                <div class="col-12 col-md-6 col-lg-3">
-                    <h4 class="fw-bold text-success mb-3 fs-3">Wearopia</h4>
-                    <p class="text-secondary small mb-4">
-                        Discover your unique style with our curated collection of modern fashion pieces.
-                    </p>
-                    <ul class="list-unstyled text-secondary small mb-4">
-                        <li class="mb-2"><i class="fa-solid fa-location-dot me-2"></i>123 Fashion Street, Style City, SC
-                            12345</li>
-                        <li class="mb-2"><i class="fa-solid fa-phone me-2"></i>+1 (555) 123-STYLE</li>
-                        <li><i class="fa-solid fa-envelope me-2"></i>hello@stylehub.com</li>
-                    </ul>
-                    <div class="d-flex gap-3">
-                        <a href="#"
-                            class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 w-[36px] h-[36px]">
-                            <i class="fa-brands fa-facebook-f"></i>
-                        </a>
-                        <a href="#"
-                            class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 w-[36px] h-[36px]">
-                            <i class="fa-brands fa-twitter"></i>
-                        </a>
-                        <a href="#"
-                            class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 w-[36px] h-[36px]">
-                            <i class="fa-brands fa-instagram"></i>
-                        </a>
-                        <a href="#"
-                            class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 w-[36px] h-[36px]">
-                            <i class="fa-brands fa-youtube"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-12 col-md-3 col-lg-3">
-                    <h5 class="fw-semibold text-black fs-6 mb-3">Quick Links</h5>
-                    <ul class="list-unstyled text-secondary small">
-                        <li class="mb-2">New Arrivals</li>
-                        <li class="mb-2">Best Sellers</li>
-                        <li class="mb-2">Sale</li>
-                        <li class="mb-2">Gift Cards</li>
-                        <li>Style Guide</li>
-                    </ul>
-                </div>
-                <div class="col-12 col-md-3 col-lg-3">
-                    <h5 class="fw-semibold text-black fs-6 mb-3">Customer Care</h5>
-                    <ul class="list-unstyled text-secondary small">
-                        <li class="mb-2">Contact Us</li>
-                        <li class="mb-2">Size Guide</li>
-                        <li class="mb-2">Shipping & Returns</li>
-                        <li class="mb-2">Track Your Order</li>
-                        <li>FAQ</li>
-                    </ul>
-                </div>
-                <div class="col-12 col-md-6 col-lg-3">
-                    <h5 class="fw-semibold text-black fs-6 mb-3">Company</h5>
-                    <ul class="list-unstyled text-secondary small">
-                        <li class="mb-2">About Us</li>
-                        <li class="mb-2">Careers</li>
-                        <li class="mb-2">Press</li>
-                        <li class="mb-2">Sustainability</li>
-                        <li>Investors</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!--end of footer-->
-  <!-- Bootstrap JS -->
+</section
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
