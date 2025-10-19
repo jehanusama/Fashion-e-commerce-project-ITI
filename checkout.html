@@ -811,7 +811,164 @@
 </footer>
 <!--end of footer-->
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js">
+// Helper: Luhn algorithm for credit card validation
+function validateCreditCard(number) {
+  const clean = number.replace(/\D/g, '');
+  if (!/^\d{13,19}$/.test(clean)) return false;
+  let sum = 0;
+  let doubleIt = false;
+  for (let i = clean.length - 1; i >= 0; i--) {
+    let digit = parseInt(clean[i]);
+    if (doubleIt) {
+      digit *= 2;
+      if (digit > 9) digit -= 9;
+    }
+    sum += digit;
+    doubleIt = !doubleIt;
+  }
+  return sum % 10 === 0;
+}
+
+// --- Updated Place Order with All Validations ---
+function placeOrder() {
+  const firstName = document.getElementById('firstName');
+  const lastName = document.getElementById('lastName');
+  const phone = document.getElementById('phone');
+  const email = document.getElementById('email');
+  const address = document.getElementById('address');
+  const country = document.getElementById('country');
+  const city = document.getElementById('city');
+  const cardNumber = document.getElementById('cardNumber');
+  const expiry = document.getElementById('expiryDate');
+  const cvc = document.getElementById('cvc');
+
+  // Helper: scroll + focus on invalid field
+  function focusAndScroll(element) {
+    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    element.focus();
+  }
+
+  // --- Name validation ---
+  const nameRegex = /^[A-Za-z]+$/;
+  if (!nameRegex.test(firstName.value.trim())) {
+    showToast('Invalid Name', 'First name must contain letters only', 'error');
+    focusAndScroll(firstName);
+    return;
+  }
+  if (lastName.value.trim() && !nameRegex.test(lastName.value.trim())) {
+    showToast('Invalid Name', 'Last name must contain letters only', 'error');
+    focusAndScroll(lastName);
+    return;
+  }
+
+  // --- Phone validation ---
+  const phoneValue = phone.value.trim();
+  const phoneRegex = /^\d{10,15}$/; // 10–15 digits only
+  if (!phoneRegex.test(phoneValue)) {
+    showToast('Invalid Phone', 'Please enter a valid phone number (10–15 digits)', 'error');
+    focusAndScroll(phone);
+    return;
+  }
+
+  // --- Email validation ---
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email.value.trim())) {
+    showToast('Invalid Email', 'Please enter a valid email address', 'error');
+    focusAndScroll(email);
+    return;
+  }
+
+  // --- Address validation ---
+  if (!address.value.trim()) {
+    showToast('Missing Information', 'Please enter your street address', 'warning');
+    focusAndScroll(address);
+    return;
+  }
+
+  if (!country.value) {
+    showToast('Missing Information', 'Please select your country', 'warning');
+    focusAndScroll(country);
+    return;
+  }
+
+  if (!city.value.trim()) {
+    showToast('Missing Information', 'Please enter your city', 'warning');
+    focusAndScroll(city);
+    return;
+  }
+
+  // --- Payment validation (Credit Card) ---
+  const paymentMethod = document.querySelector('input[name="payment"]:checked')?.value;
+  if (paymentMethod === 'Credit Card') {
+    if (!validateCreditCard(cardNumber.value.trim())) {
+      showToast('Invalid Card', 'Please enter a valid credit card number', 'error');
+      focusAndScroll(cardNumber);
+      return;
+    }
+
+    const expMatch = expiry.value.trim().match(/^(0[1-9]|1[0-2])\/(\d{2})$/);
+    if (!expMatch) {
+      showToast('Invalid Expiry', 'Expiration must be in MM/YY format', 'error');
+      focusAndScroll(expiry);
+      return;
+    }
+
+    const [_, mm, yy] = expMatch;
+    const expDate = new Date(`20${yy}`, mm);
+    const now = new Date();
+    if (expDate <= now) {
+      showToast('Expired Card', 'This card has expired', 'error');
+      focusAndScroll(expiry);
+      return;
+    }
+
+    if (!/^\d{3}$/.test(cvc.value.trim())) {
+      showToast('Invalid CVC', 'CVC must be 3 digits', 'error');
+      focusAndScroll(cvc);
+      return;
+    }
+  }
+
+  // --- Continue checkout logic ---
+  const checkoutData = loadCheckoutData();
+  if (!checkoutData) {
+    showToast('Empty Cart', 'Your cart is empty', 'error');
+    return;
+  }
+
+  const orderId = generateOrderId();
+  const orderData = {
+    orderId,
+    customer: {
+      firstName: firstName.value.trim(),
+      lastName: lastName.value.trim(),
+      phone: phone.value.trim(),
+      email: email.value.trim()
+    },
+    shipping: {
+      address: address.value.trim(),
+      country: country.value,
+      city: city.value.trim(),
+      state: document.getElementById('state').value,
+      zipCode: document.getElementById('zipCode').value
+    },
+    payment: { method: paymentMethod },
+    items: checkoutData.items,
+    subtotal: checkoutData.subtotal,
+    total: checkoutData.total,
+    orderDate: new Date().toISOString()
+  };
+
+  sessionStorage.setItem('wearopia_order_complete', JSON.stringify(orderData));
+  sessionStorage.removeItem('wearopia_checkout_data');
+  localStorage.removeItem('wearopia_cart_v1');
+
+  showToast('Order Placed!', 'Redirecting to confirmation...', 'success');
+  setTimeout(() => (window.location.href = 'complete-order.html'), 1200);
+}
+
+</script>
 <script>
 // Toast notification function
 function showToast(title, message, type = 'success') {
@@ -961,115 +1118,7 @@ function generateOrderId() {
 }
 
 // Place order
-function placeOrder() {
-  const firstName = document.getElementById('firstName').value.trim();
-  const lastName = document.getElementById('lastName').value.trim();
-  const phone = document.getElementById('phone').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const address = document.getElementById('address').value.trim();
-  const country = document.getElementById('country').value;
-  const city = document.getElementById('city').value.trim();
-  
-  // Validation
-  if (!firstName) {
-    showToast('Missing Information', 'Please enter your first name', 'warning');
-    document.getElementById('firstName').focus();
-    return;
-  }
-  
-  if (!phone) {
-    showToast('Missing Information', 'Please enter your phone number', 'warning');
-    document.getElementById('phone').focus();
-    return;
-  }
-  
-  if (!email) {
-    showToast('Missing Information', 'Please enter your email address', 'warning');
-    document.getElementById('email').focus();
-    return;
-  }
-  
-  // Email validation
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    showToast('Invalid Email', 'Please enter a valid email address', 'error');
-    document.getElementById('email').focus();
-    return;
-  }
-  
-  if (!address) {
-    showToast('Missing Information', 'Please enter your street address', 'warning');
-    document.getElementById('address').focus();
-    return;
-  }
-  
-  if (!country) {
-    showToast('Missing Information', 'Please select your country', 'warning');
-    document.getElementById('country').focus();
-    return;
-  }
-  
-  if (!city) {
-    showToast('Missing Information', 'Please enter your city', 'warning');
-    document.getElementById('city').focus();
-    return;
-  }
-  
-  const checkoutData = loadCheckoutData();
-  if (!checkoutData) {
-    showToast('Empty Cart', 'Your cart is empty', 'error');
-    return;
-  }
-  
-  // Get payment method
-  const paymentRadio = document.querySelector('input[name="payment"]:checked');
-  const paymentMethod = paymentRadio ? paymentRadio.value : 'Credit Card';
-  
-  // Create order data
-  const orderId = generateOrderId();
-  const orderData = {
-    orderId: orderId,
-    customer: {
-      firstName: firstName,
-      lastName: lastName,
-      phone: phone,
-      email: email
-    },
-    shipping: {
-      address: address,
-      country: country,
-      city: city,
-      state: document.getElementById('state').value,
-      zipCode: document.getElementById('zipCode').value
-    },
-    payment: {
-      method: paymentMethod
-    },
-    items: checkoutData.items,
-    subtotal: checkoutData.subtotal,
-    discount: checkoutData.discount || 0,
-    shipping: checkoutData.shipping || 0,
-    total: checkoutData.total,
-    coupon: checkoutData.coupon || null,
-    orderDate: new Date().toISOString()
-  };
-  
-  console.log('Order Data:', orderData);
-  
-  // Save order to sessionStorage for complete-order page
-  sessionStorage.setItem('wearopia_order_complete', JSON.stringify(orderData));
-  
-  // Clear checkout data and cart
-  sessionStorage.removeItem('wearopia_checkout_data');
-  localStorage.removeItem('wearopia_cart_v1');
-  
-  // Show success message and redirect
-  showToast('Order Placed!', 'Redirecting to order confirmation...', 'success');
-  
-  setTimeout(() => {
-    window.location.href = 'complete-order.html';
-  }, 1000);
-}
+
 
 // Initialize
 document.addEventListener('DOMContentLoaded', function() {
@@ -1253,7 +1302,321 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 });
-</script>
+
+// Helper: Luhn algorithm for credit card validation
+function validateCreditCard(number) {
+  const clean = number.replace(/\D/g, '');
+  if (!/^\d{13,19}$/.test(clean)) return false;
+  let sum = 0;
+  let doubleIt = false;
+  for (let i = clean.length - 1; i >= 0; i--) {
+    let digit = parseInt(clean[i]);
+    if (doubleIt) {
+      digit *= 2;
+      if (digit > 9) digit -= 9;
+    }
+    sum += digit;
+    doubleIt = !doubleIt;
+  }
+  return sum % 10 === 0;
+}
+
+// --- Updated Place Order with All Validations ---
+function placeOrder() {
+  const firstName = document.getElementById('firstName');
+  const lastName = document.getElementById('lastName');
+  const phone = document.getElementById('phone');
+  const email = document.getElementById('email');
+  const address = document.getElementById('address');
+  const country = document.getElementById('country');
+  const city = document.getElementById('city');
+  const cardNumber = document.getElementById('cardNumber');
+  const expiry = document.getElementById('expiryDate');
+  const cvc = document.getElementById('cvc');
+
+  // Helper: scroll + focus on invalid field
+  function focusAndScroll(element) {
+    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    element.focus();
+  }
+
+  // --- Name validation ---
+  const nameRegex = /^[A-Za-z]+$/;
+  if (!nameRegex.test(firstName.value.trim())) {
+    showToast('Invalid Name', 'First name must contain letters only', 'error');
+    focusAndScroll(firstName);
+    return;
+  }
+  if (lastName.value.trim() && !nameRegex.test(lastName.value.trim())) {
+    showToast('Invalid Name', 'Last name must contain letters only', 'error');
+    focusAndScroll(lastName);
+    return;
+  }
+
+  // --- Phone validation ---
+  const phoneValue = phone.value.trim();
+  const phoneRegex = /^\d{10,15}$/; // 10–15 digits only
+  if (!phoneRegex.test(phoneValue)) {
+    showToast('Invalid Phone', 'Please enter a valid phone number (10–15 digits)', 'error');
+    focusAndScroll(phone);
+    return;
+  }
+
+  // --- Email validation ---
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email.value.trim())) {
+    showToast('Invalid Email', 'Please enter a valid email address', 'error');
+    focusAndScroll(email);
+    return;
+  }
+
+  // --- Address validation ---
+  if (!address.value.trim()) {
+    showToast('Missing Information', 'Please enter your street address', 'warning');
+    focusAndScroll(address);
+    return;
+  }
+
+  if (!country.value) {
+    showToast('Missing Information', 'Please select your country', 'warning');
+    focusAndScroll(country);
+    return;
+  }
+
+  if (!city.value.trim()) {
+    showToast('Missing Information', 'Please enter your city', 'warning');
+    focusAndScroll(city);
+    return;
+  }
+
+  // --- Payment validation (Credit Card) ---
+  const paymentMethod = document.querySelector('input[name="payment"]:checked')?.value;
+  if (paymentMethod === 'Credit Card') {
+    if (!validateCreditCard(cardNumber.value.trim())) {
+      showToast('Invalid Card', 'Please enter a valid credit card number', 'error');
+      focusAndScroll(cardNumber);
+      return;
+    }
+
+    const expMatch = expiry.value.trim().match(/^(0[1-9]|1[0-2])\/(\d{2})$/);
+    if (!expMatch) {
+      showToast('Invalid Expiry', 'Expiration must be in MM/YY format', 'error');
+      focusAndScroll(expiry);
+      return;
+    }
+
+    const [_, mm, yy] = expMatch;
+    const expDate = new Date(`20${yy}`, mm);
+    const now = new Date();
+    if (expDate <= now) {
+      showToast('Expired Card', 'This card has expired', 'error');
+      focusAndScroll(expiry);
+      return;
+    }
+
+    if (!/^\d{3}$/.test(cvc.value.trim())) {
+      showToast('Invalid CVC', 'CVC must be 3 digits', 'error');
+      focusAndScroll(cvc);
+      return;
+    }
+  }
+
+  // --- Continue checkout logic ---
+  const checkoutData = loadCheckoutData();
+  if (!checkoutData) {
+    showToast('Empty Cart', 'Your cart is empty', 'error');
+    return;
+  }
+
+  const orderId = generateOrderId();
+  const orderData = {
+    orderId,
+    customer: {
+      firstName: firstName.value.trim(),
+      lastName: lastName.value.trim(),
+      phone: phone.value.trim(),
+      email: email.value.trim()
+    },
+    shipping: {
+      address: address.value.trim(),
+      country: country.value,
+      city: city.value.trim(),
+      state: document.getElementById('state').value,
+      zipCode: document.getElementById('zipCode').value
+    },
+    payment: { method: paymentMethod },
+    items: checkoutData.items,
+    subtotal: checkoutData.subtotal,
+    total: checkoutData.total,
+    orderDate: new Date().toISOString()
+  };
+
+  sessionStorage.setItem('wearopia_order_complete', JSON.stringify(orderData));
+  sessionStorage.removeItem('wearopia_checkout_data');
+  localStorage.removeItem('wearopia_cart_v1');
+
+  showToast('Order Placed!', 'Redirecting to confirmation...', 'success');
+  setTimeout(() => (window.location.href = 'complete-order.html'), 1200);
+}
+
+
+
+
+// Helper: Luhn algorithm for credit card validation
+function validateCreditCard(number) {
+  const clean = number.replace(/\D/g, '');
+  if (!/^\d{13,19}$/.test(clean)) return false;
+  let sum = 0;
+  let doubleIt = false;
+  for (let i = clean.length - 1; i >= 0; i--) {
+    let digit = parseInt(clean[i]);
+    if (doubleIt) {
+      digit *= 2;
+      if (digit > 9) digit -= 9;
+    }
+    sum += digit;
+    doubleIt = !doubleIt;
+  }
+  return sum % 10 === 0;
+}
+
+// --- Updated Place Order with All Validations ---
+function placeOrder() {
+  const firstName = document.getElementById('firstName');
+  const lastName = document.getElementById('lastName');
+  const phone = document.getElementById('phone');
+  const email = document.getElementById('email');
+  const address = document.getElementById('address');
+  const country = document.getElementById('country');
+  const city = document.getElementById('city');
+  const cardNumber = document.getElementById('cardNumber');
+  const expiry = document.getElementById('expiryDate');
+  const cvc = document.getElementById('cvc');
+
+  // Helper: scroll + focus on invalid field
+  function focusAndScroll(element) {
+    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    element.focus();
+  }
+
+  // --- Name validation ---
+  const nameRegex = /^[A-Za-z]+$/;
+  if (!nameRegex.test(firstName.value.trim())) {
+    showToast('Invalid Name', 'First name must contain letters only', 'error');
+    focusAndScroll(firstName);
+    return;
+  }
+  if (lastName.value.trim() && !nameRegex.test(lastName.value.trim())) {
+    showToast('Invalid Name', 'Last name must contain letters only', 'error');
+    focusAndScroll(lastName);
+    return;
+  }
+
+  // --- Phone validation ---
+  const phoneValue = phone.value.trim();
+  const phoneRegex = /^\d{10,15}$/; // 10–15 digits only
+  if (!phoneRegex.test(phoneValue)) {
+    showToast('Invalid Phone', 'Please enter a valid phone number (10–15 digits)', 'error');
+    focusAndScroll(phone);
+    return;
+  }
+
+  // --- Email validation ---
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email.value.trim())) {
+    showToast('Invalid Email', 'Please enter a valid email address', 'error');
+    focusAndScroll(email);
+    return;
+  }
+
+  // --- Address validation ---
+  if (!address.value.trim()) {
+    showToast('Missing Information', 'Please enter your street address', 'warning');
+    focusAndScroll(address);
+    return;
+  }
+
+  if (!country.value) {
+    showToast('Missing Information', 'Please select your country', 'warning');
+    focusAndScroll(country);
+    return;
+  }
+
+  if (!city.value.trim()) {
+    showToast('Missing Information', 'Please enter your city', 'warning');
+    focusAndScroll(city);
+    return;
+  }
+
+  // --- Payment validation (Credit Card) ---
+  const paymentMethod = document.querySelector('input[name="payment"]:checked')?.value;
+  if (paymentMethod === 'Credit Card') {
+    if (!validateCreditCard(cardNumber.value.trim())) {
+      showToast('Invalid Card', 'Please enter a valid credit card number', 'error');
+      focusAndScroll(cardNumber);
+      return;
+    }
+
+    const expMatch = expiry.value.trim().match(/^(0[1-9]|1[0-2])\/(\d{2})$/);
+    if (!expMatch) {
+      showToast('Invalid Expiry', 'Expiration must be in MM/YY format', 'error');
+      focusAndScroll(expiry);
+      return;
+    }
+
+    const [_, mm, yy] = expMatch;
+    const expDate = new Date(`20${yy}`, mm);
+    const now = new Date();
+    if (expDate <= now) {
+      showToast('Expired Card', 'This card has expired', 'error');
+      focusAndScroll(expiry);
+      return;
+    }
+
+    if (!/^\d{3}$/.test(cvc.value.trim())) {
+      showToast('Invalid CVC', 'CVC must be 3 digits', 'error');
+      focusAndScroll(cvc);
+      return;
+    }
+  }
+
+  // --- Continue checkout logic ---
+  const checkoutData = loadCheckoutData();
+  if (!checkoutData) {
+    showToast('Empty Cart', 'Your cart is empty', 'error');
+    return;
+  }
+
+  const orderId = generateOrderId();
+  const orderData = {
+    orderId,
+    customer: {
+      firstName: firstName.value.trim(),
+      lastName: lastName.value.trim(),
+      phone: phone.value.trim(),
+      email: email.value.trim()
+    },
+    shipping: {
+      address: address.value.trim(),
+      country: country.value,
+      city: city.value.trim(),
+      state: document.getElementById('state').value,
+      zipCode: document.getElementById('zipCode').value
+    },
+    payment: { method: paymentMethod },
+    items: checkoutData.items,
+    subtotal: checkoutData.subtotal,
+    total: checkoutData.total,
+    orderDate: new Date().toISOString()
+  };
+
+  sessionStorage.setItem('wearopia_order_complete', JSON.stringify(orderData));
+  sessionStorage.removeItem('wearopia_checkout_data');
+  localStorage.removeItem('wearopia_cart_v1');
+
+  showToast('Order Placed!', 'Redirecting to confirmation...', 'success');
+  setTimeout(() => (window.location.href = 'complete-order.html'), 1200);
+}
 
 </script>
 

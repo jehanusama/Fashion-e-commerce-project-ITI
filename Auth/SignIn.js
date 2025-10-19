@@ -1,10 +1,10 @@
-console.log("✅ SignIn.js file is loaded!");
+console.log(" SignIn.js file is loaded!");
 
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.querySelector("#loginForm");
   const secretKey = "mySecretKey";
 
-  // 👁️ إظهار / إخفاء كلمة المرور
+  // إظهار / إخفاء كلمة المرور
   const toggleIcon = document.getElementById("togglePassword");
   const toggleText = document.getElementById("toggleText");
   const passwordInput = document.getElementById("password");
@@ -28,17 +28,17 @@ document.addEventListener("DOMContentLoaded", function () {
     toggleIcon.addEventListener("click", togglePasswordVisibility);
     toggleText.addEventListener("click", togglePasswordVisibility);
   } else {
-    console.error("⚠️ Password toggle elements not found!");
+    console.error(" Password toggle elements not found!");
   }
 
-  // 🟩 تسجيل الدخول
+  //  تسجيل الدخول
   form.addEventListener("submit", function (e) {
     e.preventDefault();
 
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();
 
-    // 👑 التحقق من الأدمن
+    //  التحقق من الأدمن
     if (email === "admin@ecom.com" && password === "admin123") {
       const adminUser = { fullname: "Admin", email, accountType: "admin" };
       sessionStorage.setItem("loggedInUser", JSON.stringify(adminUser));
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    // 🔐 فك تشفير المستخدمين
+    //  فك تشفير المستخدمين
     const encryptedData = localStorage.getItem("users");
     if (!encryptedData) {
       Swal.fire({

@@ -1,6 +1,6 @@
-// ✅ Unified Signup Script for Customer & Seller
+//  Unified Signup Script for Customer & Seller
 document.addEventListener("DOMContentLoaded", function () {
-  // 👁️ Password toggle (Show/Hide)
+  //  Password toggle (Show/Hide)
   document.querySelectorAll(".password-toggle").forEach((btn) => {
     btn.addEventListener("click", () => {
       const input = btn.previousElementSibling;
@@ -15,23 +15,23 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // 🧾 Detect which form (Customer or Seller)
+  //  Detect which form (Customer or Seller)
   const isSellerForm = document.getElementById("sellerSignupForm") !== null;
   const form = isSellerForm
     ? document.getElementById("sellerSignupForm")
     : document.getElementById("signupForm");
 
-  // 📋 Field IDs for each form type
+  //  Field IDs for each form type
   const fields = isSellerForm
     ? ["storeName", "storeAddress", "email", "password", "confirmPassword"]
     : ["name", "email", "password", "confirmPassword" ];
 
-  // ✅ Regex patterns
+  //  Regex patterns
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const passwordPattern =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-  // 🧩 Validate field on input/blur
+  //  Validate field on input/blur
   fields.forEach((id) => {
     const input = document.getElementById(id);
     input.addEventListener("input", () => validateField(input));
