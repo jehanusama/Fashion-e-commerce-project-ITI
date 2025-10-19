@@ -610,6 +610,33 @@ document.getElementById('checkoutBtn').addEventListener('click', function() {
 // Initialize
 updateTotals();
 </script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const cartContainer = document.getElementById("cart-items");
+
+    if (cart.length === 0) {
+      cartContainer.innerHTML = "<p>Your cart is empty.</p>";
+      return;
+    }
+
+    cart.forEach(item => {
+      cartContainer.innerHTML += `
+        <div class="card mb-3 p-3">
+          <div class="d-flex align-items-center">
+            <img src="${item.image}" width="80" class="me-3">
+            <div>
+              <h5 class="mb-1">${item.name}</h5>
+              <p class="mb-0 text-success fw-bold">$${item.price.toFixed(2)}</p>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+  });
+</script>
+<div id="cart-items"></div>
+
 
 </body>
 </html>
