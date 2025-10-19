@@ -200,4 +200,25 @@ if (addToWishlistBtn) {
     }
   });
 }
+// ===== Sync navbar counters with localStorage =====
+function updateNavbarCounts() {
+  // Cart
+  const cart = JSON.parse(localStorage.getItem('wearopia_cart_v1')) || { items: [] };
+  const totalCartItems = cart.items.reduce((sum, item) => sum + (item.qty || 1), 0);
+  cartBadge.textContent = totalCartItems;
+  cartBadge.classList.toggle('show', totalCartItems > 0);
+
+  // Wishlist
+  const wishlist = JSON.parse(localStorage.getItem('wearopia_wishlist')) || [];
+  wishlistBadge.textContent = wishlist.length;
+  wishlistBadge.classList.toggle('show', wishlist.length > 0);
+}
+
+// Call once when the page loads
+updateNavbarCounts();
+
+// Also call it again after adding to cart or wishlist
+document.querySelector('.add-to-cart-btn')?.addEventListener('click', updateNavbarCounts);
+document.querySelector('.btn i.bi-heart')?.closest('.btn')?.addEventListener('click', updateNavbarCounts);
+
 /* end of product details*/
