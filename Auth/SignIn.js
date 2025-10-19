@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // 🔐 فك تشفير المستخدمين
-    const encryptedData = localStorage.getItem("sellers");
+    const encryptedData = localStorage.getItem("users");
     if (!encryptedData) {
       Swal.fire({
         title: "No account found",
@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     try {
-      const bytes = CryptoJS.AES.decrypt(encryptedData, secretKey);
+      const bytes = CryptoJS.AES.decrypt(encryptedData, "mySecretKey");
       const decryptedData = bytes.toString(CryptoJS.enc.Utf8);
       const users = JSON.parse(decryptedData);
 

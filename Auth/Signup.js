@@ -146,7 +146,7 @@ document.addEventListener("DOMContentLoaded", function () {
       icon: "success",
     }).then(() => {
       form.reset();
-      window.location.href = "login.html";
+      window.location.href = "index.html";
     });
   });
 });
