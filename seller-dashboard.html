@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wearopia Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-green: #0f7754;
+            --light-green: #e8f5f0;
+            --sidebar-width: 240px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f8f9fa;
+            min-width: 1440px;
+        }
+        
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 240px;
+            height: 100vh;
+            background: white;
+            border-right: 1px solid #e9ecef;
+            padding: 24px 0;
+        }
+        
+        .logo {
+            color: var(--primary-green);
+            font-size: 24px;
+            font-weight: bold;
+            padding: 0 24px 32px;
+            line-height: 1;
+        }
+        
+        .search-box {
+            padding: 0 24px;
+            margin-bottom: 32px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 14px;
+            background: #f8f9fa;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary-green);
+            background: white;
+        }
+        
+        .nav-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .nav-item {
+            padding: 12px 24px;
+            cursor: pointer;
+            color: #6c757d;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s;
+            font-size: 15px;
+        }
+        
+        .nav-item:hover {
+            background-color: var(--light-green);
+            color: var(--primary-green);
+        }
+        
+        .nav-item.active {
+            background-color: var(--light-green);
+            color: var(--primary-green);
+            border-right: 3px solid var(--primary-green);
+        }
+        
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+            font-size: 16px;
+        }
+        
+        .main-content {
+            margin-left: 240px;
+            padding: 1rem;
+            min-height: 100vh;
+        }
+        
+        .dashboard-grid {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .dashboard-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid #e9ecef;
+            flex: 1;
+        }
+        
+        .card-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #212529;
+            margin: 0;
+        }
+        
+        .sort-dropdown {
+            padding: 8px 12px;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #6c757d;
+            background: white;
+            cursor: pointer;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .data-table thead th {
+            text-align: left;
+            padding: 12px 8px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #6c757d;
+            border-bottom: 1px solid #e9ecef;
+            text-transform: capitalize;
+        }
+        
+        .data-table tbody td {
+            padding: 14px 8px;
+            border-bottom: 1px solid #f8f9fa;
+            font-size: 13px;
+            color: #212529;
+        }
+        
+        .data-table tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .product-cell {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .product-img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .status-badge {
+            color: #212529;
+            font-size: 13px;
+            font-weight: 400;
+        }
+        
+        .action-btn {
+            background: none;
+            border: none;
+            color: #adb5bd;
+            cursor: pointer;
+            padding: 4px 6px;
+            font-size: 14px;
+        }
+        
+        .action-btn:hover {
+            color: var(--primary-green);
+        }
+        
+        .view-all {
+            color: var(--primary-green);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 16px;
+        }
+        
+        .view-all:hover {
+            gap: 10px;
+            transition: gap 0.2s;
+        }
+        
+        .analytics-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid #e9ecef;
+            width: 100%;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 280px;
+            margin: 1rem 0;
+        }
+        
+        .stats-grid {
+            display: flex;
+            gap: 1rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .stat-card {
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 0.75rem;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        
+        .stat-card:first-child {
+            width: 13rem;
+        }
+        
+        .stat-card:nth-child(2) {
+            width: 13rem;
+        }
+        
+        .stat-card:last-child {
+            width: 13rem;
+        }
+        
+        .stat-label {
+            color: #6c757d;
+            font-size: 12px;
+            margin-bottom: 8px;
+            text-transform: capitalize;
+        }
+        
+        .stat-value {
+            font-size: 32px;
+            font-weight: 600;
+            color: #212529;
+            line-height: 1.2;
+        }
+        
+        .stat-subtitle {
+            font-size: 13px;
+            color: #6c757d;
+            margin-top: 4px;
+        }
+        
+        .user-profile {
+            position: absolute;
+            bottom: 24px;
+            left: 0;
+            width: 240px;
+            padding: 0 24px;
+        }
+        
+        .profile-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 10px;
+            background: #f8f9fa;
+            margin-bottom: 8px;
+        }
+        
+        .profile-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .profile-info {
+            flex: 1;
+        }
+        
+        .profile-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #212529;
+            margin-bottom: 4px;
+        }
+        
+        .profile-role {
+            font-size: 10px;
+            padding: 3px 10px;
+            background: #20c997;
+            color: white;
+            border-radius: 12px;
+            display: inline-block;
+            text-transform: lowercase;
+        }
+        
+        .logout-btn {
+            background: none;
+            border: none;
+            color: #dc3545;
+            cursor: pointer;
+            padding: 10px 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            width: 100%;
+            justify-content: flex-start;
+        }
+        
+        .logout-btn:hover {
+            color: #c82333;
+        }
+        
+        .buyer-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .buyer-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .buyer-details {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .buyer-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #212529;
+        }
+        
+        .buyer-company {
+            font-size: 11px;
+            color: #6c757d;
+            margin-top: 2px;
+        }
+
+        /* Exact Figma measurements */
+        .analytics-card .card-header-row {
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Stat cards measurements from Figma */
+        .stat-card {
+            flex: 1;
+            min-height: 6rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">Wearopia</div>
+        
+        <div class="search-box">
+            <input type="text" placeholder="Search" id="searchInput">
+        </div>
+        
+        <ul class="nav-menu">
+            <li class="nav-item" data-page="dashboard">
+                <i class="fas fa-th-large"></i>
+                <span>Dashboard</span>
+            </li>
+            <li class="nav-item active" data-page="products">
+                <i class="fas fa-box"></i>
+                <span>products</span>
+            </li>
+            <li class="nav-item" data-page="orders">
+                <i class="fas fa-shopping-cart"></i>
+                <span>orders</span>
+            </li>
+            <li class="nav-item" data-page="analytics">
+                <i class="fas fa-chart-bar"></i>
+                <span>Analytics</span>
+            </li>
+        </ul>
+        
+        <div class="user-profile">
+            <div class="profile-card">
+                <img src="https://i.pravatar.cc/150?img=12" alt="User" class="profile-img">
+                <div class="profile-info">
+                    <div class="profile-name">Gustavo Xavier</div>
+                    <span class="profile-role">seller</span>
+                </div>
+            </div>
+            <button class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Log out</span>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Products and Orders Grid -->
+        <div class="dashboard-grid">
+            <!-- Products Section -->
+            <div class="dashboard-card products-card">
+                <div class="card-header-row">
+                    <h2 class="card-title">products</h2>
+                    <select class="sort-dropdown">
+                        <option>Sort by Newest</option>
+                        <option>Sort by Price</option>
+                        <option>Sort by Stock</option>
+                    </select>
+                </div>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productsTableBody">
+                        <!-- Products will be inserted here -->
+                    </tbody>
+                </table>
+                
+                <a href="#" class="view-all">All products <i class="fas fa-arrow-right"></i></a>
+            </div>
+            
+            <!-- Orders Section -->
+            <div class="dashboard-card orders-card">
+                <div class="card-header-row">
+                    <h2 class="card-title">Orders</h2>
+                    <select class="sort-dropdown">
+                        <option>Sort by Newest</option>
+                        <option>Sort by Date</option>
+                        <option>Sort by Status</option>
+                    </select>
+                </div>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Order Id</th>
+                            <th>Product</th>
+                            <th>Buyer</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersTableBody">
+                        <!-- Orders will be inserted here -->
+                    </tbody>
+                </table>
+                
+                <a href="#" class="view-all">All Orders <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+        
+        <!-- Analytics Section -->
+        <div class="analytics-card">
+            <div class="card-header-row">
+                <h2 class="card-title">Analytics</h2>
+                <select class="sort-dropdown">
+                    <option>Yearly</option>
+                    <option>Monthly</option>
+                    <option>Weekly</option>
+                </select>
+            </div>
+            
+            <div class="chart-container">
+                <canvas id="analyticsChart"></canvas>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Top month</div>
+                    <div class="stat-value">November</div>
+                    <div class="stat-subtitle">2019</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-label">Top year</div>
+                    <div class="stat-value">2023</div>
+                    <div class="stat-subtitle">96K sold so far</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-label">Top buyer</div>
+                    <div class="buyer-info">
+                        <img src="https://i.pravatar.cc/150?img=45" alt="Buyer" class="buyer-avatar">
+                        <div class="buyer-details">
+                            <span class="buyer-name">Maggie Johnson</span>
+                            <span class="buyer-company">Oasis Organic Inc.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Sample data
+            const products = [
+                { name: 'jacket', price: '50$', stock: 60, status: '50$', img: 'https://i.pravatar.cc/150?img=33' },
+                { name: 'jacket', price: '50$', stock: 60, status: '50$', img: 'https://i.pravatar.cc/150?img=34' },
+                { name: 'jacket', price: '50$', stock: 60, status: '50$', img: 'https://i.pravatar.cc/150?img=35' },
+                { name: 'jacket', price: '50$', stock: 60, status: '50$', img: 'https://i.pravatar.cc/150?img=36' },
+                { name: 'jacket', price: '50$', stock: 60, status: '50$', img: 'https://i.pravatar.cc/150?img=37' }
+            ];
+            
+            const orders = [
+                { id: '#58898', product: 'jacket', buyer: 'Ali Mohamed', status: '50$', date: '12 oct 2025', img: 'https://i.pravatar.cc/150?img=33' },
+                { id: '#58898', product: 'jacket', buyer: 'Ali Mohamed', status: '50$', date: '12 oct 2025', img: 'https://i.pravatar.cc/150?img=34' },
+                { id: '#58898', product: 'jacket', buyer: 'Ali Mohamed', status: '50$', date: '12 oct 2025', img: 'https://i.pravatar.cc/150?img=35' },
+                { id: '#58898', product: 'jacket', buyer: 'Ali Mohamed', status: '50$', date: '12 oct 2025', img: 'https://i.pravatar.cc/150?img=36' },
+                { id: '#58898', product: 'jacket', buyer: 'Ali Mohamed', status: '50$', date: '12 oct 2025', img: 'https://i.pravatar.cc/150?img=37' }
+            ];
+            
+            // Populate products table
+            function populateProducts() {
+                let html = '';
+                products.forEach(product => {
+                    html += `
+                        <tr>
+                            <td>
+                                <div class="product-cell">
+                                    <img src="${product.img}" alt="${product.name}" class="product-img">
+                                    <span>${product.name}</span>
+                                </div>
+                            </td>
+                            <td>${product.price}</td>
+                            <td>${product.stock}</td>
+                            <td><span class="status-badge">${product.status}</span></td>
+                            <td>
+                                <button class="action-btn"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn"><i class="fas fa-link"></i></button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                $('#productsTableBody').html(html);
+            }
+            
+            // Populate orders table
+            function populateOrders() {
+                let html = '';
+                orders.forEach(order => {
+                    html += `
+                        <tr>
+                            <td>${order.id}</td>
+                            <td>${order.product}</td>
+                            <td>${order.buyer}</td>
+                            <td><span class="status-badge">${order.status}</span></td>
+                            <td>${order.date}</td>
+                            <td>
+                                <button class="action-btn"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                $('#ordersTableBody').html(html);
+            }
+            
+            // Initialize tables
+            populateProducts();
+            populateOrders();
+            
+            // Navigation
+            $('.nav-item').click(function() {
+                $('.nav-item').removeClass('active');
+                $(this).addClass('active');
+            });
+            
+            // Create chart with exact styling
+            const ctx = document.getElementById('analyticsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023'],
+                    datasets: [{
+                        data: [5000, 10000, 28000, 50000, 22000, 18000, 52000, 65000],
+                        borderColor: '#90EE90',
+                        backgroundColor: 'rgba(144, 238, 144, 0.25)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        pointHitRadius: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            enabled: true
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100000,
+                            ticks: {
+                                stepSize: 20000,
+                                callback: function(value) {
+                                    return value / 1000 + 'k';
+                                },
+                                color: '#adb5bd',
+                                font: {
+                                    size: 11
+                                }
+                            },
+                            grid: {
+                                display: false,
+                                drawBorder: false
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: '#adb5bd',
+                                font: {
+                                    size: 11
+                                }
+                            },
+                            grid: {
+                                display: false,
+                                drawBorder: false
+                            }
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    }
+                }
+            });
+            
+            // Search functionality
+            $('#searchInput').on('keyup', function() {
+                const value = $(this).val().toLowerCase();
+                $('.data-table tbody tr').filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

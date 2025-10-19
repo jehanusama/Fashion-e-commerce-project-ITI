@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wearopia - Orders</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-green: #0f7754;
+            --light-green: #e8f5f0;
+            --active-green: #6dd5b8;
+            --inactive-red: #ffcdd2;
+            --inactive-red-text: #c62828;
+            --sidebar-width: 240px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: white;
+            border-right: 1px solid #e9ecef;
+            padding: 24px 0;
+        }
+        
+        .logo {
+            color: var(--primary-green);
+            font-size: 24px;
+            font-weight: bold;
+            padding: 0 24px 32px;
+            line-height: 1;
+        }
+        
+        .search-box {
+            padding: 0 24px;
+            margin-bottom: 32px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 14px;
+            background: #f8f9fa;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary-green);
+            background: white;
+        }
+        
+        .nav-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .nav-item {
+            padding: 12px 24px;
+            cursor: pointer;
+            color: #6c757d;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s;
+            font-size: 15px;
+        }
+        
+        .nav-item:hover {
+            background-color: var(--light-green);
+            color: var(--primary-green);
+        }
+        
+        .nav-item.active {
+            background-color: var(--light-green);
+            color: var(--primary-green);
+            border-right: 3px solid var(--primary-green);
+        }
+        
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+            font-size: 16px;
+        }
+        
+        .user-profile {
+            position: absolute;
+            bottom: 24px;
+            left: 0;
+            width: var(--sidebar-width);
+            padding: 0 24px;
+        }
+        
+        .profile-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 10px;
+            background: #f8f9fa;
+            margin-bottom: 8px;
+        }
+        
+        .profile-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .profile-info {
+            flex: 1;
+        }
+        
+        .profile-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #212529;
+            margin-bottom: 4px;
+        }
+        
+        .profile-role {
+            font-size: 10px;
+            padding: 3px 10px;
+            background: #20c997;
+            color: white;
+            border-radius: 12px;
+            display: inline-block;
+            text-transform: lowercase;
+        }
+        
+        .logout-btn {
+            background: none;
+            border: none;
+            color: #dc3545;
+            cursor: pointer;
+            padding: 10px 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            width: 100%;
+            justify-content: flex-start;
+        }
+        
+        .logout-btn:hover {
+            color: #c82333;
+        }
+        
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 32px 40px;
+            min-height: 100vh;
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+        
+        .page-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: #212529;
+            margin: 0;
+        }
+        
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .search-input-wrapper {
+            position: relative;
+        }
+        
+        .search-input-wrapper input {
+            width: 300px;
+            padding: 10px 40px 10px 16px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+        }
+        
+        .search-input-wrapper input:focus {
+            outline: none;
+            border-color: var(--primary-green);
+        }
+        
+        .search-input-wrapper i {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #adb5bd;
+        }
+        
+        .sort-dropdown {
+            padding: 10px 16px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #212529;
+            background: white;
+            cursor: pointer;
+        }
+        
+        .orders-table-wrapper {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid #e9ecef;
+        }
+        
+        .orders-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .orders-table thead th {
+            text-align: left;
+            padding: 16px 12px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #adb5bd;
+            border-bottom: 1px solid #e9ecef;
+            text-transform: capitalize;
+        }
+        
+        .orders-table tbody td {
+            padding: 20px 12px;
+            border-bottom: 1px solid #f8f9fa;
+            font-size: 14px;
+            color: #212529;
+        }
+        
+        .orders-table tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .orders-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .status-badge {
+            padding: 6px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            display: inline-block;
+            text-align: center;
+            min-width: 80px;
+        }
+        
+        .status-badge.active {
+            background: var(--active-green);
+            color: var(--primary-green);
+        }
+        
+        .status-badge.inactive {
+            background: var(--inactive-red);
+            color: var(--inactive-red-text);
+        }
+        
+        .pagination-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .pagination-info {
+            font-size: 13px;
+            color: #adb5bd;
+        }
+        
+        .pagination {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .pagination button {
+            width: 36px;
+            height: 36px;
+            border: 1px solid #dee2e6;
+            background: white;
+            border-radius: 6px;
+            color: #6c757d;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .pagination button:hover {
+            border-color: var(--primary-green);
+            color: var(--primary-green);
+        }
+        
+        .pagination button.active {
+            background: var(--primary-green);
+            border-color: var(--primary-green);
+            color: white;
+        }
+        
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .pagination .dots {
+            padding: 0 8px;
+            color: #adb5bd;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">Wearopia</div>
+        
+        <div class="search-box">
+            <input type="text" placeholder="Search" id="sidebarSearch">
+        </div>
+        
+        <ul class="nav-menu">
+            <li class="nav-item" data-page="dashboard">
+                <i class="fas fa-th-large"></i>
+                <span>Dashboard</span>
+            </li>
+            <li class="nav-item" data-page="products">
+                <i class="fas fa-box"></i>
+                <span>products</span>
+            </li>
+            <li class="nav-item active" data-page="orders">
+                <i class="fas fa-shopping-cart"></i>
+                <span>orders</span>
+            </li>
+            <li class="nav-item" data-page="analytics">
+                <i class="fas fa-chart-bar"></i>
+                <span>Analytics</span>
+            </li>
+        </ul>
+        
+        <div class="user-profile">
+            <div class="profile-card">
+                <img src="https://i.pravatar.cc/150?img=12" alt="User" class="profile-img">
+                <div class="profile-info">
+                    <div class="profile-name">Gustavo Xavier</div>
+                    <span class="profile-role">seller</span>
+                </div>
+            </div>
+            <button class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Log out</span>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">Orders</h1>
+            <div class="header-controls">
+                <div class="search-input-wrapper">
+                    <input type="text" placeholder="Search" id="searchInput">
+                    <i class="fas fa-search"></i>
+                </div>
+                <select class="sort-dropdown">
+                    <option>Short by : Newest</option>
+                    <option>Short by : Oldest</option>
+                    <option>Short by : Name</option>
+                    <option>Short by : Company</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="orders-table-wrapper">
+            <table class="orders-table">
+                <thead>
+                    <tr>
+                        <th>Customer Name</th>
+                        <th>Company</th>
+                        <th>Phone Number</th>
+                        <th>Email</th>
+                        <th>Country</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="ordersTableBody">
+                    <!-- Orders will be inserted here -->
+                </tbody>
+            </table>
+            
+            <div class="pagination-wrapper">
+                <div class="pagination-info">Showing data 1 to 8 of 256K entries</div>
+                <div class="pagination">
+                    <button id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+                    <button class="active">1</button>
+                    <button>2</button>
+                    <button>3</button>
+                    <button>4</button>
+                    <span class="dots">...</span>
+                    <button>40</button>
+                    <button id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Sample orders data
+            const orders = [
+                { name: 'Jane Cooper', company: 'Microsoft', phone: '(225) 555-0118', email: 'jane@microsoft.com', country: 'United States', status: 'active' },
+                { name: 'Floyd Miles', company: 'Yahoo', phone: '(205) 555-0100', email: 'floyd@yahoo.com', country: 'Kiribati', status: 'inactive' },
+                { name: 'Ronald Richards', company: 'Adobe', phone: '(302) 555-0107', email: 'ronald@adobe.com', country: 'Israel', status: 'inactive' },
+                { name: 'Marvin McKinney', company: 'Tesla', phone: '(252) 555-0126', email: 'marvin@tesla.com', country: 'Iran', status: 'active' },
+                { name: 'Jerome Bell', company: 'Google', phone: '(629) 555-0129', email: 'jerome@google.com', country: 'Réunion', status: 'active' },
+                { name: 'Kathryn Murphy', company: 'Microsoft', phone: '(406) 555-0120', email: 'kathryn@microsoft.com', country: 'Curaçao', status: 'active' },
+                { name: 'Jacob Jones', company: 'Yahoo', phone: '(208) 555-0112', email: 'jacob@yahoo.com', country: 'Brazil', status: 'active' },
+                { name: 'Kristin Watson', company: 'Facebook', phone: '(704) 555-0127', email: 'kristin@facebook.com', country: 'Åland Islands', status: 'inactive' }
+            ];
+            
+            // Populate orders table
+            function populateOrders() {
+                let html = '';
+                orders.forEach(order => {
+                    html += `
+                        <tr>
+                            <td><strong>${order.name}</strong></td>
+                            <td>${order.company}</td>
+                            <td>${order.phone}</td>
+                            <td>${order.email}</td>
+                            <td>${order.country}</td>
+                            <td>
+                                <span class="status-badge ${order.status}">
+                                    ${order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                                </span>
+                            </td>
+                        </tr>
+                    `;
+                });
+                $('#ordersTableBody').html(html);
+            }
+            
+            // Initialize table
+            populateOrders();
+            
+            // Navigation
+            $('.nav-item').click(function() {
+                $('.nav-item').removeClass('active');
+                $(this).addClass('active');
+            });
+            
+            // Search functionality
+            $('#searchInput').on('keyup', function() {
+                const value = $(this).val().toLowerCase();
+                $('.orders-table tbody tr').filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+            
+            // Pagination
+            let currentPage = 1;
+            $('.pagination button:not(#prevBtn):not(#nextBtn)').click(function() {
+                $('.pagination button').removeClass('active');
+                $(this).addClass('active');
+                currentPage = parseInt($(this).text());
+            });
+            
+            $('#prevBtn').click(function() {
+                if (currentPage > 1) {
+                    currentPage--;
+                    updatePagination();
+                }
+            });
+            
+            $('#nextBtn').click(function() {
+                if (currentPage < 40) {
+                    currentPage++;
+                    updatePagination();
+                }
+            });
+            
+            function updatePagination() {
+                $('.pagination button:not(#prevBtn):not(#nextBtn)').removeClass('active');
+                $('.pagination button:not(#prevBtn):not(#nextBtn)').each(function() {
+                    if (parseInt($(this).text()) === currentPage) {
+                        $(this).addClass('active');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
