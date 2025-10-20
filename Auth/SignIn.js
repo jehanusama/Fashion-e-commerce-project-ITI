@@ -1,4 +1,3 @@
-//mohamed ashraf
 console.log(" SignIn.js file is loaded!");
 
 document.addEventListener("DOMContentLoaded", function () {
