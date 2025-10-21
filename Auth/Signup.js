@@ -1,6 +1,6 @@
-// ✅ Unified Signup Script for Customer & Seller
+//  Unified Signup Script for Customer & Seller
 document.addEventListener("DOMContentLoaded", function () {
-  // 👁️ Password toggle (Show/Hide)
+  //  Password toggle (Show/Hide)
   document.querySelectorAll(".password-toggle").forEach((btn) => {
     btn.addEventListener("click", () => {
       const input = btn.previousElementSibling;
@@ -15,23 +15,23 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // 🧾 Detect which form (Customer or Seller)
+  //  Detect which form (Customer or Seller)
   const isSellerForm = document.getElementById("sellerSignupForm") !== null;
   const form = isSellerForm
     ? document.getElementById("sellerSignupForm")
     : document.getElementById("signupForm");
 
-  // 📋 Field IDs for each form type
+  //  Field IDs for each form type
   const fields = isSellerForm
     ? ["storeName", "storeAddress", "email", "password", "confirmPassword"]
-    : ["name", "email", "password", "confirmPassword"];
+    : ["name", "email", "password", "confirmPassword" ];
 
-  // ✅ Regex patterns
+  //  Regex patterns
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const passwordPattern =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-  // 🧩 Validate field on input/blur
+  //  Validate field on input/blur
   fields.forEach((id) => {
     const input = document.getElementById(id);
     input.addEventListener("input", () => validateField(input));
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // 🚀 On Submit
+  //  On Submit
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     let valid = true;
@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    // 🧠 Get values
+    //  Get values
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();
 
@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const role = isSellerForm ? "seller" : "customer";
 
-    // 🔒 Load existing users from localStorage
+    //  Load existing users from localStorage
     const existingUsersEncrypted = localStorage.getItem("users");
     let users = [];
 
@@ -110,9 +110,9 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
 
-    // 🚫 Check if email already exists
-    const isEmailTaken = users.some((u) => u.email === email);
-    if (isEmailTaken) {
+    //  Check if email already exists
+    const isEmailToken = users.some((u) => u.email === email);
+    if (isEmailToken) {
       Swal.fire({
         title: "Email Already Registered!",
         text: "Please use another email address.",
@@ -121,7 +121,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    // 🆕 Create new user
+    //  Create new user
     const newUser = {
       name,
       storeAddress,
@@ -132,21 +132,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
     users.push(newUser);
 
-    // 🔐 Encrypt and save back
+    //  Encrypt and save back
     const updatedUsersEncrypted = CryptoJS.AES.encrypt(
       JSON.stringify(users),
       "mySecretKey"
     ).toString();
     localStorage.setItem("users", updatedUsersEncrypted);
 
-    // ✅ Sweet Alert success message
+    // Sweet Alert success message
     Swal.fire({
       title: "Account Created Successfully!",
       text: `Welcome to Wearopia as a ${role}!`,
       icon: "success",
     }).then(() => {
       form.reset();
-      window.location.href = "login.html";
+      window.location.href = "index.html";
     });
   });
 });

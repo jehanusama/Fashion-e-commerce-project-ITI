@@ -270,7 +270,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-  // 👁️ Toggle Password Visibility
+  //  Toggle Password Visibility
   document.querySelectorAll(".password-toggle").forEach((btn) => {
     btn.addEventListener("click", () => {
       const input = btn.previousElementSibling;
@@ -292,7 +292,7 @@ const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const passwordPattern =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-  // ✅ Validation
+  //  Validation
   fields.forEach((id) => {
     const input = document.getElementById(id);
     input.addEventListener("input", () => validateField(input));
@@ -323,7 +323,7 @@ const passwordPattern =
     }
   }
 
-  // 🚀 Submit
+  //  Submit
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
@@ -362,7 +362,7 @@ const passwordPattern =
       }
     }
 
-    // 🚫 Check for duplicate email
+    //  Check for duplicate email
     const isEmailTaken = users.some((u) => u.email === email);
     if (isEmailTaken) {
       Swal.fire({
@@ -373,18 +373,18 @@ const passwordPattern =
       return;
     }
 
-    // 🆕 Create new user
+    //  Create new user
     const newUser = { name, email, password, role };
     users.push(newUser);
 
-    // 🔐 Save encrypted
+    //  Save encrypted
     const updatedUsersEncrypted = CryptoJS.AES.encrypt(
       JSON.stringify(users),
       "mySecretKey"
     ).toString();
     localStorage.setItem("users", updatedUsersEncrypted);
 
-    // ✅ Success
+    //  Success
     Swal.fire({
       title: "Account Created Successfully!",
       text: "Welcome to Wearopia 💚",
