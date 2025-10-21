@@ -1,4 +1,40 @@
 console.log(" SignIn.js file is loaded!");
+//  إضافة حساب أدمن ثابت (static admin) في localStorage لو مش موجود
+document.addEventListener("DOMContentLoaded", function () {
+  const secretKey = "mySecretKey";
+  const adminUser = {
+    fullname: "Admin",
+    email: "adminreham@wearopia.com",
+    password: "adminreham123",
+    accountType: "admin",
+  };
+
+  // تحقق إذا كان الأدمن موجود في 3calStorage ولا لأ
+  const encryptedData = localStorage.getItem("users");
+  let users = [];
+
+  if (encryptedData) {
+    const bytes = CryptoJS.AES.decrypt(encryptedData, secretKey);
+    const decryptedData = bytes.toString(CryptoJS.enc.Utf8);
+    users = JSON.parse(decryptedData);
+  }
+
+  // لو الأدمن مش موجود، نضيفه
+  const adminExists = users.some(
+    (user) => user.email === adminUser.email
+  );
+
+  if (!adminExists) {
+    users.push(adminUser);
+    const encryptedUsers = CryptoJS.AES.encrypt(
+      JSON.stringify(users),
+      secretKey
+    ).toString();
+    localStorage.setItem("users", encryptedUsers);
+    console.log(" Static admin account added to localStorage!");
+  }
+});
+
 
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.querySelector("#loginForm");
@@ -80,7 +116,7 @@ document.addEventListener("DOMContentLoaded", function () {
           text: "Welcome back to Wearopia 💚",
           icon: "success",
         }).then(() => {
-          window.location.href = "index.html";
+          window.location.href = "/admindashboard.html";
         });
       } else {
         Swal.fire({
