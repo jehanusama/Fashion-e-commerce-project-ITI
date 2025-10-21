@@ -1,46 +1,10 @@
-console.log(" SignIn.js file is loaded!");
-//  إضافة حساب أدمن ثابت (static admin) في localStorage لو مش موجود
-document.addEventListener("DOMContentLoaded", function () {
-  const secretKey = "mySecretKey";
-  const adminUser = {
-    fullname: "Admin",
-    email: "adminreham@wearopia.com",
-    password: "adminreham123",
-    accountType: "admin",
-  };
-
-  // تحقق إذا كان الأدمن موجود في 3calStorage ولا لأ
-  const encryptedData = localStorage.getItem("users");
-  let users = [];
-
-  if (encryptedData) {
-    const bytes = CryptoJS.AES.decrypt(encryptedData, secretKey);
-    const decryptedData = bytes.toString(CryptoJS.enc.Utf8);
-    users = JSON.parse(decryptedData);
-  }
-
-  // لو الأدمن مش موجود، نضيفه
-  const adminExists = users.some(
-    (user) => user.email === adminUser.email
-  );
-
-  if (!adminExists) {
-    users.push(adminUser);
-    const encryptedUsers = CryptoJS.AES.encrypt(
-      JSON.stringify(users),
-      secretKey
-    ).toString();
-    localStorage.setItem("users", encryptedUsers);
-    console.log(" Static admin account added to localStorage!");
-  }
-});
-
+console.log("SignIn.js file is loaded!");
 
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.querySelector("#loginForm");
   const secretKey = "mySecretKey";
 
-  // إظهار / إخفاء كلمة المرور
+  // ====== إظهار / إخفاء كلمة المرور ======
   const toggleIcon = document.getElementById("togglePassword");
   const toggleText = document.getElementById("toggleText");
   const passwordInput = document.getElementById("password");
@@ -64,32 +28,32 @@ document.addEventListener("DOMContentLoaded", function () {
     toggleIcon.addEventListener("click", togglePasswordVisibility);
     toggleText.addEventListener("click", togglePasswordVisibility);
   } else {
-    console.error(" Password toggle elements not found!");
+    console.error("Password toggle elements not found!");
   }
 
-  //  تسجيل الدخول
+  // ====== تسجيل الدخول ======
   form.addEventListener("submit", function (e) {
     e.preventDefault();
 
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();
 
-    //  التحقق من الأدمن
-    if (email === "admin@ecom.com" && password === "admin123") {
-      const adminUser = { fullname: "Admin", email, accountType: "admin" };
+    // ✅ التحقق من الأدمن الثابت
+    if (email === "adminreham@wearopia.com" && password === "adminreham123") {
+      const adminUser = { fullname: "Admin", email, role: "admin" };
       sessionStorage.setItem("loggedInUser", JSON.stringify(adminUser));
 
       Swal.fire({
-        title: "Admin login successful!",
-        text: "Redirecting to dashboard...",
+        title: "Welcome Admin!",
+        text: "Redirecting to admin dashboard...",
         icon: "success",
       }).then(() => {
-        window.location.href = "admin/admin.html";
+        window.location.href = "/admindashboard.html"; // صفحة الأدمن
       });
       return;
     }
 
-    //  فك تشفير المستخدمين
+    // ✅ فك تشفير المستخدمين
     const encryptedData = localStorage.getItem("users");
     if (!encryptedData) {
       Swal.fire({
@@ -101,22 +65,33 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     try {
-      const bytes = CryptoJS.AES.decrypt(encryptedData, "mySecretKey");
+      const bytes = CryptoJS.AES.decrypt(encryptedData, secretKey);
       const decryptedData = bytes.toString(CryptoJS.enc.Utf8);
       const users = JSON.parse(decryptedData);
 
+      // 🔍 البحث عن المستخدم
       const foundUser = users.find(
         (user) => user.email === email && user.password === password
       );
 
       if (foundUser) {
         sessionStorage.setItem("loggedInUser", JSON.stringify(foundUser));
+
+        // تحديد الصفحة حسب نوع المستخدم
+        let redirectUrl = "index.html"; // الافتراضي: الكاستمر
+
+        if (foundUser.role === "seller") {
+          redirectUrl = "seller-dashboard.html";
+        } else if (foundUser.role === "admin" || foundUser.accountType === "admin") {
+          redirectUrl = "admindashboard.html";
+        }
+
         Swal.fire({
           title: "Login successful!",
-          text: "Welcome back to Wearopia 💚",
+          text: `Welcome back, ${foundUser.name || foundUser.fullname}! 💚`,
           icon: "success",
         }).then(() => {
-          window.location.href = "/admindashboard.html";
+          window.location.href = redirectUrl;
         });
       } else {
         Swal.fire({
