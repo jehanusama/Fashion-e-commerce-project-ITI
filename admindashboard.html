@@ -1,3 +1,1117 @@
-<h1>
-    ADMIN
-</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wearopia Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-green: #0F6546;
+            --light-green: #e8f4f4;
+            --light-yellow: #fff4d4;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+        }
+
+        .sidebar-col {
+            flex: 0 0 auto;
+            width: 250px;
+        }
+
+        .sidebar {
+            background: white;
+            height: calc(100vh - 32px);
+            padding: 16px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-radius: 16px;
+            position: sticky;
+            top: 16px;
+            transition: all 0.3s ease;
+            overflow-y: auto;
+            overflow-x: hidden;
+            margin: 16px 8px;
+            width: 100%;
+        }
+
+        .logo {
+            color: var(--primary-green);
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .logo-short {
+            display: none;
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 10px 15px 10px 40px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item {
+            padding: 12px 15px;
+            margin-bottom: 5px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .nav-item span {
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background-color: var(--light-green);
+            color: var(--primary-green);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            border-top: 1px solid #e0e0e0;
+            margin-top: auto;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #e0e0e0;
+        }
+
+        .user-info {
+            transition: all 0.3s ease;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .user-role {
+            display: inline-block;
+            background-color: #7FD4B5;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            margin-top: 2px;
+        }
+
+        .user-actions {
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn {
+            color: #B01212;
+            font-size: 14px;
+            margin-top: 5px;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            text-decoration: underline;
+        }
+
+        .Settings-btn i {
+            color: #7D7D7D;
+            font-size: 14px;
+        }
+
+        .main-content {
+            flex: 1;
+            /* margin-left: 266px; */
+            padding: 30px;
+            overflow: auto;
+            flex-grow: 1;
+        }
+        
+        .content-grid {
+           
+            /* grid-template-columns: 1fr 1fr; */
+            gap: 20px;
+            /* margin-bottom: 20px; */
+            /* height: calc(100vh - 360px); */
+            display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      
+      padding: 20px;
+        }
+        
+        .section-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #111827;
+        }
+        
+        .sort-dropdown {
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 5px 10px;
+            font-size: 12px;
+            color: #6b7280;
+            background: white;
+            cursor: pointer;
+        }
+        
+        .table-container {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: auto;
+            margin-bottom: 10px;
+        }
+        
+        table {
+            width: 100%;
+            font-size: 13px;
+            min-width: 500px;
+        }
+        
+        thead th {
+            color: #9ca3af;
+            font-weight: 500;
+            padding: 8px 6px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+            position: sticky;
+            top: 0;
+            background: white;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+        
+        tbody td {
+            padding: 12px 6px;
+            border-bottom: 1px solid #f9fafb;
+            vertical-align: middle;
+        }
+        
+        .product-img {
+            width: 35px;
+            height: 35px;
+            border-radius: 6px;
+            object-fit: cover;
+        }
+        
+        .badge-inactive {
+            background-color: var(--light-green);
+            color: var(--primary-green);
+            padding: 4px 12px;
+            border-radius: 5px;
+            font-weight: 500;
+            font-size: 11px;
+            display: inline-block;
+            white-space: nowrap;
+        }
+        
+        .badge-processing {
+            background-color: var(--light-yellow);
+            color: #92400e;
+            padding: 4px 12px;
+            border-radius: 5px;
+            font-weight: 500;
+            font-size: 11px;
+            display: inline-block;
+            white-space: nowrap;
+        }
+        
+        .action-btn {
+            background: none;
+            border: none;
+            color: #9ca3af;
+            cursor: pointer;
+            padding: 3px 5px;
+            transition: color 0.2s;
+            font-size: 13px;
+        }
+        
+        .action-btn:hover {
+            color: #6b7280;
+        }
+        
+        .view-all {
+            color: var(--primary-green);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            display: inline-block;
+        }
+        
+        .view-all:hover {
+            text-decoration: underline;
+        }
+        
+        .analytics-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            padding: 20px;
+            height: 400px;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 180px;
+            margin-top: 10px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .stat-card {
+            background: #f9fafb;
+            border-radius: 8px;
+            padding: 15px;
+        }
+        
+        .stat-label {
+            color: #9ca3af;
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+        
+        .stat-value {
+            font-size: 22px;
+            font-weight: 700;
+            color: #111827;
+        }
+        
+        .stat-subtitle {
+            color: #6b7280;
+            font-size: 12px;
+            margin-top: 2px;
+        }
+        
+        .buyer-card {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .buyer-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+        
+        .buyer-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: #111827;
+        }
+        
+        .buyer-company {
+            color: #9ca3af;
+            font-size: 11px;
+        }
+
+        .product-cell {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .product-cell img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .product-cell span {
+            font-weight: 500;
+            font-size: 13px;
+        }
+        
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #9ca3af;
+        }
+
+        @media (max-width: 1200px) {
+            .sidebar-col {
+                width: 80px;
+            }
+
+            .logo-full {
+                display: none;
+            }
+
+            .logo-short {
+                display: block;
+                font-size: 28px;
+                text-align: center;
+            }
+
+            .search-box input {
+                display: none;
+            }
+
+            .search-box i {
+                position: static;
+                transform: none;
+                font-size: 20px;
+                padding: 12px;
+                cursor: pointer;
+                border-radius: 8px;
+            }
+
+            .search-box i:hover {
+                background-color: var(--light-green);
+                color: var(--primary-green);
+            }
+
+            .nav-item {
+                justify-content: center;
+                padding: 8px;
+            }
+
+            .nav-item span {
+                display: none;
+            }
+
+            .nav-item i {
+                font-size: 20px;
+                margin: 0;
+            }
+
+            .user-info {
+                display: none;
+            }
+
+            .user-profile {
+                justify-content: center;
+                padding: 15px 8px;
+            }
+
+            .user-actions {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+                width: 100%;
+            }
+
+            .Settings-btn,
+            .logout-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0;
+                padding: 8px;
+            }
+
+            .Settings-btn span,
+            .logout-btn span {
+                display: none;
+            }
+
+            .Settings-btn i,
+            .logout-btn i {
+                margin: 0 !important;
+                font-size: 18px;
+            }
+
+            .main-content {
+                /* margin-left: 96px; */
+                flex-direction: row;
+            }
+            
+        }
+
+        @media (max-width: 768px) {
+            .sidebar-col {
+                width: 70px;
+            }
+
+            .sidebar {
+                padding: 12px 6px;
+                margin: 16px 4px;
+            }
+
+            .main-content {
+                /* margin-left: 86px; */
+                padding: 15px;
+                flex-direction: row;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            @media (max-width: 775px) {
+    .section-card,
+    .analytics-card {
+        max-height: 400px; /* أو أي ارتفاع يناسبك */
+        overflow-y: auto;
+        scrollbar-width: thin; /* للفايرفوكس */
+        scrollbar-color: #d1d5db #f1f1f1; /* ألوان الاسكرول */
+    }
+
+    /* شكل الاسكرول للكروم */
+    .section-card::-webkit-scrollbar,
+    .analytics-card::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .section-card::-webkit-scrollbar-track,
+    .analytics-card::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    .section-card::-webkit-scrollbar-thumb,
+    .analytics-card::-webkit-scrollbar-thumb {
+        background-color: #d1d5db;
+        border-radius: 3px;
+    }
+
+    .section-card::-webkit-scrollbar-thumb:hover,
+    .analytics-card::-webkit-scrollbar-thumb:hover {
+        background-color: #9ca3af;
+    }
+}
+
+        }
+
+        @media (max-width: 576px) {
+            .sidebar-col {
+                width: 60px;
+            }
+
+            .sidebar {
+                padding: 10px 4px;
+                margin: 12px 4px;
+            }
+
+            .main-content {
+                /* margin-left: 76px; */
+                padding: 10px;
+                flex-direction: row;
+            }
+            @media (max-width: 775px) {
+    .section-card,
+    .analytics-card {
+        max-height: 400px; /* أو أي ارتفاع يناسبك */
+        overflow-y: auto;
+        scrollbar-width: thin; /* للفايرفوكس */
+        scrollbar-color: #d1d5db #f1f1f1; /* ألوان الاسكرول */
+    }
+
+    /* شكل الاسكرول للكروم */
+    .section-card::-webkit-scrollbar,
+    .analytics-card::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .section-card::-webkit-scrollbar-track,
+    .analytics-card::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    .section-card::-webkit-scrollbar-thumb,
+    .analytics-card::-webkit-scrollbar-thumb {
+        background-color: #d1d5db;
+        border-radius: 3px;
+    }
+
+    .section-card::-webkit-scrollbar-thumb:hover,
+    .analytics-card::-webkit-scrollbar-thumb:hover {
+        background-color: #9ca3af;
+    }
+}
+
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container-fluid p-0">
+        <div class="row g-0">
+            <!-- Sidebar -->
+            <div class="sidebar-col">
+                <div class="sidebar">
+                    <a href="#" class="logo text-decoration-none">
+                        <span class="logo-full">Wearopia</span>
+                        <span class="logo-short">W</span>
+                    </a>
+
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" class="form-control" placeholder="Search">
+                    </div>
+
+                    <a href="#" class="nav-item text-decoration-none active">
+                        <i class="fas fa-th-large"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="#" class="nav-item text-decoration-none">
+                        <i class="fas fa-box"></i>
+                        <span>products</span>
+                    </a>
+                    <a href="#" class="nav-item text-decoration-none">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>orders</span>
+                    </a>
+                    <a href="#" class="nav-item text-decoration-none">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Analytics</span>
+                    </a>
+
+                    <div class="user-profile">
+                        <div class="d-flex flex-column w-100">
+                            <div class="d-flex my-3">
+                                <div>
+                                    <img src="https://ui-avatars.com/api/?name=Gustavo+Xavier&background=0F6546&color=fff" alt="User" class="user-avatar">
+                                </div>
+                                <div class="mx-3 user-info">
+                                    <div class="user-name">Gustavo Xavier</div>
+                                    <span class="user-role">Seller</span>
+                                </div>
+                            </div>
+                            <div class="user-actions">
+                                <div class="Settings-btn fs-6 my-3">
+                                    <i class="fa-solid fa-gear mx-2"></i> <span>Settings</span>
+                                </div>
+                                <div class="logout-btn fs-6">
+                                    <i class="fas fa-sign-out-alt mx-2"></i> <span>Log out</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <div class="content-grid">
+                    <!-- Products Section -->
+                    <div class="section-card">
+                        <div class="section-header">
+                            <h2 class="section-title">products</h2>
+                            <select class="sort-dropdown">
+                                <option>Sort by Newest</option>
+                                <option>Sort by Price</option>
+                                <option>Sort by Name</option>
+                            </select>
+                        </div>
+                        
+                        <div class="table-container">
+                            <table id="products-table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>product Name</th>
+                                        <th>Id</th>
+                                        <th>Price</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        
+                        <a href="#" class="view-all">All products →</a>
+                    </div>
+                    
+                    <!-- Orders Section -->
+                    <div class="section-card">
+                        <div class="section-header">
+                            <h2 class="section-title">Orders</h2>
+                            <select class="sort-dropdown">
+                                <option>Sort by Newest</option>
+                                <option>Sort by Customer</option>
+                                <option>Sort by Status</option>
+                            </select>
+                        </div>
+                        
+                        <div class="table-container">
+                            <table id="orders-table">
+                                <thead>
+                                    <tr>
+                                        <th>Order Id</th>
+                                        <th>Customer</th>
+                                        <th>Product</th>
+                                        <th>Price</th>
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        
+                        <a href="#" class="view-all">All Orders →</a>
+                    </div>
+                
+                    <!-- Seller Section -->
+                    <div class="section-card">
+                        <div class="section-header">
+                            <h2 class="section-title">Seller</h2>
+                            <select class="sort-dropdown">
+                                <option>Sort by Newest</option>
+                                <option>Sort by Price</option>
+                                <option>Sort by Name</option>
+                            </select>
+                        </div>
+                        
+                        <div class="table-container">
+                            <table id="seller-table">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Price</th>
+                                        <th>Stock</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        
+                        <a href="#" class="view-all">All products →</a>
+                    </div>
+
+                    <!-- Seller Orders Section -->
+                    <div class="section-card">
+                        <div class="section-header">
+                            <h2 class="section-title">Orders</h2>
+                            <select class="sort-dropdown">
+                                <option>Sort by Newest</option>
+                                <option>Sort by Customer</option>
+                                <option>Sort by Status</option>
+                            </select>
+                        </div>
+                        
+                        <div class="table-container">
+                            <table id="seller-orders-table">
+                                <thead>
+                                    <tr>
+                                        <th>Order Id</th>
+                                        <th>Product</th>
+                                        <th>Buyer</th>
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        
+                        <a href="#" class="view-all">All Orders →</a>
+                    </div>
+                
+                    <!-- Products Section 2 -->
+                    <div class="section-card">
+                        <div class="section-header">
+                            <h2 class="section-title">products</h2>
+                            <select class="sort-dropdown">
+                                <option>Sort by Newest</option>
+                                <option>Sort by Price</option>
+                                <option>Sort by Name</option>
+                            </select>
+                        </div>
+                        
+                        <div class="table-container">
+                            <table id="products-table-2">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>product Name</th>
+                                        <th>Id</th>
+                                        <th>Price</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        
+                        <a href="#" class="view-all">All products →</a>
+                    </div>
+
+                    <!-- Analytics Section -->
+                    <div class="analytics-card">
+                        <div class="section-header">
+                            <h2 class="section-title">Top-selling products</h2>
+                            <select class="sort-dropdown" id="analytics-period">
+                                <option value="yearly">Yearly</option>
+                                <option value="monthly">Monthly</option>
+                                <option value="weekly">Weekly</option>
+                            </select>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <canvas id="analyticsChart"></canvas>
+                        </div>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-label">Top month</div>
+                                <div class="stat-value">November</div>
+                                <div class="stat-subtitle">2019</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">Top year</div>
+                                <div class="stat-value">2023</div>
+                                <div class="stat-subtitle">96K sold so far</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">Top buyer</div>
+                                <div class="buyer-card">
+                                    <img src="https://i.pravatar.cc/90?img=5" alt="Buyer" class="buyer-avatar">
+                                    <div>
+                                        <div class="buyer-name">Maggie Johnson</div>
+                                        <div class="buyer-company">Oasis Organic Inc.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            const productsData = [
+                { id: 1, name: 'Jane Cooper', productId: 1998, price: 5005, status: 'inactive', img: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=100' },
+                { id: 2, name: 'Jane Cooper', productId: 1998, price: 5005, status: 'inactive', img: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=100' },
+                { id: 3, name: 'Jane Cooper', productId: 1998, price: 5005, status: 'inactive', img: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=100' },
+                { id: 4, name: 'Jane Cooper', productId: 1998, price: 5005, status: 'inactive', img: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=100' }
+            ];
+            
+            const ordersData = [
+                { orderId: '0118', customer: 'Ali', product: 'jacket', price: 5005, status: 'processing', date: '12-5-2025' },
+                { orderId: '0118', customer: 'Ali', product: 'jacket', price: 5005, status: 'inactive', date: '12-5-2025' },
+                { orderId: '0118', customer: 'Ali', product: 'jacket', price: 5005, status: 'processing', date: '12-5-2025' },
+                { orderId: '0118', customer: 'Ali', product: 'jacket', price: 5005, status: 'inactive', date: '12-5-2025' }
+            ];
+
+            const sellerProducts = [
+                { name: 'jacket', price: '50$', stock: 60, status: '50$', img: 'https://ui-avatars.com/api/?name=J&background=8b6f47&color=fff' },
+                { name: 'jacket', price: '50$', stock: 60, status: '50$', img: 'https://ui-avatars.com/api/?name=J&background=8b6f47&color=fff' },
+                { name: 'jacket', price: '50$', stock: 60, status: '50$', img: 'https://ui-avatars.com/api/?name=J&background=8b6f47&color=fff' },
+                { name: 'jacket', price: '50$', stock: 60, status: '50$', img: 'https://ui-avatars.com/api/?name=J&background=8b6f47&color=fff' },
+                { name: 'jacket', price: '50$', stock: 60, status: '50$', img: 'https://ui-avatars.com/api/?name=J&background=8b6f47&color=fff' }
+            ];
+
+            const sellerOrders = [
+                { orderId: '#58898', product: 'jacket', buyer: 'Ali Mohamed', status: '50$', date: '12 oct 2025' },
+                { orderId: '#58898', product: 'jacket', buyer: 'Ali Mohamed', status: '50$', date: '12 oct 2025' },
+                { orderId: '#58898', product: 'jacket', buyer: 'Ali Mohamed', status: '50$', date: '12 oct 2025' },
+                { orderId: '#58898', product: 'jacket', buyer: 'Ali Mohamed', status: '50$', date: '12 oct 2025' },
+                { orderId: '#58898', product: 'jacket', buyer: 'Ali Mohamed', status: '50$', date: '12 oct 2025' }
+            ];
+            
+            function renderProducts() {
+                const tbody = $('#products-table tbody, #products-table-2 tbody');
+                tbody.empty();
+                
+                productsData.forEach(product => {
+                    tbody.append(`
+                        <tr>
+                            <td><img src="${product.img}" alt="Product" class="product-img"></td>
+                            <td><strong>${product.name}</strong></td>
+                            <td>${product.productId}</td>
+                            <td>${product.price} $</td>
+                            <td><span class="badge-inactive">Inactive</span></td>
+                            <td>
+                                <button class="action-btn"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    `);
+                });
+            }
+            
+            function renderOrders() {
+                const tbody = $('#orders-table tbody');
+                tbody.empty();
+                
+                ordersData.forEach(order => {
+                    const badgeClass = order.status === 'processing' ? 'badge-processing' : 'badge-inactive';
+                    const statusText = order.status === 'processing' ? 'Processing' : 'Inactive';
+                    
+                    tbody.append(`
+                        <tr>
+                            <td>${order.orderId}</td>
+                            <td><strong>${order.customer}</strong></td>
+                            <td>${order.product}</td>
+                            <td>${order.price} $</td>
+                            <td><span class="${badgeClass}">${statusText}</span></td>
+                            <td>${order.date}</td>
+                        </tr>
+                    `);
+                });
+            }
+
+            function renderSellerProducts() {
+                const tbody = $('#seller-table tbody');
+                tbody.empty();
+                
+                sellerProducts.forEach(product => {
+                    tbody.append(`
+                        <tr>
+                            <td>
+                                <div class="product-cell">
+                                    <img src="${product.img}" class="product-img" alt="">
+                                    <span>${product.name}</span>
+                                </div>
+                            </td>
+                            <td>${product.price}</td>
+                            <td>${product.stock}</td>
+                            <td>${product.status}</td>
+                            <td>
+                                <button class="action-btn"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    `);
+                });
+            }
+
+            function renderSellerOrders() {
+                const tbody = $('#seller-orders-table tbody');
+                tbody.empty();
+                
+                sellerOrders.forEach(order => {
+                    tbody.append(`
+                        <tr>
+                            <td>${order.orderId}</td>
+                            <td>${order.product}</td>
+                            <td>${order.buyer}</td>
+                            <td>${order.status}</td>
+                            <td>${order.date}</td>
+                            <td>
+                                <button class="action-btn"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    `);
+                });
+            }
+            
+            const yearlyData = {
+                labels: ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023'],
+                data: [8000, 12000, 28000, 45000, 15000, 18000, 48000, 68000]
+            };
+            
+            let analyticsChart;
+            
+            function renderChart(period = 'yearly') {
+                const ctx = document.getElementById('analyticsChart').getContext('2d');
+                
+                if (analyticsChart) {
+                    analyticsChart.destroy();
+                }
+                
+                analyticsChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: yearlyData.labels,
+                        datasets: [{
+                            data: yearlyData.data,
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            fill: true,
+                            tension: 0.4,
+                            borderWidth: 2,
+                            pointRadius: 0,
+                            pointHoverRadius: 5,
+                            pointHoverBackgroundColor: '#10b981',
+                            pointHoverBorderColor: '#fff',
+                            pointHoverBorderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false,
+                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                padding: 10,
+                                cornerRadius: 6,
+                                titleFont: {
+                                    size: 13
+                                },
+                                bodyFont: {
+                                    size: 12
+                                },
+                                callbacks: {
+                                    label: function(context) {
+                                        return 'Sales: ' + context.parsed.y.toLocaleString();
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100000,
+                                ticks: {
+                                    callback: function(value) {
+                                        return value >= 1000 ? (value/1000) + 'k' : value;
+                                    },
+                                    font: {
+                                        size: 11
+                                    },
+                                    color: '#9ca3af'
+                                },
+                                grid: {
+                                    color: '#f3f4f6',
+                                    drawBorder: false
+                                }
+                            },
+                            x: {
+                                ticks: {
+                                    font: {
+                                        size: 11
+                                    },
+                                    color: '#9ca3af'
+                                },
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        },
+                        interaction: {
+                            mode: 'nearest',
+                            axis: 'x',
+                            intersect: false
+                        }
+                    }
+                });
+            }
+            
+            renderProducts();
+            renderOrders();
+            renderSellerProducts();
+            renderSellerOrders();
+            renderChart();
+            
+            $('#analytics-period').change(function() {
+                renderChart($(this).val());
+            });
+            
+            $('.nav-item').click(function() {
+                $('.nav-item').removeClass('active');
+                $(this).addClass('active');
+            });
+            
+            $('.action-btn').on('click', function(e) {
+                e.preventDefault();
+                const action = $(this).find('i').hasClass('fa-edit') ? 'Edit' : 'Delete';
+                const row = $(this).closest('tr');
+                
+                if (action === 'Delete') {
+                    if (confirm('Are you sure you want to delete this item?')) {
+                        row.fadeOut(300, function() {
+                            $(this).remove();
+                        });
+                    }
+                } else {
+                    alert('Edit functionality - Opening edit modal...');
+                }
+            });
+            
+            $('.view-all').on('click', function(e) {
+                e.preventDefault();
+                const section = $(this).text().includes('products') ? 'products' : 'orders';
+                alert('Navigating to all ' + section + ' page...');
+            });
+        });
+    </script>
+</body>
+</html>
