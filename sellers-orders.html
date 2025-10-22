@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>add product</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-green: #0F6546;
+            --light-green: #e8f4f4;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+        }
+
+        .sidebar-col {
+            flex: 0 0 auto;
+            width: 250px;
+        }
+
+        .sidebar {
+            background: white;
+            height: calc(100vh - 32px);
+            padding: 16px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-radius: 16px;
+            position: sticky;
+            top: 16px;
+            transition: all 0.3s ease;
+            overflow-y: auto;
+            overflow-x: hidden;
+            margin: 16px 8px;
+            width: 100%;
+        }
+
+        .logo {
+            color: var(--primary-green);
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .logo-short {
+            display: none;
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 10px 15px 10px 40px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            transition: all 0.3s ease;
+        }
+
+        .search-icon-only {
+            display: none;
+        }
+
+        .nav-item {
+            padding: 12px 15px;
+            margin-bottom: 5px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .nav-item span {
+            transition: all 0.3s ease;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            border-top: 1px solid #e0e0e0;
+            margin-top: auto;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #e0e0e0;
+        }
+
+        .user-info {
+            transition: all 0.3s ease;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .user-role {
+            display: inline-block;
+            background-color: #7FD4B5;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            margin-top: 2px;
+        }
+
+        .user-actions {
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn {
+            color: #B01212;
+            font-size: 14px;
+            margin-top: 5px;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            text-decoration: underline;
+        }
+
+        .Settings-btn i {
+            color: #7D7D7D;
+            font-size: 14px;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background-color: var(--light-green);
+            color: var(--primary-green);
+        }
+
+        .main-content {
+            padding: 16px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .main-col {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        .form-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-control,
+        .form-select {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 12px 15px;
+            font-size: 14px;
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .size-btn {
+            width: 32px;
+            border: 1px solid #e0e0e0;
+            background: white;
+            color: #666;
+            padding: 3px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .size-btn.active {
+            background: var(--primary-green);
+            color: white;
+            border-color: var(--primary-green);
+        }
+
+        .color-option {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .color-option.active {
+            border-color: var(--primary-green);
+            transform: scale(1.1);
+        }
+
+        .color-option.active::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .image-upload-area {
+            background: #f8f9fa;
+            border: 2px dashed #dee2e6;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-upload-area:hover {
+            border-color: var(--primary-green);
+            background: var(--light-green);
+        }
+
+        .image-preview-container {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .image-preview {
+            width: 72px;
+            height: 72px;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .image-preview.active {
+            border-color: var(--primary-green);
+            border-width: 3px;
+        }
+
+        .image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-preview.add-more {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border: 2px dashed #dee2e6;
+        }
+
+        .image-preview.add-more:hover {
+            border-color: var(--primary-green);
+            background: var(--light-green);
+        }
+
+        .btn-add-product {
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-add-product:hover {
+            background: #0a5555;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(13, 110, 110, 0.3);
+        }
+
+        .remove-image {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #dc3545;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .image-preview:hover .remove-image {
+            opacity: 1;
+        }
+
+        
+        @media (max-width: 1400px) {
+            .sidebar-col {
+                width: 220px;
+            }
+
+            .sidebar {
+                padding: 14px;
+            }
+
+            .card-body {
+                padding: 25px;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .sidebar-col {
+                width: 80px;
+            }
+
+            .logo {
+                margin-bottom: 20px;
+            }
+
+            .logo-full {
+                display: none;
+            }
+
+            .logo-short {
+                display: block;
+                font-size: 28px;
+                text-align: center;
+
+            }
+
+            .search-box {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: 10px;
+            }
+
+            .search-box input {
+                display: none;
+            }
+
+            .search-box i {
+                position: static;
+                transform: none;
+                font-size: 20px;
+                padding: 12px;
+                cursor: pointer;
+                border-radius: 8px;
+                transition: all 0.3s;
+            }
+
+            .search-box i:hover {
+                background-color: var(--light-green);
+                color: var(--primary-green);
+            }
+
+            .nav-item {
+                justify-content: center;
+                padding: 12px;
+            }
+
+            .nav-item span {
+                display: none;
+            }
+
+            .nav-item i {
+                font-size: 20px;
+                margin: 0;
+            }
+
+            .user-info {
+                display: none;
+            }
+
+            .user-profile {
+                justify-content: center;
+                padding: 15px 8px;
+            }
+
+            .user-profile .d-flex {
+                align-items: center;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .user-actions {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+                width: 100%;
+            }
+
+            .Settings-btn,
+            .logout-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0;
+                padding: 8px;
+            }
+
+            .Settings-btn span,
+            .logout-btn span {
+                display: none;
+            }
+
+            .Settings-btn i,
+            .logout-btn i {
+                margin: 0 !important;
+                font-size: 18px;
+            }
+
+            .card-body {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar-col {
+                width: 70px;
+            }
+
+            .sidebar {
+                padding: 12px 6px;
+                margin: 16px 4px;
+            }
+
+            .logo {
+                margin-bottom: 10px;
+            }
+
+            .logo-short {
+                font-size: 24px;
+                margin-bottom: 15px;
+            }
+
+            .search-box {
+                margin-bottom: 8px;
+            }
+
+            .search-box i {
+                font-size: 18px;
+                padding: 10px;
+            }
+
+            .nav-item {
+                padding: 10px;
+                margin-bottom: 4px;
+            }
+
+            .nav-item i {
+                font-size: 18px;
+            }
+
+            .user-avatar {
+                width: 40px;
+                height: 40px;
+            }
+
+            .Settings-btn i,
+            .logout-btn i {
+                font-size: 16px;
+            }
+
+            .main-content {
+                padding: 12px 8px;
+            }
+
+            .section-title {
+                font-size: 16px;
+                margin-bottom: 15px;
+            }
+
+            .card-body {
+                padding: 15px 12px;
+            }
+
+            .image-upload-area {
+                min-height: 180px;
+                padding: 15px;
+            }
+
+            .btn-add-product {
+                margin-bottom: 20px;
+                padding: 12px;
+                font-size: 14px;
+            }
+
+            .form-control,
+            .form-select {
+                font-size: 13px;
+                padding: 10px 12px;
+            }
+
+            .size-btn {
+                width: 30px;
+                font-size: 12px;
+                padding: 4px 2px;
+            }
+
+            .color-option {
+                width: 28px;
+                height: 28px;
+            }
+
+            .image-preview {
+                width: 60px;
+                height: 60px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .sidebar-col {
+                width: 60px;
+            }
+
+            .sidebar {
+                padding: 10px 4px;
+                margin: 12px 4px;
+            }
+
+            .logo {
+                margin-bottom: 8px;
+            }
+
+            .logo-short {
+                font-size: 20px;
+                margin-bottom: 12px;
+            }
+
+            .search-box {
+                margin-bottom: 8px;
+            }
+
+            .search-box i {
+                font-size: 16px;
+                padding: 8px;
+            }
+
+            .nav-item {
+                padding: 8px;
+                margin-bottom: 3px;
+            }
+
+            .nav-item i {
+                font-size: 16px;
+            }
+
+            .user-avatar {
+                width: 35px;
+                height: 35px;
+            }
+
+            .Settings-btn,
+            .logout-btn {
+                padding: 6px;
+            }
+
+            .Settings-btn i,
+            .logout-btn i {
+                font-size: 14px;
+            }
+
+            .main-content {
+                padding: 8px 6px;
+            }
+
+            .card-body {
+                padding: 15px 10px;
+            }
+
+            .section-title {
+                font-size: 15px;
+                margin-bottom: 12px;
+            }
+
+            .form-control,
+            .form-select {
+                padding: 8px 10px;
+                font-size: 12px;
+            }
+
+            .form-label {
+                font-size: 11px;
+                margin-bottom: 6px;
+            }
+
+            .btn-add-product {
+                padding: 10px;
+                font-size: 13px;
+            }
+
+            .size-btn {
+                width: 28px;
+                font-size: 11px;
+                padding: 3px 1px;
+            }
+
+            .color-option {
+                width: 26px;
+                height: 26px;
+            }
+
+            .image-preview {
+                width: 55px;
+                height: 55px;
+            }
+
+            .image-upload-area {
+                min-height: 150px;
+                padding: 12px;
+            }
+
+            .image-upload-area i {
+                font-size: 2rem !important;
+            }
+
+            .image-upload-area p {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid p-0">
+        <div class="row g-0">
+
+            <div class="sidebar-col">
+                <div class="sidebar">
+                    <div class="logo">
+                        <span class="logo-full">Wearopia</span>
+                        <span class="logo-short">W</span>
+                    </div>
+
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" class="form-control" placeholder="Search">
+                    </div>
+
+                    <div class="nav-item">
+                        <i class="fas fa-th-large"></i>
+                        <span>Dashboard</span>
+                    </div>
+                    <div class="nav-item active">
+                        <i class="fas fa-box"></i>
+                        <span>products</span>
+                    </div>
+                    <div class="nav-item">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>orders</span>
+                    </div>
+                    <div class="nav-item">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Analytics</span>
+                    </div>
+
+                    <div class="user-profile">
+                        <div class="d-flex flex-column w-100">
+                            <div class="d-flex my-3">
+                                <div>
+                                    <img src="Images/seller image.png"
+                                        alt="User" class="user-avatar">
+                                </div>
+                                <div class="mx-3 user-info">
+                                    <div class="user-name">Gustavo Xavier</div>
+                                    <span class="user-role">Seller</span>
+                                </div>
+                            </div>
+                            <div class="user-actions">
+                                <div class="Settings-btn fs-6 my-3">
+                                    <i class="fa-solid fa-gear mx-2"></i> <span>Settings</span>
+                                </div>
+                                <div class="logout-btn fs-6">
+                                    <i class="fas fa-sign-out-alt mx-2"></i> <span>Log out</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="main-col">
+                <div class="main-content">
+                    <div class="row">
+
+                        <div class="col-lg-7 col-12">
+
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="section-title">General Information</h5>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Product Name</label>
+                                        <input type="text" class="form-control" id="productName"
+                                            placeholder="Product Name">
+                                        <div class="invalid-feedback">Product Name is required</div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Description</label>
+                                        <textarea class="form-control" id="productDescription"
+                                            placeholder="Step into a realm of unparalleled off-duty style with these grey acid wash joggers that effortlessly marry fashion with comfort. Crafted for those committed to style even on their days off, these joggers feature a chic drawstring waist and a wide leg cut. The distinctive acid wash adds a to..."></textarea>
+                                        <div class="invalid-feedback">Description is required</div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-6 col-12 mb-3">
+                                            <label class="form-label">Size:</label>
+                                            <div class="d-flex gap-2 flex-wrap">
+                                                <button class="size-btn" data-size="XS">XS</button>
+                                                <button class="size-btn" data-size="S">S</button>
+                                                <button class="size-btn active" data-size="M">M</button>
+                                                <button class="size-btn" data-size="L">L</button>
+                                                <button class="size-btn" data-size="XL">XL</button>
+                                                <button class="size-btn" data-size="XXL">XXL</button>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-12 mb-3">
+                                            <label class="form-label">Color:</label>
+                                            <div class="d-flex gap-2 flex-wrap">
+                                                <div class="color-option active" style="background: #000;"
+                                                    data-color="black"></div>
+                                                <div class="color-option" style="background: #999;" data-color="grey">
+                                                </div>
+                                                <div class="color-option" style="background: #1a1a1a;"
+                                                    data-color="dark">
+                                                </div>
+                                                <div class="color-option" style="background: #1e3a5f;"
+                                                    data-color="navy">
+                                                </div>
+                                                <div class="color-option" style="background: #2c3e50;"
+                                                    data-color="slate">
+                                                </div>
+                                                <div class="color-option" style="background: #bbb;" data-color="silver">
+                                                </div>
+                                                <div class="color-option"
+                                                    style="background: #fff; border: 1px solid #ddd;"
+                                                    data-color="white"></div>
+                                                <div class="color-option"
+                                                    style="background: #f5f5f5; border: 1px solid #ddd;"
+                                                    data-color="cream">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="section-title">Pricing and stock</h5>
+
+                                    <div class="row mb-3">
+                                        <div class="col-lg-6 col-12 mb-3 mb-lg-0">
+                                            <label class="form-label">Price</label>
+                                            <input type="text" class="form-control" id="price" placeholder="Price">
+                                            <div class="invalid-feedback">Price is required</div>
+                                        </div>
+                                        <div class="col-lg-6 col-12">
+                                            <label class="form-label">Stock</label>
+                                            <input type="text" class="form-control" id="stock" placeholder="stock">
+                                            <div class="invalid-feedback">Stock is required</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-6 col-12 mb-3 mb-lg-0">
+                                            <label class="form-label">Discount</label>
+                                            <input type="text" class="form-control" id="discount"
+                                                placeholder="discount">
+                                        </div>
+                                        <div class="col-lg-6 col-12">
+                                            <label class="form-label">Discount Type</label>
+                                            <input type="text" class="form-control" id="discountType"
+                                                placeholder="discountType">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="btn-add-product">Add product</button>
+                        </div>
+
+
+                        <div class="col-lg-5 col-12">
+
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="section-title">Upload Images</h5>
+
+                                    <div class="image-upload-area" id="imageUploadArea">
+                                        <div id="mainImageContainer" style="display: none; width: 100%; height: 100%;">
+                                            <img id="mainImage" style="width: 100%; height: 100%; object-fit: contain;">
+                                        </div>
+                                        <div id="uploadPrompt">
+                                            <i class="fas fa-cloud-upload-alt fa-3x mb-3" style="color: #999;"></i>
+                                            <p style="color: #999;">Upload Image</p>
+                                        </div>
+                                    </div>
+                                    <div class="invalid-feedback" id="imageError">Please upload at least one image</div>
+
+                                    <div class="image-preview-container" id="imagePreviewContainer">
+                                        <div class="image-preview active">
+                                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect width='80' height='80' fill='%23f0f0f0'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='%23999' font-size='12'%3EShoe 1%3C/text%3E%3C/svg%3E"
+                                                alt="Preview">
+                                        </div>
+                                        <div class="image-preview">
+                                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect width='80' height='80' fill='%23f0f0f0'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='%23999' font-size='12'%3EShoe 2%3C/text%3E%3C/svg%3E"
+                                                alt="Preview">
+                                        </div>
+                                        <div class="image-preview">
+                                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect width='80' height='80' fill='%23f0f0f0'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='%23999' font-size='12'%3EShoe 3%3C/text%3E%3C/svg%3E"
+                                                alt="Preview">
+                                        </div>
+                                        <div class="image-preview">
+                                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect width='80' height='80' fill='%23f0f0f0'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='%23999' font-size='12'%3EShoe 4%3C/text%3E%3C/svg%3E"
+                                                alt="Preview">
+                                        </div>
+                                        <div class="image-preview add-more" id="addMoreBtn">
+                                            <i class="fas fa-plus fa-2x" style="color: var(--primary-green);"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="section-title">category</h5>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Product Category</label>
+                                        <select class="form-select" id="productCategory">
+                                            <option selected>Jacket</option>
+                                            <option>Shoes</option>
+                                            <option>Pants</option>
+                                            <option>Shirts</option>
+                                            <option>Accessories</option>
+                                        </select>
+                                        <div class="invalid-feedback">Category is required</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="file" id="fileInput" accept="image/*" multiple style="display: none;">
+
+    <div class="position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 1050">
+        <div id="productToast" class="toast align-items-center text-bg-success border-0" role="alert"
+            aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body py-4">
+                    Product added successfully!
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+
+        let uploadedImages = [];
+        let selectedImageIndex = 0;
+
+
+        document.querySelectorAll('.size-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                this.classList.toggle('active');
+            });
+        });
+
+
+        document.querySelectorAll('.color-option').forEach(option => {
+            option.addEventListener('click', function () {
+                this.classList.toggle('active');
+            });
+        });
+
+
+        const fileInput = document.getElementById('fileInput');
+        const imageUploadArea = document.getElementById('imageUploadArea');
+        const mainImage = document.getElementById('mainImage');
+        const mainImageContainer = document.getElementById('mainImageContainer');
+        const uploadPrompt = document.getElementById('uploadPrompt');
+        const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+        const addMoreBtn = document.getElementById('addMoreBtn');
+
+        imageUploadArea.addEventListener('click', () => fileInput.click());
+        addMoreBtn.addEventListener('click', () => fileInput.click());
+
+
+        imageUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            imageUploadArea.style.borderColor = 'var(--primary-green)';
+        });
+
+        imageUploadArea.addEventListener('dragleave', () => {
+            imageUploadArea.style.borderColor = '#dee2e6';
+        });
+
+        imageUploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            imageUploadArea.style.borderColor = '#dee2e6';
+            const files = e.dataTransfer.files;
+            handleFiles(files);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+
+        function handleFiles(files) {
+            Array.from(files).forEach((file) => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        uploadedImages.push(e.target.result);
+
+                        if (uploadedImages.length === 1) {
+                            mainImage.src = e.target.result;
+                            mainImageContainer.style.display = 'block';
+                            uploadPrompt.style.display = 'none';
+                        }
+
+                        addImagePreview(e.target.result, uploadedImages.length - 1);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        function addImagePreview(src, index) {
+            if (uploadedImages.length === 1) imagePreviewContainer.innerHTML = '';
+
+            const preview = document.createElement('div');
+            preview.className = 'image-preview';
+            if (index === selectedImageIndex) preview.classList.add('active');
+
+            const img = document.createElement('img');
+            img.src = src;
+
+            const removeBtn = document.createElement('div');
+            removeBtn.className = 'remove-image';
+            removeBtn.innerHTML = '×';
+            removeBtn.onclick = (e) => {
+                e.stopPropagation();
+                removeImage(index);
+            };
+
+            preview.appendChild(img);
+            preview.appendChild(removeBtn);
+
+            preview.addEventListener('click', () => {
+                selectedImageIndex = index;
+                mainImage.src = uploadedImages[index];
+                document.querySelectorAll('.image-preview').forEach(p => p.classList.remove('active'));
+                preview.classList.add('active');
+            });
+
+            imagePreviewContainer.insertBefore(preview, addMoreBtn);
+        }
+
+        function removeImage(index) {
+            uploadedImages.splice(index, 1);
+            rebuildImagePreviews();
+        }
+
+        function rebuildImagePreviews() {
+            imagePreviewContainer.innerHTML = '';
+            if (uploadedImages.length === 0) {
+                mainImageContainer.style.display = 'none';
+                uploadPrompt.style.display = 'block';
+                selectedImageIndex = 0;
+            } else {
+                if (selectedImageIndex >= uploadedImages.length) selectedImageIndex = uploadedImages.length - 1;
+                mainImage.src = uploadedImages[selectedImageIndex];
+                uploadedImages.forEach((img, idx) => addImagePreview(img, idx));
+            }
+            const addMore = document.createElement('div');
+            addMore.className = 'image-preview add-more';
+            addMore.id = 'addMoreBtn';
+            addMore.innerHTML = '<i class="fas fa-plus fa-2x" style="color: var(--primary-green);"></i>';
+            addMore.onclick = () => fileInput.click();
+            imagePreviewContainer.appendChild(addMore);
+        }
+
+
+        function validateNumber(value, fieldName) {
+            const num = parseFloat(value);
+            if (isNaN(num) || num < 0) {
+                return { valid: false, message: `${fieldName} must be a valid positive number` };
+            }
+            return { valid: true };
+        }
+
+
+        function resetForm() {
+
+            document.getElementById('productName').value = '';
+            document.getElementById('productDescription').value = '';
+            document.getElementById('price').value = '';
+            document.getElementById('stock').value = '';
+            document.getElementById('discount').value = '';
+            document.getElementById('discountType').value = '';
+
+
+            document.querySelectorAll('.size-btn').forEach(btn => btn.classList.remove('active'));
+
+
+            document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('active'));
+
+
+            document.getElementById('productCategory').selectedIndex = 0;
+
+
+            uploadedImages = [];
+            selectedImageIndex = 0;
+            rebuildImagePreviews();
+
+
+            document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+            document.querySelectorAll('.invalid-feedback').forEach(el => el.style.display = 'none');
+        }
+
+
+        function saveProductToStorage(productData) {
+            let products = JSON.parse(localStorage.getItem('products') || '[]');
+            productData.id = Date.now();
+            products.push(productData);
+            localStorage.setItem('products', JSON.stringify(products));
+        }
+
+
+        document.querySelector('.btn-add-product').addEventListener('click', function () {
+            const fields = [
+                { id: 'productName', value: document.getElementById('productName').value.trim(), required: true },
+                { id: 'productDescription', value: document.getElementById('productDescription').value.trim(), required: true },
+                { id: 'price', value: document.getElementById('price').value.trim(), required: true, type: 'number' },
+                { id: 'stock', value: document.getElementById('stock').value.trim(), required: true, type: 'number' },
+                { id: 'productCategory', value: document.getElementById('productCategory').value, required: true }
+            ];
+
+            let hasError = false;
+
+
+            fields.forEach(f => {
+                const input = document.getElementById(f.id);
+                const feedback = input.nextElementSibling;
+
+                if (f.required && !f.value) {
+                    input.classList.add('is-invalid');
+                    feedback.textContent = `${f.id.replace(/([A-Z])/g, ' $1').trim()} is required`;
+                    feedback.style.display = 'block';
+                    hasError = true;
+                } else if (f.type === 'number' && f.value) {
+                    const validation = validateNumber(f.value, f.id);
+                    if (!validation.valid) {
+                        input.classList.add('is-invalid');
+                        feedback.textContent = validation.message;
+                        feedback.style.display = 'block';
+                        hasError = true;
+                    } else {
+                        input.classList.remove('is-invalid');
+                        feedback.style.display = 'none';
+                    }
+                } else {
+                    input.classList.remove('is-invalid');
+                    feedback.style.display = 'none';
+                }
+            });
+
+
+            const imageError = document.getElementById('imageError');
+            if (uploadedImages.length === 0) {
+                imageError.style.display = 'block';
+                hasError = true;
+            } else {
+                imageError.style.display = 'none';
+            }
+
+
+            const selectedSizes = document.querySelectorAll('.size-btn.active');
+            if (selectedSizes.length === 0) {
+                showToast('Please select at least one size', 'danger');
+                hasError = true;
+            }
+
+
+            const selectedColors = document.querySelectorAll('.color-option.active');
+            if (selectedColors.length === 0) {
+                showToast('Please select at least one color', 'danger');
+                hasError = true;
+            }
+
+            if (hasError) return;
+
+
+            const productData = {
+                name: document.getElementById('productName').value.trim(),
+                description: document.getElementById('productDescription').value.trim(),
+                sizes: Array.from(document.querySelectorAll('.size-btn.active')).map(btn => btn.dataset.size),
+                colors: Array.from(document.querySelectorAll('.color-option.active')).map(option => option.dataset.color),
+                price: parseFloat(document.getElementById('price').value.trim()),
+                stock: parseInt(document.getElementById('stock').value.trim()),
+                discount: document.getElementById('discount').value.trim() || '0',
+                discountType: document.getElementById('discountType').value.trim() || 'none',
+                category: document.getElementById('productCategory').value,
+                images: uploadedImages,
+                createdAt: new Date().toISOString()
+            };
+
+
+            saveProductToStorage(productData);
+
+            showToast('Product added successfully!', 'success');
+
+
+            setTimeout(() => {
+                resetForm();
+            }, 1500);
+        });
+
+
+        function showToast(message, type) {
+            const toastContainer = document.getElementById('productToast');
+            toastContainer.classList.remove('text-bg-success', 'text-bg-danger');
+            toastContainer.classList.add(type === 'success' ? 'text-bg-success' : 'text-bg-danger');
+            toastContainer.querySelector('.toast-body').textContent = message;
+            const toast = new bootstrap.Toast(toastContainer, { delay: 3000 });
+            toast.show();
+        }
+
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const products = JSON.parse(localStorage.getItem('products') || '[]');
+            console.log('Stored products:', products);
+        });
+
+
+    </script>
+</body>
+
+</html>
