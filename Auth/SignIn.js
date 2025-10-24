@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();
 
-    // ✅ التحقق من الأدمن الثابت
+    //  التحقق من الأدمن الثابت
     if (email === "adminreham@wearopia.com" && password === "adminreham123") {
       const adminUser = { fullname: "Admin", email, role: "admin" };
       sessionStorage.setItem("loggedInUser", JSON.stringify(adminUser));
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    // ✅ فك تشفير المستخدمين
+    //  فك تشفير المستخدمين
     const encryptedData = localStorage.getItem("users");
     if (!encryptedData) {
       Swal.fire({
@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const decryptedData = bytes.toString(CryptoJS.enc.Utf8);
       const users = JSON.parse(decryptedData);
 
-      // 🔍 البحث عن المستخدم
+      //  البحث عن المستخدم
       const foundUser = users.find(
         (user) => user.email === email && user.password === password
       );
