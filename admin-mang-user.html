@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wearopia Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-green: #0F6546;
+            --light-green: #e8f4f4;
+            --light-red: #fee;
+            --text-red: #dc2626;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+        }
+
+        .sidebar-col {
+            flex: 0 0 auto;
+            width: 250px;
+        }
+
+        .sidebar {
+            background: white;
+            height: calc(100vh - 32px);
+            padding: 16px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            border-radius: 16px;
+            position: sticky;
+            top: 16px;
+            transition: all 0.3s ease;
+            overflow-y: auto;
+            overflow-x: hidden;
+            margin: 16px 8px;
+            width: 100%;
+        }
+
+        .logo {
+            color: var(--primary-green);
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .logo-short {
+            display: none;
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input {
+            border: 1px solid #e0e0e0;
+            border-radius: 20px;
+            padding: 10px 15px 10px 40px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item {
+            padding: 12px 15px;
+            margin-bottom: 5px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .nav-item span {
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background-color: var(--light-green);
+            color: var(--primary-green);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            border-top: 1px solid #e0e0e0;
+            margin-top: auto;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #e0e0e0;
+        }
+
+        .user-info {
+            transition: all 0.3s ease;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .user-role {
+            display: inline-block;
+            background-color: #7FD4B5;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            margin-top: 2px;
+        }
+
+        .user-actions {
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn {
+            color: #B01212;
+            font-size: 14px;
+            margin-top: 5px;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            text-decoration: underline;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            overflow: auto;
+            flex-grow: 1;
+        }
+
+        .content-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            padding: 24px;
+            margin-bottom: 24px;
+            max-height: 600px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .card-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .add-btn {
+            background-color: var(--primary-green);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .add-btn:hover {
+            background-color: #0a4d34;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            flex: 1;
+        }
+
+        table {
+            width: 100%;
+            font-size: 14px;
+        }
+
+        thead th {
+            color: #9ca3af;
+            font-weight: 500;
+            padding: 12px 16px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        tbody td {
+            padding: 16px;
+            border-bottom: 1px solid #f9fafb;
+            vertical-align: middle;
+        }
+
+        .badge-active {
+            background-color: var(--light-green);
+            color: var(--primary-green);
+            padding: 6px 16px;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 12px;
+            display: inline-block;
+        }
+
+        .badge-suspended {
+            background-color: var(--light-red);
+            color: var(--text-red);
+            padding: 6px 16px;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 12px;
+            display: inline-block;
+        }
+
+        .view-btn {
+            background-color: var(--primary-green);
+            color: white;
+            border: none;
+            padding: 6px 20px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .view-btn:hover {
+            background-color: #0a4d34;
+        }
+
+        .action-icon {
+            color: #9ca3af;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 0 6px;
+            transition: all 0.3s;
+        }
+
+        .action-icon:hover {
+            color: #6b7280;
+        }
+
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .pagination-info {
+            color: #9ca3af;
+            font-size: 13px;
+        }
+
+        .pagination {
+            display: flex;
+            gap: 8px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .pagination-item {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .pagination-item:hover {
+            background-color: var(--light-green);
+            color: var(--primary-green);
+            border-color: var(--primary-green);
+        }
+
+        .pagination-item.active {
+            background-color: var(--primary-green);
+            color: white;
+            border-color: var(--primary-green);
+        }
+
+        .pagination-item.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            animation: slideDown 0.3s;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #9ca3af;
+            transition: all 0.3s;
+        }
+
+        .close-btn:hover {
+            color: #6b7280;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #374151;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 3px rgba(15, 101, 70, 0.1);
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 3px rgba(15, 101, 70, 0.1);
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-top: 24px;
+        }
+
+        .btn-cancel {
+            padding: 10px 20px;
+            border: 1px solid #e5e7eb;
+            background: white;
+            color: #6b7280;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .btn-cancel:hover {
+            background-color: #f9fafb;
+        }
+
+        .btn-submit {
+            padding: 10px 20px;
+            border: none;
+            background-color: var(--primary-green);
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .btn-submit:hover {
+            background-color: #0a4d34;
+        }
+
+        .error-message {
+            color: var(--text-red);
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-input.error,
+        .form-select.error {
+            border-color: var(--text-red);
+        }
+
+        .form-input.success,
+        .form-select.success {
+            border-color: var(--primary-green);
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #9ca3af;
+        }
+
+        @media (max-width: 1200px) {
+            .sidebar-col {
+                width: 80px;
+            }
+
+            .logo-full {
+                display: none;
+            }
+
+            .logo-short {
+                display: block;
+                font-size: 28px;
+                text-align: center;
+            }
+
+            .search-box input {
+                display: none;
+            }
+
+            .search-box i {
+                position: static;
+                transform: none;
+                font-size: 20px;
+                padding: 12px;
+                cursor: pointer;
+                border-radius: 8px;
+            }
+
+            .search-box i:hover {
+                background-color: var(--light-green);
+                color: var(--primary-green);
+            }
+
+            .nav-item {
+                justify-content: center;
+                padding: 8px;
+            }
+
+            .nav-item span {
+                display: none;
+            }
+
+            .nav-item i {
+                font-size: 20px;
+                margin: 0;
+            }
+
+            .user-info {
+                display: none;
+            }
+
+            .user-profile {
+                justify-content: center;
+                padding: 15px 8px;
+                flex-direction: column;
+            }
+
+            .user-actions {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+                width: 100%;
+            }
+
+            .logout-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0;
+                padding: 8px;
+            }
+
+            .logout-btn span {
+                display: none;
+            }
+
+            .logout-btn i {
+                margin: 0 !important;
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar-col {
+                width: 70px;
+            }
+
+            .sidebar {
+                padding: 12px 6px;
+                margin: 16px 4px;
+            }
+
+            .main-content {
+                padding: 15px;
+            }
+
+            .card-header-section {
+                flex-direction: column;
+                gap: 16px;
+                align-items: flex-start;
+            }
+
+            .add-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .sidebar-col {
+                width: 60px;
+            }
+
+            .sidebar {
+                padding: 10px 4px;
+                margin: 12px 4px;
+            }
+
+            .main-content {
+                padding: 10px;
+            }
+
+            .content-card {
+                padding: 16px;
+            }
+
+            .card-title {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid p-0">
+        <div class="row g-0">
+            <!-- Sidebar -->
+            <div class="sidebar-col">
+                <div class="sidebar">
+                    <a href="#" class="logo text-decoration-none">
+                        <span class="logo-full">Wearopia</span>
+                        <span class="logo-short">W</span>
+                    </a>
+
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" class="form-control" placeholder="Search">
+                    </div>
+
+                    <a href="#" class="nav-item text-decoration-none">
+                        <i class="fas fa-th-large"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="#" class="nav-item text-decoration-none active">
+                        <i class="fas fa-users"></i>
+                        <span>Manage users</span>
+                    </a>
+                    <a href="#" class="nav-item text-decoration-none">
+                        <i class="fas fa-box"></i>
+                        <span>products lists</span>
+                    </a>
+                    <a href="#" class="nav-item text-decoration-none">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>orders</span>
+                    </a>
+                    <a href="#" class="nav-item text-decoration-none">
+                        <i class="fas fa-headset"></i>
+                        <span>Customer service</span>
+                    </a>
+                    <a href="#" class="nav-item text-decoration-none">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Analytics</span>
+                    </a>
+                    <a href="#" class="nav-item text-decoration-none">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+
+                    <div class="user-profile">
+                        <div class="d-flex flex-column w-100">
+                            <div class="d-flex my-3">
+                                <div>
+                                    <img src="https://ui-avatars.com/api/?name=Gustavo+Xavier&background=0F6546&color=fff" alt="User" class="user-avatar">
+                                </div>
+                                <div class="mx-3 user-info">
+                                    <div class="user-name">Gustavo Xavier</div>
+                                    <span class="user-role">Admin</span>
+                                </div>
+                            </div>
+                            <div class="user-actions">
+                                <div class="logout-btn fs-6">
+                                    <i class="fas fa-sign-out-alt mx-2"></i> <span>Log out</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Sellers Section -->
+                <div class="content-card">
+                    <div class="card-header-section">
+                        <h2 class="card-title">Sellers</h2>
+                        <button class="add-btn" id="addSellerBtn">
+                            <i class="fas fa-plus"></i>
+                            Add New seller
+                        </button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Seller Name</th>
+                                    <th>Seller mobile phone</th>
+                                    <th>Added products</th>
+                                    <th>Sold products</th>
+                                    <th>Account status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sellers-table">
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="pagination-container">
+                        <div class="pagination-info" id="sellers-info"></div>
+                        <ul class="pagination" id="sellers-pagination">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Customers Section -->
+                <div class="content-card">
+                    <div class="card-header-section">
+                        <h2 class="card-title">Customers</h2>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Customer Name</th>
+                                    <th>Customer mobile phone</th>
+                                    <th>Added products</th>
+                                    <th>Order history</th>
+                                    <th>Account status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="customers-table">
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="pagination-container">
+                        <div class="pagination-info" id="customers-info"></div>
+                        <ul class="pagination" id="customers-pagination">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Seller Modal -->
+    <div id="sellerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Add New Seller</h3>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+            <form id="sellerForm">
+                <div class="form-group">
+                    <label class="form-label">Seller Name</label>
+                    <input type="text" class="form-input" id="sellerName" required>
+                    <span class="error-message" id="nameError">Please enter a valid name (at least 3 characters)</span>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Mobile Phone</label>
+                    <input type="tel" class="form-input" id="sellerPhone" required>
+                    <span class="error-message" id="phoneError">Please enter a valid phone number</span>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Added Products</label>
+                    <input type="number" class="form-input" id="sellerAdded" required min="0">
+                    <span class="error-message" id="addedError">Please enter a valid number (minimum 0)</span>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Sold Products</label>
+                    <input type="number" class="form-input" id="sellerSold" required min="0">
+                    <span class="error-message" id="soldError">Please enter a valid number (minimum 0)</span>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Account Status</label>
+                    <select class="form-select" id="sellerStatus" required>
+                        <option value="">Select Status</option>
+                        <option value="active">Active</option>
+                        <option value="suspended">Suspended</option>
+                    </select>
+                    <span class="error-message" id="statusError">Please select a status</span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-cancel" id="cancelBtn">Cancel</button>
+                    <button type="submit" class="btn-submit">Add Seller</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            const ITEMS_PER_PAGE = 4;
+            let sellersCurrentPage = 1;
+            let customersCurrentPage = 1;
+
+            // Load data from localStorage or use default
+            let sellersData = JSON.parse(localStorage.getItem('sellersData')) || [
+                { name: 'Amina Khalil', phone: '(225) 555-0118', added: 5045, sold: 320, status: 'active' },
+                { name: 'Omar Hassan', phone: '(225) 555-0119', added: 3200, sold: 245, status: 'suspended' },
+                { name: 'Sara Ahmed', phone: '(225) 555-0120', added: 4100, sold: 380, status: 'active' },
+                { name: 'Mohamed Ali', phone: '(225) 555-0121', added: 2800, sold: 190, status: 'active' },
+                { name: 'Fatma Ibrahim', phone: '(225) 555-0122', added: 3500, sold: 280, status: 'suspended' },
+                { name: 'Ahmed Khaled', phone: '(225) 555-0123', added: 4500, sold: 350, status: 'active' },
+                { name: 'Nour Mohamed', phone: '(225) 555-0124', added: 2100, sold: 150, status: 'active' },
+                { name: 'Layla Hassan', phone: '(225) 555-0125', added: 3800, sold: 290, status: 'suspended' }
+            ];
+
+            let customersData = JSON.parse(localStorage.getItem('customersData')) || [
+                { name: 'John Doe', phone: '+20 2 33325789', added: 5045, status: 'active' },
+                { name: 'Jane Smith', phone: '+20 2 33325790', added: 4200, status: 'suspended' },
+                { name: 'Ali Mohamed', phone: '+20 2 33325791', added: 3800, status: 'active' },
+                { name: 'Sarah Ahmed', phone: '+20 2 33325792', added: 4500, status: 'active' },
+                { name: 'Omar Khaled', phone: '+20 2 33325793', added: 2900, status: 'suspended' },
+                { name: 'Mona Ibrahim', phone: '+20 2 33325794', added: 3300, status: 'active' },
+                { name: 'Hassan Ali', phone: '+20 2 33325795', added: 4100, status: 'active' },
+                { name: 'Nadia Ahmed', phone: '+20 2 33325796', added: 3600, status: 'suspended' }
+            ];
+
+            function saveToLocalStorage() {
+                localStorage.setItem('sellersData', JSON.stringify(sellersData));
+                localStorage.setItem('customersData', JSON.stringify(customersData));
+            }
+
+            // Validation Functions
+            function validateName(name) {
+                 const trimmed = name.trim();
+
+            const nameRegex = /^[\u0621-\u064A\u0660-\u0669a-zA-Z\s]+$/;
+
+            return trimmed.length >= 3 && nameRegex.test(trimmed);
+            }
+
+            function validatePhone(phone) {
+                // Allow formats like (225) 555-0118 or +20 2 33325789
+                const phoneRegex = /^[\d\s\(\)\+\-]+$/;
+                return phoneRegex.test(phone) && phone.replace(/\D/g, '').length >= 10;
+            }
+
+            function validateNumber(num) {
+                return !isNaN(num) && parseInt(num) >= 0;
+            }
+
+            function validateStatus(status) {
+                return status !== '';
+            }
+
+            function showError(inputId, errorId, isValid) {
+                const input = $(`#${inputId}`);
+                const error = $(`#${errorId}`);
+                
+                if (!isValid) {
+                    input.removeClass('success').addClass('error');
+                    error.show();
+                    return false;
+                } else {
+                    input.removeClass('error').addClass('success');
+                    error.hide();
+                    return true;
+                }
+            }
+
+            function clearValidation() {
+                $('.form-input, .form-select').removeClass('error success');
+                $('.error-message').hide();
+            }
+
+            // Real-time validation
+            $('#sellerName').on('input', function() {
+                const isValid = validateName($(this).val());
+                showError('sellerName', 'nameError', isValid);
+            });
+
+            $('#sellerPhone').on('input', function() {
+                const isValid = validatePhone($(this).val());
+                showError('sellerPhone', 'phoneError', isValid);
+            });
+
+            $('#sellerAdded').on('input', function() {
+                const isValid = validateNumber($(this).val());
+                showError('sellerAdded', 'addedError', isValid);
+            });
+
+            $('#sellerSold').on('input', function() {
+                const isValid = validateNumber($(this).val());
+                showError('sellerSold', 'soldError', isValid);
+            });
+
+            $('#sellerStatus').on('change', function() {
+                const isValid = validateStatus($(this).val());
+                showError('sellerStatus', 'statusError', isValid);
+            });
+
+            function renderSellers(page = 1) {
+                const tbody = $('#sellers-table');
+                tbody.empty();
+                
+                const start = (page - 1) * ITEMS_PER_PAGE;
+                const end = start + ITEMS_PER_PAGE;
+                const paginatedData = sellersData.slice(start, end);
+                
+                paginatedData.forEach((seller, index) => {
+                    const statusClass = seller.status === 'active' ? 'badge-active' : 'badge-suspended';
+                    const statusText = seller.status === 'active' ? 'Active' : 'Suspended';
+                    const realIndex = start + index;
+                    
+                    tbody.append(`
+                        <tr data-index="${realIndex}">
+                            <td><strong>${seller.name}</strong></td>
+                            <td>${seller.phone}</td>
+                            <td>${seller.added}</td>
+                            <td>${seller.sold}</td>
+                            <td><span class="${statusClass}">${statusText}</span></td>
+                            <td>
+                                <i class="fas fa-edit action-icon edit-seller"></i>
+                                <i class="fas fa-trash action-icon delete-seller"></i>
+                            </td>
+                        </tr>
+                    `);
+                });
+
+                updatePagination('sellers', page, sellersData.length);
+            }
+
+            function renderCustomers(page = 1) {
+                const tbody = $('#customers-table');
+                tbody.empty();
+                
+                const start = (page - 1) * ITEMS_PER_PAGE;
+                const end = start + ITEMS_PER_PAGE;
+                const paginatedData = customersData.slice(start, end);
+                
+                paginatedData.forEach((customer, index) => {
+                    const statusClass = customer.status === 'active' ? 'badge-active' : 'badge-suspended';
+                    const statusText = customer.status === 'active' ? 'Active' : 'Suspended';
+                    const realIndex = start + index;
+                    
+                    tbody.append(`
+                        <tr data-index="${realIndex}">
+                            <td><strong>${customer.name}</strong></td>
+                            <td>${customer.phone}</td>
+                            <td>${customer.added}</td>
+                            <td><button class="view-btn">View</button></td>
+                            <td><span class="${statusClass}">${statusText}</span></td>
+                            <td>
+                                <i class="fas fa-edit action-icon edit-customer"></i>
+                                <i class="fas fa-trash action-icon delete-customer"></i>
+                            </td>
+                        </tr>
+                    `);
+                });
+
+                updatePagination('customers', page, customersData.length);
+            }
+
+            function updatePagination(type, currentPage, totalItems) {
+                const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+                const paginationEl = $(`#${type}-pagination`);
+                const infoEl = $(`#${type}-info`);
+                
+                const start = (currentPage - 1) * ITEMS_PER_PAGE + 1;
+                const end = Math.min(currentPage * ITEMS_PER_PAGE, totalItems);
+                
+                infoEl.text(`Showing data ${start} to ${end} of ${totalItems} entries`);
+                
+                paginationEl.empty();
+                
+                // Previous button
+                const prevDisabled = currentPage === 1 ? 'disabled' : '';
+                paginationEl.append(`
+                    <li class="pagination-item ${prevDisabled}" data-page="${currentPage - 1}" data-type="${type}">
+                        <i class="fas fa-chevron-left"></i>
+                    </li>
+                `);
+                
+                // Page numbers
+                let startPage = Math.max(1, currentPage - 1);
+                let endPage = Math.min(totalPages, currentPage + 1);
+                
+                if (startPage > 1) {
+                    paginationEl.append(`
+                        <li class="pagination-item" data-page="1" data-type="${type}">1</li>
+                    `);
+                    if (startPage > 2) {
+                        paginationEl.append(`<li class="pagination-item disabled">...</li>`);
+                    }
+                }
+                
+                for (let i = startPage; i <= endPage; i++) {
+                    const activeClass = i === currentPage ? 'active' : '';
+                    paginationEl.append(`
+                        <li class="pagination-item ${activeClass}" data-page="${i}" data-type="${type}">${i}</li>
+                    `);
+                }
+                
+                if (endPage < totalPages) {
+                    if (endPage < totalPages - 1) {
+                        paginationEl.append(`<li class="pagination-item disabled">...</li>`);
+                    }
+                    paginationEl.append(`
+                        <li class="pagination-item" data-page="${totalPages}" data-type="${type}">${totalPages}</li>
+                    `);
+                }
+                
+                // Next button
+                const nextDisabled = currentPage === totalPages ? 'disabled' : '';
+                paginationEl.append(`
+                    <li class="pagination-item ${nextDisabled}" data-page="${currentPage + 1}" data-type="${type}">
+                        <i class="fas fa-chevron-right"></i>
+                    </li>
+                `);
+            }
+
+            // Modal handlers
+            $('#addSellerBtn').click(function() {
+                $('#sellerModal').addClass('show');
+            });
+
+            $('#closeModal, #cancelBtn').click(function() {
+                $('#sellerModal').removeClass('show');
+                $('#sellerForm')[0].reset();
+                clearValidation();
+            });
+
+            $(window).click(function(e) {
+                if ($(e.target).is('#sellerModal')) {
+                    $('#sellerModal').removeClass('show');
+                    $('#sellerForm')[0].reset();
+                    clearValidation();
+                }
+            });
+
+            // Add seller form submit
+            $('#sellerForm').submit(function(e) {
+                e.preventDefault();
+                
+                // Get form values
+                const name = $('#sellerName').val();
+                const phone = $('#sellerPhone').val();
+                const added = $('#sellerAdded').val();
+                const sold = $('#sellerSold').val();
+                const status = $('#sellerStatus').val();
+                
+                // Validate all fields
+                const isNameValid = showError('sellerName', 'nameError', validateName(name));
+                const isPhoneValid = showError('sellerPhone', 'phoneError', validatePhone(phone));
+                const isAddedValid = showError('sellerAdded', 'addedError', validateNumber(added));
+                const isSoldValid = showError('sellerSold', 'soldError', validateNumber(sold));
+                const isStatusValid = showError('sellerStatus', 'statusError', validateStatus(status));
+                
+                // Check if all validations passed
+                if (!isNameValid || !isPhoneValid || !isAddedValid || !isSoldValid || !isStatusValid) {
+                    return false;
+                }
+                
+                const newSeller = {
+                    name: name,
+                    phone: phone,
+                    added: parseInt(added),
+                    sold: parseInt(sold),
+                    status: status
+                };
+                
+                sellersData.unshift(newSeller);
+                saveToLocalStorage();
+                
+                $('#sellerModal').removeClass('show');
+                $('#sellerForm')[0].reset();
+                clearValidation();
+                
+                sellersCurrentPage = 1;
+                renderSellers(sellersCurrentPage);
+                
+                // Show success message
+                alert('Seller added successfully!');
+            });
+
+            // Pagination click handler
+            $(document).on('click', '.pagination-item:not(.disabled)', function() {
+                const page = parseInt($(this).data('page'));
+                const type = $(this).data('type');
+                
+                if (!isNaN(page)) {
+                    if (type === 'sellers') {
+                        sellersCurrentPage = page;
+                        renderSellers(page);
+                    } else if (type === 'customers') {
+                        customersCurrentPage = page;
+                        renderCustomers(page);
+                    }
+                }
+            });
+
+            // Delete seller
+            $(document).on('click', '.delete-seller', function() {
+                if (confirm('Are you sure you want to delete this seller?')) {
+                    const row = $(this).closest('tr');
+                    const index = parseInt(row.data('index'));
+                    
+                    sellersData.splice(index, 1);
+                    saveToLocalStorage();
+                    
+                    // Adjust current page if needed
+                    const totalPages = Math.ceil(sellersData.length / ITEMS_PER_PAGE);
+                    if (sellersCurrentPage > totalPages && totalPages > 0) {
+                        sellersCurrentPage = totalPages;
+                    }
+                    
+                    renderSellers(sellersCurrentPage);
+                    
+                    row.fadeOut(300, function() {
+                        $(this).remove();
+                    });
+                }
+            });
+
+            // Delete customer
+            $(document).on('click', '.delete-customer', function() {
+                if (confirm('Are you sure you want to delete this customer?')) {
+                    const row = $(this).closest('tr');
+                    const index = parseInt(row.data('index'));
+                    
+                    customersData.splice(index, 1);
+                    saveToLocalStorage();
+                    
+                    // Adjust current page if needed
+                    const totalPages = Math.ceil(customersData.length / ITEMS_PER_PAGE);
+                    if (customersCurrentPage > totalPages && totalPages > 0) {
+                        customersCurrentPage = totalPages;
+                    }
+                    
+                    renderCustomers(customersCurrentPage);
+                    
+                    row.fadeOut(300, function() {
+                        $(this).remove();
+                    });
+                }
+            });
+
+            // Edit handlers (placeholder)
+            $(document).on('click', '.edit-seller, .edit-customer', function() {
+                alert('Edit functionality - Opening edit modal...');
+            });
+
+            $(document).on('click', '.view-btn', function() {
+                alert('View order history');
+            });
+
+            // Navigation active state
+            $('.nav-item').click(function(e) {
+                e.preventDefault();
+                $('.nav-item').removeClass('active');
+                $(this).addClass('active');
+            });
+
+            // Logout
+            $('.logout-btn').click(function(e) {
+                e.preventDefault();
+                if(confirm('Are you sure you want to logout?')) {
+                    alert('Logging out...');
+                }
+            });
+
+            // Initial render
+            renderSellers(sellersCurrentPage);
+            renderCustomers(customersCurrentPage);
+        });
+    </script>
+</body>
+</html>
