@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navbar with Smooth User Dropdown</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root { 
+      --green: #195d33; 
+      --text-gray: #666;
+      --border-gray: #ddd;
+    }
+
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+    }
+
+    body { 
+      font-family: "Poppins", sans-serif; 
+      background: #f5f5f5;
+    }
+
+    /* ===== Navbar ===== */
+    .navbar-wrapper {
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .navbar {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 20px 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+    }
+
+    .navbar-brand {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--green);
+      text-decoration: none;
+    }
+
+    .navbar-menu {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .navbar-menu a {
+      color: var(--text-gray);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      transition: color 0.3s, transform 0.3s;
+      position: relative;
+    }
+
+    .navbar-menu a:hover {
+      color: var(--green);
+      transform: translateY(-2px);
+    }
+
+    .search-container {
+      flex: 1;
+      max-width: 400px;
+      position: relative;
+    }
+
+    .search-box {
+      width: 100%;
+      height: 44px;
+      border: 1px solid var(--border-gray);
+      border-radius: 22px;
+      padding: 0 20px 0 45px;
+      font-size: 14px;
+      color: var(--text-gray);
+      outline: none;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #999;
+      font-size: 18px;
+      pointer-events: none;
+    }
+
+    .navbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .navbar-actions a {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-gray);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+
+    .navbar-actions a:hover {
+      color: var(--green);
+    }
+
+    .badge-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      min-width: 18px;
+      height: 18px;
+      background: var(--green);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 600;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 4px;
+      opacity: 0;
+      transform: scale(0.5);
+      transition: all 0.3s;
+    }
+
+    .badge-count.show {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* ===== User Dropdown ===== */
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 120%;
+      right: 0;
+      min-width: 180px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+      opacity: 0;
+      transform: translateY(-10px);
+      pointer-events: none;
+      transition: all 0.3s ease;
+      z-index: 999;
+    }
+
+    .dropdown-menu.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 15px;
+      color: #333;
+      text-decoration: none;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+
+    .dropdown-item:hover {
+      background: #f7f7f7;
+    }
+
+    /* ===== Padding after navbar before footer ===== */
+    main {
+      padding-left: 120px;
+      padding-right: 120px;
+    }
+
+    @media (max-width: 992px) {
+      main {
+        padding-left: 60px;
+        padding-right: 60px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      main {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+    }
+
+    footer {
+      background: #fff;
+      padding: 40px 60px;
+      text-align: center;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <div class="navbar-wrapper">
+    <nav class="navbar">
+      <a href="#" class="navbar-brand">Wearopia</a>
+
+      <ul class="navbar-menu">
+        <li><a href="#">Man</a></li>
+        <li><a href="#">Women</a></li>
+        <li><a href="#">Kids</a></li>
+        <li><a href="#">Accessory</a></li>
+      </ul>
+
+      <div class="search-container">
+        <i class="bi bi-search search-icon"></i>
+        <input type="text" class="search-box" placeholder="Search for outfits...">
+      </div>
+
+      <div class="navbar-actions">
+        <div class="dropdown" id="userDropdownWrapper">
+          <a href="#" id="loginBtn">
+            <i class="bi bi-box-arrow-in-right"></i>
+            <span>Login</span>
+          </a>
+
+          <div class="dropdown-menu" id="userMenu">
+            <a href="#" class="dropdown-item"><i class="bi bi-person"></i> Profile</a>
+            <a href="#" class="dropdown-item"><i class="bi bi-bag"></i> Orders</a>
+            <a href="#" class="dropdown-item"><i class="bi bi-heart"></i> Wishlist</a>
+            <hr>
+            <a href="#" class="dropdown-item text-danger" id="logoutBtn"><i class="bi bi-box-arrow-right"></i> Logout</a>
+          </div>
+        </div>
+
+        <a href="#" id="wishlistBtn">
+          <i class="bi bi-heart"></i>
+          <span>Wishlist</span>
+          <span class="badge-count" id="wishlistCount">0</span>
+        </a>
+
+        <a href="#" id="cartBtn">
+          <i class="bi bi-bag"></i>
+          <span>Cart</span>
+          <span class="badge-count" id="cartCount">0</span>
+        </a>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Main Content (padding applies here) -->
+  <main>
+    <section class="py-5 text-center">
+      <h1>Welcome to Wearopia</h1>
+      <p>This is your main content area with padding applied on both sides.</p>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Wearopia. All Rights Reserved.</p>
+  </footer>
+
+  <!-- Script -->
+  <script>
+    const loginBtn = document.getElementById("loginBtn");
+    const userMenu = document.getElementById("userMenu");
+    const logoutBtn = document.getElementById("logoutBtn");
+    let isLoggedIn = false;
+
+    loginBtn.addEventListener("click", function(e) {
+      e.preventDefault();
+
+      if (!isLoggedIn) {
+        isLoggedIn = true;
+        loginBtn.innerHTML = '<i class="bi bi-person-circle"></i><span>Account</span>';
+      } else {
+        userMenu.classList.toggle("show");
+      }
+    });
+
+    logoutBtn.addEventListener("click", function(e) {
+      e.preventDefault();
+      isLoggedIn = false;
+      userMenu.classList.remove("show");
+      loginBtn.innerHTML = '<i class="bi bi-box-arrow-in-right"></i><span>Login</span>';
+    });
+
+    document.addEventListener("click", function(e) {
+      if (!e.target.closest("#userDropdownWrapper")) {
+        userMenu.classList.remove("show");
+      }
+    });
+  </script>
+
+</body>
+</html>
