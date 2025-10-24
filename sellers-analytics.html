@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>seller-analytics Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-green: #0F6546;
+            --light-green: #e8f4f4;
+            --light-yellow: #fff4d4;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+        }
+
+        .sidebar-col {
+            flex: 0 0 auto;
+            width: 250px;
+        }
+
+        .sidebar {
+            background: white;
+            height: calc(100vh - 32px);
+            padding: 16px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-radius: 16px;
+            position: sticky;
+            top: 16px;
+            transition: all 0.3s ease;
+            overflow-y: auto;
+            overflow-x: hidden;
+            margin: 16px 8px;
+            width: 100%;
+        }
+
+        .logo {
+            color: var(--primary-green);
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .logo-short {
+            display: none;
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input {
+            border: 1px solid #e0e0e0;
+            border-radius: 20px;
+            padding: 10px 15px 10px 40px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item {
+            padding: 12px 15px;
+            margin-bottom: 5px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .nav-item span {
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background-color: var(--light-green);
+            color: var(--primary-green);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            border-top: 1px solid #e0e0e0;
+            margin-top: auto;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #e0e0e0;
+        }
+
+        .user-info {
+            transition: all 0.3s ease;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .user-role {
+            display: inline-block;
+            background-color: #7FD4B5;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            margin-top: 2px;
+        }
+
+        .user-actions {
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn {
+            color: #B01212;
+            font-size: 14px;
+            margin-top: 5px;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            text-decoration: underline;
+        }
+
+        .Settings-btn {
+            cursor: pointer;
+        }
+
+        .Settings-btn i {
+            color: #7D7D7D;
+            font-size: 14px;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            overflow: auto;
+            flex-grow: 1;
+        }
+
+        .analytics-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .chart-dropdown {
+            color: #666;
+            border: 1px solid #e0e0e0;
+            padding: 6px 12px;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: #f9fafb;
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .stat-label {
+            color: #9ca3af;
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 4px;
+        }
+
+        .stat-subtitle {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 2px;
+        }
+
+        .buyer-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .buyer-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .buyer-name {
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 2px;
+            font-size: 14px;
+        }
+
+        .buyer-company {
+            color: #9ca3af;
+            font-size: 11px;
+        }
+
+        .charts-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: 250px !important;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #9ca3af;
+        }
+
+        @media (max-width: 1400px) {
+            .analytics-card {
+                padding: 15px;
+            }
+
+            canvas {
+                height: 200px !important;
+            }
+
+            .section-title {
+                font-size: 18px;
+            }
+
+            .stat-value {
+                font-size: 24px;
+            }
+
+            .stats-grid {
+                gap: 12px;
+            }
+
+            .stat-card {
+                padding: 12px;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .sidebar-col {
+                width: 80px;
+            }
+
+            .analytics-card {
+                padding: 12px;
+            }
+
+            canvas {
+                height: 180px !important;
+            }
+
+            .section-title {
+                font-size: 16px;
+            }
+
+            .stat-value {
+                font-size: 20px;
+            }
+
+            .stat-label {
+                font-size: 11px;
+            }
+
+            .buyer-name {
+                font-size: 13px;
+            }
+
+            .buyer-avatar {
+                width: 35px;
+                height: 35px;
+            }
+
+            .logo-full {
+                display: none;
+            }
+
+            .logo-short {
+                display: block;
+                font-size: 28px;
+                text-align: center;
+            }
+
+            .search-box input {
+                display: none;
+            }
+
+            .search-box i {
+                position: static;
+                transform: none;
+                font-size: 20px;
+                padding: 12px;
+                cursor: pointer;
+                border-radius: 8px;
+            }
+
+            .search-box i:hover {
+                background-color: var(--light-green);
+                color: var(--primary-green);
+            }
+
+            .nav-item {
+                justify-content: center;
+                padding: 8px;
+            }
+
+            .nav-item span {
+                display: none;
+            }
+
+            .nav-item i {
+                font-size: 20px;
+                margin: 0;
+            }
+
+            .user-info {
+                display: none;
+            }
+
+            .user-profile {
+                justify-content: center;
+                padding: 15px 8px;
+            }
+
+            .user-actions {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+                width: 100%;
+            }
+
+            .Settings-btn,
+            .logout-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0;
+                padding: 8px;
+            }
+
+            .Settings-btn span,
+            .logout-btn span {
+                display: none;
+            }
+
+            .Settings-btn i,
+            .logout-btn i {
+                margin: 0 !important;
+                font-size: 18px;
+            }
+
+            .charts-row {
+                grid-template-columns: 1fr;
+            }
+
+            canvas {
+                height: 160px !important;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+            }
+
+            .stat-card {
+                padding: 10px;
+            }
+
+            .stat-value {
+                font-size: 18px;
+            }
+
+            .stat-label,
+            .stat-subtitle {
+                font-size: 10px;
+            }
+
+            .buyer-name {
+                font-size: 12px;
+            }
+
+            .buyer-company {
+                font-size: 10px;
+            }
+
+            .buyer-avatar {
+                width: 30px;
+                height: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar-col {
+                width: 70px;
+            }
+
+            .sidebar {
+                padding: 12px 6px;
+                margin: 16px 4px;
+            }
+
+            .main-content {
+                padding: 15px;
+            }
+
+            .charts-row {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .analytics-card {
+                max-height: 400px;
+                overflow-y: auto;
+                scrollbar-width: thin;
+                scrollbar-color: #d1d5db #f1f1f1;
+            }
+
+            .analytics-card::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            .analytics-card::-webkit-scrollbar-track {
+                background: #f1f1f1;
+            }
+
+            .analytics-card::-webkit-scrollbar-thumb {
+                background-color: #d1d5db;
+                border-radius: 3px;
+            }
+
+            .analytics-card::-webkit-scrollbar-thumb:hover {
+                background-color: #9ca3af;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .sidebar-col {
+                width: 60px;
+            }
+
+            .sidebar {
+                padding: 10px 4px;
+                margin: 12px 4px;
+            }
+
+            .main-content {
+                padding: 10px;
+            }
+
+            .analytics-card {
+                max-height: 400px;
+                overflow-y: auto;
+                scrollbar-width: thin;
+                scrollbar-color: #d1d5db #f1f1f1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid p-0">
+        <div class="row g-0">
+            <!-- Sidebar -->
+            <div class="sidebar-col">
+                <div class="sidebar">
+                    <a href="#" class="logo text-decoration-none">
+                        <span class="logo-full">Wearopia</span>
+                        <span class="logo-short">W</span>
+                    </a>
+
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" class="form-control" placeholder="Search">
+                    </div>
+
+                    <a href="#" class="nav-item text-decoration-none ">
+                        <i class="fas fa-th-large"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="#" class="nav-item text-decoration-none">
+                        <i class="fas fa-box"></i>
+                        <span>products</span>
+                    </a>
+                    <a href="#" class="nav-item text-decoration-none">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>orders</span>
+                    </a>
+                    <a href="#" class="nav-item text-decoration-none active">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Analytics</span>
+                    </a>
+
+                    <div class="user-profile">
+                        <div class="d-flex flex-column w-100">
+                            <div class="d-flex my-3">
+                                <div>
+                                    <img src="https://ui-avatars.com/api/?name=Gustavo+Xavier&background=0F6546&color=fff" alt="User" class="user-avatar">
+                                </div>
+                                <div class="mx-3 user-info">
+                                    <div class="user-name">Gustavo Xavier</div>
+                                    <span class="user-role">Seller</span>
+                                </div>
+                            </div>
+                            <div class="user-actions">
+                                <div class="Settings-btn fs-6 my-3">
+                                    <i class="fa-solid fa-gear mx-2"></i> <span>Settings</span>
+                                </div>
+                                <div class="logout-btn fs-6">
+                                    <i class="fas fa-sign-out-alt mx-2"></i> <span>Log out</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Monthly Sales Chart (Full Width) -->
+                <div class="analytics-card">
+                    <div class="section-header">
+                        <h2 class="section-title">Monthly sales</h2>
+                        <select class="chart-dropdown">
+                            <option>Yearly</option>
+                            <option>Monthly</option>
+                            <option>Weekly</option>
+                        </select>
+                    </div>
+                    <canvas id="monthlySalesChart"></canvas>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-label">Top month</div>
+                            <div class="stat-value">November</div>
+                            <div class="stat-subtitle">2019</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Top year</div>
+                            <div class="stat-value">2023</div>
+                            <div class="stat-subtitle">96K sold so far</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Top buyer</div>
+                            <div class="buyer-info">
+                                <div class="buyer-avatar"></div>
+                                <div>
+                                    <div class="buyer-name">Maggie Johnson</div>
+                                    <div class="buyer-company">Oasis Organic Inc.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Row (Two Cards Side by Side) -->
+                <div class="charts-row">
+                    <!-- Top-selling Products -->
+                    <div class="analytics-card">
+                        <div class="section-header">
+                            <h2 class="section-title">Top-selling products</h2>
+                            <select class="chart-dropdown">
+                                <option>Yearly</option>
+                                <option>Monthly</option>
+                            </select>
+                        </div>
+                        <canvas id="topProductsChart"></canvas>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-label">Top month</div>
+                                <div class="stat-value">November</div>
+                                <div class="stat-subtitle">2019</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">Top year</div>
+                                <div class="stat-value">2023</div>
+                                <div class="stat-subtitle">96K sold so far</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">Top buyer</div>
+                                <div class="buyer-info">
+                                    <div class="buyer-avatar"></div>
+                                    <div>
+                                        <div class="buyer-name">Maggie Johnson</div>
+                                        <div class="buyer-company">Oasis Organic Inc.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Conversion Rate -->
+                    <div class="analytics-card">
+                        <div class="section-header">
+                            <h2 class="section-title">Conversion rate</h2>
+                            <select class="chart-dropdown">
+                                <option>Yearly</option>
+                                <option>Monthly</option>
+                            </select>
+                        </div>
+                        <canvas id="conversionChart"></canvas>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-label">Top month</div>
+                                <div class="stat-value">November</div>
+                                <div class="stat-subtitle">2019</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">Top year</div>
+                                <div class="stat-value">2023</div>
+                                <div class="stat-subtitle">96K sold so far</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">Top buyer</div>
+                                <div class="buyer-info">
+                                    <div class="buyer-avatar"></div>
+                                    <div>
+                                        <div class="buyer-name">Maggie Johnson</div>
+                                        <div class="buyer-company">Oasis Organic Inc.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const chartConfig = {
+            type: 'line',
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        padding: 10,
+                        cornerRadius: 6,
+                        titleFont: {
+                            size: 13
+                        },
+                        bodyFont: {
+                            size: 12
+                        },
+                        callbacks: {
+                            label: function(context) {
+                                return 'Sales: ' + context.parsed.y.toLocaleString();
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100000,
+                        ticks: {
+                            callback: function(value) {
+                                return value >= 1000 ? (value/1000) + 'k' : value;
+                            },
+                            font: {
+                                size: 11
+                            },
+                            color: '#9ca3af'
+                        },
+                        grid: {
+                            color: '#f3f4f6',
+                            drawBorder: false
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            font: {
+                                size: 11
+                            },
+                            color: '#9ca3af'
+                        },
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+                elements: {
+                    line: {
+                        tension: 0.4
+                    }
+                },
+                interaction: {
+                    mode: 'nearest',
+                    axis: 'x',
+                    intersect: false
+                }
+            }
+        };
+
+        // Monthly Sales Chart
+        new Chart(document.getElementById('monthlySalesChart'), {
+            ...chartConfig,
+            data: {
+                labels: ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023'],
+                datasets: [{
+                    data: [8000, 12000, 22000, 52000, 9000, 18000, 48000, 98000],
+                    borderColor: '#10b981',
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    fill: true,
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    pointHoverRadius: 6,
+                    pointHoverBackgroundColor: '#10b981',
+                    pointHoverBorderColor: '#fff',
+                    pointHoverBorderWidth: 2
+                }]
+            }
+        });
+
+        // Top Products Chart
+        new Chart(document.getElementById('topProductsChart'), {
+            ...chartConfig,
+            data: {
+                labels: ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023'],
+                datasets: [{
+                    data: [8000, 11000, 18000, 52000, 10000, 15000, 25000, 88000],
+                    borderColor: '#10b981',
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    fill: true,
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    pointHoverRadius: 6,
+                    pointHoverBackgroundColor: '#10b981',
+                    pointHoverBorderColor: '#fff',
+                    pointHoverBorderWidth: 2
+                }]
+            }
+        });
+
+        // Conversion Rate Chart
+        new Chart(document.getElementById('conversionChart'), {
+            ...chartConfig,
+            data: {
+                labels: ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023'],
+                datasets: [{
+                    data: [10000, 12000, 25000, 50000, 12000, 20000, 45000, 95000],
+                    borderColor: '#10b981',
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    fill: true,
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    pointHoverRadius: 6,
+                    pointHoverBackgroundColor: '#10b981',
+                    pointHoverBorderColor: '#fff',
+                    pointHoverBorderWidth: 2
+                }]
+            }
+        });
+
+        // Navigation Active State
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
