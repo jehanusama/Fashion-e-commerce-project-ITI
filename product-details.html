@@ -5,11 +5,338 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Product Details</title>
-
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
   <link rel="stylesheet" href="CSS/product-details.css">
+
+  <style>
+    :root {
+      --primary-color: #0f6546;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* NAVBAR */
+    .navbar-wrapper {
+      background: white;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .navbar-brand {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+
+    .navbar-menu {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar-menu a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .search-container {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #f8f9fa;
+      padding: 0.5rem 1rem;
+      border-radius: 25px;
+    }
+
+    .search-box {
+      border: none;
+      background: transparent;
+      outline: none;
+      width: 200px;
+    }
+
+    .navbar-actions {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .navbar-actions a {
+      text-decoration: none;
+      color: #333;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      position: relative;
+    }
+
+    .badge-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: var(--primary-color);
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: bold;
+    }
+
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .mobile-dropdown {
+      display: none;
+    }
+
+    .breadcrumb-custom {
+      background: transparent;
+      padding: 1rem 0;
+    }
+
+    .breadcrumb-custom .breadcrumb-item a {
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+
+    .breadcrumb-custom .breadcrumb-item.active {
+      color: #6c757d;
+    }
+
+    /* PRODUCT IMAGES */
+    .product-images {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .main-image-container {
+      width: 100%;
+      background: #F0F0F0;
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .main-image {
+      max-width: 100%;
+      height: 500px;
+      object-fit: contain;
+    }
+
+    .thumbs-container {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+    }
+
+    .thumb {
+      width: 80px;
+      height: 80px;
+      border: 2px solid transparent;
+      border-radius: 8px;
+      cursor: pointer;
+      overflow: hidden;
+      flex-shrink: 0;
+      transition: all 0.3s;
+      background: #f8f9fa;
+      padding: 5px;
+    }
+
+    .thumb:hover,
+    .thumb.active {
+      border-color: var(--primary-color);
+    }
+
+    .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .more-box {
+      width: 80px;
+      height: 80px;
+      background: #e9ecef;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      color: #495057;
+      flex-shrink: 0;
+    }
+
+    /* COLOR & SIZE */
+    .color-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.3s;
+      background: none;
+    }
+
+    .color-circle:hover,
+    .color-circle.active {
+      border-color: #000;
+      transform: scale(1.1);
+    }
+
+    .color-circle.black {
+      background-color: #000;
+    }
+
+    .color-circle.navy {
+      background-color: #001f3f;
+    }
+
+    .color-circle.grey {
+      background-color: #808080;
+    }
+
+    .color-circle.white {
+      background-color: #fff;
+      border: 2px solid #ddd;
+    }
+
+    .size-btn {
+      min-width: 60px;
+      transition: all 0.3s;
+    }
+
+    .size-btn.active {
+      background-color: var(--primary-color) !important;
+      color: white !important;
+      border-color: var(--primary-color) !important;
+    }
+
+    .add-to-cart-btn {
+      background-color: var(--primary-color);
+      border: none;
+      flex: 1;
+      padding: 12px 24px;
+    }
+
+    .add-to-cart-btn:hover {
+      background-color: #063725;
+    }
+
+    .payment-icon {
+      width: 50px;
+      height: 35px;
+      border: 1px solid #e0e0e0;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .payment-icon img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    /* TABS */
+    .nav-tabs {
+      border-bottom: 2px solid #e9ecef;
+    }
+
+    .nav-tabs .nav-link {
+      border: none;
+      border-bottom: 3px solid transparent;
+      color: #6c757d;
+      padding: 1rem 1.5rem;
+    }
+
+    .nav-tabs .nav-link:hover {
+      border-bottom-color: #dee2e6;
+    }
+
+    .nav-tabs .nav-link.active {
+      border-bottom-color: var(--primary-color);
+      color: var(--primary-color);
+      background: none;
+    }
+
+    /* RELATED PRODUCTS */
+    .related-product img {
+      height: 250px;
+      object-fit: cover;
+      background: #f8f9fa;
+    }
+
+    /* FOOTER */
+    .custom-footer {
+      padding: 50px 0;
+      margin-top: 50px;
+      border-top: 1px solid #eee;
+    }
+
+    .social-icon {
+      width: 36px;
+      height: 36px;
+      line-height: 32px;
+      text-align: center;
+      transition: background-color 0.3s;
+    }
+
+    .social-icon:hover {
+      background-color: var(--primary-color);
+      color: white !important;
+      border-color: var(--primary-color) !important;
+    }
+
+    @media (max-width: 991px) {
+
+      .navbar-menu,
+      .search-container {
+        display: none;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      .main-image {
+        height: 350px;
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -22,10 +349,10 @@
       </button>
       <a href="index.html" class="navbar-brand">Wearopia</a>
       <ul class="navbar-menu">
-        <li><a href="#">Man</a></li>
-        <li><a href="#">Women</a></li>
-        <li><a href="#">Kids</a></li>
-        <li><a href="#">Accessory</a></li>
+        <li><a href="product-catalog.html#Men-Section-category">Man</a></li>
+        <li><a href="product-catalog.html#Women-Section-category">Women</a></li>
+        <li><a href="product-catalog.html#Kids-Section-category">Kids</a></li>
+        <li><a href="product-catalog.html#Accessories-Section-category">Accessory</a></li>
       </ul>
       <div class="search-container">
         <i class="bi bi-search search-icon"></i>
@@ -64,339 +391,328 @@
         </div>
       </div>
     </nav>
-    <!--end of nav bar-->
-    <!--breadcrumb-->
-    <div aria-label="breadcrumb" class="breadcrumb-custom px-5 pt-3 mx-5">
-      <ol class="breadcrumb mb-0">
-        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-        <li class="breadcrumb-item"><a href="#">Men </a></li>
-        <li class="breadcrumb-item active" aria-current="page">Grey Acid Wash Wide Leg Jogger</li>
-      </ol>
-    </div>
+  </div>
 
-    <!--end of breadcrumb-->
-    <section class="container-fluid pb-5 pt-3 px-md-5">
-      <div class="row align-items-start g-5">
-        <!--images section-->
-        <div class="col-lg-6">
-          <div class="product-images">
-            <div class="main-image-container">
-              <img src="Images/shoes.png" id="mainImage" class="main-image" alt="Main Product Image">
-            </div>
-            <!--small images-->
-            <div class="thumbs-container">
-              <div class="thumb active" data-src="Images/black hoddie.png">
-                <img src="Images/shoes.png" alt="Thumb 1">
-              </div>
-              <div class="thumb" data-src="Images/black t-shirt.png">
-                <img src="Images/black t-shirt.png" alt="Thumb 2">
-              </div>
-              <div class="thumb" data-src="images/Image.png">
-                <img src="Images/Image.png" alt="Thumb 3">
-              </div>
-              <div class="thumb" data-src="images/back.png">
-                <img src="Images/back.png" alt="Thumb 4">
-              </div>
-              <div class="more-box">+4 more</div>
-            </div>
-          </div>
-        </div>
+  <!--breadcrumb-->
+  <div aria-label="breadcrumb" class="breadcrumb-custom px-5 pt-3 " style="margin-left: 150px; ">
+    <ol class="breadcrumb mb-0">
+      <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+      <li class="breadcrumb-item"><a href="index.html" id="breadcrumbCategory">Products</a></li>
+      <li class="breadcrumb-item active" aria-current="page" id="breadcrumbProduct">Product Name</li>
+    </ol>
+  </div>
 
-
-        <div class="col-lg-6">
-          <h2 class="h3 mb-3 fw-bold">Grey Acid Wash Wide Leg Jogger</h2>
-
-          <div>
-            <span class="d-inline-flex text-warning fs-5">
-              <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-              <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-              <i class="bi bi-star-half"></i>
-            </span>
-            <span class="text-muted ms-2">4.5 (212 reviews)</span>
+  <section class="container-fluid pb-5 pt-3 px-md-5">
+    <div class="row align-items-start g-5" style="margin-left: 120px; margin-right: 120px;">
+      <!--images section-->
+      <div class="col-lg-6">
+        <div class="product-images">
+          <div class="main-image-container">
+            <img src="" id="mainImage" class="main-image" alt="Main Product Image">
           </div>
 
-          <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-            <div class="d-flex align-items-baseline gap-3 mb-3">
-              <div class="h4 mb-0 fw-semibold">$215.00</div>
-              <div class="text-muted text-decoration-line-through fs-5">$290.00</div>
-            </div>
-            <button class="btn  p-2"><i class="bi bi-heart"></i> Add to wish list</button>
-          </div>
-
-          <div class="mb-3">
-            <strong>Color:</strong>
-            <span id="selectedColor" class="ms-2 fw-semibold">Black</span>
-            <div class="d-flex align-items-center gap-2 mt-2 color-buttons">
-              <button data-color="Black" class="color-circle black"></button>
-              <button data-color="Navy" class="color-circle navy"></button>
-              <button data-color="Grey" class="color-circle grey"></button>
-              <button data-color="White" class="color-circle white"></button>
-            </div>
-          </div>
-
-          <hr>
-
-          <div class="my-3">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <div>
-                <strong>Size:</strong>
-                <span id="selectedSize" class="ms-2 fw-semibold">XS</span>
-              </div>
-              <a href="#" class="text-decoration-underline text-dark">View size guide</a>
-            </div>
-            <div class="d-flex flex-wrap gap-2">
-              <button class="btn btn-outline-secondary size-btn active">XS</button>
-              <button class="btn btn-outline-secondary size-btn">S</button>
-              <button class="btn btn-outline-secondary size-btn">M</button>
-              <button class="btn btn-outline-secondary size-btn">L</button>
-              <button class="btn btn-outline-secondary size-btn">XL</button>
-              <button class="btn btn-outline-secondary size-btn">XXL</button>
-            </div>
-          </div>
-
-          <hr>
-
-          <div class="d-flex align-items-center justify-content-between gap-3 my-4 flex-wrap">
-            <button class="btn text-white fw-medium fs-6 py-2 add-to-cart-btn">
-              <i class="bi bi-cart3"></i> Add to Cart
-            </button>
-            <a href="#" class="text-decoration-none text-dark ms-auto"><i class="bi bi-geo-alt"></i> Find in
-              store</a>
-          </div>
-
-          <div class="bg-light p-3 fs-6 mb-3">
-            Enjoy <strong class="text-decoration-underline">FREE express</strong> &
-            <strong class="text-decoration-underline">Free Returns</strong> on orders over £35!<br>
-            <small class="text-muted">Kindly place your order by 6pm on December 22nd for expedited
-              processing</small>
-          </div>
-
-          <div>
-            <div class="mb-2"><strong>Payment method</strong></div>
-            <div class="d-flex align-items-center flex-wrap gap-2">
-              <div class="d-flex gap-2">
-                <div class="payment-icon">
-                  <img src="Images/visa-.webp" alt="Visa" />
-                </div>
-                <div class="payment-icon">
-                  <img src="Images/masrers.png" alt="MasterCard" />
-                </div>
-                <div class="payment-icon">
-                  <img src="Images/instapaay.png" alt="Instapay" />
-                </div>
-              </div>
-              <a href="#" class="text-decoration-underline text-dark ms-3">Learn more</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <div class="container mt-1">
-      <!-- Tabs -->
-      <ul class="nav nav-tabs border-0" id="productTabs" role="tablist">
-        <li class="nav-item" role="presentation">
-          <button class="nav-link active fw-semibold" id="details-tab" data-bs-toggle="tab" data-bs-target="#details"
-            type="button" role="tab">Product Details</button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button class="nav-link fw-semibold" id="care-tab" data-bs-toggle="tab" data-bs-target="#care" type="button"
-            role="tab">Care Guide</button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button class="nav-link fw-semibold" id="size-tab" data-bs-toggle="tab" data-bs-target="#size" type="button"
-            role="tab">Size Chart</button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button class="nav-link fw-semibold" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews"
-            type="button" role="tab">Reviews</button>
-        </li>
-      </ul>
-
-      <!-- Tabs Content -->
-      <div class="tab-content mt-4" id="productTabsContent">
-        <!-- Product Details -->
-        <div class="tab-pane fade show active text-secondary" id="details" role="tabpanel">
-          <p>Step into a realm of unparalleled off-duty style with these grey acid wash joggers that effortlessly
-            marry fashion with
-            comfort. Crafted for those committed to style even on their days off, these joggers feature a chic
-            drawstring waist and
-            a wide leg cut. The distinctive acid wash adds a touch of urban edge, making these joggers a versatile
-            choice for
-            leisurely pursuits and relaxed outings. Elevate your casual wardrobe with the perfect blend of
-            fashion-forward design
-            and comfort-driven details, redefining off-duty elegance with every step.</p>
-          <ul>
-            <li>Dark grey</li>
-            <li>Acid wash finish</li>
-            <li>Drawstring waist</li>
-            <li>Side slit pockets</li>
-            <li>Pin tuck pleat</li>
-            <li>Wide leg</li>
-            <li>Model is 5'9"/175cm and wears UK 10/EU 38/US 6</li>
-            <li>Product Code: 891545803</li>
-          </ul>
-        </div>
-
-        <!-- Care Guide -->
-        <div class="tab-pane fade text-secondary" id="care" role="tabpanel">
-          <ul>
-            <li>Machine wash cold with similar colors</li>
-            <li>Do not bleach</li>
-            <li>Tumble dry low</li>
-            <li>Cool iron if needed</li>
-            <li>Do not dry clean</li>
-          </ul>
-        </div>
-
-        <!-- Size Chart -->
-        <div class="tab-pane fade" id="size" role="tabpanel">
-          <div class="table-responsive">
-            <table class="table table-bordered text-center align-middle">
-              <thead class="table-light">
-                <tr>
-                  <th>Size</th>
-                  <th>Length (cm)</th>
-                  <th>Width (cm)</th>
-                  <th>Sleeve (cm)</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Small</td>
-                  <td>65</td>
-                  <td>48</td>
-                  <td>58</td>
-                </tr>
-                <tr>
-                  <td>Medium</td>
-                  <td>67</td>
-                  <td>50</td>
-                  <td>59</td>
-                </tr>
-                <tr>
-                  <td>Large</td>
-                  <td>69</td>
-                  <td>52</td>
-                  <td>60</td>
-                </tr>
-                <tr>
-                  <td>XL</td>
-                  <td>71</td>
-                  <td>54</td>
-                  <td>61</td>
-                </tr>
-                <tr>
-                  <td>XXL</td>
-                  <td>73</td>
-                  <td>56</td>
-                  <td>62</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- Reviews -->
-        <div class="tab-pane fade" id="reviews" role="tabpanel">
-          <div class="mb-3 border-bottom pb-3">
-            <h6 class="fw-semibold mb-1">Sarah M.</h6>
-            <div class="text-warning mb-2">
-              <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                class="bi bi-star-fill"></i><i class="bi bi-star"></i>
-            </div>
-            <p class="mb-0">Really comfy joggers! Perfect fit and love the acid wash look.</p>
-          </div>
-          <div class="mb-3 border-bottom pb-3">
-            <h6 class="fw-semibold mb-1">Layla A.</h6>
-            <div class="text-warning mb-2">
-              <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                class="bi bi-star"></i><i class="bi bi-star"></i>
-            </div>
-            <p class="mb-0">Nice material but runs a bit long for my height.</p>
-          </div>
-          <div>
-            <h6 class="fw-semibold mb-1">Hana R.</h6>
-            <div class="text-warning mb-2">
-              <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-            </div>
-            <p class="mb-0">Love them! Definitely getting another pair.</p>
-          </div>
         </div>
       </div>
 
-      <!-- Related Products -->
-      <div class="my-5">
-        <h5 class="fw-semibold mb-3">Related Product</h5>
-        <div class="row g-4">
-          <div class="col-6 col-md-3">
-            <div class="related-product text-center">
-              <img src="Images/black hoddie.png" class="img-fluid rounded mb-2" alt="">
-              <div class="d-flex">
-                <p class="mb-1 me-4 text-start text-secondary">Urban Bliss Black Ribbed Waist Roll Neck Jumper
-                </p>
-                <p class="fw-semibold">$340.00</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-6 col-md-3">
-            <div class="related-product text-center">
-              <img src="Images/kid.jpg" class="img-fluid rounded mb-2" alt="">
-              <div class="d-flex">
-                <p class="mb-1 me-4 text-start text-secondary">Pink Check Teddy Lounge Joggers</p>
-                <p class="fw-semibold">$140.00</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-6 col-md-3">
-            <div class="related-product text-center">
-              <img src="Images/man.jpg" class="img-fluid rounded mb-2" alt="">
-              <div class="d-flex">
-                <p class="mb-1 me-4 text-start text-secondary">Dark Grey Glitter Waffle Lounge Joggers</p>
-                <p class="fw-semibold">$240.00</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-6 col-md-3">
-            <div class="related-product text-center">
-              <img src="Images/womenjpg.jpg" class="img-fluid rounded mb-2" alt="">
-              <div class="d-flex">
-                <p class="mb-1 me-4 text-start text-secondary">Maternity Black Jersey High Waist Leggings</p>
-                <p class="fw-semibold">$250.00</p>
-              </div>
-            </div>
-          </div>
+      <div class="col-lg-6">
+        <h2 class="h3 mb-3 fw-bold" id="productName">Product Name</h2>
+
+        <div>
+          <span class="d-inline-flex text-warning fs-5">
+            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-half"></i>
+          </span>
+          <span class="text-muted ms-2">4.5 (212 reviews)</span>
         </div>
-      </div>
-    </div>
-    <!--stay in style-->
-    <section class="hero3 text-center py-5" style="background-color: #f1f1f5;">
-      <div class="container px-4">
-        <h2 class="fw-bold text-dark mb-3" style="font-family: 'Poppins', sans-serif;">
-          Stay in Style
-        </h2>
-        <p class="text-secondary mb-4 mx-auto" style="max-width: 600px; font-family: 'Poppins', sans-serif;">
-          Subscribe to our newsletter and be the first to know about new arrivals, exclusive offers, and fashion
-          tips.
-        </p>
 
-        <form class="d-flex flex-column flex-sm-row justify-content-center align-items-center gap-3 mt-3 w-100">
-          <div class="position-relative" style="max-width: 340px; width: 100%;">
-            <i class="fa-solid fa-envelope text-muted position-absolute top-50 start-0 translate-middle-y ms-3"></i>
-            <input type="email" class="form-control ps-5 rounded-pill shadow-sm border-0" placeholder="Enter your email"
-              required />
+        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+          <div class="d-flex align-items-baseline gap-3 mb-3">
+            <div class="h4 mb-0 fw-semibold" id="productPrice">$215.00</div>
+            <div class="text-muted text-decoration-line-through fs-5" id="productOldPrice">$290.00</div>
           </div>
-
-          <button type="submit" class="btn fw-semibold text-white rounded-pill px-4 py-2"
-            style="background-color: hsl(158, 74%, 23%); min-width: 130px;">
-            Subscribe
+          <button class="btn p-2" id="wishlistToggleBtn">
+            <i class="bi bi-heart" id="wishlistIcon"></i> <span id="wishlistBtnText">Add to wish list</span>
           </button>
-        </form>
-      </div>
-    </section>
-    <!--end of stay in style-->
+        </div>
 
+        <div class="mb-3">
+          <strong>Color:</strong>
+          <span id="selectedColor" class="ms-2 fw-semibold">Black</span>
+          <div class="d-flex align-items-center gap-2 mt-2 color-buttons" id="colorButtons">
+            
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="my-3">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <div>
+              <strong>Size:</strong>
+              <span id="selectedSize" class="ms-2 fw-semibold">XS</span>
+            </div>
+            <a href="#size-tab" class="text-decoration-underline text-dark">View size guide</a>
+          </div>
+          <div class="d-flex flex-wrap gap-2" id="sizeButtons">
+
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="d-flex align-items-center justify-content-between gap-3 my-4 flex-wrap">
+          <button class="btn text-white fw-medium fs-6 py-2 add-to-cart-btn" id="addToCartBtn">
+            <i class="bi bi-cart3"></i> Add to Cart
+          </button>
+          <a href="#" class="text-decoration-none text-dark ms-auto"><i class="bi bi-geo-alt"></i> Find in
+            store</a>
+        </div>
+
+        <div class="bg-light p-3 fs-6 mb-3">
+          Enjoy <strong class="text-decoration-underline">FREE express</strong> &
+          <strong class="text-decoration-underline">Free Returns</strong> on orders over £35!<br>
+          <small class="text-muted">Kindly place your order by 6pm on December 22nd for expedited
+            processing</small>
+        </div>
+
+        <div>
+          <div class="mb-2"><strong>Payment method</strong></div>
+          <div class="d-flex align-items-center flex-wrap gap-2">
+            <div class="d-flex gap-2">
+              <div class="payment-icon">
+                <img src="Images/visa-.webp" alt="Visa" />
+              </div>
+              <div class="payment-icon">
+                <img src="Images/masrers.png" alt="MasterCard" />
+              </div>
+              <div class="payment-icon">
+                <img src="Images/instapaay.png" alt="Instapay" />
+              </div>
+            </div>
+            <a href="#" class="text-decoration-underline text-dark ms-3">Learn more</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container mt-1">
+    <!-- Tabs -->
+    <ul class="nav nav-tabs border-0" id="productTabs" role="tablist" style="margin-left: 100px;">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active fw-semibold" id="details-tab" data-bs-toggle="tab" data-bs-target="#details"
+          type="button" role="tab">Product Details</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link fw-semibold" id="care-tab" data-bs-toggle="tab" data-bs-target="#care" type="button"
+          role="tab">Care Guide</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link fw-semibold" id="size-tab" data-bs-toggle="tab" data-bs-target="#size" type="button"
+          role="tab">Size Chart</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link fw-semibold" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews"
+          type="button" role="tab">Reviews</button>
+      </li>
+    </ul>
+
+    <!-- Tabs Content -->
+    <div class="tab-content mt-4" id="productTabsContent" style="margin-left: 120px;margin-right: 120px;">
+      <!-- Product Details -->
+      <div class="tab-pane fade show active text-secondary" id="details" role="tabpanel">
+        <p>Discover high-quality fashion designed for comfort, style, and everyday wear. Each piece is carefully
+          selected to bring
+          you the latest trends with timeless appeal — perfect for men, women, and kids. Complete your look with our
+          wide range of
+          accessories to match every occasion.</p>
+        <ul id="productFeatures">
+          <li>Premium quality materials</li>
+          <li>Comfortable and stylish design</li>
+          <li>Drawstring waist for adjustable fit</li>
+          <li>Side slit pockets for convenience</li>
+          <li>Available in multiple sizes</li>
+          <li id="productCodeLi">Product Code: <span id="productCode">-</span></li>
+        </ul>
+      </div>
+
+      <!-- Care Guide -->
+      <div class="tab-pane fade text-secondary" id="care" role="tabpanel"
+        style="margin-left: 120px;margin-right: 120px;">
+        <ul>
+          <li>Machine wash cold with similar colors</li>
+          <li>Do not bleach</li>
+          <li>Tumble dry low</li>
+          <li>Cool iron if needed</li>
+          <li>Do not dry clean</li>
+        </ul>
+      </div>
+
+      <!-- Size Chart -->
+      <div class="tab-pane fade" id="size" role="tabpanel">
+        <div class="table-responsive">
+          <table class="table table-bordered text-center align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Size</th>
+                <th>Length (cm)</th>
+                <th>Width (cm)</th>
+                <th>Sleeve (cm)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>XS</td>
+                <td>63</td>
+                <td>46</td>
+                <td>57</td>
+              </tr>
+              <tr>
+                <td>S</td>
+                <td>65</td>
+                <td>48</td>
+                <td>58</td>
+              </tr>
+              <tr>
+                <td>M</td>
+                <td>67</td>
+                <td>50</td>
+                <td>59</td>
+              </tr>
+              <tr>
+                <td>L</td>
+                <td>69</td>
+                <td>52</td>
+                <td>60</td>
+              </tr>
+              <tr>
+                <td>XL</td>
+                <td>71</td>
+                <td>54</td>
+                <td>61</td>
+              </tr>
+              <tr>
+                <td>XXL</td>
+                <td>73</td>
+                <td>56</td>
+                <td>62</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Reviews -->
+      <div class="tab-pane fade" id="reviews" role="tabpanel">
+        <div class="mb-3 border-bottom pb-3">
+          <h6 class="fw-semibold mb-1">Sarah M.</h6>
+          <div class="text-warning mb-2">
+            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+              class="bi bi-star-fill"></i><i class="bi bi-star"></i>
+          </div>
+          <p class="mb-0">Really comfy! Perfect fit and love the look.</p>
+        </div>
+        <div class="mb-3 border-bottom pb-3">
+          <h6 class="fw-semibold mb-1">Layla A.</h6>
+          <div class="text-warning mb-2">
+            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+              class="bi bi-star"></i><i class="bi bi-star"></i>
+          </div>
+          <p class="mb-0">Nice material but runs a bit long for my height.</p>
+        </div>
+        <div>
+          <h6 class="fw-semibold mb-1">Hana R.</h6>
+          <div class="text-warning mb-2">
+            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+              class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+          </div>
+          <p class="mb-0">Love it! Definitely getting another one.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Related Products -->
+    <div class="my-5" style="margin-left: 120px;margin-right: 120px;">
+      <h5 class="fw-semibold mb-3">Related Product</h5>
+      <div class="row g-4">
+        <div class="col-6 col-md-3">
+          <div class="related-product text-center">
+            <div style="background-color: #F0F0F0;" class="rounded-2 mb-1">
+              <img src="Images/Related1.jpg" class="img-fluid rounded mb-2" alt="">
+            </div>
+            <div class="d-flex">
+              <p class="mb-1 me-4 text-start text-secondary">Urban Bliss Black Ribbed Waist Roll Neck Jumper
+              </p>
+              <p class="fw-semibold">340.00</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="related-product text-center">
+            <div style="background-color: #F0F0F0;" class="rounded-2 mb-1">
+              <img src="Images/Related2.jpg" class="img-fluid rounded mb-2" alt="">
+            </div>
+            <div class="d-flex">
+              <p class="mb-1 me-4 text-start text-secondary">Red Check Teddy Lounge </p>
+              <p class="fw-semibold">140.00</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-3">
+          <div class="related-product text-center">
+            <div style="background-color: #F0F0F0;" class="rounded-2 mb-1">
+              <img src="Images/Related4.jpg" class="img-fluid rounded mb-2" alt="">
+            </div>
+
+            <div class="d-flex">
+              <p class="mb-1 me-4 text-start text-secondary">Dark Grey Waffle Lounge </p>
+              <p class="fw-semibold">250.00</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="related-product text-center">
+            <div style="background-color: #F0F0F0;" class="rounded-2 mb-1">
+              <img src="Images/Related3.jpg" class="img-fluid rounded mb-2" alt="">
+            </div>
+            <div class="d-flex">
+              <p class="mb-1 me-4 text-start text-secondary">Red Heart Necklace</p>
+              <p class="fw-semibold">240.00</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--stay in style-->
+  <section class="hero3 text-center py-5" style="background-color: #f1f1f5;">
+    <div class="container px-4">
+      <h2 class="fw-bold text-dark mb-3" style="font-family: 'Poppins', sans-serif;">
+        Stay in Style
+      </h2>
+      <p class="text-secondary mb-4 mx-auto" style="max-width: 600px; font-family: 'Poppins', sans-serif;">
+        Subscribe to our newsletter and be the first to know about new arrivals, exclusive offers, and fashion
+        tips.
+      </p>
+  
+      <form class="d-flex flex-column flex-sm-row justify-content-center align-items-center gap-3 mt-3 w-100">
+        <div class="position-relative" style="max-width: 340px; width: 100%;">
+          <i class="fa-solid fa-envelope text-muted position-absolute top-50 start-0 translate-middle-y ms-3"></i>
+          <input type="email" class="form-control ps-5 rounded-pill shadow-sm border-0" placeholder="Enter your email"
+            required />
+        </div>
+  
+        <button type="submit" class="btn fw-semibold text-white rounded-pill px-4 py-2"
+          style="background-color: hsl(158, 74%, 23%); min-width: 130px;">
+          Subscribe
+        </button>
+      </form>
+    </div>
+  </section>
+  <!--end of stay in style-->
     <!--footer component-->
     <footer class="container-fluid bg-white d-flex align-items-center custom-footer">
       <div class="container">
@@ -406,7 +722,7 @@
             <p class="text-secondary small mb-4">
               Discover your unique style with our curated collection of modern fashion pieces.
             </p>
-
+    
             <ul class="list-unstyled text-secondary small mb-4">
               <li class="mb-2">
                 <i class="fa-solid fa-location-dot me-2"></i>123 Fashion Street, Style City, SC 12345
@@ -418,7 +734,7 @@
                 <i class="fa-solid fa-envelope me-2"></i>hello@stylehub.com
               </li>
             </ul>
-
+    
             <div class="d-flex gap-3">
               <a href="#"
                 class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 social-icon">
@@ -468,20 +784,270 @@
               <li>Investors</li>
             </ul>
           </div>
-
+    
         </div>
       </div>
     </footer>
     <!--end of footer-->
 
+  <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+    <div id="toastContainer"></div>
+  </div>
 
-    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
-      <div id="toastContainer"></div>
-    </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    
+    const StorageManager = {
+      saveCart: function (cart) {
+        localStorage.setItem('wearopia_cart', JSON.stringify(cart));
+      },
+      loadCart: function () {
+        const saved = localStorage.getItem('wearopia_cart');
+        return saved ? JSON.parse(saved) : {};
+      },
+      saveWishlist: function (wishlist) {
+        localStorage.setItem('wearopia_wishlist', JSON.stringify(wishlist));
+      },
+      loadWishlist: function () {
+        const saved = localStorage.getItem('wearopia_wishlist');
+        return saved ? JSON.parse(saved) : {};
+      },
+      updateCounts: function (cart, wishlist) {
+        const cartCount = Object.values(cart).reduce((sum, qty) => sum + qty, 0);
+        const wishlistCount = Object.keys(wishlist).length;
+        document.getElementById('cartCount').textContent = cartCount;
+        document.getElementById('wishlistCount').textContent = wishlistCount;
+      }
+    };
+
+    let cart = StorageManager.loadCart();
+    let wishlist = StorageManager.loadWishlist();
+    let currentProduct = null;
+    let selectedSize = null;
+    let selectedColor = null;
+
+    
+  
+    function loadProductDetails() {
+      const productData = localStorage.getItem('selected_product');
+
+      if (!productData) {
+        showToast('Product not found! Redirecting...', 'danger');
+        setTimeout(() => window.location.href = 'index.html', 2000);
+        return;
+      }
+
+      currentProduct = JSON.parse(productData);
+
+      document.title = currentProduct.name + ' - Wearopia';
+
+      document.getElementById('breadcrumbCategory').textContent = currentProduct.mainCategory;
+      document.getElementById('breadcrumbProduct').textContent = currentProduct.name;
+
+      document.getElementById('productName').textContent = currentProduct.name;
+      document.getElementById('productPrice').textContent = '$'
+        + currentProduct.price.toFixed(2);
+
+      const oldPriceEl = document.getElementById('productOldPrice');
+      if (currentProduct.oldPrice) {
+        oldPriceEl.textContent = '$'
+          + currentProduct.oldPrice.toFixed(2);
+        oldPriceEl.style.display = 'inline';
+      } else {
+        oldPriceEl.style.display = 'none';
+      }
+
+      document.getElementById('mainImage').src = currentProduct.image;
+      document.getElementById('mainImage').alt = currentProduct.name;
+
+      document.getElementById('productCode').textContent = currentProduct.id;
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="JavaScript/product-details.js"></script>
+
+      selectedColor = currentProduct.color;
+      selectedSize = currentProduct.size;
+      document.getElementById('selectedColor').textContent = selectedColor;
+      document.getElementById('selectedSize').textContent = selectedSize;
+
+      generateColorOptions();
+      generateSizeOptions();
+
+      updateWishlistButton();
+    }
+    
+    function generateColorOptions() {
+      const colorButtons = document.getElementById('colorButtons');
+      colorButtons.innerHTML = '';
+
+      const availableColors = ['Black', 'Navy', 'Grey', 'White'];
+      const colorClasses = {
+        'Black': 'black',
+        'Navy': 'navy',
+        'Grey': 'grey',
+        'White': 'white',
+        'Blue': 'navy',
+        'Green': 'grey',
+        'Orange': 'grey',
+        'Dark Blue': 'navy'
+      };
+
+      availableColors.forEach(color => {
+        const btn = document.createElement('button');
+        btn.className = 'color-circle ' + (colorClasses[color] || 'grey');
+        btn.dataset.color = color;
+        btn.setAttribute('type', 'button');
+
+        if (color === currentProduct.color || colorClasses[currentProduct.color] === colorClasses[color]) {
+          btn.classList.add('active');
+        }
+
+        btn.addEventListener('click', function () {
+          document.querySelectorAll('.color-circle').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          selectedColor = this.dataset.color;
+          document.getElementById('selectedColor').textContent = selectedColor;
+        });
+
+        colorButtons.appendChild(btn);
+      });
+    }
+
+    
+    function generateSizeOptions() {
+      const sizeButtons = document.getElementById('sizeButtons');
+      sizeButtons.innerHTML = '';
+
+      const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+
+      sizes.forEach(size => {
+        const btn = document.createElement('button');
+        btn.className = 'btn btn-outline-secondary size-btn';
+        btn.textContent = size;
+        btn.setAttribute('type', 'button');
+
+        if (size === currentProduct.size) {
+          btn.classList.add('active');
+        }
+
+        btn.addEventListener('click', function () {
+          document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          selectedSize = size;
+          document.getElementById('selectedSize').textContent = selectedSize;
+        });
+
+        sizeButtons.appendChild(btn);
+      });
+    }
+
+    function updateWishlistButton() {
+      const btn = document.getElementById('wishlistToggleBtn');
+      const icon = document.getElementById('wishlistIcon');
+      const text = document.getElementById('wishlistBtnText');
+
+      if (wishlist[currentProduct.id]) {
+        icon.classList.remove('bi-heart');
+        icon.classList.add('bi-heart-fill');
+        icon.style.color = '#dc3545';
+        text.textContent = 'Remove from wishlist';
+      } else {
+        icon.classList.remove('bi-heart-fill');
+        icon.classList.add('bi-heart');
+        icon.style.color = '';
+        text.textContent = 'Add to wish list';
+      }
+    }
+
+    function toggleWishlist() {
+      if (!currentProduct) return;
+
+      if (wishlist[currentProduct.id]) {
+        delete wishlist[currentProduct.id];
+        showToast('Removed from wishlist', 'info');
+      } else {
+        wishlist[currentProduct.id] = true;
+        showToast('Added to wishlist!', 'success');
+      }
+
+      StorageManager.saveWishlist(wishlist);
+      StorageManager.updateCounts(cart, wishlist);
+      updateWishlistButton();
+    }
+
+    function addToCart() {
+      if (!currentProduct) return;
+
+      cart[currentProduct.id] = (cart[currentProduct.id] || 0) + 1;
+
+      StorageManager.saveCart(cart);
+      StorageManager.updateCounts(cart, wishlist);
+
+      showToast('Product added to cart successfully!', 'success');
+    }
+
+    function showToast(message, type = 'success') {
+      const toastContainer = document.getElementById('toastContainer');
+
+      const bgColor = type === 'success' ? 'bg-success' :
+        type === 'danger' ? 'bg-danger' :
+          type === 'info' ? 'bg-info' : 'bg-primary';
+
+      const toastEl = document.createElement('div');
+      toastEl.className = `toast align-items-center text-white ${bgColor} border-0`;
+      toastEl.setAttribute('role', 'alert');
+      toastEl.setAttribute('aria-live', 'assertive');
+      toastEl.setAttribute('aria-atomic', 'true');
+
+      const icon = type === 'success' ? 'bi-check-circle-fill' :
+        type === 'danger' ? 'bi-x-circle-fill' :
+          type === 'info' ? 'bi-info-circle-fill' : 'bi-bell-fill';
+
+      toastEl.innerHTML = `
+        <div class="d-flex">
+          <div class="toast-body">
+            <i class="bi ${icon} me-2"></i>
+            ${message}
+          </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+      `;
+
+      toastContainer.appendChild(toastEl);
+
+      const toast = new bootstrap.Toast(toastEl, {
+        animation: true,
+        autohide: true,
+        delay: 3000
+      });
+
+      toast.show();
+
+      toastEl.addEventListener('hidden.bs.toast', function () {
+        toastEl.remove();
+      });
+    }
+
+    document.getElementById('wishlistToggleBtn').addEventListener('click', toggleWishlist);
+    document.getElementById('addToCartBtn').addEventListener('click', addToCart);
+
+    const menuToggle = document.getElementById('menuToggle');
+    if (menuToggle) {
+      menuToggle.addEventListener('click', function () {
+        const mobileMenu = document.getElementById('mobileMenu');
+        if (mobileMenu.style.display === 'none' || mobileMenu.style.display === '') {
+          mobileMenu.style.display = 'block';
+        } else {
+          mobileMenu.style.display = 'none';
+        }
+      });
+    }
+
+    
+    document.addEventListener('DOMContentLoaded', function () {
+      loadProductDetails();
+      StorageManager.updateCounts(cart, wishlist);
+    });
+  </script>
 </body>
 
 </html>
