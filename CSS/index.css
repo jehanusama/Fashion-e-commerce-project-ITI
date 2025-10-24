@@ -559,5 +559,31 @@ body {
         padding-right: 120px;
     }
 }
+.hero-section,
+section,
+footer {
+  padding-left: 120px;
+  padding-right: 120px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 992px) {
+  .hero-section,
+  section,
+  footer {
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-section,
+  section,
+  footer {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
 
 /*end of footer*/
