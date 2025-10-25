@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders - Wearopia</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-green: #047857;
+            --light-green: #059669;
+            --hover-green: #065f46;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f9fafb;
+        }
+        
+        
+        .brand {
+            color: var(--primary-green);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        /* --- New/Modified Styles for Responsiveness --- */
+
+        /* * Replaces the inline style on the main container.
+         * Sets 15px padding for mobile and 120px for large screens (992px+).
+         */
+        .main-container-padding {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        @media (min-width: 992px) { /* lg breakpoint */
+            .main-container-padding {
+                padding-left: 120px;
+                padding-right: 120px;
+            }
+        }
+
+        /* * Modified pagination container to stack vertically on mobile
+         * and switch to a row layout on tablets (768px+).
+         */
+        .pagination-container {
+            display: flex;
+            flex-direction: column; /* Stack by default */
+            justify-content: space-between;
+            align-items: center; /* Center stacked items */
+            gap: 1rem; /* Add space between items */
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        @media (min-width: 768px) {
+            .pagination-container {
+                flex-direction: row; /* Row layout on medium+ */
+                gap: 0; /* Remove gap */
+            }
+        }
+
+        /* --- End of New/Modified Styles --- */
+
+        
+        .sidebar {
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .profile-section {
+            text-align: center;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 1rem;
+        }
+        
+        .profile-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #d1d5db;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.75rem;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .profile-name {
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.25rem;
+        }
+        
+        .profile-email {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 0.25rem;
+        }
+        
+        .profile-member {
+            font-size: 0.75rem;
+            color: #9ca3af;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            color: #374151;
+            text-decoration: none;
+            border-radius: 0.375rem;
+            margin-bottom: 0.25rem;
+            transition: all 0.2s;
+        }
+        
+        .menu-item:hover {
+            background-color: #f3f4f6;
+            color: #111827;
+        }
+        
+        .menu-item.active {
+            background-color: var(--primary-green);
+            color: white;
+        }
+        
+        .menu-item i {
+            margin-right: 0.75rem;
+            font-size: 1.125rem;
+        }
+        
+        .content-card {
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+        }
+        
+        .content-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.5rem;
+        }
+        
+        .content-subtitle {
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.2s;
+        }
+        
+        .order-item:hover {
+            border-color: #d1d5db;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        
+        .order-icon {
+            width: 48px;
+            height: 48px;
+            background-color: #f3f4f6;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .order-icon i {
+            font-size: 1.5rem;
+            color: #374151;
+        }
+        
+        .order-info {
+            flex: 1;
+        }
+        
+        .order-title {
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.25rem;
+            font-size: 0.9375rem;
+        }
+        
+        .order-meta {
+            font-size: 0.8125rem;
+            color: #9ca3af;
+        }
+        
+        .order-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .order-price {
+            font-weight: 600;
+            color: #111827;
+            font-size: 1.0625rem;
+        }
+        
+        .btn-view {
+            background-color: transparent;
+            color: #374151;
+            border: 1px solid #e5e7eb;
+            padding: 0.5rem 1.25rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+        
+        .btn-view:hover {
+            background-color: #f9fafb;
+            border-color: #d1d5db;
+        }
+        
+        .pagination-info {
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+        
+        .pagination {
+            margin: 0;
+        }
+        
+        .page-item {
+            margin: 0 0.125rem;
+        }
+        
+        .page-link {
+            color: #6b7280;
+            border: 1px solid #e5e7eb;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.375rem;
+            min-width: 36px;
+            text-align: center;
+        }
+        
+        .page-item.active .page-link {
+            background-color: var(--primary-green);
+            border-color: var(--primary-green);
+            color: white;
+        }
+        
+        .page-link:hover {
+            background-color: #f9fafb;
+            color: #374151;
+            border-color: #d1d5db;
+        }
+        
+
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                margin-bottom: 1.5rem;
+            }
+            
+            /* * This rule is no longer needed as .main-container-padding handles it.
+             *
+             .container {
+                padding-left: 15px !important;
+                padding-right: 15px !important;
+             }
+            */
+            
+            .order-item {
+                flex-wrap: wrap;
+            }
+            
+            .order-right {
+                width: 100%;
+                justify-content: space-between;
+                margin-top: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Content -->
+    <!-- 
+      Replaced inline style with "container-fluid" for full-width layout
+      and "main-container-padding" class to control padding responsively.
+    -->
+    <div class="container-fluid my-5 main-container-padding">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-3 col-md-4">
+                <div class="sidebar">
+                    <div class="profile-section">
+                        <div class="profile-avatar">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                        <div class="profile-name">Abdelrahman</div>
+                        <div class="profile-email">Abdelrahman@example.com</div>
+                        <div class="profile-member">Member since January 2023</div>
+                    </div>
+                    <nav>
+                        <a href="#" class="menu-item">
+                            <i class="bi bi-person"></i>
+                            <span>Personal Info</span>
+                        </a>
+                        <a href="#" class="menu-item active">
+                            <i class="bi bi-box-seam"></i>
+                            <span>Orders</span>
+                        </a>
+                        <a href="#" class="menu-item">
+                            <i class="bi bi-headset"></i>
+                            <span>Customer service</span>
+                        </a>
+                        <a href="#" class="menu-item">
+                            <i class="bi bi-geo-alt"></i>
+                            <span>Addresses</span>
+                        </a>
+                        <a href="#" class="menu-item">
+                            <i class="bi bi-gear"></i>
+                            <span>Settings</span>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="col-lg-9 col-md-8">
+                <div class="content-card">
+                    <h2 class="content-title">Order History</h2>
+                    <p class="content-subtitle">View and track your recent orders</p>
+                    
+                    <div class="order-item">
+                        <div class="d-flex align-items-center flex-grow-1">
+                            <div class="order-icon">
+                                <i class="bi bi-box-seam"></i>
+                            </div>
+                            <div class="order-info">
+                                <div class="order-title">ORD-2024-001</div>
+                                <div class="order-meta">Oct 15, 2024 • 3 items</div>
+                            </div>
+                        </div>
+                        <div class="order-right">
+                            <div class="order-price">$234.99</div>
+                            <button class="btn btn-view">
+                                <i class="bi bi-eye"></i>
+                                View
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="order-item">
+                        <div class="d-flex align-items-center flex-grow-1">
+                            <div class="order-icon">
+                                <i class="bi bi-box-seam"></i>
+                            </div>
+                            <div class="order-info">
+                                <div class="order-title">ORD-2024-001</div>
+                                <div class="order-meta">Oct 15, 2024 • 3 items</div>
+                            </div>
+                        </div>
+                        <div class="order-right">
+                            <div class="order-price">$234.99</div>
+                            <button class="btn btn-view">
+                                <i class="bi bi-eye"></i>
+                                View
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="order-item">
+                        <div class="d-flex align-items-center flex-grow-1">
+                            <div class="order-icon">
+                                <i class="bi bi-box-seam"></i>
+                            </div>
+                            <div class="order-info">
+                                <div class="order-title">ORD-2024-001</div>
+                                <div class="order-meta">Oct 15, 2024 • 3 items</div>
+                            </div>
+                        </div>
+                        <div class="order-right">
+                            <div class="order-price">$234.99</div>
+                            <button class="btn btn-view">
+                                <i class="bi bi-eye"></i>
+                                View
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="order-item">
+                        <div class="d-flex align-items-center flex-grow-1">
+                            <div class="order-icon">
+                                <i class="bi bi-box-seam"></i>
+                            </div>
+                            <div class="order-info">
+                                <div class="order-title">ORD-2024-001</div>
+                                <div class="order-meta">Oct 15, 2024 • 3 items</div>
+                            </div>
+                        </div>
+                        <div class="order-right">
+                            <div class="order-price">$234.99</div>
+                            <button class="btn btn-view">
+                                <i class="bi bi-eye"></i>
+                                View
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="order-item">
+                        <div class="d-flex align-items-center flex-grow-1">
+                            <div class="order-icon">
+                                <i class="bi bi-box-seam"></i>
+                            </div>
+                            <div class="order-info">
+                                <div class="order-title">ORD-2024-001</div>
+                                <div class="order-meta">Oct 15, 2024 • 3 items</div>
+                            </div>
+                        </div>
+                        <div class="order-right">
+                            <div class="order-price">$234.99</div>
+                            <button class="btn btn-view">
+                                <i class="bi bi-eye"></i>
+                                View
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="pagination-container">
+                        <div class="pagination-info">
+                            Showing data 1 to 8 of 256K entries
+                        </div>
+                        <nav>
+                            <ul class="pagination mb-0">
+                                <li class="page-item">
+                                    <a class="page-link" href="#"><i class="bi bi-chevron-left"></i></a>
+                                </li>
+                                <li class="page-item active">
+                                    <a class="page-link" href="#">1</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">2</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">3</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">4</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">...</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">40</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#"><i class="bi bi-chevron-right"></i></a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
