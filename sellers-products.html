@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,8 @@
         :root {
             --primary-color: #0d5842;
             --primary-hover: #094a36;
+            --light-green: #e8f5f1;
+            --primary-green: #0d5842;
             --sidebar-bg: #f8f9fa;
             --text-dark: #333;
             --text-muted: #6c757d;
@@ -21,8 +24,6 @@
         }
 
         * {
-            margin: 0;
-            padding: 0;
             box-sizing: border-box;
         }
 
@@ -30,149 +31,154 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
             color: var(--text-dark);
             background: #f5f5f5;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 255px;
-            height: 100vh;
-            background: white;
-            border-right: 1px solid var(--border-color);
-            padding: 0;
-            overflow-y: auto;
-        }
-
-        .sidebar-brand {
-            padding: 2rem 1.5rem 1.5rem;
-            margin-bottom: 0;
-        }
-
-        .sidebar-brand h3 {
-            color: var(--primary-color);
-            font-size: 1.5rem;
-            font-weight: 700;
+            overflow-x: hidden;
             margin: 0;
+            padding: 0;
+        }
+
+        .sidebar-col {
+            flex: 0 0 auto;
+            width: 250px;
+            min-width: 250px;
+        }
+
+        .sidebar {
+            background: white;
+            height: calc(100vh - 32px);
+            padding: 16px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-radius: 16px;
+            position: sticky;
+            top: 16px;
+            transition: all 0.3s ease;
+            overflow-y: auto;
+            overflow-x: hidden;
+            margin: 16px 8px;
+        }
+
+        .logo {
+            color: var(--primary-green);
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .logo-short {
+            display: none;
         }
 
         .search-box {
-            padding: 0 1.5rem;
-            margin-bottom: 1.5rem;
+            position: relative;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
         }
 
         .search-box input {
-            width: 100%;
-            padding: 0.75rem 1rem 0.75rem 2.5rem;
-            border: 1px solid var(--border-color);
+            border: 1px solid #e0e0e0;
             border-radius: 8px;
-            font-size: 0.9rem;
+            padding: 10px 15px 10px 40px;
+            width: 100%;
+            transition: all 0.3s ease;
         }
 
         .search-box i {
             position: absolute;
-            left: 2.5rem;
+            left: 15px;
             top: 50%;
             transform: translateY(-50%);
-            color: var(--text-muted);
-        }
-
-        .nav-menu {
-            list-style: none;
-            padding: 0 1rem;
+            color: #999;
+            transition: all 0.3s ease;
         }
 
         .nav-item {
-            margin-bottom: 0.5rem;
-        }
-
-        .nav-link {
+            padding: 12px 15px;
+            margin-bottom: 5px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
             display: flex;
             align-items: center;
-            padding: 0.75rem 1rem;
-            color: var(--text-dark);
-            text-decoration: none;
-            border-radius: 8px;
-            transition: all 0.2s;
+            gap: 12px;
+            color: #666;
+            font-size: 14px;
         }
 
-        .nav-link:hover {
-            background: var(--sidebar-bg);
+        .nav-item span {
+            transition: all 0.3s ease;
         }
 
-        .nav-link.active {
-            background: var(--primary-color);
-            color: white;
-        }
-
-        .nav-link i {
-            margin-right: 0.75rem;
-            font-size: 1.1rem;
+        .nav-item:hover,
+        .nav-item.active {
+            background-color: var(--light-green);
+            color: var(--primary-green);
         }
 
         .user-profile {
-            position: absolute;
-            bottom: 2rem;
-            left: 0;
-            right: 0;
-            padding: 0 1.5rem;
-        }
-
-        .user-info {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem;
-            background: var(--sidebar-bg);
-            border-radius: 8px;
-            margin-bottom: 1rem;
+            gap: 12px;
+            padding: 15px;
+            border-top: 1px solid #e0e0e0;
+            margin-top: auto;
         }
 
         .user-avatar {
             width: 45px;
             height: 45px;
             border-radius: 50%;
-            object-fit: cover;
+            background: #e0e0e0;
         }
 
-        .user-details h6 {
-            margin: 0;
-            font-size: 0.9rem;
+        .user-info {
+            transition: all 0.3s ease;
+        }
+
+        .user-name {
             font-weight: 600;
+            color: #333;
+            font-size: 14px;
+            margin-bottom: 4px;
         }
 
-        .user-badge {
+        .user-role {
             display: inline-block;
-            padding: 0.2rem 0.5rem;
-            background: var(--success-light);
-            color: var(--success-dark);
-            font-size: 0.7rem;
-            border-radius: 4px;
-            margin-top: 0.2rem;
+            background-color: #7FD4B5;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            margin-top: 2px;
+        }
+
+        .user-actions {
+            transition: all 0.3s ease;
         }
 
         .logout-btn {
-            display: flex;
-            align-items: center;
-            padding: 0.75rem 1rem;
-            color: var(--danger-dark);
-            text-decoration: none;
-            border-radius: 8px;
-            transition: all 0.2s;
+            color: #B01212;
+            font-size: 14px;
+            margin-top: 5px;
+            cursor: pointer;
         }
 
         .logout-btn:hover {
-            background: var(--danger-light);
+            text-decoration: underline;
         }
 
-        .logout-btn i {
-            margin-right: 0.75rem;
+        .Settings-btn i {
+            color: #7D7D7D;
+            font-size: 14px;
         }
 
-        /* Main Content */
+        .main-col {
+            flex: 1;
+            min-width: 0;
+        }
+
         .main-content {
-            margin-left: 255px;
             padding: 2.5rem 3rem;
             min-height: 100vh;
         }
@@ -188,6 +194,7 @@
             font-size: 1.75rem;
             font-weight: 700;
             color: var(--text-dark);
+            margin: 0;
         }
 
         .add-product-btn {
@@ -208,19 +215,20 @@
             background: var(--primary-hover);
         }
 
-        /* Table */
         .table-container {
             background: white;
             border-radius: 12px;
             padding: 2rem;
-            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
             border: 1px solid #f0f0f0;
+            overflow-x: auto;
         }
 
         .products-table {
             width: 100%;
             border-collapse: separate;
             border-spacing: 0;
+            min-width: 800px;
         }
 
         .products-table thead th {
@@ -324,7 +332,6 @@
             color: var(--danger-dark);
         }
 
-        /* Pagination */
         .table-footer {
             display: flex;
             justify-content: space-between;
@@ -332,6 +339,8 @@
             margin-top: 1.5rem;
             padding-top: 1.5rem;
             border-top: 1px solid var(--border-color);
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         .showing-text {
@@ -345,6 +354,7 @@
             list-style: none;
             margin: 0;
             padding: 0;
+            flex-wrap: wrap;
         }
 
         .pagination li {
@@ -379,133 +389,449 @@
             cursor: not-allowed;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
+        @media (max-width: 1400px) {
+            .sidebar-col {
+                width: 220px;
+                min-width: 220px;
+            }
+
             .sidebar {
-                transform: translateX(-100%);
+                padding: 14px;
             }
 
             .main-content {
-                margin-left: 0;
+                padding: 2rem 2.5rem;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .sidebar-col {
+                width: 80px;
+                min-width: 80px;
             }
 
-            .table-container {
-                overflow-x: auto;
+            .main-content {
+                padding: 2rem;
+            }
+
+            .logo {
+                margin-bottom: 20px;
+            }
+
+            .logo-full {
+                display: none;
+            }
+
+            .logo-short {
+                display: block;
+                font-size: 28px;
+                text-align: center;
+            }
+
+            .search-box {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: 10px;
+            }
+
+            .search-box input {
+                display: none;
+            }
+
+            .search-box i {
+                position: static;
+                transform: none;
+                font-size: 20px;
+                padding: 12px;
+                cursor: pointer;
+                border-radius: 8px;
+                transition: all 0.3s;
+            }
+
+            .search-box i:hover {
+                background-color: var(--light-green);
+                color: var(--primary-green);
+            }
+
+            .nav-item {
+                justify-content: center;
+                padding: 8px;
+            }
+
+            .nav-item span {
+                display: none;
+            }
+
+            .nav-item i {
+                font-size: 20px;
+                margin: 0;
+            }
+
+            .user-info {
+                display: none;
+            }
+
+            .user-profile {
+                justify-content: center;
+                padding: 15px 8px;
+            }
+
+            .user-profile .d-flex {
+                align-items: center;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .user-actions {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+                width: 100%;
+            }
+
+            .Settings-btn,
+            .logout-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0;
+                padding: 8px;
+            }
+
+            .Settings-btn span,
+            .logout-btn span {
+                display: none;
+            }
+
+            .Settings-btn i,
+            .logout-btn i {
+                margin: 0 !important;
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar-col {
+                width: 70px;
+                min-width: 70px;
+            }
+
+            .sidebar {
+                padding: 12px 6px;
+                margin: 16px 4px;
+            }
+
+            .main-content {
+                padding: 1.5rem;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .page-header h2 {
+                font-size: 1.5rem;
+            }
+
+            .add-product-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .logo {
+                margin-bottom: 10px;
+            }
+
+            .logo-short {
+                font-size: 24px;
+                margin-bottom: 15px;
+            }
+
+            .search-box {
+                margin-bottom: 8px;
+            }
+
+            .search-box i {
+                font-size: 18px;
+                padding: 10px;
+            }
+
+            .nav-item {
+                padding: 10px;
+                margin-bottom: 4px;
+            }
+
+            .nav-item i {
+                font-size: 18px;
+            }
+
+            .user-avatar {
+                width: 40px;
+                height: 40px;
+            }
+
+            .Settings-btn i,
+            .logout-btn i {
+                font-size: 16px;
+            }
+
+            .table-footer {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .sidebar-col {
+                width: 60px;
+                min-width: 60px;
+            }
+
+            .sidebar {
+                padding: 10px 4px;
+                margin: 12px 4px;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .logo {
+                margin-bottom: 8px;
+            }
+
+            .logo-short {
+                font-size: 20px;
+                margin-bottom: 12px;
+            }
+
+            .search-box {
+                margin-bottom: 8px;
+            }
+
+            .search-box i {
+                font-size: 16px;
+                padding: 8px;
+            }
+
+            .nav-item {
+                padding: 8px;
+                margin-bottom: 3px;
+            }
+
+            .nav-item i {
+                font-size: 16px;
+            }
+
+            .user-avatar {
+                width: 35px;
+                height: 35px;
+            }
+
+            .Settings-btn,
+            .logout-btn {
+                padding: 6px;
+            }
+
+            .Settings-btn i,
+            .logout-btn i {
+                font-size: 14px;
+            }
+
+            .page-header h2 {
+                font-size: 1.25rem;
+            }
+
+            .products-table thead th,
+            .products-table tbody td {
+                padding: 0.75rem;
+                font-size: 0.85rem;
             }
         }
     </style>
 </head>
+
 <body>
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <div class="sidebar-brand">
-            <h3>Wearopia</h3>
-        </div>
 
-        <div class="search-box position-relative">
-            <i class="fas fa-search"></i>
-            <input type="text" placeholder="Search">
-        </div>
+    <div class="container-fluid p-0">
+        <div class="row g-0">
+            <!-- Sidebar -->
+            <div class="sidebar-col">
+                <div class="sidebar">
+                    <a href="seller-dashboard.html" class="logo text-decoration-none">
+                        <span class="logo-full">Wearopia</span>
+                        <span class="logo-short">W</span>
+                    </a>
 
-        <ul class="nav-menu">
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="fas fa-th-large"></i>
-                    Dashboard
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link active">
-                    <i class="fas fa-box"></i>
-                    products
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="fas fa-shopping-cart"></i>
-                    orders
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="fas fa-chart-line"></i>
-                    Analytics
-                </a>
-            </li>
-        </ul>
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" class="form-control" placeholder="Search">
+                    </div>
 
-        <div class="user-profile">
-            <div class="user-info">
-                <img src="https://i.pravatar.cc/150?img=12" alt="User" class="user-avatar">
-                <div class="user-details">
-                    <h6>Gustavo Xavier</h6>
-                    <span class="user-badge">editor</span>
+                    <a href="seller-dashboard.html" class="nav-item text-decoration-none">
+                        <i class="fas fa-th-large"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="sellers-products.html" class="nav-item text-decoration-none active">
+                        <i class="fas fa-box"></i>
+                        <span>products</span>
+                    </a>
+                    <a href="sellers-orders.html" class="nav-item text-decoration-none">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>orders</span>
+                    </a>
+                    <a href="sellers-analytics.html" class="nav-item text-decoration-none">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Analytics</span>
+                    </a>
+
+                    <div class="user-profile">
+                        <div class="d-flex flex-column w-100">
+                            <div class="d-flex my-3">
+                                <div>
+                                    <img src="Images/seller image.png" alt="User" class="user-avatar">
+                                </div>
+                                <div class="mx-3 user-info">
+                                    <div class="user-name">Gustavo Xavier</div>
+                                    <span class="user-role">Seller</span>
+                                </div>
+                            </div>
+                            <div class="user-actions">
+                                <div class="Settings-btn fs-6 my-3">
+                                    <i class="fa-solid fa-gear mx-2"></i> <span>Settings</span>
+                                </div>
+                                <div class="logout-btn fs-6">
+                                    <i class="fas fa-sign-out-alt mx-2"></i> <span>Log out</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <a href="#" class="logout-btn">
-                <i class="fas fa-sign-out-alt"></i>
-                Log out
-            </a>
-        </div>
-    </aside>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <div class="page-header">
-            <h2>products</h2>
-            <button class="add-product-btn" id="addProductBtn">
-                <i class="fas fa-plus"></i>
-                Add Product
-            </button>
-        </div>
+            <!-- Main Content -->
+            <div class="main-col">
+                <div class="main-content">
 
-        <div class="table-container">
-            <table class="products-table">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>product Name</th>
-                        <th>product Id</th>
-                        <th>product Price</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="productsTableBody">
-                    <!-- Products will be inserted here by JavaScript -->
-                </tbody>
-            </table>
+                    <div class="table-container">
+                        <div class="page-header">
+                            <h2>products</h2>
+                            <a href="add-product.html" class="add-product-btn text-decoration-none">
+                                <i class="fas fa-plus"></i>
+                                Add Product
+                            </a>
+                        </div>
 
-            <div class="table-footer">
-                <div class="showing-text">
-                    Showing data <span id="startEntry">1</span> to <span id="endEntry">8</span> of <span id="totalEntries">256K</span> entries
+                        <table class="products-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>product Name</th>
+                                    <th>product Id</th>
+                                    <th>product Price</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productsTableBody">
+                                <!-- Products will be inserted here by JavaScript -->
+                            </tbody>
+                        </table>
+
+                        <div class="table-footer">
+                            <div class="showing-text">
+                                Showing data <span id="startEntry">1</span> to <span id="endEntry">8</span> of <span
+                                    id="totalEntries">0</span> entries
+                            </div>
+                            <ul class="pagination" id="pagination">
+                                <!-- Pagination buttons will be inserted here -->
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-                <ul class="pagination" id="pagination">
-                    <!-- Pagination buttons will be inserted here -->
-                </ul>
             </div>
         </div>
-    </main>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Sample product data
-        const productsData = [];
-        const totalProducts = 256000; // 256K entries
+        // Sample product data with realistic clothing items
+        const defaultProducts = [
+            { name: 'Classic Denim Jacket', productId: 'WR-JKT-001', price: 89.99, status: 'active', image: 'https://i.pravatar.cc/150?img=1', stock: 50, category: 'Jacket', description: 'Classic denim jacket with modern fit', sizes: ['S', 'M', 'L'], colors: ['black', 'navy'] },
+            { name: 'Cotton White T-Shirt', productId: 'WR-TSH-002', price: 24.99, status: 'active', image: 'https://i.pravatar.cc/150?img=2', stock: 100, category: 'Shirts', description: 'Comfortable cotton t-shirt', sizes: ['XS', 'S', 'M', 'L'], colors: ['white', 'cream'] },
+            { name: 'Black Leather Boots', productId: 'WR-SHO-003', price: 159.99, status: 'inactive', image: 'https://i.pravatar.cc/150?img=3', stock: 0, category: 'Shoes', description: 'Premium leather boots', sizes: ['M', 'L', 'XL'], colors: ['black'] },
+            { name: 'Grey Wool Sweater', productId: 'WR-SWT-004', price: 79.99, status: 'active', image: 'https://i.pravatar.cc/150?img=4', stock: 75, category: 'Jacket', description: 'Warm wool sweater', sizes: ['S', 'M', 'L', 'XL'], colors: ['grey', 'silver'] },
+            { name: 'Blue Slim Fit Jeans', productId: 'WR-PNT-005', price: 69.99, status: 'active', image: 'https://i.pravatar.cc/150?img=5', stock: 60, category: 'Pants', description: 'Slim fit denim jeans', sizes: ['S', 'M', 'L'], colors: ['navy', 'dark'] },
+            { name: 'Red Flannel Shirt', productId: 'WR-SHT-006', price: 49.99, status: 'active', image: 'https://i.pravatar.cc/150?img=6', stock: 45, category: 'Shirts', description: 'Classic flannel shirt', sizes: ['M', 'L', 'XL'], colors: ['black', 'grey'] },
+            { name: 'Black Hoodie', productId: 'WR-HDD-007', price: 54.99, status: 'inactive', image: 'https://i.pravatar.cc/150?img=7', stock: 0, category: 'Jacket', description: 'Comfortable hoodie', sizes: ['S', 'M', 'L'], colors: ['black', 'dark'] },
+            { name: 'Leather Belt Brown', productId: 'WR-ACC-008', price: 34.99, status: 'active', image: 'https://i.pravatar.cc/150?img=8', stock: 120, category: 'Accessories', description: 'Genuine leather belt', sizes: ['M', 'L'], colors: ['black'] },
+            { name: 'Running Sneakers', productId: 'WR-SHO-009', price: 119.99, status: 'active', image: 'https://i.pravatar.cc/150?img=9', stock: 80, category: 'Shoes', description: 'Lightweight running shoes', sizes: ['M', 'L', 'XL'], colors: ['white', 'grey'] },
+            { name: 'Khaki Cargo Pants', productId: 'WR-PNT-010', price: 64.99, status: 'active', image: 'https://i.pravatar.cc/150?img=10', stock: 55, category: 'Pants', description: 'Durable cargo pants', sizes: ['S', 'M', 'L', 'XL'], colors: ['slate', 'navy'] },
+        ];
+
+        let productsData = [];
         const productsPerPage = 8;
         let currentPage = 1;
 
-        // Generate sample data
-        for (let i = 1; i <= 100; i++) {
-            productsData.push({
-                id: i,
-                name: 'Jane Cooper',
-                productId: '(225) 555-0118',
-                price: 5005,
-                status: Math.random() > 0.1 ? 'inactive' : 'active',
-                image: 'https://i.pravatar.cc/150?img=' + (i % 70)
-            });
+        // Initialize products from localStorage or use default
+        function initializeProducts() {
+            const stored = localStorage.getItem('products');
+            if (stored) {
+                try {
+                    const storedProducts = JSON.parse(stored);
+                    // Ensure all products have required fields
+                    productsData = storedProducts.map((p, index) => {
+                        // Create unique ID if not exists
+                        if (!p.id) {
+                            p.id = Date.now() + index;
+                        }
+
+                        return {
+                            id: p.id,
+                            name: p.name || 'Untitled Product',
+                            productId: p.productId || `WR-${(p.category || 'PRD').substring(0, 3).toUpperCase()}-${String(index + 1).padStart(3, '0')}`,
+                            price: p.price || 0,
+                            status: p.status || (p.stock > 0 ? 'active' : 'inactive'),
+                            image: (p.images && p.images.length > 0) ? p.images[0] : 'https://i.pravatar.cc/150?img=' + ((index % 20) + 1),
+                            stock: p.stock || 0,
+                            category: p.category || 'Uncategorized',
+                            description: p.description || '',
+                            sizes: p.sizes || [],
+                            colors: p.colors || [],
+                            images: p.images || [],
+                            discount: p.discount || '0',
+                            discountType: p.discountType || 'none',
+                            createdAt: p.createdAt || new Date().toISOString(),
+                            updatedAt: p.updatedAt || new Date().toISOString()
+                        };
+                    });
+                } catch (error) {
+                    console.error('Error parsing products:', error);
+                    useDefaultProducts();
+                }
+            } else {
+                useDefaultProducts();
+            }
+
+            // Save to ensure consistency
+            localStorage.setItem('products', JSON.stringify(productsData));
+        }
+
+        function useDefaultProducts() {
+            productsData = defaultProducts.map((p, i) => ({
+                ...p,
+                id: Date.now() + i,
+                images: [p.image],
+                discount: '0',
+                discountType: 'none',
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            }));
         }
 
         function renderProducts(page) {
@@ -516,43 +842,61 @@
             const tbody = $('#productsTableBody');
             tbody.empty();
 
-            pageProducts.forEach((product, index) => {
-                const row = `
-                    <tr data-id="${product.id}">
-                        <td>
-                            <img src="${product.image}" alt="Product" class="product-image">
-                        </td>
-                        <td><strong>${product.name}</strong></td>
-                        <td>${product.productId}</td>
-                        <td><strong>${product.price} $</strong></td>
-                        <td>
-                            <span class="status-badge ${product.status}">${product.status}</span>
-                        </td>
-                        <td>
-                            <div class="action-btns">
-                                <button class="action-btn edit" onclick="editProduct(${product.id})">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </button>
-                                <button class="action-btn delete" onclick="deleteProduct(${product.id})">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
+            if (pageProducts.length === 0) {
+                tbody.append(`
+                    <tr>
+                        <td colspan="6" class="text-center py-5">
+                            <i class="fas fa-box-open fa-3x mb-3" style="color: #ccc;"></i>
+                            <p class="text-muted">No products found. Add your first product!</p>
                         </td>
                     </tr>
-                `;
-                tbody.append(row);
-            });
+                `);
+            } else {
+                pageProducts.forEach((product, index) => {
+                    const row = `
+                        <tr data-id="${product.id}">
+                            <td>
+                                <img src="${product.image}" alt="Product" class="product-image" onerror="this.src='https://via.placeholder.com/45'">
+                            </td>
+                            <td><strong>${product.name}</strong></td>
+                            <td>${product.productId}</td>
+                            <td><strong>${product.price} $</strong></td>
+                            <td>
+                                <span class="status-badge ${product.status}">${product.status}</span>
+                            </td>
+                            <td>
+                                <div class="action-btns">
+                                    <button class="action-btn edit" onclick="editProduct(${product.id})">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </button>
+                                    <button class="action-btn delete" onclick="deleteProduct(${product.id})">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                    tbody.append(row);
+                });
+            }
 
             // Update showing text
-            $('#startEntry').text(start + 1);
-            $('#endEntry').text(Math.min(end, productsData.length));
-            $('#totalEntries').text('256K');
+            if (productsData.length > 0) {
+                $('#startEntry').text(start + 1);
+                $('#endEntry').text(Math.min(end, productsData.length));
+            } else {
+                $('#startEntry').text(0);
+                $('#endEntry').text(0);
+            }
+            $('#totalEntries').text(productsData.length);
         }
 
         function renderPagination() {
             const totalPages = Math.ceil(productsData.length / productsPerPage);
             const pagination = $('#pagination');
             pagination.empty();
+
+            if (totalPages <= 1) return;
 
             // Previous button
             pagination.append(`
@@ -584,22 +928,6 @@
                 `);
             }
 
-            // Dots
-            if (endPage < totalPages - 1) {
-                pagination.append(`<li><button disabled>...</button></li>`);
-            }
-
-            // Last page
-            if (endPage < totalPages) {
-                pagination.append(`
-                    <li>
-                        <button onclick="changePage(${totalPages})">
-                            40
-                        </button>
-                    </li>
-                `);
-            }
-
             // Next button
             pagination.append(`
                 <li>
@@ -613,17 +941,18 @@
         function changePage(page) {
             const totalPages = Math.ceil(productsData.length / productsPerPage);
             if (page < 1 || page > totalPages) return;
-            
+
             currentPage = page;
             renderProducts(currentPage);
             renderPagination();
-            
+
             // Smooth scroll to top
             $('.main-content').animate({ scrollTop: 0 }, 300);
         }
 
         function editProduct(id) {
-            alert(`Edit product with ID: ${id}`);
+            // Redirect to edit page with product ID
+            window.location.href = `edit-product.html?id=${id}`;
         }
 
         function deleteProduct(id) {
@@ -631,13 +960,16 @@
                 const index = productsData.findIndex(p => p.id === id);
                 if (index > -1) {
                     productsData.splice(index, 1);
-                    
+
+                    // Update localStorage
+                    localStorage.setItem('products', JSON.stringify(productsData));
+
                     // Adjust current page if needed
                     const totalPages = Math.ceil(productsData.length / productsPerPage);
-                    if (currentPage > totalPages) {
+                    if (currentPage > totalPages && totalPages > 0) {
                         currentPage = totalPages;
                     }
-                    
+
                     renderProducts(currentPage);
                     renderPagination();
                 }
@@ -645,32 +977,60 @@
         }
 
         // Initialize
-        $(document).ready(function() {
+        $(document).ready(function () {
+            initializeProducts();
             renderProducts(currentPage);
             renderPagination();
 
-            // Add product button
-            $('#addProductBtn').on('click', function() {
-                alert('Add new product functionality');
-            });
-
             // Toggle status on click
-            $(document).on('click', '.status-badge', function() {
+            $(document).on('click', '.status-badge', function () {
                 const badge = $(this);
                 const currentStatus = badge.text().trim();
                 const newStatus = currentStatus === 'active' ? 'inactive' : 'active';
-                
+
                 badge.removeClass('active inactive').addClass(newStatus).text(newStatus);
-                
+
                 // Update data
                 const row = badge.closest('tr');
                 const productId = parseInt(row.data('id'));
                 const product = productsData.find(p => p.id === productId);
                 if (product) {
                     product.status = newStatus;
+                    product.updatedAt = new Date().toISOString();
+                    // Update localStorage
+                    localStorage.setItem('products', JSON.stringify(productsData));
+                }
+            });
+
+            // Listen for storage changes from other tabs/windows
+            window.addEventListener('storage', function (e) {
+                if (e.key === 'products') {
+                    initializeProducts();
+                    renderProducts(currentPage);
+                    renderPagination();
+                }
+            });
+
+            // Check for new products on page focus
+            window.addEventListener('focus', function () {
+                const stored = localStorage.getItem('products');
+                if (stored) {
+                    try {
+                        const storedProducts = JSON.parse(stored);
+                        const newCount = storedProducts.length;
+                        const oldCount = productsData.length;
+                        if (newCount !== oldCount) {
+                            initializeProducts();
+                            renderProducts(currentPage);
+                            renderPagination();
+                        }
+                    } catch (error) {
+                        console.error('Error checking products:', error);
+                    }
                 }
             });
         });
     </script>
 </body>
+
 </html>
