@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wearopia Product Filter - Women</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        :root {
+            --primary-color: #0f6546;
+            --light-blue: #1e90ff;
+            --mid-green: #3cb371;
+            --orange-red: #ff4500;
+            --dark-navy: #191970;
+            --thumb-size: 15px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* NAVBAR */
+        .navbar-wrapper {
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .navbar-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar-menu a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .navbar-actions {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .navbar-actions a {
+            text-decoration: none;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+        }
+
+        .badge-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .mobile-dropdown {
+            display: none;
+        }
+
+        @media (max-width: 991px) {
+            .navbar-menu {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+        }
+
+        /* FILTER TOGGLE BUTTON - Mobile Only */
+        .filter-toggle-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1040;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+            display: none;
+        }
+
+        .filter-toggle-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* FILTER OVERLAY - Mobile */
+        .filter-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1045;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .filter-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* STICKY FILTER - Desktop */
+        .filter-container {
+            position: sticky;
+            top: 100px;
+            border: 1px solid #e0e0e0;
+            padding: 20px;
+            border-radius: 8px;
+            background: #fff;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        /* Mobile Filter Sidebar */
+        .filter-sidebar {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 85%;
+            max-width: 350px;
+            height: 100vh;
+            background: white;
+            z-index: 1050;
+            overflow-y: auto;
+            transition: left 0.3s ease;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-sidebar.show {
+            left: 0;
+        }
+
+        .filter-sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 10;
+        }
+
+        .filter-close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #333;
+            cursor: pointer;
+            padding: 5px;
+            line-height: 1;
+        }
+
+        .filter-sidebar-content {
+            padding: 20px;
+        }
+
+        /* Show mobile filter elements only on small screens */
+        @media (max-width: 991px) {
+            .filter-toggle-btn {
+                display: flex !important;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .desktop-filter-column {
+                display: none !important;
+            }
+
+            .col-md-9 {
+                width: 100% !important;
+                max-width: 100% !important;
+                flex: 0 0 100% !important;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .filter-toggle-btn {
+                display: none !important;
+            }
+
+            .filter-sidebar {
+                display: none !important;
+            }
+        }
+
+        .filter-section-title {
+            font-weight: bold;
+            color: #343a40;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .range-slider-container {
+            position: relative;
+            margin-bottom: 25px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+        }
+
+        .price-range-track {
+            height: 5px;
+            background: #e9ecef;
+            border-radius: 5px;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            z-index: 1;
+        }
+
+        .price-range-active {
+            height: 5px;
+            background-color: var(--primary-color);
+            position: absolute;
+            border-radius: 5px;
+            z-index: 2;
+            transition: left 0.1s ease, width 0.1s ease;
+        }
+
+        .multi-range-input {
+            position: absolute;
+            width: 100%;
+            height: var(--thumb-size);
+            background: transparent;
+            margin: 0;
+            padding: 0;
+            cursor: grab;
+            z-index: 3;
+            top: 50%;
+            transform: translateY(-50%);
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .multi-range-input::-webkit-slider-runnable-track {
+            -webkit-appearance: none;
+            background: none;
+            height: 0;
+        }
+
+        .multi-range-input::-moz-range-track {
+            -moz-appearance: none;
+            background: none;
+            height: 0;
+        }
+
+        .multi-range-input::-ms-track {
+            -ms-appearance: none;
+            background: none;
+            height: 0;
+        }
+
+        .multi-range-input::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: var(--thumb-size);
+            height: var(--thumb-size);
+            border-radius: 50%;
+            background: var(--primary-color);
+            border: 2px solid white;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            cursor: grab;
+            margin-top: calc((var(--thumb-size) / 2) * -1);
+        }
+
+        .multi-range-input::-moz-range-thumb {
+            width: var(--thumb-size);
+            height: var(--thumb-size);
+            border-radius: 50%;
+            background: var(--primary-color);
+            border: 2px solid white;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            cursor: grab;
+        }
+        
+        #min-range-slider::-webkit-slider-thumb {
+            display: none;
+        }
+        
+        #min-range-slider::-moz-range-thumb {
+            display: none;
+        }
+        
+        #min-range-slider::-ms-thumb {
+            display: none;
+        }
+
+        .price-range-inputs {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            margin-bottom: 5px;
+        }
+
+
+
+        .color-circle {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .color-blue {
+            background-color: var(--light-blue);
+        }
+
+        .color-green {
+            background-color: var(--mid-green);
+        }
+
+        .color-orange {
+            background-color: var(--orange-red);
+        }
+
+        .color-darkblue {
+            background-color: var(--dark-navy);
+        }
+
+        .color-item {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        .active-color {
+            border-color: #343a40 !important;
+            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-check-input:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .form-check-input:focus {
+            box-shadow: 0 0 0 0.25rem rgba(15, 101, 70, 0.25);
+        }
+
+        .form-control:disabled {
+            background-color: #f8f9fa;
+            opacity: 1;
+            color: #212529;
+            cursor: default;
+            text-align: center;
+            font-weight: 600;
+            border-color: #e9ecef;
+        }
+
+        .custom-card {
+            transition: transform 0.2s ease;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .custom-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .custom-img {
+            height: 300px;
+            object-fit: contain;
+            background-color: #F0F0F0;
+            padding: 10px;
+        }
+
+        .custom-icon {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 10;
+            position: relative;
+        }
+
+        .custom-icon i {
+            transition: all 0.3s ease;
+        }
+
+        .custom-icon i.fa-solid {
+            color: #dc3545;
+        }
+
+        .custom-card .card-body,
+        .custom-card>div:last-child {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .custom-card .card-body>div:first-child {
+            flex: 1;
+        }
+
+        .custom-btn {
+            background-color: #0F6546;
+            border: none;
+            z-index: 10;
+            position: relative;
+            margin-top: auto;
+        }
+
+        .custom-btn:hover {
+            background-color: #063725;
+        }
+
+        @media (min-width: 992px) {
+            .custom-card {
+                width: 100%;
+                height: 450px;
+            }
+        }
+
+        @media (max-width: 991px) {
+            .custom-card {
+                width: 100%;
+                height: auto;
+                min-height: 450px;
+            }
+
+            .custom-img {
+                height: 280px;
+            }
+        }
+
+        .custom-pagination .page-link {
+            color: var(--primary-color);
+            border: 1px solid #d6d6d6;
+            border-radius: 10px;
+            margin: 0 4px;
+            font-weight: 600;
+            padding: 8px 16px;
+            transition: all 0.3s ease;
+            background-color: #fff;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .custom-pagination .page-link:hover {
+            background-color: var(--primary-color);
+            color: #fff;
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(15, 101, 70, 0.2);
+        }
+
+        .custom-pagination .page-item.active .page-link {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(15, 101, 70, 0.25);
+            cursor: default;
+        }
+
+        .custom-pagination .page-item.disabled .page-link {
+            color: #ccc;
+            background-color: #f8f9fa;
+            border-color: #e0e0e0;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+
+        .custom-footer {
+            padding: 50px 0;
+            margin-top: 50px;
+            border-top: 1px solid #eee;
+        }
+
+        .social-icon {
+            width: 36px;
+            height: 36px;
+            line-height: 32px;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        .social-icon:hover {
+            background-color: var(--primary-color);
+            color: white !important;
+            border-color: var(--primary-color) !important;
+        }
+
+        .no-products {
+            text-align: center;
+            color: #888;
+            font-style: italic;
+            margin-top: 30px;
+        }
+
+        .category-section {
+            margin-bottom: 50px;
+        }
+
+        .category-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--primary-color);
+        }
+
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+
+        .custom-toast {
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .custom-toast .toast-header {
+            background-color: var(--primary-color);
+            color: white;
+            border-bottom: none;
+        }
+
+        .custom-toast .btn-close {
+            filter: brightness(0) invert(1);
+        }
+        /* footer */
+.custom-footer {
+    padding: 40px;
+    min-height: 372px;
+}
+
+.social-icon {
+    width: 36px;
+    height: 36px;
+}
+
+@media (min-width: 768px) {
+    .custom-footer {
+        padding-left: 80px;
+        padding-right: 80px;
+    }
+}
+
+@media (min-width: 992px) {
+    .custom-footer {
+        padding-left: 120px;
+        padding-right: 120px;
+    }
+}
+
+/*end of footer*/
+    </style>
+</head>
+
+<body>
+
+    <div class="toast-container">
+        <div id="cartToast" class="toast custom-toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <i class="fas fa-check-circle me-2"></i>
+                <strong class="me-auto">Success!</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                Product added to cart successfully!
+            </div>
+        </div>
+    </div>
+
+    <div class="navbar-wrapper">
+        <nav class="navbar">
+            <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+                <i class="bi bi-list"></i>
+            </button>
+            <a href="index.html" class="navbar-brand">Wearopia</a>
+            <ul class="navbar-menu">
+                <li><a href="men.html">Men</a></li>
+                <li><a href="women.html">Women</a></li>
+                <li><a href="kids.html">Kids</a></li>
+                <li><a href="accessories.html">Accessory</a></li>
+            </ul>
+            <div class="navbar-actions">
+                <a href="#" id="loginBtn">
+                    <i class="bi bi-box-arrow-in-right"></i>
+                    <span>Login</span>
+                </a>
+                <a href="#" id="wishlistBtn">
+                    <i class="bi bi-heart"></i>
+                    <span>Wishlist</span>
+                    <span class="badge-count" id="wishlistCount">0</span>
+                </a>
+                <a href="#" id="cartBtn">
+                    <i class="bi bi-bag"></i>
+                    <span>Cart</span>
+                    <span class="badge-count" id="cartCount">0</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <button class="filter-toggle-btn" id="filterToggleBtn" aria-label="Toggle Filters">
+        <i class="fas fa-filter"></i>
+    </button>
+
+    <div class="filter-overlay" id="filterOverlay"></div>
+
+    <div class="filter-sidebar" id="filterSidebar">
+        <div class="filter-sidebar-header">
+            <h5 class="mb-0 fw-bold">Filters</h5>
+            <button class="filter-close-btn" id="filterCloseBtn" aria-label="Close Filters">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="filter-sidebar-content" id="mobileFilterContent">
+            </div>
+    </div>
+
+    <div class="container-fluid my-4">
+        <div style="margin-left: 120px; margin-right: 120px;">
+            <div class="row">
+                <div class="col-md-3 desktop-filter-column">
+                    <div class="filter-container shadow-sm" id="desktopFilterContent">
+                        <h5 class="filter-section-title">Filter By Price</h5>
+            
+                        <div class="range-slider-container">
+                            <div class="price-range-track"></div>
+                            <div id="price-range-active" class="price-range-active"></div>
+            
+                            <input type="range" id="min-range-slider" class="multi-range-input" min="0" max="1000" value="0" />
+                            <input type="range" id="max-range-slider" class="multi-range-input" min="0" max="1000" value="1000" />
+                        </div>
+                        <div class="price-range-inputs">
+                            <input type="text" id="min-price" class="form-control form-control-sm" value="$0" disabled />
+                            <input type="text" id="max-price" class="form-control form-control-sm" value="$1000" disabled />
+                        </div>
+                        <hr class="my-3" />
+            
+                        <h5 class="filter-section-title">Filter by size</h5>
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="XS" id="size-xs" /><label
+                                    class="form-check-label" for="size-xs">XS</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="S" id="size-s" /><label
+                                    class="form-check-label" for="size-s">S</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="M" id="size-m" /><label
+                                    class="form-check-label" for="size-m">M</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="L" id="size-l" /><label
+                                    class="form-check-label" for="size-l">L</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="XL" id="size-xl" /><label
+                                    class="form-check-label" for="size-xl">XL</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="XXL" id="size-xxl" /><label
+                                    class="form-check-label" for="size-xxl">XXL</label>
+                            </div>
+                        </div>
+            
+                        <hr class="my-3" />
+            
+                        <h5 class="filter-section-title">Categories</h5>
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="Jeans" id="cat-jeans" /><label
+                                    class="form-check-label" for="cat-jeans">Jeans</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="Jacket" id="cat-jacket" /><label
+                                    class="form-check-label" for="cat-jacket">Jacket</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="Pullover" id="cat-pullover" /><label
+                                    class="form-check-label" for="cat-pullover">Pullover</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="T-shirt" id="cat-tshirt" /><label
+                                    class="form-check-label" for="cat-tshirt">T-shirt</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="Homewear" id="cat-homewear" /><label
+                                    class="form-check-label" for="cat-homewear">Homewear</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="Hoddie" id="cat-Hoddie" /><label
+                                    class="form-check-label" for="cat-Hoddie">Hoddie</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="Sportwear" id="cat-sportwear" /><label
+                                    class="form-check-label" for="cat-sportwear">Sportwear</label>
+                            </div>
+                        </div>
+            
+                        <hr class="my-3" />
+            
+                        <h5 class="filter-section-title">Color</h5>
+                        <div id="color-filter-group">
+                            <div class="color-item">
+                                <span class="color-circle color-blue" data-color="Blue" onclick="toggleColor(this)"></span>Blue
+                            </div>
+                            <div class="color-item">
+                                <span class="color-circle color-green" data-color="Green" onclick="toggleColor(this)"></span>Green
+                            </div>
+                            <div class="color-item">
+                                <span class="color-circle color-orange" data-color="Orange"
+                                    onclick="toggleColor(this)"></span>Orange
+                            </div>
+                            <div class="color-item">
+                                <span class="color-circle color-darkblue" data-color="Dark Blue"
+                                    onclick="toggleColor(this)"></span>Dark Blue
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="col-md-9">
+
+                    <div class="category-section" id="Women-Section-category">
+                        <div id="women-products" class="row g-4"></div>
+                        <div id="no-women-products" class="no-products d-none">
+                            No matching women products found.
+                        </div>
+                    </div>
+                    
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <nav aria-label="Product navigation" class="d-flex justify-content-center my-5">
+        <ul class="pagination custom-pagination mb-0">
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+                    <i class="fa-solid fa-angle-left"></i>
+                </a>
+            </li>
+            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#"><i class="fa-solid fa-angle-right"></i></a>
+            </li>
+        </ul>
+    </nav>
+
+<footer class="container-fluid bg-white d-flex align-items-center custom-footer">
+    <div class="container">
+        <div class="row gy-4 gx-5">
+            <div class="col-12 col-md-6 col-lg-3">
+                <h4 class="fw-bold text-success mb-3 fs-3">Wearopia</h4>
+                <p class="text-secondary small mb-4">
+                    Discover your unique style with our curated collection of modern fashion pieces.
+                </p>
+
+                <ul class="list-unstyled text-secondary small mb-4">
+                    <li class="mb-2">
+                        <i class="fa-solid fa-location-dot me-2"></i>123 Fashion Street, Style City, SC 12345
+                    </li>
+                    <li class="mb-2">
+                        <i class="fa-solid fa-phone me-2"></i>+1 (555) 123-STYLE
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-envelope me-2"></i>hello@stylehub.com
+                    </li>
+                </ul>
+
+                <div class="d-flex gap-3">
+                    <a href="#"
+                        class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 social-icon">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                    <a href="#"
+                        class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 social-icon">
+                        <i class="fa-brands fa-twitter"></i>
+                    </a>
+                    <a href="#"
+                        class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 social-icon">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <a href="#"
+                        class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 social-icon">
+                        <i class="fa-brands fa-youtube"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-12 col-md-3 col-lg-3">
+                <h5 class="fw-semibold text-black fs-6 mb-3">Quick Links</h5>
+                <ul class="list-unstyled text-secondary small">
+                    <li class="mb-2">New Arrivals</li>
+                    <li class="mb-2">Best Sellers</li>
+                    <li class="mb-2">Sale</li>
+                    <li class="mb-2">Gift Cards</li>
+                    <li>Style Guide</li>
+                </ul>
+            </div>
+            <div class="col-12 col-md-3 col-lg-3">
+                <h5 class="fw-semibold text-black fs-6 mb-3">Customer Care</h5>
+                <ul class="list-unstyled text-secondary small">
+                    <li class="mb-2">Contact Us</li>
+                    <li class="mb-2">Size Guide</li>
+                    <li class="mb-2">Shipping & Returns</li>
+                    <li class="mb-2">Track Your Order</li>
+                    <li>FAQ</li>
+                </ul>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+                <h5 class="fw-semibold text-black fs-6 mb-3">Company</h5>
+                <ul class="list-unstyled text-secondary small">
+                    <li class="mb-2">About Us</li>
+                    <li class="mb-2">Careers</li>
+                    <li class="mb-2">Press</li>
+                    <li class="mb-2">Sustainability</li>
+                    <li>Investors</li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        
+        const StorageManager = {
+            saveCart: function (cart) {
+                localStorage.setItem('wearopia_cart', JSON.stringify(cart));
+            },
+
+            loadCart: function () {
+                const saved = localStorage.getItem('wearopia_cart');
+                return saved ? JSON.parse(saved) : {};
+            },
+
+            saveWishlist: function (wishlist) {
+                localStorage.setItem('wearopia_wishlist', JSON.stringify(wishlist));
+            },
+
+            loadWishlist: function () {
+                const saved = localStorage.getItem('wearopia_wishlist');
+                return saved ? JSON.parse(saved) : {};
+            },
+
+            updateCounts: function (cart, wishlist) {
+                const cartCount = Object.values(cart).reduce((sum, qty) => sum + qty, 0);
+                const wishlistCount = Object.keys(wishlist).length;
+
+                document.getElementById('cartCount').textContent = cartCount;
+                document.getElementById('wishlistCount').textContent = wishlistCount;
+            }
+        };
+
+        let cart = StorageManager.loadCart();
+        let wishlist = StorageManager.loadWishlist();
+
+        
+        function generateProducts() {
+            const categories = ['Men', 'Women', 'Accessories', 'Kids'];
+            const subcategories = ['Jeans', 'Jacket', 'Pullover', 'T-shirt', 'Homewear', 'Hoddie', 'Sportwear'];
+            const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+            const colors = ['Blue', 'Green', 'Orange', 'Dark Blue'];
+
+            const productNames = [
+
+                'Leather Crossbody Bag', 'Gold Chain Necklace', 'Aviator Sunglasses', 'Wool Beanie Hat',
+                'Silk Scarf Square', 'Designer Chronograph', 'Canvas Bag', 'Statement Earrings Set',
+                'Polarized Wayfarers', 'Black Belt', 'Printed Bandana', 'Golden Bracelet',
+                'Toblack Bag', 'Pearl Bracelet', 'Cat Eye Glasses', 'Knit Winter Scarf',
+                'Floral Hair Clip', 'Vintage World Necklace', 'Leather thin Bracelet', 'Silver Set',
+
+            ];
+
+            const allProducts = [];
+            let productId = 1;
+            let nameIndex = 0;
+
+            categories.forEach(mainCategory => {
+                for (let i = 0; i < 20; i++) {
+                    const product = {
+                        id: productId,
+                        name: productNames[nameIndex % productNames.length],
+                        mainCategory: mainCategory,
+                        category: subcategories[i % subcategories.length],
+                        size: sizes[i % sizes.length],
+                        color: colors[i % colors.length],
+                        price: Math.floor(Math.random() * 700) + 100,
+                        oldPrice: Math.random() > 0.3 ? Math.floor(Math.random() * 900) + 200 : null,
+                        image: `Images/product${productId}.jpg`
+                    };
+                    allProducts.push(product);
+                    productId++;
+                    nameIndex++;
+                }
+            });
+
+            return allProducts;
+        }
+
+        const products = generateProducts();
+
+        
+        const minPriceInput = document.getElementById("min-price");
+        const maxPriceInput = document.getElementById("max-price");
+        const minRangeSlider = document.getElementById("min-range-slider");
+        const maxRangeSlider = document.getElementById("max-range-slider");
+        const priceRangeActive = document.getElementById("price-range-active");
+
+        const MIN_VISUAL_RANGE = 0;
+        const MAX_VISUAL_RANGE = 1000;
+
+    
+        function isInWishlist(productId) {
+            return wishlist[productId] === true;
+        }
+
+        function toggleWishlist(event, productId) {
+            event.stopPropagation();
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const heartIcon = event.currentTarget.querySelector('i');
+
+            if (wishlist[productId]) {
+                delete wishlist[productId];
+                heartIcon.classList.remove('fa-solid');
+                heartIcon.classList.add('fa-regular');
+            } else {
+                wishlist[productId] = true;
+                heartIcon.classList.remove('fa-regular');
+                heartIcon.classList.add('fa-solid');
+            }
+
+            StorageManager.saveWishlist(wishlist);
+            StorageManager.updateCounts(cart, wishlist);
+        }
+
+        
+        function addToCart(event, productId) {
+            event.stopPropagation();
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            cart[productId] = (cart[productId] || 0) + 1;
+
+            StorageManager.saveCart(cart);
+            StorageManager.updateCounts(cart, wishlist);
+
+            const toastElement = document.getElementById('cartToast');
+            const toast = new bootstrap.Toast(toastElement, {
+                animation: true,
+                autohide: true,
+                delay: 3000
+            });
+            toast.show();
+        }
+
+    
+        function goToProductDetails(productId) {
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                localStorage.setItem('selected_product', JSON.stringify(product));
+                window.location.href = 'product-details.html';
+            }
+        }
+
+    
+        function getSelectedCheckboxes() {
+            return Array.from(
+                document.querySelectorAll('.filter-container input[type="checkbox"]:checked, #clonedFilterContent input[type="checkbox"]:checked')
+            ).map((cb) => cb.value);
+        }
+
+        function getActiveColors() {
+            return Array.from(
+                document.querySelectorAll(".color-circle.active-color")
+            ).map((c) => c.dataset.color);
+        }
+
+        function renderCategoryProducts(categoryProducts, containerId, noProductsId) {
+            const container = document.getElementById(containerId);
+            const noProductsMsg = document.getElementById(noProductsId);
+            
+            // الكود ده بيمنع حدوث أخطاء لأنه بيتأكد إن القسم موجود قبل ما يشتغل
+            if (!container || !noProductsMsg) {
+                return; 
+            }
+            
+            container.innerHTML = "";
+
+            if (categoryProducts.length === 0) {
+                noProductsMsg.classList.remove("d-none");
+                return;
+            }
+            noProductsMsg.classList.add("d-none");
+
+            categoryProducts.forEach((p) => {
+                const oldPriceHtml = p.oldPrice
+                    ? `<span class="text-decoration-line-through text-muted small">${p.oldPrice.toFixed(2)}</span>`
+                    : '';
+
+                const inWishlist = isInWishlist(p.id);
+                const heartClass = inWishlist ? 'fa-solid' : 'fa-regular';
+
+                const card = document.createElement("div");
+                card.className = "col-12 col-sm-6 col-md-4";
+                card.innerHTML = `
+                    <div class="card bg-white border border-light rounded-4 shadow-sm overflow-hidden custom-card" onclick="goToProductDetails(${p.id})">
+                        <img src="${p.image}" class="card-img-top object-fit-cover custom-img" alt="${p.name}">
+                        <div class="p-3 d-flex flex-column justify-content-between h-100">
+                            <div>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h5 class="fs-6 fw-medium mb-0 text-dark">${p.name}</h5>
+                                    <div class="d-flex justify-content-center align-items-center rounded-2 shadow-sm bg-white custom-icon" onclick="toggleWishlist(event, ${p.id})">
+                                        <i class="${heartClass} fa-heart"></i>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center mb-3">
+                                    <span class="fw-semibold fs-6 text-dark me-2">${p.price.toFixed(2)}</span>
+                                    ${oldPriceHtml}
+                                </div>
+                            </div>
+                            <button class="btn btn-success rounded-pill w-100 py-2 fw-semibold text-white custom-btn" onclick="addToCart(event, ${p.id})">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function applyFilters() {
+            let min = parseInt(minRangeSlider.value);
+            let max = parseInt(maxRangeSlider.value);
+
+            const effectiveMin = Math.min(min, max);
+            const effectiveMax = Math.max(min, max);
+
+            const selectedFilters = getSelectedCheckboxes();
+            const allSizes = ["XS", "S", "M", "L", "XL", "XXL"];
+            const selectedSizes = selectedFilters.filter((v) => allSizes.includes(v));
+            const selectedCategories = selectedFilters.filter((v) => !allSizes.includes(v));
+            const selectedColors = getActiveColors();
+
+            function filterProducts(mainCategory) {
+                return products.filter((p) => {
+                    if (p.mainCategory !== mainCategory) return false;
+
+                    const passesPrice = p.price >= effectiveMin && p.price <= effectiveMax;
+                    const passesSize = selectedSizes.length === 0 || selectedSizes.includes(p.size);
+                    const passesCategory = selectedCategories.length === 0 || selectedCategories.includes(p.category);
+                    const passesColor = selectedColors.length === 0 || selectedColors.includes(p.color);
+
+                    return passesPrice && passesSize && passesCategory && passesColor;
+                });
+            }
+
+            // الجافاسكريبت هيحاول ينادي الأقسام كلها
+            // بس مش هيحصل أخطاء لأن الدالة اللي فوق بتتأكد إن القسم موجود
+            const menProducts = filterProducts('Men');
+            const womenProducts = filterProducts('Women');
+            const accessoriesProducts = filterProducts('Accessories');
+            const kidsProducts = filterProducts('Kids');
+
+            renderCategoryProducts(menProducts, 'men-products', 'no-men-products');
+            renderCategoryProducts(womenProducts, 'women-products', 'no-women-products');
+            renderCategoryProducts(accessoriesProducts, 'accessories-products', 'no-accessories-products');
+            renderCategoryProducts(kidsProducts, 'kids-products', 'no-kids-products');
+        }
+
+        function updatePriceTrackAndFilters() {
+            let minVal = parseInt(minRangeSlider.value);
+            let maxVal = parseInt(maxRangeSlider.value);
+
+            minPriceInput.value = `${minVal}`;
+            maxPriceInput.value = `${maxVal}`;
+
+            const totalVisualRange = MAX_VISUAL_RANGE - MIN_VISUAL_RANGE;
+            const lesserVal = Math.min(minVal, maxVal);
+            const greaterVal = Math.max(minVal, maxVal);
+
+            const leftPercent = ((lesserVal - MIN_VISUAL_RANGE) / totalVisualRange) * 100;
+            const widthPercent = ((greaterVal - lesserVal) / totalVisualRange) * 100;
+
+            priceRangeActive.style.left = leftPercent + "%";
+            priceRangeActive.style.width = widthPercent + "%";
+
+            applyFilters();
+        }
+
+        window.toggleColor = function (element) {
+            element.classList.toggle("active-color");
+            applyFilters();
+        };
+
+        function initMobileFilter() {
+            const filterToggleBtn = document.getElementById('filterToggleBtn');
+            const filterSidebar = document.getElementById('filterSidebar');
+            const filterOverlay = document.getElementById('filterOverlay');
+            const filterCloseBtn = document.getElementById('filterCloseBtn');
+            const mobileFilterContent = document.getElementById('mobileFilterContent');
+            const desktopFilterContent = document.getElementById('desktopFilterContent');
+
+            function openMobileFilter() {
+                const clonedContent = desktopFilterContent.cloneNode(true);
+                clonedContent.id = 'clonedFilterContent';
+                mobileFilterContent.innerHTML = '';
+                mobileFilterContent.appendChild(clonedContent);
+
+                const clonedMinSlider = clonedContent.querySelector('#min-range-slider');
+                const clonedMaxSlider = clonedContent.querySelector('#max-range-slider');
+                const clonedMinPrice = clonedContent.querySelector('#min-price');
+                const clonedMaxPrice = clonedContent.querySelector('#max-price');
+                const clonedPriceActive = clonedContent.querySelector('#price-range-active');
+
+                function updateClonedPriceTrack() {
+                    let minVal = parseInt(clonedMinSlider.value);
+                    let maxVal = parseInt(clonedMaxSlider.value);
+
+                    clonedMinPrice.value = `${minVal}`;
+                    clonedMaxPrice.value = `${maxVal}`;
+
+                    minRangeSlider.value = minVal;
+                    maxRangeSlider.value = maxVal;
+
+                    const totalVisualRange = MAX_VISUAL_RANGE - MIN_VISUAL_RANGE;
+                    const lesserVal = Math.min(minVal, maxVal);
+                    const greaterVal = Math.max(minVal, maxVal);
+                    const leftPercent = ((lesserVal - MIN_VISUAL_RANGE) / totalVisualRange) * 100;
+                    const widthPercent = ((greaterVal - lesserVal) / totalVisualRange) * 100;
+
+                    clonedPriceActive.style.left = leftPercent + "%";
+                    clonedPriceActive.style.width = widthPercent + "%";
+                    priceRangeActive.style.left = leftPercent + "%";
+                    priceRangeActive.style.width = widthPercent + "%";
+
+                    applyFilters();
+                }
+
+                clonedMinSlider.addEventListener("input", updateClonedPriceTrack);
+                clonedMaxSlider.addEventListener("input", updateClonedPriceTrack);
+
+                clonedContent.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
+                    checkbox.addEventListener("change", () => {
+                        // Sync with desktop filter
+                        const desktopCheckbox = desktopFilterContent.querySelector(`#${checkbox.id}`);
+                        if (desktopCheckbox) {
+                            desktopCheckbox.checked = checkbox.checked;
+                        }
+                        applyFilters();
+                    });
+                });
+
+                filterSidebar.classList.add('show');
+                filterOverlay.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeMobileFilter() {
+                filterSidebar.classList.remove('show');
+                filterOverlay.classList.remove('show');
+                document.body.style.overflow = '';
+            }
+
+            if (filterToggleBtn) {
+                filterToggleBtn.addEventListener('click', openMobileFilter);
+            }
+            if (filterCloseBtn) {
+                filterCloseBtn.addEventListener('click', closeMobileFilter);
+            }
+            if (filterOverlay) {
+                filterOverlay.addEventListener('click', closeMobileFilter);
+            }
+        }
+
+        minRangeSlider.addEventListener("input", updatePriceTrackAndFilters);
+        maxRangeSlider.addEventListener("input", updatePriceTrackAndFilters);
+        document.querySelectorAll('.filter-container input[type="checkbox"]').forEach((i) => i.addEventListener("change", applyFilters));
+
+        document.addEventListener("DOMContentLoaded", () => {
+            initMobileFilter();
+            updatePriceTrackAndFilters();
+            StorageManager.updateCounts(cart, wishlist);
+        });
+    </script>
+</body>
+
+</html>
