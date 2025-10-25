@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-green: #0F6546;
+            --light-green: #e8f4f4;
+            --yellow: #FFECA0;
+            --light-yellow: #FFF9E6;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            box-sizing: border-box;
+        }
+
+
+        .sidebar-col {
+            flex: 0 0 auto;
+            width: 250px;
+        }
+
+        .sidebar {
+            background: white;
+            height: calc(100vh - 32px);
+            padding: 16px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-radius: 16px;
+            position: sticky;
+            top: 16px;
+            transition: all 0.3s ease;
+            overflow-y: auto;
+            overflow-x: hidden;
+            margin: 16px 8px;
+            width: 100%;
+        }
+
+        .logo {
+            color: var(--primary-green);
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .logo-short {
+            display: none;
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 10px 15px 10px 40px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            transition: all 0.3s ease;
+        }
+
+        .search-icon-only {
+            display: none;
+        }
+
+        .nav-item {
+            padding: 12px 15px;
+            margin-bottom: 5px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .nav-item span {
+            transition: all 0.3s ease;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            border-top: 1px solid #e0e0e0;
+            margin-top: auto;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #e0e0e0;
+        }
+
+        .user-info {
+            transition: all 0.3s ease;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .user-role {
+            display: inline-block;
+            background-color: #7FD4B5;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            margin-top: 2px;
+        }
+
+        .user-actions {
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn {
+            color: #B01212;
+            font-size: 14px;
+            margin-top: 5px;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            text-decoration: underline;
+        }
+
+        .Settings-btn i {
+            color: #7D7D7D;
+            font-size: 14px;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background-color: var(--light-green);
+            color: var(--primary-green);
+        }
+
+        .main-content {
+            padding: 16px;
+
+        }
+
+        .row.g-0 {
+            display: flex;
+            flex-wrap: nowrap;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 16px;
+            min-width: 0;
+        }
+
+        .orders-table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .orders-table-container {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .table {
+            min-width: 900px;
+            margin-bottom: 0;
+        }
+
+        .orders-header {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .orders-header h2 {
+            color: #333;
+            font-size: 28px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .table thead th {
+            border-bottom: 2px solid #e0e0e0;
+            color: #999;
+            font-weight: 500;
+            font-size: 13px;
+            padding: 15px 12px;
+            text-transform: capitalize;
+        }
+
+        .table tbody td {
+            padding: 20px 12px;
+            vertical-align: middle;
+            color: #333;
+            font-size: 14px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .status-badge {
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .status-badge.processing {
+            background-color: #FFF9E6;
+            color: #F59E0B;
+            border: 1px solid #FCD34D;
+        }
+
+        .status-badge.shipped {
+            background-color: #DBEAFE;
+            color: #2563EB;
+            border: 1px solid #93C5FD;
+        }
+
+        .status-badge.delivered {
+            background-color: #D1FAE5;
+            color: #059669;
+            border: 1px solid #6EE7B7;
+        }
+
+        .status-badge.cancelled {
+            background-color: #FEE2E2;
+            color: #DC2626;
+            border: 1px solid #FCA5A5;
+        }
+
+        .status-badge.pending {
+            background-color: #F3E8FF;
+            color: #9333EA;
+            border: 1px solid #D8B4FE;
+        }
+
+        .status-dropdown {
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .status-dropdown.processing {
+            background-color: #FFF9E6;
+            color: #F59E0B;
+            border: 1px solid #FCD34D;
+        }
+
+        .status-dropdown.shipped {
+            background-color: #DBEAFE;
+            color: #2563EB;
+            border: 1px solid #93C5FD;
+        }
+
+        .status-dropdown.delivered {
+            background-color: #D1FAE5;
+            color: #059669;
+            border: 1px solid #6EE7B7;
+        }
+
+        .status-dropdown.cancelled {
+            background-color: #FEE2E2;
+            color: #DC2626;
+            border: 1px solid #FCA5A5;
+        }
+
+        .status-dropdown.pending {
+            background-color: #F3E8FF;
+            color: #9333EA;
+            border: 1px solid #D8B4FE;
+        }
+
+        .status-dropdown i {
+            font-size: 12px;
+            transition: transform 0.3s;
+        }
+
+        .status-dropdown.active i {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            min-width: 150px;
+        }
+
+        .dropdown-item {
+            padding: 10px 15px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .dropdown-item:hover {
+            background-color: var(--light-green);
+            color: var(--primary-green);
+        }
+
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .pagination-info {
+            color: #999;
+            font-size: 14px;
+        }
+
+        .pagination {
+            margin: 0;
+            gap: 5px;
+        }
+
+        .page-link {
+            border: 1px solid #e0e0e0;
+            color: #666;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .page-link:hover {
+            background-color: var(--light-green);
+            border-color: var(--primary-green);
+            color: var(--primary-green);
+        }
+
+        .page-item.active .page-link {
+            background-color: var(--primary-green);
+            border-color: var(--primary-green);
+            color: white;
+        }
+
+        .page-item.disabled .page-link {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .action-icon {
+            cursor: pointer;
+            margin: 0 5px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .action-icon.delete {
+            color: #7D7D7D;
+        }
+
+        .action-icon.delete:hover {
+            color: #B91C1C;
+            transform: scale(1.1);
+        }
+
+        .action-icon.view {
+            color: #7D7D7D;
+        }
+
+        .action-icon.view:hover {
+            color: #1D4ED8;
+            transform: scale(1.1);
+        }
+
+        
+        .modal-content {
+            border-radius: 12px;
+            border: none;
+        }
+
+        .modal-header {
+            border-bottom: 1px solid #e0e0e0;
+            padding: 20px 25px;
+        }
+
+        .modal-title {
+            color: #333;
+            font-weight: 600;
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .modal-footer {
+            border-top: 1px solid #e0e0e0;
+            padding: 15px 25px;
+        }
+
+        .btn-delete {
+            background-color: #DC2626;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-delete:hover {
+            background-color: #B91C1C;
+        }
+
+        .btn-cancel {
+            background-color: #e0e0e0;
+            color: #333;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-cancel:hover {
+            background-color: #d0d0d0;
+        }
+
+        @media (max-width: 1400px) {
+            .sidebar-col {
+                width: 220px;
+            }
+
+            .sidebar {
+                padding: 14px;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .sidebar-col {
+                width: 80px;
+            }
+
+            .logo {
+                margin-bottom: 20px;
+            }
+
+            .logo-full {
+                display: none;
+
+            }
+
+            .logo-short {
+                display: block;
+                font-size: 28px;
+                text-align: center;
+            }
+
+            .search-box {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: 10px;
+            }
+
+            .search-box input {
+                display: none;
+            }
+
+            .search-box i {
+                position: static;
+                transform: none;
+                font-size: 20px;
+                padding: 12px;
+                cursor: pointer;
+                border-radius: 8px;
+                transition: all 0.3s;
+            }
+
+            .search-box i:hover {
+                background-color: var(--light-green);
+                color: var(--primary-green);
+            }
+
+            .nav-item {
+                justify-content: center;
+                padding: 8px;
+            }
+
+            .nav-item span {
+                display: none;
+            }
+
+            .nav-item i {
+                font-size: 20px;
+                margin: 0;
+            }
+
+            .user-info {
+                display: none;
+            }
+
+            .user-profile {
+                justify-content: center;
+                padding: 15px 8px;
+            }
+
+            .user-profile .d-flex {
+                align-items: center;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .user-actions {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+                width: 100%;
+            }
+
+            .Settings-btn,
+            .logout-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0;
+                padding: 8px;
+            }
+
+            .Settings-btn span,
+            .logout-btn span {
+                display: none;
+            }
+
+            .Settings-btn i,
+            .logout-btn i {
+                margin: 0 !important;
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar-col {
+                width: 70px;
+            }
+
+            .sidebar {
+                padding: 12px 6px;
+                margin: 16px 4px;
+            }
+
+            .logo {
+                margin-bottom: 10px;
+            }
+
+            .logo-short {
+                font-size: 24px;
+                margin-bottom: 15px;
+            }
+
+            .search-box {
+                margin-bottom: 8px;
+            }
+
+            .search-box i {
+                font-size: 18px;
+                padding: 10px;
+            }
+
+            .nav-item {
+                padding: 10px;
+                margin-bottom: 4px;
+            }
+
+            .nav-item i {
+                font-size: 18px;
+            }
+
+            .user-avatar {
+                width: 40px;
+                height: 40px;
+            }
+
+            .Settings-btn i,
+            .logout-btn i {
+                font-size: 16px;
+            }
+
+        }
+
+        @media (max-width: 576px) {
+            .sidebar-col {
+                width: 60px;
+            }
+
+            .sidebar {
+                padding: 10px 4px;
+                margin: 12px 4px;
+            }
+
+            .logo {
+                margin-bottom: 8px;
+            }
+
+            .logo-short {
+                font-size: 20px;
+                margin-bottom: 12px;
+            }
+
+            .search-box {
+                margin-bottom: 8px;
+            }
+
+            .search-box i {
+                font-size: 16px;
+                padding: 8px;
+            }
+
+            .nav-item {
+                padding: 8px;
+                margin-bottom: 3px;
+            }
+
+            .nav-item i {
+                font-size: 16px;
+            }
+
+            .user-avatar {
+                width: 35px;
+                height: 35px;
+            }
+
+            .Settings-btn,
+            .logout-btn {
+                padding: 6px;
+            }
+
+            .Settings-btn i,
+            .logout-btn i {
+                font-size: 14px;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid p-0">
+        <div class="row g-0">
+            
+            <div class="sidebar-col">
+                <div class="sidebar">
+                    <a href="seller-dashboard.html" class="logo text-decoration-none">
+                        <span class="logo-full">Wearopia</span>
+                        <span class="logo-short">W</span>
+                    </a>
+
+
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" class="form-control" placeholder="Search">
+                    </div>
+
+                    <a href="seller-dashboard.html" class="nav-item text-decoration-none">
+                        <i class="fas fa-th-large"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="sellers-products.html" class="nav-item text-decoration-none ">
+                        <i class="fas fa-box"></i>
+                        <span>products</span>
+                    </a>
+                    <a href="sellers-orders.html" class="nav-item text-decoration-none  active">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>orders</span>
+                    </a>
+                    <a href="sellers-analytics.html" class="nav-item text-decoration-none ">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Analytics</span>
+                    </a>
+
+                    <div class="user-profile">
+                        <div class="d-flex flex-column w-100">
+                            <div class="d-flex my-3">
+                                <div>
+                                    <img src="Images/seller image.png" alt="User" class="user-avatar">
+                                </div>
+                                <div class="mx-3 user-info">
+                                    <div class="user-name">Gustavo Xavier</div>
+                                    <span class="user-role">Seller</span>
+                                </div>
+                            </div>
+                            <div class="user-actions">
+                                <div class="Settings-btn fs-6 my-3">
+                                    <i class="fa-solid fa-gear mx-2"></i> <span>Settings</span>
+                                </div>
+                                <div class="logout-btn fs-6">
+                                    <i class="fas fa-sign-out-alt mx-2"></i> <span>Log out</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="col-md-10 main-content">
+                <div class="orders-table-container">
+                    <div class="orders-header">
+                        <h2>Orders</h2>
+                    </div>
+                    <div class="orders-table-wrapper">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Order Id</th>
+                                    <th>Customer Name</th>
+                                    <th>Products</th>
+                                    <th>Total Price</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                    <th>Change Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordersTableBody">
+                            
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="pagination-container">
+                        <div class="pagination-info">
+                            Showing data <span id="startEntry">1</span> to <span id="endEntry">8</span> of <span
+                                id="totalEntries">16</span> entries
+                        </div>
+                        <nav>
+                            <ul class="pagination" id="paginationList">
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">
+                        <i class="fas fa-exclamation-triangle" style="color: #F59E0B; margin-right: 10px;"></i>
+                        Confirm Delete
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this order?</p>
+                    <p style="color: #999; font-size: 14px; margin-bottom: 0;">This action cannot be undone.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-cancel" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn-delete" id="confirmDeleteBtn">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+
+        function loadOrdersData() {
+            const savedData = localStorage.getItem('wearopiaOrders');
+
+            if (savedData) {
+                return JSON.parse(savedData);
+            } else {
+
+                const defaultData = [
+                    {
+                        id: '#ORD-001',
+                        customerName: 'Ahmed Hassan',
+                        products: 'Nike Air Max 270',
+                        totalPrice: '3,299 EGP',
+                        status: 'Delivered',
+                        date: '15-10-2025'
+                    },
+                    {
+                        id: '#ORD-002',
+                        customerName: 'Sara Mohamed',
+                        products: 'Adidas Ultraboost',
+                        totalPrice: '4,150 EGP',
+                        status: 'Shipped',
+                        date: '18-10-2025'
+                    },
+                    {
+                        id: '#ORD-003',
+                        customerName: 'Omar Khaled',
+                        products: 'Puma RS-X',
+                        totalPrice: '2,899 EGP',
+                        status: 'Processing',
+                        date: '19-10-2025'
+                    },
+                    {
+                        id: '#ORD-004',
+                        customerName: 'Nour Ali',
+                        products: 'Converse Chuck Taylor',
+                        totalPrice: '1,999 EGP',
+                        status: 'Delivered',
+                        date: '14-10-2025'
+                    },
+                    {
+                        id: '#ORD-005',
+                        customerName: 'Yasmine Ibrahim',
+                        products: 'Vans Old Skool',
+                        totalPrice: '2,499 EGP',
+                        status: 'Pending',
+                        date: '20-10-2025'
+                    },
+                    {
+                        id: '#ORD-006',
+                        customerName: 'Karim Mahmoud',
+                        products: 'New Balance 574',
+                        totalPrice: '3,599 EGP',
+                        status: 'Shipped',
+                        date: '17-10-2025'
+                    },
+                    {
+                        id: '#ORD-007',
+                        customerName: 'Laila Ahmed',
+                        products: 'Reebok Classic',
+                        totalPrice: '2,299 EGP',
+                        status: 'Cancelled',
+                        date: '16-10-2025'
+                    },
+                    {
+                        id: '#ORD-008',
+                        customerName: 'Hassan Youssef',
+                        products: 'Asics Gel-Kayano',
+                        totalPrice: '4,899 EGP',
+                        status: 'Processing',
+                        date: '19-10-2025'
+                    },
+                    {
+                        id: '#ORD-009',
+                        customerName: 'Mona Salah',
+                        products: 'Jordan 1 Retro',
+                        totalPrice: '5,999 EGP',
+                        status: 'Delivered',
+                        date: '13-10-2025'
+                    },
+                    {
+                        id: '#ORD-010',
+                        customerName: 'Mahmoud Sayed',
+                        products: 'Fila Disruptor',
+                        totalPrice: '2,799 EGP',
+                        status: 'Shipped',
+                        date: '18-10-2025'
+                    },
+                    {
+                        id: '#ORD-011',
+                        customerName: 'Dina Fathy',
+                        products: 'Skechers D\'Lites',
+                        totalPrice: '2,199 EGP',
+                        status: 'Processing',
+                        date: '20-10-2025'
+                    },
+                    {
+                        id: '#ORD-012',
+                        customerName: 'Tarek Nabil',
+                        products: 'Under Armour HOVR',
+                        totalPrice: '3,899 EGP',
+                        status: 'Pending',
+                        date: '21-10-2025'
+                    },
+                    {
+                        id: '#ORD-013',
+                        customerName: 'Heba Mostafa',
+                        products: 'Nike React Infinity',
+                        totalPrice: '4,299 EGP',
+                        status: 'Delivered',
+                        date: '12-10-2025'
+                    },
+                    {
+                        id: '#ORD-014',
+                        customerName: 'Amr Gamal',
+                        products: 'Adidas Stan Smith',
+                        totalPrice: '2,599 EGP',
+                        status: 'Shipped',
+                        date: '17-10-2025'
+                    },
+                    {
+                        id: '#ORD-015',
+                        customerName: 'Rana Waleed',
+                        products: 'Puma Suede Classic',
+                        totalPrice: '2,399 EGP',
+                        status: 'Processing',
+                        date: '19-10-2025'
+                    },
+                    {
+                        id: '#ORD-016',
+                        customerName: 'Waleed abdelrahman',
+                        products: 'Classic',
+                        totalPrice: '8,399 EGP',
+                        status: 'Processing',
+                        date: '19-10-2025'
+                    }
+                ];
+                saveOrdersData(defaultData);
+                return defaultData;
+            }
+        }
+
+
+        function saveOrdersData(data) {
+            localStorage.setItem('wearopiaOrders', JSON.stringify(data));
+        }
+
+
+        function addOrder(order) {
+            ordersData.push(order);
+            saveOrdersData(ordersData);
+            totalPages = Math.ceil(ordersData.length / itemsPerPage);
+            renderOrders();
+            renderPagination();
+        }
+
+
+        function deleteOrder(index) {
+            ordersData.splice(index, 1);
+            saveOrdersData(ordersData);
+
+            
+            totalPages = Math.ceil(ordersData.length / itemsPerPage);
+            if (currentPage > totalPages && currentPage > 1) {
+                currentPage = totalPages;
+                localStorage.setItem('wearopiaCurrentPage', currentPage);
+            }
+
+            renderOrders();
+            renderPagination();
+        }
+
+        let ordersData = loadOrdersData();
+        let currentPage = parseInt(localStorage.getItem('wearopiaCurrentPage')) || 1;
+        const itemsPerPage = 8;
+        let totalPages = Math.ceil(ordersData.length / itemsPerPage);
+        let deleteOrderIndex = null;
+
+        
+        const statusOptions = ['Processing', 'Shipped', 'Delivered', 'Cancelled', 'Pending'];
+
+        function renderOrders() {
+            totalPages = Math.ceil(ordersData.length / itemsPerPage);
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const currentOrders = ordersData.slice(startIndex, endIndex);
+
+            const tableBody = document.getElementById('ordersTableBody');
+            tableBody.innerHTML = '';
+
+            currentOrders.forEach((order, index) => {
+                const statusClass = order.status.toLowerCase().replace(/\s+/g, '-');
+                const actualIndex = startIndex + index;
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                        <td>${order.id}</td>
+                        <td>${order.customerName}</td>
+                        <td>${order.products}</td>
+                        <td>${order.totalPrice}</td>
+                        <td><span class="status-badge ${statusClass}">${order.status}</span></td>
+                        <td>${order.date}</td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="status-dropdown ${statusClass}" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    ${order.status}
+                                    <i class="fas fa-chevron-down"></i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    ${statusOptions.map(status => `
+                                        <li><a class="dropdown-item" href="#" data-row="${actualIndex}" data-status="${status}">${status}</a></li>
+                                    `).join('')}
+                                </ul>
+                            </div>
+                        </td>
+                        <td>
+                            <i class="fa-solid fa-box action-icon view" title="Tracking Order"></i>
+                            <i class="fas fa-trash-alt action-icon delete" data-index="${actualIndex}" title="Delete Order"></i>
+                        </td>
+                    `;
+                tableBody.appendChild(row);
+            });
+
+
+            document.getElementById('startEntry').textContent = startIndex + 1;
+            document.getElementById('endEntry').textContent = Math.min(endIndex, ordersData.length);
+            document.getElementById('totalEntries').textContent = ordersData.length;
+
+
+            document.querySelectorAll('.dropdown-item').forEach(item => {
+                item.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const rowIndex = parseInt(this.dataset.row);
+                    const newStatus = this.dataset.status;
+                    ordersData[rowIndex].status = newStatus;
+                    saveOrdersData(ordersData);
+                    renderOrders();
+                });
+            });
+
+
+            document.querySelectorAll('.action-icon.delete').forEach(icon => {
+                icon.addEventListener('click', function () {
+                    deleteOrderIndex = parseInt(this.dataset.index);
+                    const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+                    deleteModal.show();
+                });
+            });
+
+
+            document.querySelectorAll('.action-icon.view').forEach(icon => {
+                icon.addEventListener('click', function () {
+                    
+                });
+            });
+        }
+
+        function renderPagination() {
+            const paginationList = document.getElementById('paginationList');
+            paginationList.innerHTML = '';
+
+
+            const prevLi = document.createElement('li');
+            prevLi.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
+            prevLi.innerHTML = `<a class="page-link" href="#" data-page="${currentPage - 1}"><i class="fas fa-chevron-left"></i></a>`;
+            paginationList.appendChild(prevLi);
+
+            const maxVisiblePages = 5;
+            let startPage = Math.max(1, currentPage - 2);
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+            if (endPage - startPage < maxVisiblePages - 1) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                const li = document.createElement('li');
+                li.className = `page-item ${i === currentPage ? 'active' : ''}`;
+                li.innerHTML = `<a class="page-link" href="#" data-page="${i}">${i}</a>`;
+                paginationList.appendChild(li);
+            }
+
+
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    const ellipsisLi = document.createElement('li');
+                    ellipsisLi.className = 'page-item disabled';
+                    ellipsisLi.innerHTML = `<a class="page-link" href="#">...</a>`;
+                    paginationList.appendChild(ellipsisLi);
+                }
+
+                const lastLi = document.createElement('li');
+                lastLi.className = 'page-item';
+                lastLi.innerHTML = `<a class="page-link" href="#" data-page="${totalPages}">${totalPages}</a>`;
+                paginationList.appendChild(lastLi);
+            }
+
+
+            const nextLi = document.createElement('li');
+            nextLi.className = `page-item ${currentPage === totalPages ? 'disabled' : ''}`;
+            nextLi.innerHTML = `<a class="page-link" href="#" data-page="${currentPage + 1}"><i class="fas fa-chevron-right"></i></a>`;
+            paginationList.appendChild(nextLi);
+
+            document.querySelectorAll('.page-link').forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const page = parseInt(this.dataset.page);
+                    if (page && page !== currentPage && page >= 1 && page <= totalPages) {
+                        currentPage = page;
+                        localStorage.setItem('wearopiaCurrentPage', currentPage);
+                        renderOrders();
+                        renderPagination();
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                });
+            });
+        }
+
+        renderOrders();
+        renderPagination();
+
+        document.getElementById('confirmDeleteBtn').addEventListener('click', function () {
+            if (deleteOrderIndex !== null) {
+                deleteOrder(deleteOrderIndex);
+                deleteOrderIndex = null;
+                const deleteModal = bootstrap.Modal.getInstance(document.getElementById('deleteModal'));
+                deleteModal.hide();
+            }
+        });
+    </script>
+</body>
+
+</html>

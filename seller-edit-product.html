@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>add product</title>
+    <title>Edit Product</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -316,7 +316,7 @@
             background: var(--light-green);
         }
 
-        .btn-add-product {
+        .btn-update-product {
             background: var(--primary-green);
             color: white;
             border: none;
@@ -328,10 +328,29 @@
             transition: all 0.3s;
         }
 
-        .btn-add-product:hover {
+        .btn-update-product:hover {
             background: #0a5555;
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(13, 110, 110, 0.3);
+        }
+
+        .btn-cancel {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-bottom: 10px;
+        }
+
+        .btn-cancel:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
         }
 
         .remove-image {
@@ -354,6 +373,42 @@
 
         .image-preview:hover .remove-image {
             opacity: 1;
+        }
+
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .loading-overlay.active {
+            display: flex;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-green);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         /* Responsive Styles */
@@ -388,7 +443,6 @@
                 display: block;
                 font-size: 28px;
                 text-align: center;
-
             }
 
             .search-box {
@@ -544,7 +598,8 @@
                 padding: 15px;
             }
 
-            .btn-add-product {
+            .btn-update-product,
+            .btn-cancel {
                 margin-bottom: 20px;
                 padding: 12px;
                 font-size: 14px;
@@ -649,7 +704,8 @@
                 margin-bottom: 6px;
             }
 
-            .btn-add-product {
+            .btn-update-product,
+            .btn-cancel {
                 padding: 10px;
                 font-size: 13px;
             }
@@ -687,9 +743,12 @@
 </head>
 
 <body>
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+    </div>
+
     <div class="container-fluid p-0">
         <div class="row g-0">
-
             <div class="sidebar-col">
                 <div class="sidebar">
                     <div class="logo">
@@ -744,13 +803,10 @@
                 </div>
             </div>
 
-
             <div class="main-col">
                 <div class="main-content">
                     <div class="row">
-
                         <div class="col-lg-7 col-12">
-
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="section-title">General Information</h5>
@@ -765,17 +821,17 @@
                                     <div class="mb-3">
                                         <label class="form-label">Description</label>
                                         <textarea class="form-control" id="productDescription"
-                                            placeholder="Step into a realm of unparalleled off-duty style with these grey acid wash joggers that effortlessly marry fashion with comfort. Crafted for those committed to style even on their days off, these joggers feature a chic drawstring waist and a wide leg cut. The distinctive acid wash adds a to..."></textarea>
+                                            placeholder="Product description..."></textarea>
                                         <div class="invalid-feedback">Description is required</div>
                                     </div>
 
                                     <div class="row">
                                         <div class="col-lg-6 col-12 mb-3">
                                             <label class="form-label">Size:</label>
-                                            <div class="d-flex gap-2 flex-wrap">
+                                            <div class="d-flex gap-2 flex-wrap" id="sizeContainer">
                                                 <button class="size-btn" data-size="XS">XS</button>
                                                 <button class="size-btn" data-size="S">S</button>
-                                                <button class="size-btn active" data-size="M">M</button>
+                                                <button class="size-btn" data-size="M">M</button>
                                                 <button class="size-btn" data-size="L">L</button>
                                                 <button class="size-btn" data-size="XL">XL</button>
                                                 <button class="size-btn" data-size="XXL">XXL</button>
@@ -784,9 +840,9 @@
 
                                         <div class="col-lg-6 col-12 mb-3">
                                             <label class="form-label">Color:</label>
-                                            <div class="d-flex gap-2 flex-wrap">
-                                                <div class="color-option active" style="background: #000;"
-                                                    data-color="black"></div>
+                                            <div class="d-flex gap-2 flex-wrap" id="colorContainer">
+                                                <div class="color-option" style="background: #000;" data-color="black">
+                                                </div>
                                                 <div class="color-option" style="background: #999;" data-color="grey">
                                                 </div>
                                                 <div class="color-option" style="background: #1a1a1a;"
@@ -812,7 +868,6 @@
                                     </div>
                                 </div>
                             </div>
-
 
                             <div class="card">
                                 <div class="card-body">
@@ -845,13 +900,9 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <button class="btn-add-product">Save</button>
                         </div>
 
-
                         <div class="col-lg-5 col-12">
-
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="section-title">Upload Images</h5>
@@ -868,29 +919,9 @@
                                     <div class="invalid-feedback" id="imageError">Please upload at least one image</div>
 
                                     <div class="image-preview-container" id="imagePreviewContainer">
-                                        <div class="image-preview active">
-                                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect width='80' height='80' fill='%23f0f0f0'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='%23999' font-size='12'%3EShoe 1%3C/text%3E%3C/svg%3E"
-                                                alt="Preview">
-                                        </div>
-                                        <div class="image-preview">
-                                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect width='80' height='80' fill='%23f0f0f0'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='%23999' font-size='12'%3EShoe 2%3C/text%3E%3C/svg%3E"
-                                                alt="Preview">
-                                        </div>
-                                        <div class="image-preview">
-                                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect width='80' height='80' fill='%23f0f0f0'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='%23999' font-size='12'%3EShoe 3%3C/text%3E%3C/svg%3E"
-                                                alt="Preview">
-                                        </div>
-                                        <div class="image-preview">
-                                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect width='80' height='80' fill='%23f0f0f0'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='%23999' font-size='12'%3EShoe 4%3C/text%3E%3C/svg%3E"
-                                                alt="Preview">
-                                        </div>
-                                        <div class="image-preview add-more" id="addMoreBtn">
-                                            <i class="fas fa-plus fa-2x" style="color: var(--primary-green);"></i>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
-
 
                             <div class="card">
                                 <div class="card-body">
@@ -899,17 +930,22 @@
                                     <div class="mb-3">
                                         <label class="form-label">Product Category</label>
                                         <select class="form-select" id="productCategory">
-                                            <option selected>Jacket</option>
-                                            <option>Shoes</option>
-                                            <option>Pants</option>
-                                            <option>Shirts</option>
-                                            <option>Accessories</option>
+                                            <option value="Jacket">Jacket</option>
+                                            <option value="Shoes">Shoes</option>
+                                            <option value="Pants">Pants</option>
+                                            <option value="Shirts">Shirts</option>
+                                            <option value="Accessories">Accessories</option>
                                         </select>
                                         <div class="invalid-feedback">Category is required</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="col-lg-7">
+                        <button class="btn-update-product" id="updateBtn">Update Product</button>
+                        <button class="btn-cancel" id="cancelBtn">Cancel</button>
                     </div>
                 </div>
             </div>
@@ -923,7 +959,7 @@
             aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
                 <div class="toast-body py-4">
-                    Product added successfully!
+                    Product updated successfully!
                 </div>
                 <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
                     aria-label="Close"></button>
@@ -933,36 +969,104 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-
         let uploadedImages = [];
         let selectedImageIndex = 0;
+        let currentProductId = null;
 
+        // Get product ID from URL
+        function getProductIdFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('id');
+        }
 
+        // Load product data
+        function loadProductData() {
+            const productId = getProductIdFromURL();
+
+            if (!productId) {
+                showToast('No product ID provided', 'danger');
+                setTimeout(() => {
+                    window.location.href = 'products.html'; // Redirect to products page
+                }, 2000);
+                return;
+            }
+
+            const products = JSON.parse(localStorage.getItem('products') || '[]');
+            const product = products.find(p => p.id == productId);
+
+            if (!product) {
+                showToast('Product not found', 'danger');
+                setTimeout(() => {
+                    window.location.href = 'products.html';
+                }, 2000);
+                return;
+            }
+
+            currentProductId = product.id;
+
+            // Fill form with product data
+            document.getElementById('productName').value = product.name || '';
+            document.getElementById('productDescription').value = product.description || '';
+            document.getElementById('price').value = product.price || '';
+            document.getElementById('stock').value = product.stock || '';
+            document.getElementById('discount').value = product.discount || '';
+            document.getElementById('discountType').value = product.discountType || '';
+            document.getElementById('productCategory').value = product.category || 'Jacket';
+
+            // Set sizes
+            if (product.sizes && product.sizes.length > 0) {
+                document.querySelectorAll('.size-btn').forEach(btn => {
+                    if (product.sizes.includes(btn.dataset.size)) {
+                        btn.classList.add('active');
+                    }
+                });
+            }
+
+            // Set colors
+            if (product.colors && product.colors.length > 0) {
+                document.querySelectorAll('.color-option').forEach(option => {
+                    if (product.colors.includes(option.dataset.color)) {
+                        option.classList.add('active');
+                    }
+                });
+            }
+
+            // Set images
+            if (product.images && product.images.length > 0) {
+                uploadedImages = [...product.images];
+                selectedImageIndex = 0;
+
+                document.getElementById('mainImage').src = uploadedImages[0];
+                document.getElementById('mainImageContainer').style.display = 'block';
+                document.getElementById('uploadPrompt').style.display = 'none';
+
+                rebuildImagePreviews();
+            }
+        }
+
+        // Size button toggle
         document.querySelectorAll('.size-btn').forEach(btn => {
             btn.addEventListener('click', function () {
                 this.classList.toggle('active');
             });
         });
 
-
+        // Color option toggle
         document.querySelectorAll('.color-option').forEach(option => {
             option.addEventListener('click', function () {
                 this.classList.toggle('active');
             });
         });
 
-
+        // Image upload functionality
         const fileInput = document.getElementById('fileInput');
         const imageUploadArea = document.getElementById('imageUploadArea');
         const mainImage = document.getElementById('mainImage');
         const mainImageContainer = document.getElementById('mainImageContainer');
         const uploadPrompt = document.getElementById('uploadPrompt');
         const imagePreviewContainer = document.getElementById('imagePreviewContainer');
-        const addMoreBtn = document.getElementById('addMoreBtn');
 
         imageUploadArea.addEventListener('click', () => fileInput.click());
-        addMoreBtn.addEventListener('click', () => fileInput.click());
-
 
         imageUploadArea.addEventListener('dragover', (e) => {
             e.preventDefault();
@@ -997,7 +1101,7 @@
                             uploadPrompt.style.display = 'none';
                         }
 
-                        addImagePreview(e.target.result, uploadedImages.length - 1);
+                        rebuildImagePreviews();
                     };
                     reader.readAsDataURL(file);
                 }
@@ -1005,8 +1109,6 @@
         }
 
         function addImagePreview(src, index) {
-            if (uploadedImages.length === 1) imagePreviewContainer.innerHTML = '';
-
             const preview = document.createElement('div');
             preview.className = 'image-preview';
             if (index === selectedImageIndex) preview.classList.add('active');
@@ -1032,7 +1134,7 @@
                 preview.classList.add('active');
             });
 
-            imagePreviewContainer.insertBefore(preview, addMoreBtn);
+            return preview;
         }
 
         function removeImage(index) {
@@ -1042,15 +1144,24 @@
 
         function rebuildImagePreviews() {
             imagePreviewContainer.innerHTML = '';
+
             if (uploadedImages.length === 0) {
                 mainImageContainer.style.display = 'none';
                 uploadPrompt.style.display = 'block';
                 selectedImageIndex = 0;
             } else {
-                if (selectedImageIndex >= uploadedImages.length) selectedImageIndex = uploadedImages.length - 1;
+                if (selectedImageIndex >= uploadedImages.length) {
+                    selectedImageIndex = uploadedImages.length - 1;
+                }
                 mainImage.src = uploadedImages[selectedImageIndex];
-                uploadedImages.forEach((img, idx) => addImagePreview(img, idx));
+
+                uploadedImages.forEach((img, idx) => {
+                    const preview = addImagePreview(img, idx);
+                    imagePreviewContainer.appendChild(preview);
+                });
             }
+
+            // Add "Add More" button
             const addMore = document.createElement('div');
             addMore.className = 'image-preview add-more';
             addMore.id = 'addMoreBtn';
@@ -1059,7 +1170,7 @@
             imagePreviewContainer.appendChild(addMore);
         }
 
-
+        // Validation
         function validateNumber(value, fieldName) {
             const num = parseFloat(value);
             if (isNaN(num) || num < 0) {
@@ -1068,45 +1179,8 @@
             return { valid: true };
         }
 
-
-        function resetForm() {
-
-            document.getElementById('productName').value = '';
-            document.getElementById('productDescription').value = '';
-            document.getElementById('price').value = '';
-            document.getElementById('stock').value = '';
-            document.getElementById('discount').value = '';
-            document.getElementById('discountType').value = '';
-
-
-            document.querySelectorAll('.size-btn').forEach(btn => btn.classList.remove('active'));
-
-
-            document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('active'));
-
-
-            document.getElementById('productCategory').selectedIndex = 0;
-
-
-            uploadedImages = [];
-            selectedImageIndex = 0;
-            rebuildImagePreviews();
-
-
-            document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
-            document.querySelectorAll('.invalid-feedback').forEach(el => el.style.display = 'none');
-        }
-
-
-        function saveProductToStorage(productData) {
-            let products = JSON.parse(localStorage.getItem('products') || '[]');
-            productData.id = Date.now();
-            products.push(productData);
-            localStorage.setItem('products', JSON.stringify(products));
-        }
-
-
-        document.querySelector('.btn-add-product').addEventListener('click', function () {
+        // Update product
+        document.getElementById('updateBtn').addEventListener('click', function () {
             const fields = [
                 { id: 'productName', value: document.getElementById('productName').value.trim(), required: true },
                 { id: 'productDescription', value: document.getElementById('productDescription').value.trim(), required: true },
@@ -1117,7 +1191,7 @@
 
             let hasError = false;
 
-
+            // Validate fields
             fields.forEach(f => {
                 const input = document.getElementById(f.id);
                 const feedback = input.nextElementSibling;
@@ -1144,7 +1218,7 @@
                 }
             });
 
-
+            // Validate images
             const imageError = document.getElementById('imageError');
             if (uploadedImages.length === 0) {
                 imageError.style.display = 'block';
@@ -1153,14 +1227,14 @@
                 imageError.style.display = 'none';
             }
 
-
+            // Validate sizes
             const selectedSizes = document.querySelectorAll('.size-btn.active');
             if (selectedSizes.length === 0) {
                 showToast('Please select at least one size', 'danger');
                 hasError = true;
             }
 
-
+            // Validate colors
             const selectedColors = document.querySelectorAll('.color-option.active');
             if (selectedColors.length === 0) {
                 showToast('Please select at least one color', 'danger');
@@ -1169,8 +1243,12 @@
 
             if (hasError) return;
 
+            // Show loading
+            document.getElementById('loadingOverlay').classList.add('active');
 
-            const productData = {
+            // Update product data
+            const updatedProduct = {
+                id: currentProductId,
                 name: document.getElementById('productName').value.trim(),
                 description: document.getElementById('productDescription').value.trim(),
                 sizes: Array.from(document.querySelectorAll('.size-btn.active')).map(btn => btn.dataset.size),
@@ -1181,21 +1259,43 @@
                 discountType: document.getElementById('discountType').value.trim() || 'none',
                 category: document.getElementById('productCategory').value,
                 images: uploadedImages,
-                createdAt: new Date().toISOString()
+                updatedAt: new Date().toISOString()
             };
 
+            // Get all products and update the specific one
+            let products = JSON.parse(localStorage.getItem('products') || '[]');
+            const productIndex = products.findIndex(p => p.id == currentProductId);
 
-            saveProductToStorage(productData);
+            if (productIndex !== -1) {
+                // Keep the original createdAt date
+                updatedProduct.createdAt = products[productIndex].createdAt;
+                products[productIndex] = updatedProduct;
+                localStorage.setItem('products', JSON.stringify(products));
 
-            showToast('Product added successfully!', 'success');
+                // Hide loading
+                setTimeout(() => {
+                    document.getElementById('loadingOverlay').classList.remove('active');
+                    showToast('Product updated successfully!', 'success');
 
-
-            setTimeout(() => {
-                resetForm();
-            }, 1500);
+                    // Redirect after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = 'products.html'; // Redirect to products page
+                    }, 2000);
+                }, 500);
+            } else {
+                document.getElementById('loadingOverlay').classList.remove('active');
+                showToast('Error updating product', 'danger');
+            }
         });
 
+        // Cancel button
+        document.getElementById('cancelBtn').addEventListener('click', function () {
+            if (confirm('Are you sure you want to cancel? Any unsaved changes will be lost.')) {
+                window.location.href = 'products.html'; // Redirect to products page
+            }
+        });
 
+        // Toast notification
         function showToast(message, type) {
             const toastContainer = document.getElementById('productToast');
             toastContainer.classList.remove('text-bg-success', 'text-bg-danger');
@@ -1205,13 +1305,10 @@
             toast.show();
         }
 
-
+        // Load product data on page load
         window.addEventListener('DOMContentLoaded', () => {
-            const products = JSON.parse(localStorage.getItem('products') || '[]');
-            console.log('Stored products:', products);
+            loadProductData();
         });
-
-
     </script>
 </body>
 
