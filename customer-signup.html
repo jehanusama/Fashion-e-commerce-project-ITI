@@ -8,175 +8,95 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 100%; height: 100%; font-family: 'Poppins', sans-serif; background: #fff; color: #1f2937; }
+    html, body { width: 100%; height: 100%; font-family: 'Poppins', sans-serif; background: #fff; color: #1f2937; overflow-x: hidden; }
 
     .container-fluid { padding: 0; margin: 0; min-height: 100vh; }
     .row { height: 100%; margin: 0; }
-    .col-md-6 { padding: 0; }
 
     .left-image-section { height: 100vh; overflow: hidden; }
     .left-image { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.75); }
 
     .right-form-section {
+      width: 100%;
+      max-width: 720px;
       height: 100vh;
+      padding: 80px 60px;
       background: #ffffff;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 153px 110px 152px 110px;
+      flex-shrink: 0;
     }
 
-    .form-wrapper { width: 100%; max-width: 500px; }
-
-    .form-title {
-      font-size: 24px; font-weight: 500; line-height: 36px;
-      color: #1f2937; margin-bottom: 4px; text-align: center;
+    .form-wrapper { 
+      width: 100%; 
+      max-width: 500px;
+      display: flex;
+      flex-direction: column;
     }
 
-    .form-subtitle {
-      font-size: 16px; font-weight: 400; color: #9ca3af;
-      margin-bottom: 16px; line-height: 24px; text-align: center;
-    }
+    .logo-link { display: block; text-align: center; margin-bottom: 32px; text-decoration: none; }
+    .logo { font-size: 40px; font-weight: 700; color: #0f6546; cursor: pointer; transition: color 0.2s ease; letter-spacing: -0.5px; line-height: 1; }
+    .logo:hover { color: #15803d; }
 
-    .form-group { margin-bottom: 16px; position: relative; }
-    .form-label {
-      display: block; font-size: 16px; font-weight: 400;
-      color: #374151; margin-bottom: 4px; line-height: 20px;
-    }
+    .form-title { font-size: 24px; font-weight: 500; line-height: 36px; color: #1f2937; margin-bottom: 8px; text-align: center; }
+    .form-subtitle { font-size: 16px; font-weight: 400; color: #9ca3af; margin-bottom: 32px; line-height: 24px; text-align: center; }
 
-    .form-input {
-      width: 100%; height: 48px; padding: 15px 24px;
-      border: 1px solid #d1d5db; border-radius: 12px;
-      font-size: 14px; font-weight: 400; color: #6b7280;
-      background: #ffffff; transition: all 0.2s ease;
-    }
-
-    .form-input:focus {
-      outline: none; border-color: #8b5cf6;
-      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
-    }
-
-    .error-message {
-      color: #ef4444; font-size: 12px;
-      margin-top: 4px; display: block;
-    }
-
+    .form-group { margin-bottom: 20px; position: relative; }
+    .form-label { display: block; font-size: 16px; font-weight: 500; color: #374151; margin-bottom: 8px; line-height: 20px; }
+    .form-input { width: 100%; height: 56px; padding: 16px 20px; border: 1px solid #d1d5db; border-radius: 12px; font-size: 16px; font-weight: 400; color: #1f2937; background: #ffffff; transition: all 0.2s ease; }
+    .form-input::placeholder { color: #9ca3af; }
+    .form-input:focus { outline: none; border-color: #0f6546; box-shadow: 0 0 0 3px rgba(15, 101, 70, 0.1); }
+    .error-message { color: #ef4444; font-size: 13px; margin-top: 6px; display: block; }
     .error { border-color: #ef4444 !important; }
 
     .password-wrapper { position: relative; }
-
     .password-toggle {
-      position: absolute; right: 16px; top: 15%; transform: translateY(-50%);
-      background: none; border: none; color: #6b7280; cursor: pointer;
-      display: flex; align-items: center; gap: 6px;
-      font-size: 14px;
+      position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
+      background: none; border: none; color: #6b7280; cursor: pointer; display: flex; align-items: center; gap: 6px; font-size: 14px; padding: 8px; margin-top: 14px;
     }
+    .password-toggle svg { width: 20px; height: 20px; stroke: #6b7280; stroke-width: 2; fill: none; }
 
-    .password-toggle svg {
-      width: 18px; height: 18px; stroke: #6b7280; stroke-width: 2; fill: none;
-    }
+    .signup-button { width: 100%; height: 56px; background: #0f6546; color: #fff; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 32px; margin-bottom: 16px; transition: all 0.2s ease; }
+    .signup-button:hover { background: #0d5438; box-shadow: 0 4px 12px rgba(15, 101, 70, 0.3); }
 
-    .signup-button {
-      width: 100%; height: 48px; background: #0f6546; color: #fff;
-      border: none; border-radius: 12px; font-size: 16px; font-weight: 600;
-      cursor: pointer; margin-top: 24px; margin-bottom: 8px; transition: all 0.2s ease;
-    }
+    .signin-link, .seller-link { text-align: center; margin-bottom: 12px; }
+    .signin-text, .seller-text { font-size: 14px; color: #0f6546; text-decoration: underline; font-weight: 500; cursor: pointer; }
+    .signin-text:hover, .seller-text:hover { color: #0d5438; }
 
-    .signup-button:hover { background: #15803d; box-shadow: 0 4px 12px rgba(22,163,74,0.2); }
+    .divider { display: flex; align-items: center; margin: 24px 0; }
+    .divider-line { flex: 1; height: 1px; background: #e5e7eb; }
+    .divider-text { padding: 0 16px; font-size: 14px; color: #9ca3af; font-weight: 500; }
 
-    .signin-link, .seller-link { text-align: left; margin-bottom: 10px; }
-    .signin-text, .seller-text {
-      font-size: 14px; color: #16a34a; text-decoration: underline; font-weight: 500;
-    }
-
-    .divider {
-      display: flex; align-items: center; margin: 24px 0;
-    }
-
-    .divider-line {
-      flex: 1; height: 1px; background: #e5e7eb;
-    }
-
-    .divider-text {
-      padding: 0 16px; font-size: 14px; color: #9ca3af;
-    }
-
-    .google-button {
-      width: 100%; height: 48px; background: #ffffff;
-      color: #6b7280; border: 1px solid #d1d5db;
-      border-radius: 40px; font-size: 20px; display: flex;
-      align-items: center; justify-content: center;
-      gap: 10px; cursor: pointer; transition: all 0.2s ease;
-    }
-
+    .google-button { width: 100%; height: 56px; background: #ffffff; color: #1f2937; border: 1px solid #d1d5db; border-radius: 12px; font-size: 16px; font-weight: 500; display: flex; align-items: center; justify-content: center; gap: 12px; cursor: pointer; transition: all 0.2s ease; }
     .google-button:hover { background: #f9fafb; border-color: #9ca3af; }
+    .google-icon svg { width: 24px; height: 24px; display: block; }
 
-    .google-icon svg {
-      width: 24px;
-      height: 24px;
-      display: block;
-    }
-
-    /* ================= MEDIA QUERIES ================= */
-    @media (min-width: 768px) and (max-width: 992px) { /* تابـلت */
-      .row {
-        width: 100%;
-        height: 100vh;
-        margin: 0;
-      }
-
-      .left-image-section, .right-form-section {
-        width: 50%;
-        min-width: 0;
-        height: 100%;
-      }
-
-      .left-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-
-      .right-form-section {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding-left: 40px;
-        padding-right: 40px;
-      }
-
-      .form-wrapper {
-        max-width: 420px;
-        width: 100%;
-      }
-
-      .google-icon svg {
-        width: 20px;
-        height: 20px;
-      }
+    @media (min-width: 768px) and (max-width: 1200px) {
+      .right-form-section { max-width: 50%; padding: 60px 40px; }
+      .form-wrapper { max-width: 450px; }
+      .logo { font-size: 36px; }
     }
 
     @media (max-width: 768px) {
       .row { flex-direction: column; }
       .left-image-section { display: none; }
-      .right-form-section {
-        height: auto;
-        padding: 60px 20px;
-      }
+      .right-form-section { width: 100%; height: auto; min-height: 100vh; padding: 60px 24px; }
       .form-wrapper { max-width: 100%; }
+      .logo { font-size: 32px; }
+      .form-input, .signup-button, .google-button { height: 52px; }
     }
 
-    @media (max-width: 576px) { /* موبايل */
-      .right-form-section { padding: 40px 15px; }
-      .form-title { font-size: 22px; line-height: 28px; }
+    @media (max-width: 576px) {
+      .right-form-section { padding: 40px 20px; }
+      .logo { font-size: 28px; }
+      .form-title { font-size: 22px; line-height: 32px; }
       .form-subtitle { font-size: 14px; line-height: 20px; }
-      .form-input { height: 44px; padding: 12px 18px; }
-      .signup-button, .google-button { height: 44px; font-size: 15px; }
-
-      .google-icon svg {
-        width: 18px;
-        height: 18px;
-      }
+      .form-input { height: 48px; padding: 12px 16px; font-size: 15px; }
+      .signup-button, .google-button { height: 48px; font-size: 15px; }
+      .password-toggle { right: 16px; }
+      .google-icon svg { width: 20px; height: 20px; }
     }
   </style>
 </head>
@@ -186,9 +106,12 @@
       <div class="col-md-6 left-image-section">
         <img src="./0d8f8eb4b7e48339bfff00192aa68fe1.jpg" alt="Fashion" class="left-image">
       </div>
-
       <div class="col-md-6 right-form-section">
         <div class="form-wrapper">
+          <a href="index.html" class="logo-link">
+            <div class="logo">Wearopia</div>
+          </a>
+          
           <h1 class="form-title">Join Our Fashion Community</h1>
           <p class="form-subtitle">Create your account to get started</p>
 
@@ -206,9 +129,10 @@
             </div>
 
             <div class="form-group password-wrapper">
-              <label class="form-label">Password</label>
+              <label class="form-label">Your password</label>
               <input type="password" id="password" class="form-input" placeholder="Enter your password">
               <button type="button" class="password-toggle">
+                <span class="toggle-text">Hide</span>
                 <svg class="eye-open" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                   <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/>
                   <circle cx="12" cy="12" r="3"/>
@@ -217,7 +141,6 @@
                   <path d="M17.94 17.94A10.95 10.95 0 0 1 12 20c-7 0-11-8-11-8a20.29 20.29 0 0 1 5.06-6.88"/>
                   <path d="M1 1l22 22"/>
                 </svg>
-                <span class="toggle-text">Show</span>
               </button>
               <span class="error-message"></span>
             </div>
@@ -226,6 +149,7 @@
               <label class="form-label">Confirm Password</label>
               <input type="password" id="confirmPassword" class="form-input" placeholder="Confirm your password">
               <button type="button" class="password-toggle">
+                <span class="toggle-text">Hide</span>
                 <svg class="eye-open" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                   <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/>
                   <circle cx="12" cy="12" r="3"/>
@@ -234,14 +158,13 @@
                   <path d="M17.94 17.94A10.95 10.95 0 0 1 12 20c-7 0-11-8-11-8a20.29 20.29 0 0 1 5.06-6.88"/>
                   <path d="M1 1l22 22"/>
                 </svg>
-                <span class="toggle-text">Show</span>
               </button>
               <span class="error-message"></span>
             </div>
 
-<button type="submit" class="signup-button" onclick="window.location.href='index.html'">Sign Up</button>
+            <button type="submit" class="signup-button">Sign Up</button>
 
-            <div class="signin-link"><a href="#" class="signin-text">Already have an account?</a></div>
+            <div class="signin-link"><a href="login.html" class="signin-text">Already have an account? Sign In</a></div>
             <div class="seller-link"><a href="./seller-signup.html" class="seller-text">Join as a seller instead</a></div>
 
             <div class="divider">
@@ -266,11 +189,11 @@
       </div>
     </div>
   </div>
- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-  //  Toggle Password Visibility
   document.querySelectorAll(".password-toggle").forEach((btn) => {
     btn.addEventListener("click", () => {
       const input = btn.previousElementSibling;
@@ -287,12 +210,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const form = document.getElementById("signupForm");
   const fields = ["name", "email", "password", "confirmPassword"];
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const passwordPattern =
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
-  //  Validation
   fields.forEach((id) => {
     const input = document.getElementById(id);
     input.addEventListener("input", () => validateField(input));
@@ -301,18 +221,13 @@ const passwordPattern =
 
   function validateField(input) {
     let message = "";
-    if (input.id === "name" && input.value.trim().length < 3)
-      message = "Name must be at least 3 characters";
-    if (input.id === "email" && !emailPattern.test(input.value))
-      message = "Enter a valid email address";
-    if (input.id === "password" && !passwordPattern.test(input.value))
-      message =
-        "Password must be 8+ chars, include uppercase, lowercase, number & symbol";
+    if (input.id === "name" && input.value.trim().length < 3) message = "Name must be at least 3 characters";
+    if (input.id === "email" && !emailPattern.test(input.value)) message = "Enter a valid email address";
+    if (input.id === "password" && !passwordPattern.test(input.value)) message = "Password must be 8+ chars, include uppercase, lowercase, number & symbol";
     if (input.id === "confirmPassword") {
       const password = document.getElementById("password").value;
       if (input.value !== password) message = "Passwords do not match";
     }
-
     const errorEl = input.parentElement.querySelector(".error-message");
     if (message) {
       input.classList.add("error");
@@ -323,79 +238,48 @@ const passwordPattern =
     }
   }
 
-  //  Submit
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-
     let valid = true;
     fields.forEach((id) => {
       const el = document.getElementById(id);
       validateField(el);
       if (el.classList.contains("error")) valid = false;
     });
-
     if (!valid) {
-      Swal.fire({
-        title: "Invalid Form!",
-        text: "Please fix the highlighted errors before submitting.",
-        icon: "error",
-      });
+      Swal.fire({ title: "Invalid Form!", text: "Please fix the highlighted errors before submitting.", icon: "error" });
       return;
     }
-
     const name = document.getElementById("name").value.trim();
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();
     const role = "customer";
 
-    //  Load users from localStorage
     const existingUsersEncrypted = localStorage.getItem("users");
     let users = [];
-
     if (existingUsersEncrypted) {
       try {
         const bytes = CryptoJS.AES.decrypt(existingUsersEncrypted, "mySecretKey");
         const decryptedData = bytes.toString(CryptoJS.enc.Utf8);
         users = JSON.parse(decryptedData);
-      } catch (e) {
-        users = [];
-      }
+      } catch (e) { users = []; }
     }
 
-    //  Check for duplicate email
     const isEmailTaken = users.some((u) => u.email === email);
     if (isEmailTaken) {
-      Swal.fire({
-        title: "Email Already Registered!",
-        text: "Please use another email address.",
-        icon: "error",
-      });
+      Swal.fire({ title: "Email Already Registered!", text: "Please use another email address.", icon: "error" });
       return;
     }
 
-    //  Create new user
     const newUser = { name, email, password, role };
     users.push(newUser);
-
-    //  Save encrypted
-    const updatedUsersEncrypted = CryptoJS.AES.encrypt(
-      JSON.stringify(users),
-      "mySecretKey"
-    ).toString();
+    const updatedUsersEncrypted = CryptoJS.AES.encrypt(JSON.stringify(users), "mySecretKey").toString();
     localStorage.setItem("users", updatedUsersEncrypted);
 
-    //  Success
-    Swal.fire({
-      title: "Account Created Successfully!",
-      text: "Welcome to Wearopia 💚",
-      icon: "success",
-    }).then(() => {
-      form.reset();
-      window.location.href = "login.html";
-    });
+    Swal.fire({ title: "Account Created Successfully!", text: "Welcome to Wearopia 💚", icon: "success" })
+    .then(() => { form.reset(); window.location.href = "login.html"; });
   });
 });
 </script>
-
 </body>
 </html>

@@ -27,8 +27,6 @@ document.addEventListener("DOMContentLoaded", function () {
   if (toggleIcon && toggleText && passwordInput) {
     toggleIcon.addEventListener("click", togglePasswordVisibility);
     toggleText.addEventListener("click", togglePasswordVisibility);
-  } else {
-    console.error("Password toggle elements not found!");
   }
 
   // ====== تسجيل الدخول ======
@@ -38,22 +36,23 @@ document.addEventListener("DOMContentLoaded", function () {
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();
 
-    //  التحقق من الأدمن الثابت
+    // التحقق من الأدمن الثابت
     if (email === "adminreham@wearopia.com" && password === "adminreham123") {
       const adminUser = { fullname: "Admin", email, role: "admin" };
-      sessionStorage.setItem("loggedInUser", JSON.stringify(adminUser));
+      localStorage.setItem("loggedInUser", JSON.stringify(adminUser));
+      localStorage.setItem("isLoggedIn", "true");
 
       Swal.fire({
         title: "Welcome Admin!",
         text: "Redirecting to admin dashboard...",
         icon: "success",
       }).then(() => {
-        window.location.href = "/admindashboard.html"; // صفحة الأدمن
+        window.location.href = "/admindashboard.html";
       });
       return;
     }
 
-    //  فك تشفير المستخدمين
+    // فك تشفير المستخدمين
     const encryptedData = localStorage.getItem("users");
     if (!encryptedData) {
       Swal.fire({
@@ -69,20 +68,23 @@ document.addEventListener("DOMContentLoaded", function () {
       const decryptedData = bytes.toString(CryptoJS.enc.Utf8);
       const users = JSON.parse(decryptedData);
 
-      //  البحث عن المستخدم
+      // البحث عن المستخدم
       const foundUser = users.find(
         (user) => user.email === email && user.password === password
       );
 
       if (foundUser) {
-        sessionStorage.setItem("loggedInUser", JSON.stringify(foundUser));
+        localStorage.setItem("loggedInUser", JSON.stringify(foundUser));
+        localStorage.setItem("isLoggedIn", "true");
 
-        // تحديد الصفحة حسب نوع المستخدم
-        let redirectUrl = "index.html"; // الافتراضي: الكاستمر
+        let redirectUrl = "index.html"; // افتراضي
 
         if (foundUser.role === "seller") {
           redirectUrl = "seller-dashboard.html";
-        } else if (foundUser.role === "admin" || foundUser.accountType === "admin") {
+        } else if (
+          foundUser.role === "admin" ||
+          foundUser.accountType === "admin"
+        ) {
           redirectUrl = "admindashboard.html";
         }
 

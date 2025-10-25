@@ -64,57 +64,35 @@
 
 <body>
 
-    <!-- Navbar -->
-    <div class="navbar-wrapper">
-        <nav class="navbar">
-            <button class="menu-toggle" id="menuToggle" aria-label="Menu">
-                <i class="bi bi-list"></i>
-            </button>
-            <a href="index.html" class="navbar-brand">Wearopia</a>
-            <ul class="navbar-menu">
-                <li><a href="#">Man</a></li>
-                <li><a href="#">Women</a></li>
-                <li><a href="#">Kids</a></li>
-                <li><a href="#">Accessory</a></li>
-            </ul>
-            <div class="search-container">
-                <i class="bi bi-search search-icon"></i>
-                <input type="text" class="search-box" placeholder="Search for outfits...">
-            </div>
-            <div class="navbar-actions">
-                <a href="#" class="search-link" style="display: none;">
-                    <i class="bi bi-search"></i>
-                    <span>Search</span>
-                </a>
-                <a href="login.html" id="loginBtn">
-                    <i class="bi bi-box-arrow-in-right"></i>
-                    <span>Login</span>
-                </a>
-                <a href="#" id="wishlistBtn">
-                    <i class="bi bi-heart"></i>
-                    <span>Wishlist</span>
-                    <span class="badge-count" id="wishlistCount">0</span>
-                </a>
-                <a href="shopping-cart.html" id="cartBtn">
-                    <i class="bi bi-bag"></i>
-                    <span>Cart</span>
-                    <span class="badge-count" id="cartCount">0</span>
-                </a>
-            </div>
-            <div class="mobile-dropdown" id="mobileMenu">
-                <ul>
-                    <li><a href="#">Man</a></li>
-                    <li><a href="#">Women</a></li>
-                    <li><a href="#">Kids</a></li>
-                    <li><a href="#">Accessory</a></li>
-                </ul>
-                <div class="mobile-search">
-                    <i class="bi bi-search search-icon"></i>
-                    <input type="text" class="search-box" placeholder="Search for outfits...">
-                </div>
-            </div>
-        </nav>
-    </div>
+<!-- استبدلي الكود ده في index.html -->
+<div id="navbar-placeholder"></div>
+
+<script src="JavaScript/navbar-test.js"></script>
+<script>
+  // تحميل الـ Navbar بـ Pure JavaScript (بدون jQuery)
+  fetch('navbar-test.html')
+    .then(response => {
+      if (!response.ok) throw new Error('Failed to load navbar');
+      return response.text();
+    })
+    .then(html => {
+      console.log('✅ Navbar HTML loaded');
+      document.getElementById('navbar-placeholder').innerHTML = html;
+      
+      // ننتظر frame واحد عشان الـ DOM يتحدث
+      requestAnimationFrame(() => {
+        console.log('🚀 Initializing navbar');
+        initNavbar();
+        updateNavbarBadges();
+      });
+    })
+    .catch(error => {
+      console.error('❌ Error loading navbar:', error);
+    });
+</script>
+
+
+
     <!--hero section-->
     <section class="hero-section text-center text-white p-0 m-0">
       <div class="container-fluid p-0">
@@ -811,8 +789,91 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 </script>
+
 <script src="JavaScript/index.js"></script>
+  <!-- استبدلي الكود ده في index.html -->
+<!-- حطيه في أول الـ body بعد <body> مباشرة -->
+
+<!-- Navbar Placeholder -->
+<div id="navbar-placeholder"></div>
+
+<!-- في آخر الصفحة قبل </body> -->
+
+<!-- Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Navbar Script -->
+<script src="JavaScript/navbar-test.js"></script>
+
+<!-- تحميل الـ Navbar -->
+<script>
+  fetch('navbar-test.html')
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById('navbar-placeholder').innerHTML = html;
+      
+      // مهم جداً: ننتظر شوية عشان العناصر تتحمل
+      setTimeout(() => {
+        initNavbar();
+        updateNavbarBadges();
+      }, 50);
+    });
+</script>
+
+<!-- Featured Products -->
+<script>
+
+
+  function goToFeaturedProduct(productId) {
+    const product = featuredProducts[productId];
+    if (product) {
+      localStorage.setItem('selected_product', JSON.stringify(product));
+      window.location.href = 'product-details.html';
+    }
+  }
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Wishlist
+    document.body.addEventListener('click', (e) => {
+      const wrapper = e.target.closest('.custom-icon');
+      if (!wrapper) return;
+      
+      const icon = wrapper.querySelector('i');
+      if (!icon) return;
+      
+      const isActive = icon.classList.contains('wishlist-active');
+      
+      if (!isActive) {
+        if (icon.classList.contains('fa-regular')) {
+          icon.classList.replace('fa-regular', 'fa-solid');
+        } else {
+          icon.classList.add('fa-solid');
+        }
+        icon.classList.add('wishlist-active', 'text-danger');
+      } else {
+        if (icon.classList.contains('fa-solid')) {
+          icon.classList.replace('fa-solid', 'fa-regular');
+        }
+        icon.classList.remove('wishlist-active', 'text-danger');
+      }
+      
+      if (typeof updateNavbarBadges === 'function') {
+        updateNavbarBadges();
+      }
+    });
+    
+    // Add to Cart
+    document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        window.location.href = "shopping-cart.html";
+      });
+    });
+  });
   
+</script>
 
 </body>
 
