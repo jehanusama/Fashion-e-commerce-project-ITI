@@ -1,30 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Wishlist - Wearopia</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
-    body { font-family: "Poppins", sans-serif; background: #f5f5f5; }
-    .wishlist-container { max-width: 900px; margin: 60px auto; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-    .wishlist-item { display: flex; align-items: center; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #eee; }
-    .wishlist-item:last-child { border-bottom: none; }
-    .wishlist-item h5 { margin: 0; }
+    body { font-family: "Segoe UI", sans-serif; background: #f9f9f9; }
+    .wishlist-page { max-width: 1100px; margin: 50px auto; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    .wishlist-item { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #ddd; padding: 15px 0; }
+    .wishlist-item img { width: 120px; height: 120px; object-fit: cover; border-radius: 8px; background: #f1f1f1; }
+    .wishlist-info { flex: 1; margin-left: 20px; }
+    .wishlist-info h3 { margin: 0 0 5px; color: #0f6546; }
+    .wishlist-info p { margin: 0; font-weight: 600; color: #444; }
+    .wishlist-actions { display: flex; gap: 10px; margin-top: 10px; }
+    .btn-add-cart { background-color: #0f6546; color: white; border: none; padding: 6px 12px; border-radius: 5px; }
+    .btn-remove { background-color: #dc3545; color: white; border: none; padding: 6px 12px; border-radius: 5px; }
   </style>
 </head>
 <body>
+    <div id="navbar-placeholder"></div>
 
-  <div id="navbar-placeholder"></div>
-
-  <div class="wishlist-container">
-    <h3 class="mb-4">My Wishlist</h3>
+  <div class="wishlist-page">
+    <h2 class="mb-4 text-center text-success">My Wishlist ❤️</h2>
     <div id="wishlistItems"></div>
   </div>
 
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script>
+    // نفس StorageManager اللي بتستخدميه في باقي الصفحات
+    const StorageManager = {
+      loadWishlist: () => JSON.parse(localStorage.getItem('wearopia_wishlist')) || {},
+      saveWishlist: (wishlist) => localStorage.setItem('wearopia_wishlist', JSON.stringify(wishlist)),
+      loadCart: () => JSON.parse(localStorage.getItem('wearopia_cart')) || {},
+      saveCart: (cart) => localStorage.setItem('wearopia_cart', JSON.stringify(cart)),
+      updateCounts: () => {
+        const cart = JSON.parse(localStorage.getItem('wearopia_cart')) || {};
+        const wishlist = JSON.parse(localStorage.getItem('wearopia_wishlist')) || {};
+        const cartCountEl = document.getElementById('cartCount');
+        const wishlistCountEl = document.getElementById('wishlistCount');
+        if (cartCountEl) cartCountEl.textContent = Object.values(cart).reduce((a,b)=>a+b,0);
+        if (wishlistCountEl) wishlistCountEl.textContent = Object.keys(wishlist).length;
+      }
+    };
+
+    function renderWishlist() {
+      const wishlistContainer = document.getElementById("wishlistItems");
+      const wishlist = StorageManager.loadWishlist();
+      const productData = JSON.parse(localStorage.getItem("product_data") || "{}");
+
+      wishlistContainer.innerHTML = "";
+
+      if (Object.keys(wishlist).length === 0) {
+        wishlistContainer.innerHTML = "<p class='text-center text-muted'>Your wishlist is empty ❤️</p>";
+        return;
+      }
+
+      Object.keys(wishlist).forEach((productId) => {
+        const p = productData[productId] || { name: "Unknown Product", price: 0, image: "https://via.placeholder.com/120" };
+
+        const item = document.createElement("div");
+        item.classList.add("wishlist-item");
+        item.innerHTML = `
+          <img src="${p.image}" alt="${p.name}" />
+          <div class="wishlist-info">
+            <h3>${p.name}</h3>
+            <p>$${p.price}</p>
+            <div class="wishlist-actions">
+              <button class="btn-add-cart" onclick="addToCart('${productId}')"><i class='bi bi-bag-plus'></i> Add to Cart</button>
+              <button class="btn-remove" onclick="removeFromWishlist('${productId}')"><i class='bi bi-trash'></i> Remove</button>
+            </div>
+          </div>
+        `;
+        wishlistContainer.appendChild(item);
+      });
+    }
+
+    function addToCart(productId) {
+      const cart = StorageManager.loadCart();
+      cart[productId] = (cart[productId] || 0) + 1;
+      StorageManager.saveCart(cart);
+      Swal.fire({ icon: "success", title: "Added to Cart!", timer: 1500, showConfirmButton: false });
+      StorageManager.updateCounts();
+    }
+
+    function removeFromWishlist(productId) {
+      const wishlist = StorageManager.loadWishlist();
+      delete wishlist[productId];
+      StorageManager.saveWishlist(wishlist);
+      renderWishlist();
+      Swal.fire({ icon: "success", title: "Removed from Wishlist!", timer: 1500, showConfirmButton: false });
+      StorageManager.updateCounts();
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderWishlist();
+      StorageManager.updateCounts();
+    });
+  </script>
+  
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="JavaScript/navbar-test.js"></script>
 
   <script>
@@ -71,5 +148,11 @@
       });
     }
   </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+  
 </body>
 </html>
