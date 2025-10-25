@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Service - Wearopia</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-green: #0F6546;
+            --light-green: #e8f4f4;
+            --light-yellow: #fff4d4;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+        }
+
+        .sidebar-col {
+            flex: 0 0 auto;
+            width: 250px;
+        }
+
+        .sidebar {
+            background: white;
+            height: calc(100vh - 32px);
+            padding: 16px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-radius: 16px;
+            position: sticky;
+            top: 16px;
+            transition: all 0.3s ease;
+            overflow-y: auto;
+            overflow-x: hidden;
+            margin: 16px 8px;
+            width: 100%;
+        }
+
+        .logo {
+            color: var(--primary-green);
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .logo-short {
+            display: none;
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 10px 15px 10px 40px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item {
+            padding: 12px 15px;
+            margin-bottom: 5px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .nav-item span {
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background-color: var(--light-green);
+            color: var(--primary-green);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            border-top: 1px solid #e0e0e0;
+            margin-top: auto;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #e0e0e0;
+        }
+
+        .user-info {
+            transition: all 0.3s ease;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .user-role {
+            display: inline-block;
+            background-color: #7FD4B5;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            margin-top: 2px;
+        }
+
+        .user-actions {
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn {
+            color: #B01212;
+            font-size: 14px;
+            margin-top: 5px;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            text-decoration: underline;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            overflow: auto;
+            flex-grow: 1;
+        }
+
+        .stats-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+            justify-content: space-around;
+        }
+
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .stats-label {
+            color: #999;
+            font-size: 16px;
+            margin-bottom: 8px;
+            padding-top: 12px;
+        }
+
+        .stats-value {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .stats-value.orange {
+            color: #FF9500;
+        }
+
+        .stats-value.blue {
+            color: #007AFF;
+        }
+
+        .stats-value.yellow {
+            color: #FFB800;
+        }
+
+        .stats-value.green {
+            color: #34C759;
+        }
+
+        .tickets-section {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 25px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .ticket-item {
+            display: flex;
+            align-items: center;
+            padding: 18px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            transition: all 0.3s;
+            cursor: pointer;
+            gap: 30px;
+            justify-content: space-between;
+        }
+
+        .ticket-item:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transform: translateX(5px);
+        }
+
+        .ticket-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .ticket-icon {
+            width: 40px;
+            height: 40px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .ticket-title {
+            font-weight: 500;
+            color: #333;
+            white-space: nowrap;
+        }
+
+        .ticket-meta {
+            color: #999;
+            font-size: 13px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .ticket-status {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+
+        .status-resolved {
+            background-color: #d4f4e8;
+            color: #0F6546;
+        }
+
+        .status-pending {
+            background-color: #fff4d4;
+            color: #b8860b;
+        }
+
+        .status-open {
+            background-color: transparent;
+            border: 1px solid #999;
+            color: #666;
+        }
+
+        .view-btn {
+            color: #666;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            white-space: nowrap;
+            flex-shrink: 0;
+            border: 1px solid rgba(0, 0, 0, 0.105);
+            padding: 8px;
+            border-radius: 8px;
+        }
+
+        .view-btn:hover {
+            color: var(--primary-green);
+        }
+
+        .pagination-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .pagination-info {
+            color: #999;
+            font-size: 14px;
+        }
+
+        .pagination {
+            display: flex;
+            gap: 8px;
+        }
+
+        .page-btn {
+            width: 36px;
+            height: 36px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .page-btn:hover {
+            background: var(--light-green);
+            color: var(--primary-green);
+        }
+
+        .page-btn.active {
+            background: var(--primary-green);
+            color: white;
+            border-color: var(--primary-green);
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1050;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content-custom {
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px;
+            position: relative;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        .modal-header-custom {
+            margin-bottom: 20px;
+        }
+
+        .modal-title-custom {
+            font-size: 22px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .modal-subtitle {
+            color: #999;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label-custom {
+            color: #666;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-control-custom {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .form-control-custom:focus {
+            outline: none;
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 3px rgba(15, 101, 70, 0.1);
+        }
+
+        .conversation-box {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .conversation-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .conversation-user {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .conversation-time {
+            color: #999;
+            font-size: 12px;
+        }
+
+        .conversation-text {
+            color: #666;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .response-area {
+            margin-bottom: 20px;
+        }
+
+        .response-textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+            transition: all 0.3s;
+        }
+
+        .response-textarea:focus {
+            outline: none;
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 3px rgba(15, 101, 70, 0.1);
+        }
+
+        .invalid-feedback {
+            display: none;
+            color: #dc3545;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        .modal-footer-custom {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .btn-custom {
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-close-custom {
+            background: white;
+            color: #666;
+            border: 1px solid #e0e0e0;
+        }
+
+        .btn-close-custom:hover {
+            background: #f5f5f5;
+        }
+
+        .btn-send {
+            background: var(--primary-green);
+            color: white;
+        }
+
+        .btn-send:hover {
+            background: #0d5539;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(15, 101, 70, 0.3);
+        }
+
+        @media (max-width: 1200px) {
+            .sidebar-col {
+                width: 80px;
+            }
+
+            .logo-full {
+                display: none;
+            }
+
+            .logo-short {
+                display: block;
+                font-size: 28px;
+                text-align: center;
+            }
+
+            .search-box input {
+                display: none;
+            }
+
+            .search-box i {
+                position: static;
+                transform: none;
+                font-size: 20px;
+                padding: 12px;
+                cursor: pointer;
+                border-radius: 8px;
+            }
+
+            .nav-item {
+                justify-content: center;
+                padding: 8px;
+            }
+
+            .nav-item span {
+                display: none;
+            }
+
+            .nav-item i {
+                font-size: 20px;
+                margin: 0;
+            }
+
+            .user-info {
+                display: none;
+            }
+
+            .user-profile {
+                justify-content: center;
+                padding: 15px 8px;
+            }
+
+            .user-actions {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+                width: 100%;
+            }
+
+            .logout-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0;
+                padding: 8px;
+            }
+
+            .logout-btn span {
+                display: none;
+            }
+
+            .logout-btn i {
+                margin: 0 !important;
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar-col {
+                width: 70px;
+            }
+
+            .sidebar {
+                padding: 12px 6px;
+                margin: 16px 4px;
+            }
+
+            .main-content {
+                padding: 15px;
+            }
+
+            .stats-value {
+                font-size: 28px;
+            }
+
+            .ticket-item {
+                flex-wrap: wrap;
+            }
+
+            .view-btn span {
+                display: none;
+            }
+
+            .modal-content-custom {
+                width: 95%;
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .sidebar-col {
+                width: 60px;
+            }
+
+            .sidebar {
+                padding: 10px 4px;
+                margin: 12px 4px;
+            }
+
+            .pagination-area {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .ticket-status {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid p-0">
+        <div class="row g-0">
+            <!-- Sidebar -->
+            <div class="sidebar-col">
+                <div class="sidebar">
+                    <a href="#" class="logo text-decoration-none">
+                        <span class="logo-full">Wearopia</span>
+                        <span class="logo-short">W</span>
+                    </a>
+
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" class="form-control" placeholder="Search">
+                    </div>
+
+                    <a href="#" class="nav-item text-decoration-none">
+                        <i class="fas fa-th-large"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="#" class="nav-item text-decoration-none">
+                        <i class="fas fa-users"></i>
+                        <span>Manage users</span>
+                    </a>
+                    <a href="#" class="nav-item text-decoration-none">
+                        <i class="fas fa-box"></i>
+                        <span>products lists</span>
+                    </a>
+                    <a href="#" class="nav-item text-decoration-none">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>orders</span>
+                    </a>
+                    <a href="#" class="nav-item text-decoration-none active">
+                        <i class="fas fa-headset"></i>
+                        <span>Customer service</span>
+                    </a>
+                    <a href="#" class="nav-item text-decoration-none">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Analytics</span>
+                    </a>
+                    <a href="#" class="nav-item text-decoration-none">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+
+                    <div class="user-profile">
+                        <div class="d-flex flex-column w-100">
+                            <div class="d-flex my-3">
+                                <div>
+                                    <img src="https://ui-avatars.com/api/?name=Gustavo+Xavier&background=0F6546&color=fff"
+                                        alt="User" class="user-avatar">
+                                </div>
+                                <div class="mx-3 user-info">
+                                    <div class="user-name">Gustavo Xavier</div>
+                                    <span class="user-role">Seller</span>
+                                </div>
+                            </div>
+                            <div class="user-actions">
+                                <div class="logout-btn fs-6">
+                                    <i class="fas fa-sign-out-alt mx-2"></i> <span>Log out</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Stats Cards -->
+                <div class="row g-3">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stats-card d-flex">
+                            <div class="stats-label">Total Tickets</div>
+                            <div class="stats-value orange">20</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stats-card d-flex">
+                            <div class="stats-label">Open</div>
+                            <div class="stats-value blue">5</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stats-card d-flex">
+                            <div class="stats-label">Pending</div>
+                            <div class="stats-value yellow">4</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stats-card d-flex">
+                            <div class="stats-label">Resolved</div>
+                            <div class="stats-value green">11</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tickets Section -->
+                <div class="tickets-section">
+                    <div class="section-title">Customer Tickets</div>
+
+                    <div class="ticket-item">
+                        <div class="ticket-left">
+                            <div class="ticket-icon">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div class="ticket-title">Issue with order delivery</div>
+                        </div>
+                        <div class="ticket-meta">TKT-001 • Created Oct 20, 2024</div>
+                        <span class="ticket-status status-open">
+                            <i class="fas fa-circle" style="font-size: 8px; margin-right: 5px;"></i> Open
+                        </span>
+                        <a href="#" class="view-btn" onclick="openTicket('TKT-001', 'Open', event)">
+                            <i class="far fa-comment"></i>
+                            <span>View & Respond</span>
+                        </a>
+                    </div>
+
+                    <div class="ticket-item">
+                        <div class="ticket-left">
+                            <div class="ticket-icon">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div class="ticket-title">Issue with order delivery</div>
+                        </div>
+                        <div class="ticket-meta">TKT-002 • Created Oct 20, 2024</div>
+                        <span class="ticket-status status-pending">
+                            <i class="fas fa-clock"></i> pending
+                        </span>
+                        <a href="#" class="view-btn" onclick="openTicket('TKT-002', 'Pending', event)">
+                            <i class="far fa-comment-dots"></i>
+                            <span>View & Respond</span>
+                        </a>
+                    </div>
+
+                    <div class="ticket-item">
+                        <div class="ticket-left">
+                            <div class="ticket-icon">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div class="ticket-title">Issue with order delivery</div>
+                        </div>
+                        <div class="ticket-meta">TKT-003 • Created Oct 20, 2024</div>
+                        <span class="ticket-status status-resolved">
+                            <i class="fas fa-check-circle"></i> resolved
+                        </span>
+                        <a href="#" class="view-btn" onclick="openTicket('TKT-003', 'Resolved', event)">
+                            <i class="far fa-comment-dots"></i>
+                            <span>View & Respond</span>
+                        </a>
+                    </div>
+
+                    <div class="ticket-item">
+                        <div class="ticket-left">
+                            <div class="ticket-icon">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div class="ticket-title">Issue with order delivery</div>
+                        </div>
+                        <div class="ticket-meta">TKT-004 • Created Oct 20, 2024</div>
+                        <span class="ticket-status status-pending">
+                            <i class="fas fa-clock"></i> pending
+                        </span>
+                        <a href="#" class="view-btn" onclick="openTicket('TKT-004', 'Pending', event)">
+                            <i class="far fa-comment-dots"></i>
+                            <span>View & Respond</span>
+                        </a>
+                    </div>
+
+                    <div class="ticket-item">
+                        <div class="ticket-left">
+                            <div class="ticket-icon">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div class="ticket-title">Issue with order delivery</div>
+                        </div>
+                        <div class="ticket-meta">TKT-005 • Created Oct 20, 2024</div>
+                        <span class="ticket-status status-resolved">
+                            <i class="fas fa-check-circle"></i> resolved
+                        </span>
+                        <a href="#" class="view-btn" onclick="openTicket('TKT-005', 'Resolved', event)">
+                            <i class="far fa-comment-dots"></i>
+                            <span>View & Respond</span>
+                        </a>
+                    </div>
+
+                    <div class="ticket-item">
+                        <div class="ticket-left">
+                            <div class="ticket-icon">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div class="ticket-title">Issue with order delivery</div>
+                        </div>
+                        <div class="ticket-meta">TKT-006 • Created Oct 20, 2024</div>
+                        <span class="ticket-status status-pending">
+                            <i class="fas fa-clock"></i> pending
+                        </span>
+                        <a href="#" class="view-btn" onclick="openTicket('TKT-006', 'Pending', event)">
+                            <i class="far fa-comment-dots"></i>
+                            <span>View & Respond</span>
+                        </a>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="pagination-area">
+                        <div class="pagination-info">
+                            Showing data 1 to 8 of 256K entries
+                        </div>
+                        <div class="pagination">
+                            <button class="page-btn">&lt;</button>
+                            <button class="page-btn active">1</button>
+                            <button class="page-btn">2</button>
+                            <button class="page-btn">3</button>
+                            <button class="page-btn">4</button>
+                            <button class="page-btn">...</button>
+                            <button class="page-btn">40</button>
+                            <button class="page-btn">&gt;</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ticket Modal -->
+    <div class="modal-overlay" id="ticketModal" onclick="closeModalOnOverlay(event)">
+        <div class="modal-content-custom" onclick="event.stopPropagation()">
+            <div class="modal-header-custom">
+                <h2 class="modal-title-custom">Issue with order delivery</h2>
+                <p class="modal-subtitle">Ticket <span id="modalTicketId">TKT-001</span> • Shipping & Delivery</p>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label-custom">STATUS</label>
+                    <select class="form-control-custom" id="ticketStatus">
+                        <option value="Open">Open</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Resolved">Resolved</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label-custom">PRIORITY</label>
+                    <input type="text" class="form-control-custom" id="ticketPriority" value="High" readonly>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label-custom">ASSIGN TO</label>
+                <input type="text" class="form-control-custom" id="ticketAssign" value="Unassigned" readonly>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label-custom">Conversation</label>
+                <div class="conversation-box">
+                    <div class="conversation-header">
+                        <span class="conversation-user">John Doe</span>
+                        <span class="conversation-time">Oct 20, 2024 10:30 AM</span>
+                    </div>
+                    <div class="conversation-text">
+                        I ordered a product 5 days ago and it still hasn't arrived. The tracking shows it's stuck at the
+                        distribution center.
+                    </div>
+                </div>
+            </div>
+
+            <div class="response-area">
+                <label class="form-label-custom">YOUR RESPONSE</label>
+                <textarea class="response-textarea" id="responseText"
+                    placeholder="Type your response to the customer..."></textarea>
+                <div class="invalid-feedback" id="responseError">
+                    Please type a response before sending.
+                </div>
+            </div>
+
+            <div class="modal-footer-custom">
+                <button class="btn-custom btn-close-custom" onclick="closeModal()">Close</button>
+                <button class="btn-custom btn-send" onclick="sendResponse()">Send Response</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize tickets data structure
+        let ticketsData = {
+            'TKT-001': { status: 'Open', responses: [] },
+            'TKT-002': { status: 'Pending', responses: [] },
+            'TKT-003': { status: 'Resolved', responses: [] },
+            'TKT-004': { status: 'Pending', responses: [] },
+            'TKT-005': { status: 'Resolved', responses: [] },
+            'TKT-006': { status: 'Pending', responses: [] }
+        };
+
+        // Load data from localStorage on page load
+        function loadTicketsFromStorage() {
+            const stored = localStorage.getItem('wearopiaTickets');
+            if (stored) {
+                ticketsData = JSON.parse(stored);
+            }
+            updateAllTicketsUI();
+        }
+
+        // Save data to localStorage
+        function saveTicketsToStorage() {
+            localStorage.setItem('wearopiaTickets', JSON.stringify(ticketsData));
+        }
+
+        // Update all tickets UI based on stored data
+        function updateAllTicketsUI() {
+            const ticketItems = document.querySelectorAll('.ticket-item');
+            ticketItems.forEach(item => {
+                const ticketMeta = item.querySelector('.ticket-meta').textContent;
+                const ticketId = ticketMeta.split('•')[0].trim();
+
+                if (ticketsData[ticketId]) {
+                    const status = ticketsData[ticketId].status;
+                    const statusBadge = item.querySelector('.ticket-status');
+                    const viewBtn = item.querySelector('.view-btn');
+
+                    // Remove old status classes
+                    statusBadge.classList.remove('status-open', 'status-pending', 'status-resolved');
+
+                    // Update status badge based on stored status
+                    if (status === 'Open') {
+                        statusBadge.className = 'ticket-status status-open';
+                        statusBadge.innerHTML = '<i class="fas fa-circle" style="font-size: 8px; margin-right: 5px;"></i> Open';
+                        viewBtn.querySelector('i').className = 'far fa-comment';
+                    } else if (status === 'Pending') {
+                        statusBadge.className = 'ticket-status status-pending';
+                        statusBadge.innerHTML = '<i class="fas fa-clock"></i> pending';
+                        viewBtn.querySelector('i').className = 'far fa-comment-dots';
+                    } else if (status === 'Resolved') {
+                        statusBadge.className = 'ticket-status status-resolved';
+                        statusBadge.innerHTML = '<i class="fas fa-check-circle"></i> resolved';
+                        viewBtn.querySelector('i').className = 'far fa-comment-dots';
+                    }
+
+                    // Update onclick to pass correct status
+                    viewBtn.setAttribute('onclick', `openTicket('${ticketId}', '${status}', event)`);
+                }
+            });
+            updateStats();
+        }
+
+        // Update statistics based on current data
+        function updateStats() {
+            const stats = {
+                total: Object.keys(ticketsData).length,
+                open: 0,
+                pending: 0,
+                resolved: 0
+            };
+
+            Object.values(ticketsData).forEach(ticket => {
+                if (ticket.status === 'Open') stats.open++;
+                else if (ticket.status === 'Pending') stats.pending++;
+                else if (ticket.status === 'Resolved') stats.resolved++;
+            });
+
+            // Update stats cards
+            document.querySelector('.stats-value.orange').textContent = stats.total;
+            document.querySelector('.stats-value.blue').textContent = stats.open;
+            document.querySelector('.stats-value.yellow').textContent = stats.pending;
+            document.querySelector('.stats-value.green').textContent = stats.resolved;
+        }
+
+        function openTicket(ticketId, status, event) {
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+
+            // Store current ticket element for later update
+            window.currentTicketElement = event.target.closest('.ticket-item');
+            window.currentTicketId = ticketId;
+
+            // Update modal content
+            document.getElementById('modalTicketId').textContent = ticketId;
+            document.getElementById('ticketStatus').value = status;
+
+            // Load responses if any
+            loadConversations(ticketId);
+
+            // Show modal with smooth animation
+            const modal = document.getElementById('ticketModal');
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+
+            // Clear previous response and errors
+            document.getElementById('responseText').value = '';
+            document.getElementById('responseError').style.display = 'none';
+            document.getElementById('responseText').style.borderColor = '#e0e0e0';
+        }
+
+        function loadConversations(ticketId) {
+            const conversationContainer = document.querySelector('.form-group:has(.conversation-box)');
+            const defaultConversation = conversationContainer.querySelector('.conversation-box');
+
+            // Keep the default conversation
+            const allConversations = [defaultConversation.outerHTML];
+
+            // Add stored responses
+            if (ticketsData[ticketId] && ticketsData[ticketId].responses.length > 0) {
+                ticketsData[ticketId].responses.forEach(response => {
+                    allConversations.push(`
+                        <div class="conversation-box" style="background: #e8f4f4; border-left: 3px solid var(--primary-green);">
+                            <div class="conversation-header">
+                                <span class="conversation-user">Gustavo Xavier (You)</span>
+                                <span class="conversation-time">${response.timestamp}</span>
+                            </div>
+                            <div class="conversation-text">
+                                ${response.text}
+                            </div>
+                        </div>
+                    `);
+                });
+            }
+
+            conversationContainer.innerHTML = `
+                <label class="form-label-custom">Conversation</label>
+                ${allConversations.join('')}
+            `;
+        }
+
+        function closeModal() {
+            document.getElementById('ticketModal').classList.remove('show');
+            document.body.style.overflow = 'auto';
+            document.getElementById('responseText').value = '';
+            document.getElementById('responseError').style.display = 'none';
+            document.getElementById('responseText').style.borderColor = '#e0e0e0';
+        }
+
+        function closeModalOnOverlay(event) {
+            if (event.target === document.getElementById('ticketModal')) {
+                closeModal();
+            }
+        }
+
+        function sendResponse() {
+            const response = document.getElementById('responseText').value.trim();
+            const responseError = document.getElementById('responseError');
+            const responseTextarea = document.getElementById('responseText');
+            const newStatus = document.getElementById('ticketStatus').value;
+
+            if (!response) {
+                // Show validation error
+                responseError.style.display = 'block';
+                responseTextarea.style.borderColor = '#dc3545';
+                responseTextarea.focus();
+
+                // Remove error after 3 seconds
+                setTimeout(() => {
+                    responseError.style.display = 'none';
+                    responseTextarea.style.borderColor = '#e0e0e0';
+                }, 3000);
+                return;
+            }
+
+            // Hide any existing errors
+            responseError.style.display = 'none';
+            responseTextarea.style.borderColor = '#e0e0e0';
+
+            // Save response to ticketsData
+            const timestamp = new Date().toLocaleString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true
+            });
+
+            if (!ticketsData[window.currentTicketId].responses) {
+                ticketsData[window.currentTicketId].responses = [];
+            }
+
+            ticketsData[window.currentTicketId].responses.push({
+                text: response,
+                timestamp: timestamp
+            });
+
+            // Update status
+            ticketsData[window.currentTicketId].status = newStatus;
+
+            // Save to localStorage
+            saveTicketsToStorage();
+
+            // Update ticket status in the list
+            if (window.currentTicketElement) {
+                const statusBadge = window.currentTicketElement.querySelector('.ticket-status');
+                const viewBtn = window.currentTicketElement.querySelector('.view-btn');
+
+                // Remove old status classes
+                statusBadge.classList.remove('status-open', 'status-pending', 'status-resolved');
+
+                // Update status badge based on new status
+                if (newStatus === 'Open') {
+                    statusBadge.className = 'ticket-status status-open';
+                    statusBadge.innerHTML = '<i class="fas fa-circle" style="font-size: 8px; margin-right: 5px;"></i> Open';
+                    viewBtn.querySelector('i').className = 'far fa-comment';
+                } else if (newStatus === 'Pending') {
+                    statusBadge.className = 'ticket-status status-pending';
+                    statusBadge.innerHTML = '<i class="fas fa-clock"></i> pending';
+                    viewBtn.querySelector('i').className = 'far fa-comment-dots';
+                } else if (newStatus === 'Resolved') {
+                    statusBadge.className = 'ticket-status status-resolved';
+                    statusBadge.innerHTML = '<i class="fas fa-check-circle"></i> resolved';
+                    viewBtn.querySelector('i').className = 'far fa-comment-dots';
+                }
+
+                // Update onclick to pass new status
+                viewBtn.setAttribute('onclick', `openTicket('${window.currentTicketId}', '${newStatus}', event)`);
+            }
+
+            // Update statistics
+            updateStats();
+
+            // Create success notification
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #34C759;
+                color: white;
+                padding: 15px 25px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 10000;
+                font-weight: 500;
+                animation: slideInRight 0.3s ease;
+            `;
+            notification.innerHTML = '<i class="fas fa-check-circle"></i> Response sent successfully!';
+            document.body.appendChild(notification);
+
+            // Remove notification after 3 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+
+            closeModal();
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Pagination functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            // Load tickets from localStorage
+            loadTicketsFromStorage();
+
+            const pageButtons = document.querySelectorAll('.page-btn');
+            pageButtons.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    if (this.textContent !== '...' && this.textContent !== '<' && this.textContent !== '>') {
+                        pageButtons.forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+
+</html>
