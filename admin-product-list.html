@@ -207,12 +207,14 @@
             align-items: center;
             gap: 8px;
             transition: all 0.3s;
+            text-decoration: none;
         }
 
         .add-product-btn:hover {
             background-color: #0a4d34;
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(15, 101, 70, 0.3);
+            color: white;
         }
 
         .products-table-container {
@@ -356,153 +358,6 @@
             cursor: not-allowed;
         }
 
-        /* Modal Styles */
-        .add-product-form {
-            display: none;
-            margin-top: 30px;
-            padding-top: 30px;
-            border-top: 2px solid #f0f0f0;
-        }
-
-        .add-product-form.active {
-            display: block;
-        }
-
-        .form-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-        }
-
-        .form-header h3 {
-            color: #333;
-            font-size: 24px;
-            font-weight: 600;
-            margin: 0;
-        }
-
-        .close-form {
-            background: none;
-            border: none;
-            font-size: 24px;
-            color: #999;
-            cursor: pointer;
-            padding: 0;
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: all 0.3s;
-        }
-
-        .close-form:hover {
-            background-color: #f0f0f0;
-            color: #333;
-        }
-
-        .modal-overlay {
-            display: none;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: 500;
-            font-size: 14px;
-        }
-
-        .form-group label .required {
-            color: #B01212;
-        }
-
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 12px 16px;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: var(--primary-green);
-            box-shadow: 0 0 0 3px rgba(15, 101, 70, 0.1);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        .form-group .error-message {
-            color: #B01212;
-            font-size: 12px;
-            margin-top: 4px;
-            display: none;
-        }
-
-        .form-group.error input,
-        .form-group.error textarea,
-        .form-group.error select {
-            border-color: #B01212;
-        }
-
-        .form-group.error .error-message {
-            display: block;
-        }
-
-        .modal-footer {
-            display: flex;
-            justify-content: flex-end;
-            gap: 12px;
-            margin-top: 32px;
-            padding-top: 24px;
-            border-top: 1px solid #e0e0e0;
-        }
-
-        .btn-cancel {
-            padding: 12px 24px;
-            border: 1px solid #e0e0e0;
-            background: white;
-            color: #666;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-
-        .btn-cancel:hover {
-            background-color: #f5f5f5;
-        }
-
-        .btn-submit {
-            padding: 12px 24px;
-            border: none;
-            background: var(--primary-green);
-            color: white;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-
-        .btn-submit:hover {
-            background-color: #0a4d34;
-        }
-
         /* Responsive Styles */
         @media (max-width: 1400px) {
             .sidebar-col {
@@ -621,10 +476,6 @@
             .products-table {
                 min-width: 700px;
             }
-
-            .modal-content {
-                padding: 24px;
-            }
         }
 
         @media (max-width: 768px) {
@@ -686,14 +537,6 @@
                 min-width: 80px;
                 font-size: 12px;
                 padding: 5px 12px;
-            }
-
-            .modal-content {
-                padding: 20px;
-            }
-
-            .modal-header h3 {
-                font-size: 20px;
             }
         }
 
@@ -779,31 +622,6 @@
             .pagination-info {
                 font-size: 13px;
             }
-
-            .modal-overlay {
-                padding: 10px;
-            }
-
-            .modal-content {
-                padding: 16px;
-            }
-
-            .modal-header h3 {
-                font-size: 18px;
-            }
-
-            .form-group input,
-            .form-group textarea,
-            .form-group select {
-                padding: 10px 12px;
-                font-size: 13px;
-            }
-
-            .btn-cancel,
-            .btn-submit {
-                padding: 10px 20px;
-                font-size: 13px;
-            }
         }
     </style>
 </head>
@@ -853,7 +671,6 @@
                         <span>Settings</span>
                     </a>
 
-
                     <div class="user-profile">
                         <div class="d-flex flex-column w-100">
                             <div class="d-flex my-3">
@@ -866,9 +683,6 @@
                                 </div>
                             </div>
                             <div class="user-actions">
-                                <!-- <div class="Settings-btn fs-6 my-3">
-                                    <i class="fa-solid fa-gear mx-2"></i> <span>Settings</span>
-                                </div> -->
                                 <div class="logout-btn fs-6">
                                     <i class="fas fa-sign-out-alt mx-2"></i> <span>Log out</span>
                                 </div>
@@ -878,92 +692,20 @@
                 </div>
             </div>
 
-
             <!-- Main Content -->
             <div class="main-col">
                 <div class="main-content">
                     <div class="content-container">
                         <div class="products-header">
                             <h2>products</h2>
-                            <button class="add-product-btn" onclick="toggleForm()">
+                            <a href="seller-add-product.html" class="add-product-btn">
                                 <i class="fas fa-plus"></i>
                                 Add Product
-                            </button>
-                        </div>
-
-                        <!-- Add Product Form -->
-                        <div class="add-product-form" id="addProductForm">
-                            <div class="form-header">
-                                <h3>Add New Product</h3>
-                                <button class="close-form" onclick="toggleForm()">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-
-                            <form id="productForm" onsubmit="handleSubmit(event)">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Product Name <span class="required">*</span></label>
-                                            <input type="text" id="productName" name="productName" placeholder="Enter product name">
-                                            <div class="error-message">Product name must contain only letters and spaces</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Seller Name <span class="required">*</span></label>
-                                            <input type="text" id="sellerName" name="sellerName" placeholder="Enter seller name">
-                                            <div class="error-message">Seller name must contain only letters and spaces</div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Product ID <span class="required">*</span></label>
-                                            <input type="text" id="productId" name="productId" placeholder="Enter product ID">
-                                            <div class="error-message">Product ID is required</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Product Price <span class="required">*</span></label>
-                                            <input type="number" id="productPrice" name="productPrice" placeholder="Enter price" min="0" step="0.01">
-                                            <div class="error-message">Valid price is required</div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Status <span class="required">*</span></label>
-                                            <select id="productStatus" name="productStatus">
-                                                <option value="">Select status</option>
-                                                <option value="active">Active</option>
-                                                <option value="inactive">Inactive</option>
-                                            </select>
-                                            <div class="error-message">Status is required</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Description</label>
-                                            <textarea id="productDescription" name="productDescription" placeholder="Enter product description (optional)"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="modal-footer">
-                                    <button type="button" class="btn-cancel" onclick="toggleForm()">Cancel</button>
-                                    <button type="submit" class="btn-submit">Add Product</button>
-                                </div>
-                            </form>
+                            </a>
                         </div>
 
                         <!-- Products Table -->
-                        <div class="products-table-container" id="productsTableContainer">
+                        <div class="products-table-container">
                             <table class="products-table">
                                 <thead>
                                     <tr>
@@ -1007,8 +749,6 @@
         </div>
     </div>
 
-
-
     <script>
     // Sample products data
     let products = [];
@@ -1016,11 +756,9 @@
     let currentPage = 1;
     const totalProducts = 256000;
 
-    // ✅ بيانات عشوائية بسيطة
     const names = ["Emma", "Olivia", "Liam", "Noah", "Ava", "Isabella", "Mason", "Sophia", "Ethan", "Amelia"];
     const sellers = ["Zara Store", "H&M", "Uniqlo", "Shein", "Nike", "Adidas", "Puma", "Mango", "Bershka", "Stradivarius"];
 
-    // ✅ دالة لتوليد بيانات منتج عشوائي
     function generateRandomProduct(id) {
         const randomName = names[Math.floor(Math.random() * names.length)];
         const randomSeller = sellers[Math.floor(Math.random() * sellers.length)];
@@ -1038,7 +776,6 @@
         };
     }
 
-    // ✅ توليد المنتجات لأول مرة
     for (let i = 0; i < productsPerPage; i++) {
         products.push(generateRandomProduct(i + 1));
     }
@@ -1108,7 +845,6 @@
             currentPage = page;
         }
 
-        // ✅ كل صفحة جديدة = بيانات عشوائية جديدة
         products = [];
         for (let i = 0; i < productsPerPage; i++) {
             const id = (currentPage - 1) * productsPerPage + i + 1;
@@ -1117,98 +853,6 @@
 
         renderProducts();
         window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function toggleForm() {
-        const form = document.getElementById('addProductForm');
-        const table = document.getElementById('productsTableContainer');
-        const isFormVisible = form.classList.contains('active');
-        
-        if (isFormVisible) {
-            form.classList.remove('active');
-            table.style.display = 'block';
-            document.getElementById('productForm').reset();
-            clearErrors();
-        } else {
-            form.classList.add('active');
-            table.style.display = 'none';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-    }
-
-    function clearErrors() {
-        document.querySelectorAll('.form-group').forEach(group => {
-            group.classList.remove('error');
-        });
-    }
-
-    function validateForm() {
-        clearErrors();
-        let isValid = true;
-
-        const productName = document.getElementById('productName');
-        const namePattern = /^[a-zA-Z\s]+$/;
-        if (!productName.value.trim() || !namePattern.test(productName.value.trim())) {
-            productName.closest('.form-group').classList.add('error');
-            isValid = false;
-        }
-
-        const sellerName = document.getElementById('sellerName');
-        if (!sellerName.value.trim() || !namePattern.test(sellerName.value.trim())) {
-            sellerName.closest('.form-group').classList.add('error');
-            isValid = false;
-        }
-
-        const productId = document.getElementById('productId');
-        if (!productId.value.trim()) {
-            productId.closest('.form-group').classList.add('error');
-            isValid = false;
-        }
-
-        const productPrice = document.getElementById('productPrice');
-        if (!productPrice.value || parseFloat(productPrice.value) <= 0) {
-            productPrice.closest('.form-group').classList.add('error');
-            isValid = false;
-        }
-
-        const productStatus = document.getElementById('productStatus');
-        if (!productStatus.value) {
-            productStatus.closest('.form-group').classList.add('error');
-            isValid = false;
-        }
-
-        return isValid;
-    }
-
-    function handleSubmit(event) {
-        event.preventDefault();
-
-        if (validateForm()) {
-            const formData = {
-                name: document.getElementById('productName').value,
-                seller: document.getElementById('sellerName').value,
-                productId: document.getElementById('productId').value,
-                price: parseFloat(document.getElementById('productPrice').value),
-                status: document.getElementById('productStatus').value
-            };
-
-            products.unshift({
-                id: products.length + 1,
-                name: formData.name,
-                seller: formData.seller,
-                productId: formData.productId,
-                price: formData.price,
-                status: formData.status
-            });
-
-            if (products.length > productsPerPage) {
-                products.pop();
-            }
-
-            renderProducts();
-            toggleForm();
-            alert('Product added successfully!');
-        }
     }
 
     function editProduct(index) {
@@ -1222,9 +866,8 @@
         }
     }
 
-    // ✅ Start
     renderProducts();
-</script>
+    </script>
 
 </body>
 
