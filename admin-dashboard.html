@@ -12,18 +12,15 @@
             --light-green: #e8f4f4;
             --light-yellow: #fff4d4;
         }
-
         body {
             background-color: #f5f5f5;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow-x: hidden;
         }
-
         .sidebar-col {
             flex: 0 0 auto;
             width: 250px;
         }
-
         .sidebar {
             background: white;
             height: calc(100vh - 32px);
@@ -41,7 +38,6 @@
             margin: 16px 8px;
             width: 100%;
         }
-
         .logo {
             color: var(--primary-green);
             font-size: 28px;
@@ -49,17 +45,14 @@
             margin-bottom: 30px;
             transition: all 0.3s ease;
         }
-
         .logo-short {
             display: none;
         }
-
         .search-box {
             position: relative;
             margin-bottom: 20px;
             transition: all 0.3s ease;
         }
-
         .search-box input {
             border: 1px solid #e0e0e0;
             border-radius: 8px;
@@ -67,7 +60,6 @@
             width: 100%;
             transition: all 0.3s ease;
         }
-
         .search-box i {
             position: absolute;
             left: 15px;
@@ -76,7 +68,6 @@
             color: #999;
             transition: all 0.3s ease;
         }
-
         .nav-item {
             padding: 12px 15px;
             margin-bottom: 5px;
@@ -89,17 +80,14 @@
             color: #666;
             font-size: 14px;
         }
-
         .nav-item span {
             transition: all 0.3s ease;
         }
-
         .nav-item:hover,
         .nav-item.active {
             background-color: var(--light-green);
             color: var(--primary-green);
         }
-
         .user-profile {
             display: flex;
             align-items: center;
@@ -108,25 +96,21 @@
             border-top: 1px solid #e0e0e0;
             margin-top: auto;
         }
-
         .user-avatar {
             width: 45px;
             height: 45px;
             border-radius: 50%;
             background: #e0e0e0;
         }
-
         .user-info {
             transition: all 0.3s ease;
         }
-
         .user-name {
             font-weight: 600;
             color: #333;
             font-size: 14px;
             margin-bottom: 4px;
         }
-
         .user-role {
             display: inline-block;
             background-color: #7FD4B5;
@@ -135,41 +119,30 @@
             font-size: 11px;
             margin-top: 2px;
         }
-
         .user-actions {
             transition: all 0.3s ease;
         }
-
         .logout-btn {
             color: #B01212;
             font-size: 14px;
             margin-top: 5px;
             cursor: pointer;
         }
-
         .logout-btn:hover {
             text-decoration: underline;
         }
-
-        .Settings-btn i {
-            color: #7D7D7D;
-            font-size: 14px;
-        }
-
         .main-content {
             flex: 1;
             padding: 30px;
             overflow: auto;
             flex-grow: 1;
         }
-        
         .content-grid {
             gap: 20px;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             padding: 20px;
         }
-        
         .section-card {
             background: white;
             border-radius: 10px;
@@ -178,8 +151,8 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            height: 450px;
         }
-        
         .section-header {
             display: flex;
             justify-content: space-between;
@@ -188,13 +161,11 @@
             flex-wrap: wrap;
             gap: 10px;
         }
-        
         .section-title {
             font-size: 18px;
             font-weight: 600;
             color: #111827;
         }
-        
         .sort-dropdown {
             border: 1px solid #e5e7eb;
             border-radius: 6px;
@@ -204,20 +175,18 @@
             background: white;
             cursor: pointer;
         }
-        
         .table-container {
             flex: 1;
             overflow-y: auto;
             overflow-x: auto;
             margin-bottom: 10px;
+            max-height: 320px;
         }
-        
         table {
             width: 100%;
             font-size: 13px;
             min-width: 500px;
         }
-        
         thead th {
             color: #9ca3af;
             font-weight: 500;
@@ -230,20 +199,17 @@
             font-size: 12px;
             white-space: nowrap;
         }
-        
         tbody td {
             padding: 12px 6px;
             border-bottom: 1px solid #f9fafb;
             vertical-align: middle;
         }
-        
         .product-img {
             width: 35px;
             height: 35px;
             border-radius: 6px;
             object-fit: cover;
         }
-        
         .badge-inactive {
             background-color: var(--light-green);
             color: var(--primary-green);
@@ -254,7 +220,6 @@
             display: inline-block;
             white-space: nowrap;
         }
-        
         .badge-processing {
             background-color: var(--light-yellow);
             color: #92400e;
@@ -265,7 +230,6 @@
             display: inline-block;
             white-space: nowrap;
         }
-        
         .action-btn {
             background: none;
             border: none;
@@ -275,11 +239,9 @@
             transition: color 0.2s;
             font-size: 13px;
         }
-        
         .action-btn:hover {
             color: #6b7280;
         }
-        
         .view-all {
             color: var(--primary-green);
             text-decoration: none;
@@ -287,135 +249,112 @@
             font-weight: 500;
             display: inline-block;
         }
-        
         .view-all:hover {
             text-decoration: underline;
         }
-        
         .analytics-card {
             background: white;
             border-radius: 10px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.08);
             padding: 20px;
-            height: 400px;
+            height: 450px;
         }
-        
         .chart-container {
             position: relative;
             height: 180px;
             margin-top: 10px;
         }
-        
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 15px;
             margin-top: 15px;
         }
-        
         .stat-card {
             background: #f9fafb;
             border-radius: 8px;
             padding: 15px;
         }
-        
         .stat-label {
             color: #9ca3af;
             font-size: 12px;
             font-weight: 500;
             margin-bottom: 6px;
         }
-        
         .stat-value {
             font-size: 22px;
             font-weight: 700;
             color: #111827;
         }
-        
         .stat-subtitle {
             color: #6b7280;
             font-size: 12px;
             margin-top: 2px;
         }
-        
         .buyer-card {
             display: flex;
             align-items: center;
             gap: 10px;
         }
-        
         .buyer-avatar {
             width: 40px;
             height: 40px;
             border-radius: 50%;
         }
-        
         .buyer-name {
             font-weight: 600;
             font-size: 14px;
             color: #111827;
         }
-        
         .buyer-company {
             color: #9ca3af;
             font-size: 11px;
         }
-
         .product-cell {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
-
         .product-cell img {
-            width: 40px;
-            height: 40px;
+            width: 35px;
+            height: 35px;
+            border-radius: 6px;
+            flex-shrink: 0;
         }
-
         .product-cell span {
             font-weight: 500;
             font-size: 13px;
         }
-        
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
         }
-        
         ::-webkit-scrollbar-track {
             background: #f1f1f1;
         }
-        
         ::-webkit-scrollbar-thumb {
             background: #d1d5db;
             border-radius: 3px;
         }
-        
         ::-webkit-scrollbar-thumb:hover {
             background: #9ca3af;
         }
-        
-
         @media (max-width: 1200px) {
             .sidebar-col {
                 width: 80px;
             }
-
             .logo-full {
                 display: none;
             }
-
             .logo-short {
                 display: block;
                 font-size: 28px;
                 text-align: center;
             }
-
             .search-box input {
                 display: none;
             }
-
             .search-box i {
                 position: static;
                 transform: none;
@@ -424,35 +363,28 @@
                 cursor: pointer;
                 border-radius: 8px;
             }
-
             .search-box i:hover {
                 background-color: var(--light-green);
                 color: var(--primary-green);
             }
-
             .nav-item {
                 justify-content: center;
                 padding: 8px;
             }
-
             .nav-item span {
                 display: none;
             }
-
             .nav-item i {
                 font-size: 20px;
                 margin: 0;
             }
-
             .user-info {
                 display: none;
             }
-
             .user-profile {
                 justify-content: center;
                 padding: 15px 8px;
             }
-
             .user-actions {
                 display: flex;
                 flex-direction: column;
@@ -460,8 +392,6 @@
                 gap: 8px;
                 width: 100%;
             }
-
-            .Settings-btn,
             .logout-btn {
                 display: flex;
                 align-items: center;
@@ -469,89 +399,75 @@
                 margin: 0;
                 padding: 8px;
             }
-
-            .Settings-btn span,
             .logout-btn span {
                 display: none;
             }
-
-            .Settings-btn i,
             .logout-btn i {
                 margin: 0 !important;
                 font-size: 18px;
             }
-
-            .main-content {
-                flex-direction: row;
-            }
         }
-
         @media (max-width: 768px) {
             .sidebar-col {
                 width: 70px;
             }
-
             .sidebar {
                 padding: 12px 6px;
                 margin: 16px 4px;
             }
-
             .main-content {
                 padding: 15px;
-                flex-direction: row;
             }
-
             .content-grid {
                 grid-template-columns: 1fr;
             }
-
             .stats-grid {
                 grid-template-columns: 1fr;
             }
-
             .section-card,
             .analytics-card {
-                max-height: 400px;
+                height: 450px;
                 overflow-y: auto;
                 scrollbar-width: thin;
                 scrollbar-color: #d1d5db #f1f1f1;
             }
-
             .section-card::-webkit-scrollbar,
             .analytics-card::-webkit-scrollbar {
                 width: 6px;
             }
-
             .section-card::-webkit-scrollbar-track,
             .analytics-card::-webkit-scrollbar-track {
                 background: #f1f1f1;
             }
-
             .section-card::-webkit-scrollbar-thumb,
             .analytics-card::-webkit-scrollbar-thumb {
                 background-color: #d1d5db;
                 border-radius: 3px;
             }
-
             .section-card::-webkit-scrollbar-thumb:hover,
             .analytics-card::-webkit-scrollbar-thumb:hover {
                 background-color: #9ca3af;
             }
+            .table-container {
+                overflow-x: auto;
+                overflow-y: auto;
+            }
         }
-
         @media (max-width: 576px) {
             .sidebar-col {
                 width: 60px;
             }
-
             .sidebar {
                 padding: 10px 4px;
                 margin: 12px 4px;
             }
-
             .main-content {
                 padding: 10px;
-                flex-direction: row;
+            }
+            .section-card,
+            .analytics-card {
+                height: 450px;
+                overflow-y: auto;
             }
         }
     </style>
@@ -559,19 +475,16 @@
 <body>
     <div class="container-fluid p-0">
         <div class="row g-0">
-            <!-- Sidebar -->
             <div class="sidebar-col">
                 <div class="sidebar">
                     <a href="#" class="logo text-decoration-none">
                         <span class="logo-full">Wearopia</span>
                         <span class="logo-short">W</span>
                     </a>
-
                     <div class="search-box">
                         <i class="fas fa-search"></i>
                         <input type="text" class="form-control" placeholder="Search">
                     </div>
-
                     <a href="#" class="nav-item text-decoration-none active">
                         <i class="fas fa-th-large"></i>
                         <span>Dashboard</span>
@@ -600,7 +513,6 @@
                         <i class="fas fa-cog"></i>
                         <span>Settings</span>
                     </a>
-
                     <div class="user-profile">
                         <div class="d-flex flex-column w-100">
                             <div class="d-flex my-3">
@@ -621,11 +533,8 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Main Content -->
             <div class="main-content">
                 <div class="content-grid">
-                    <!-- Products Section -->
                     <div class="section-card">
                         <div class="section-header">
                             <h2 class="section-title">products</h2>
@@ -636,7 +545,6 @@
                                 <option value="id">Sort by id</option>
                             </select>
                         </div>
-                        
                         <div class="table-container">
                             <table id="products-table">
                                 <thead>
@@ -652,11 +560,8 @@
                                 <tbody></tbody>
                             </table>
                         </div>
-                        
                         <a href="#" class="view-all">All products →</a>
                     </div>
-                    
-                    <!-- Orders Section -->
                     <div class="section-card">
                         <div class="section-header">
                             <h2 class="section-title">Orders</h2>
@@ -669,7 +574,6 @@
                                 <option value="product">Sort by product</option>
                             </select>
                         </div>
-                        
                         <div class="table-container">
                             <table id="orders-table">
                                 <thead>
@@ -685,11 +589,8 @@
                                 <tbody></tbody>
                             </table>
                         </div>
-                        
                         <a href="#" class="view-all">All Orders →</a>
                     </div>
-                
-                    <!-- Seller Section -->
                     <div class="section-card">
                         <div class="section-header">
                             <h2 class="section-title">Seller</h2>
@@ -700,7 +601,6 @@
                                 <option value="status">Sort by status</option>
                             </select>
                         </div>
-                        
                         <div class="table-container">
                             <table id="seller-table">
                                 <thead>
@@ -715,14 +615,11 @@
                                 <tbody></tbody>
                             </table>
                         </div>
-                        
-                        <a href="#" class="view-all">All products →</a>
+                        <a href="#" class="view-all">All sellers →</a>
                     </div>
-
-                    <!-- Seller Orders Section -->
                     <div class="section-card">
                         <div class="section-header">
-                            <h2 class="section-title">Orders</h2>
+                            <h2 class="section-title">customer</h2>
                             <select class="sort-dropdown" data-table="seller-orders">
                                 <option value="id">Sort by id</option>
                                 <option value="product">Sort by product</option>
@@ -731,7 +628,6 @@
                                 <option value="date">Sort by date</option>
                             </select>
                         </div>
-                        
                         <div class="table-container">
                             <table id="seller-orders-table">
                                 <thead>
@@ -747,11 +643,8 @@
                                 <tbody></tbody>
                             </table>
                         </div>
-                        
-                        <a href="#" class="view-all">All Orders →</a>
+                        <a href="#" class="view-all">All customers →</a>
                     </div>
-                
-                    <!-- Products Section 2 -->
                     <div class="section-card">
                         <div class="section-header">
                             <h2 class="section-title">products</h2>
@@ -762,7 +655,6 @@
                                 <option value="status">Sort by status</option>
                             </select>
                         </div>
-                        
                         <div class="table-container">
                             <table id="products-table-2">
                                 <thead>
@@ -778,25 +670,20 @@
                                 <tbody></tbody>
                             </table>
                         </div>
-                        
-                        <a href="#" class="view-all">All products →</a>
+                        <a href="#" class="view-all">go to it →</a>
                     </div>
-
-                    <!-- Analytics Section -->
                     <div class="analytics-card">
                         <div class="section-header">
-                            <h2 class="section-title">Top-selling products</h2>
+                            <h2 class="section-title">Analytics</h2>
                             <select class="sort-dropdown" id="analytics-period">
                                 <option value="yearly">Yearly</option>
                                 <option value="monthly">Monthly</option>
                                 <option value="weekly">Weekly</option>
                             </select>
                         </div>
-                        
                         <div class="chart-container">
                             <canvas id="analyticsChart"></canvas>
                         </div>
-                        
                         <div class="stats-grid">
                             <div class="stat-card">
                                 <div class="stat-label">Top month</div>
@@ -824,44 +711,58 @@
             </div>
         </div>
     </div>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
-    
     <script>
         $(document).ready(function() {
-            let productsData = [
-                { id: 1, name: 'Jane Cooper', productId: 1995, price: 5005, status: 'inactive', img: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=100' },
-                { id: 2, name: 'Dior', productId: 1996, price: 5004, status: 'inactive', img: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=100' },
-                { id: 3, name: 'Versace', productId: 1997, price: 5009, status: 'inactive', img: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=100' },
-                { id: 4, name: 'Louis Vuitton', productId: 1998, price: 4008, status: 'inactive', img: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=100' }
-               
-            ];
+            const productNames = ['Gucci Bag', 'Prada Shoes', 'Chanel Dress', 'Hermes Scarf', 'Burberry Coat', 'Fendi Wallet', 'Armani Suit', 'Dolce Gabbana'];
+            const customerNames = ['Mohamed Ali', 'Ahmed Hassan', 'Sara Ibrahim', 'Fatma Khaled', 'Omar Youssef', 'Nour Mahmoud', 'Laila Adel'];
+            const buyerNames = ['Ali Mohamed', 'Hassan Ahmed', 'Mona Salem', 'Karim Fathy', 'Dina Tarek', 'Youssef Nabil'];
+            const products = ['Jacket', 'T-shirt', 'Pants', 'Dress', 'Shoes', 'Bag', 'Hat', 'Scarf'];
+            const statuses = ['inactive', 'processing'];
             
-            let ordersData = [
-                { orderId: '0118', customer: 'Ali', product: 'jacket', price: 5005, status: 'processing', date: '12-5-2025' },
-                { orderId: '0119', customer: 'Ahmed', product: 'T-shirt', price: 3000, status: 'inactive', date: '12-5-2025' },
-                { orderId: '0120', customer: 'Salah', product: 'pants', price: 4000, status: 'processing', date: '12-5-2025' },
-                { orderId: '0121', customer: 'Mohamed', product: 'jacket', price: 1000, status: 'inactive', date: '12-5-2025' }
-            ];
-
-            let sellerProducts = [
-                { name: 'jacket', price: 50, stock: 60, status: '50$', img: 'https://ui-avatars.com/api/?name=J&background=8b6f47&color=fff' },
-                { name: 'jacket', price: 70, stock: 55, status: '70$', img: 'https://ui-avatars.com/api/?name=J&background=8b6f47&color=fff' },
-                { name: 'jacket', price: 85, stock: 42, status: '85$', img: 'https://ui-avatars.com/api/?name=J&background=8b6f47&color=fff' },
-                { name: 'jacket', price: 49, stock: 36, status: '49$', img: 'https://ui-avatars.com/api/?name=J&background=8b6f47&color=fff' },
-                { name: 'jacket', price: 77, stock: 22, status: '77$', img: 'https://ui-avatars.com/api/?name=J&background=8b6f47&color=fff' }
-            ];
-
-            let sellerOrders = [
-                { orderId: '#58898', product: 'jacket', buyer: 'Ali Mohamed', status: '50$', date: '12 oct 2025' },
-                { orderId: '#58899', product: 'jacket', buyer: 'Ahmed salah', status: '55$', date: '12 oct 2025' },
-                { orderId: '#58899', product: 'jacket', buyer: 'Ahmed farag', status: '65$', date: '12 oct 2025' },
-                { orderId: '#58900', product: 'jacket', buyer: 'abd el rahman', status: '45$', date: '12 oct 2025' },
-                { orderId: '#58901', product: 'jacket', buyer: 'aya ali', status: '88$', date: '12 oct 2025' }
-            ];
-
+            function getRandomInt(min, max) {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+            function getRandomDate() {
+                const day = getRandomInt(1, 28);
+                const month = getRandomInt(1, 12);
+                return `${day}-${month}-2025`;
+            }
+            function getRandomItem(arr) {
+                return arr[getRandomInt(0, arr.length - 1)];
+            }
+            let productsData = Array.from({length: 8}, () => ({
+                id: getRandomInt(1, 100),
+                name: getRandomItem(productNames),
+                productId: getRandomInt(1990, 1999),
+                price: getRandomInt(2000, 9000),
+                status: getRandomItem(statuses),
+                img: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=100'
+            }));
+            let ordersData = Array.from({length: 7}, () => ({
+                orderId: `0${getRandomInt(100, 199)}`,
+                customer: getRandomItem(customerNames),
+                product: getRandomItem(products),
+                price: getRandomInt(1000, 8000),
+                status: getRandomItem(statuses),
+                date: getRandomDate()
+            }));
+            let sellerProducts = Array.from({length: 8}, () => ({
+                name: getRandomItem(products),
+                price: getRandomInt(30, 99),
+                stock: getRandomInt(15, 80),
+                status: getRandomItem(statuses),
+                img: 'https://ui-avatars.com/api/?name=J&background=8b6f47&color=fff'
+            }));
+            let sellerOrders = Array.from({length: 9}, () => ({
+                orderId: `#${getRandomInt(58000, 58999)}`,
+                product: getRandomItem(products),
+                buyer: getRandomItem(buyerNames),
+                status: getRandomItem(statuses),
+                date: `${getRandomInt(1, 28)} oct 2025`
+            }));
             const chartData = {
                 yearly: {
                     labels: ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023'],
@@ -876,98 +777,46 @@
                     data: [1200, 1800, 1500, 2100]
                 }
             };
-            
-            function sortData(data, sortBy, isProducts = false, isOrders = false, isSeller = false, isSellerOrders = false) {
+            function sortData(data, sortBy, isProducts, isOrders, isSeller, isSellerOrders) {
                 let sortedData = [...data];
-                
                 if (isProducts) {
-                    switch(sortBy) {
-                        case 'product':
-                            sortedData.sort((a, b) => a.name.localeCompare(b.name));
-                            break;
-                        case 'price':
-                            sortedData.sort((a, b) => b.price - a.price);
-                            break;
-                        case 'status':
-                            sortedData.sort((a, b) => a.status.localeCompare(b.status));
-                            break;
-                        case 'id':
-                            sortedData.sort((a, b) => a.productId - b.productId);
-                            break;
-                    }
+                    if (sortBy === 'product') sortedData.sort((a, b) => a.name.localeCompare(b.name));
+                    else if (sortBy === 'price') sortedData.sort((a, b) => b.price - a.price);
+                    else if (sortBy === 'status') sortedData.sort((a, b) => a.status.localeCompare(b.status));
+                    else if (sortBy === 'id') sortedData.sort((a, b) => a.productId - b.productId);
                 } else if (isOrders) {
-                    switch(sortBy) {
-                        case 'customer':
-                            sortedData.sort((a, b) => a.customer.localeCompare(b.customer));
-                            break;
-                        case 'status':
-                            sortedData.sort((a, b) => a.status.localeCompare(b.status));
-                            break;
-                        case 'date':
-                            sortedData.sort((a, b) => new Date(a.date) - new Date(b.date));
-                            break;
-                        case 'id':
-                            sortedData.sort((a, b) => a.orderId.localeCompare(b.orderId));
-                            break;
-                        case 'price':
-                            sortedData.sort((a, b) => b.price - a.price);
-                            break;
-                        case 'product':
-                            sortedData.sort((a, b) => a.product.localeCompare(b.product));
-                            break;
-                    }
+                    if (sortBy === 'customer') sortedData.sort((a, b) => a.customer.localeCompare(b.customer));
+                    else if (sortBy === 'status') sortedData.sort((a, b) => a.status.localeCompare(b.status));
+                    else if (sortBy === 'date') sortedData.sort((a, b) => new Date(a.date) - new Date(b.date));
+                    else if (sortBy === 'id') sortedData.sort((a, b) => a.orderId.localeCompare(b.orderId));
+                    else if (sortBy === 'price') sortedData.sort((a, b) => b.price - a.price);
+                    else if (sortBy === 'product') sortedData.sort((a, b) => a.product.localeCompare(b.product));
                 } else if (isSeller) {
-                    switch(sortBy) {
-                        case 'product':
-                            sortedData.sort((a, b) => a.name.localeCompare(b.name));
-                            break;
-                        case 'price':
-                            sortedData.sort((a, b) => b.price - a.price);
-                            break;
-                        case 'stock':
-                            sortedData.sort((a, b) => b.stock - a.stock);
-                            break;
-                        case 'status':
-                            sortedData.sort((a, b) => a.status.localeCompare(b.status));
-                            break;
-                    }
+                    if (sortBy === 'product') sortedData.sort((a, b) => a.name.localeCompare(b.name));
+                    else if (sortBy === 'price') sortedData.sort((a, b) => b.price - a.price);
+                    else if (sortBy === 'stock') sortedData.sort((a, b) => b.stock - a.stock);
+                    else if (sortBy === 'status') sortedData.sort((a, b) => a.status.localeCompare(b.status));
                 } else if (isSellerOrders) {
-                    switch(sortBy) {
-                        case 'id':
-                            sortedData.sort((a, b) => a.orderId.localeCompare(b.orderId));
-                            break;
-                        case 'product':
-                            sortedData.sort((a, b) => a.product.localeCompare(b.product));
-                            break;
-                        case 'status':
-                            sortedData.sort((a, b) => a.status.localeCompare(b.status));
-                            break;
-                        case 'buyer':
-                            sortedData.sort((a, b) => a.buyer.localeCompare(b.buyer));
-                            break;
-                        case 'date':
-                            sortedData.sort((a, b) => new Date(a.date) - new Date(b.date));
-                            break;
-                    }
+                    if (sortBy === 'id') sortedData.sort((a, b) => a.orderId.localeCompare(b.orderId));
+                    else if (sortBy === 'product') sortedData.sort((a, b) => a.product.localeCompare(b.product));
+                    else if (sortBy === 'status') sortedData.sort((a, b) => a.status.localeCompare(b.status));
+                    else if (sortBy === 'buyer') sortedData.sort((a, b) => a.buyer.localeCompare(b.buyer));
+                    else if (sortBy === 'date') sortedData.sort((a, b) => new Date(a.date) - new Date(b.date));
                 }
-                
                 return sortedData;
             }
-            
             function renderProducts(sortBy = 'product') {
                 const tbody = $('#products-table tbody, #products-table-2 tbody');
                 tbody.empty();
-                
                 const sorted = sortData(productsData, sortBy, true);
-                
                 sorted.forEach(product => {
                     tbody.append(`
                         <tr>
                             <td><img src="${product.img}" alt="Product" class="product-img"></td>
                             <td><strong>${product.name}</strong></td>
                             <td>${product.productId}</td>
-                            <td>${product.price} $</td>
-                            <td><span class="badge-inactive">Inactive</span></td>
+                            <td>${product.price} </td>
+                            <td><span class="badge-${product.status}">${product.status === 'inactive' ? 'Inactive' : 'Processing'}</span></td>
                             <td>
                                 <button class="action-btn"><i class="fas fa-edit"></i></button>
                                 <button class="action-btn"><i class="fas fa-trash"></i></button>
@@ -976,37 +825,32 @@
                     `);
                 });
             }
-            
             function renderOrders(sortBy = 'customer') {
                 const tbody = $('#orders-table tbody');
                 tbody.empty();
-                
                 const sorted = sortData(ordersData, sortBy, false, true);
-                
                 sorted.forEach(order => {
                     const badgeClass = order.status === 'processing' ? 'badge-processing' : 'badge-inactive';
                     const statusText = order.status === 'processing' ? 'Processing' : 'Inactive';
-                    
                     tbody.append(`
                         <tr>
                             <td>${order.orderId}</td>
                             <td><strong>${order.customer}</strong></td>
                             <td>${order.product}</td>
-                            <td>${order.price} $</td>
+                            <td>${order.price} </td>
                             <td><span class="${badgeClass}">${statusText}</span></td>
                             <td>${order.date}</td>
                         </tr>
                     `);
                 });
             }
-
             function renderSellerProducts(sortBy = 'product') {
                 const tbody = $('#seller-table tbody');
                 tbody.empty();
-                
                 const sorted = sortData(sellerProducts, sortBy, false, false, true);
-                
                 sorted.forEach(product => {
+                    const badgeClass = product.status === 'processing' ? 'badge-processing' : 'badge-inactive';
+                    const statusText = product.status === 'processing' ? 'Processing' : 'Inactive';
                     tbody.append(`
                         <tr>
                             <td>
@@ -1017,7 +861,7 @@
                             </td>
                             <td>${product.price}$</td>
                             <td>${product.stock}</td>
-                            <td>${product.status}</td>
+                            <td><span class="${badgeClass}">${statusText}</span></td>
                             <td>
                                 <button class="action-btn"><i class="fas fa-edit"></i></button>
                                 <button class="action-btn"><i class="fas fa-trash"></i></button>
@@ -1026,20 +870,19 @@
                     `);
                 });
             }
-
             function renderSellerOrders(sortBy = 'id') {
                 const tbody = $('#seller-orders-table tbody');
                 tbody.empty();
-                
                 const sorted = sortData(sellerOrders, sortBy, false, false, false, true);
-                
                 sorted.forEach(order => {
+                    const badgeClass = order.status === 'processing' ? 'badge-processing' : 'badge-inactive';
+                    const statusText = order.status === 'processing' ? 'Processing' : 'Inactive';
                     tbody.append(`
                         <tr>
                             <td>${order.orderId}</td>
                             <td>${order.product}</td>
                             <td>${order.buyer}</td>
-                            <td>${order.status}</td>
+                            <td><span class="${badgeClass}">${statusText}</span></td>
                             <td>${order.date}</td>
                             <td>
                                 <button class="action-btn"><i class="fas fa-edit"></i></button>
@@ -1049,18 +892,13 @@
                     `);
                 });
             }
-            
             let analyticsChart;
-            
             function renderChart(period = 'yearly') {
                 const ctx = document.getElementById('analyticsChart').getContext('2d');
-                
                 if (analyticsChart) {
                     analyticsChart.destroy();
                 }
-                
                 const data = chartData[period];
-                
                 analyticsChart = new Chart(ctx, {
                     type: 'line',
                     data: {
@@ -1143,19 +981,14 @@
                     }
                 });
             }
-            
-            // Initial render
             renderProducts();
             renderOrders();
             renderSellerProducts();
             renderSellerOrders();
             renderChart();
-            
-            // Sort dropdown handlers
             $('.sort-dropdown').on('change', function() {
                 const sortBy = $(this).val();
                 const tableType = $(this).data('table');
-                
                 if (tableType === 'products' || tableType === 'products-2') {
                     renderProducts(sortBy);
                 } else if (tableType === 'orders') {
@@ -1166,24 +999,17 @@
                     renderSellerOrders(sortBy);
                 }
             });
-            
-            // Analytics period change
             $('#analytics-period').change(function() {
                 renderChart($(this).val());
             });
-            
-            // Navigation
             $('.nav-item').click(function() {
                 $('.nav-item').removeClass('active');
                 $(this).addClass('active');
             });
-            
-            // Action buttons
             $('.content-grid').on('click', '.action-btn', function(e) {
                 e.preventDefault();
                 const action = $(this).find('i').hasClass('fa-edit') ? 'Edit' : 'Delete';
                 const row = $(this).closest('tr');
-                
                 if (action === 'Delete') {
                     if (confirm('Are you sure you want to delete this item?')) {
                         row.fadeOut(300, function() {
@@ -1194,13 +1020,12 @@
                     alert('Edit functionality - Opening edit modal...');
                 }
             });
-            
             $('.view-all').on('click', function(e) {
                 e.preventDefault();
                 const section = $(this).text().includes('products') ? 'products' : 'orders';
                 alert('Navigating to all ' + section + ' page...');
             });
         });
-    </script>   
+    </script>
 </body>
 </html>

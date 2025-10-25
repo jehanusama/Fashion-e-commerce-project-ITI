@@ -473,7 +473,7 @@
                         <input type="text" class="form-control" placeholder="Search">
                     </div>
 
-                   <a href="#" class="nav-item text-decoration-none active">
+                   <a href="#" class="nav-item text-decoration-none ">
                         <i class="fas fa-th-large"></i>
                         <span>Dashboard</span>
                     </a>
@@ -493,7 +493,7 @@
                         <i class="fas fa-headset"></i>
                         <span>Customer service</span>
                     </a>
-                    <a href="#" class="nav-item text-decoration-none">
+                    <a href="#" class="nav-item text-decoration-none active">
                         <i class="fas fa-chart-line"></i>
                         <span>Analytics</span>
                     </a>
@@ -501,7 +501,6 @@
                         <i class="fas fa-cog"></i>
                         <span>Settings</span>
                     </a>
-
 
                     <div class="user-profile">
                         <div class="d-flex flex-column w-100">
@@ -515,9 +514,6 @@
                                 </div>
                             </div>
                             <div class="user-actions">
-                                <!-- <div class="Settings-btn fs-6 my-3">
-                                    <i class="fa-solid fa-gear mx-2"></i> <span>Settings</span>
-                                </div> -->
                                 <div class="logout-btn fs-6">
                                     <i class="fas fa-sign-out-alt mx-2"></i> <span>Log out</span>
                                 </div>
@@ -529,14 +525,46 @@
 
             <!-- Main Content -->
             <div class="main-content">
+                <!-- Stats Cards Row -->
+                <div class="row g-3 mb-4">
+                    <div class="col-md-3 col-sm-6">
+                         <div class="analytics-card d-flex justify-content-between align-items-center" style="padding:20px;">
+                             <div class="stat-label">Total Users</div>
+                             <div class="stat-value" style="color:#f59e0b;">120825</div>
+                        </div>
+                   </div>
+
+                   <div class="col-md-3 col-sm-6">
+                        <div class="analytics-card d-flex justify-content-between align-items-center" style="padding:20px;">
+                             <div class="stat-label">Total Sellers</div>
+                             <div class="stat-value" style="color:#3b82f6;">125</div>
+                        </div>
+                   </div>
+
+                    <div class="col-md-3 col-sm-6">
+                        <div class="analytics-card d-flex justify-content-between align-items-center" style="padding:20px;">
+                            <div class="stat-label">Active Sellers</div>
+                            <div class="stat-value" style="color:#f59e0b;">80</div>
+                        </div>
+                   </div>
+
+                   <div class="col-md-3 col-sm-6">
+                        <div class="analytics-card d-flex justify-content-between align-items-center" style="padding:20px;">
+                            <div class="stat-label">Total Sales</div>
+                            <div class="stat-value" style="color:#10b981;">135111</div>
+                        </div>
+                   </div>
+
+                </div>
+
                 <!-- Monthly Sales Chart (Full Width) -->
                 <div class="analytics-card">
                     <div class="section-header">
                         <h2 class="section-title">Monthly sales</h2>
-                        <select class="chart-dropdown">
-                            <option>Yearly</option>
-                            <option>Monthly</option>
-                            <option>Weekly</option>
+                        <select class="chart-dropdown" id="monthlySalesDropdown">
+                            <option value="yearly">Yearly</option>
+                            <option value="monthly">Monthly</option>
+                            <option value="weekly">Weekly</option>
                         </select>
                     </div>
                     <canvas id="monthlySalesChart"></canvas>
@@ -570,9 +598,10 @@
                     <div class="analytics-card">
                         <div class="section-header">
                             <h2 class="section-title">Top-selling products</h2>
-                            <select class="chart-dropdown">
-                                <option>Yearly</option>
-                                <option>Monthly</option>
+                            <select class="chart-dropdown" id="topProductsDropdown">
+                                <option value="yearly">Yearly</option>
+                                <option value="monthly">Monthly</option>
+                                <option value="weekly">Weekly</option>
                             </select>
                         </div>
                         <canvas id="topProductsChart"></canvas>
@@ -604,9 +633,10 @@
                     <div class="analytics-card">
                         <div class="section-header">
                             <h2 class="section-title">Conversion rate</h2>
-                            <select class="chart-dropdown">
-                                <option>Yearly</option>
-                                <option>Monthly</option>
+                            <select class="chart-dropdown" id="conversionDropdown">
+                                <option value="yearly">Yearly</option>
+                                <option value="monthly">Monthly</option>
+                                <option value="weekly">Weekly</option>
                             </select>
                         </div>
                         <canvas id="conversionChart"></canvas>
@@ -640,6 +670,52 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        // Data for different time periods
+        const salesData = {
+            yearly: {
+                labels: ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023'],
+                data: [8000, 12000, 22000, 52000, 9000, 18000, 48000, 98000]
+            },
+            monthly: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                data: [5000, 7000, 8500, 9200, 11000, 10500, 12000, 13500, 11800, 14000, 15500, 16000]
+            },
+            weekly: {
+                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                data: [3500, 4200, 3800, 4500]
+            }
+        };
+
+        const productsData = {
+            yearly: {
+                labels: ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023'],
+                data: [8000, 11000, 18000, 52000, 10000, 15000, 25000, 88000]
+            },
+            monthly: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                data: [4500, 6500, 7800, 8500, 10200, 9800, 11500, 12800, 11000, 13200, 14800, 15200]
+            },
+            weekly: {
+                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                data: [3200, 3900, 3600, 4300]
+            }
+        };
+
+        const conversionData = {
+            yearly: {
+                labels: ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023'],
+                data: [10000, 12000, 25000, 50000, 12000, 20000, 45000, 95000]
+            },
+            monthly: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                data: [5500, 7500, 9000, 9800, 11500, 11000, 12500, 14000, 12300, 14500, 16000, 16500]
+            },
+            weekly: {
+                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                data: [3800, 4500, 4100, 4800]
+            }
+        };
+
         const chartConfig = {
             type: 'line',
             options: {
@@ -712,12 +788,12 @@
         };
 
         // Monthly Sales Chart
-        new Chart(document.getElementById('monthlySalesChart'), {
+        const monthlySalesChart = new Chart(document.getElementById('monthlySalesChart'), {
             ...chartConfig,
             data: {
-                labels: ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023'],
+                labels: salesData.yearly.labels,
                 datasets: [{
-                    data: [8000, 12000, 22000, 52000, 9000, 18000, 48000, 98000],
+                    data: salesData.yearly.data,
                     borderColor: '#10b981',
                     backgroundColor: 'rgba(16, 185, 129, 0.1)',
                     fill: true,
@@ -732,12 +808,12 @@
         });
 
         // Top Products Chart
-        new Chart(document.getElementById('topProductsChart'), {
+        const topProductsChart = new Chart(document.getElementById('topProductsChart'), {
             ...chartConfig,
             data: {
-                labels: ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023'],
+                labels: productsData.yearly.labels,
                 datasets: [{
-                    data: [8000, 11000, 18000, 52000, 10000, 15000, 25000, 88000],
+                    data: productsData.yearly.data,
                     borderColor: '#10b981',
                     backgroundColor: 'rgba(16, 185, 129, 0.1)',
                     fill: true,
@@ -752,12 +828,12 @@
         });
 
         // Conversion Rate Chart
-        new Chart(document.getElementById('conversionChart'), {
+        const conversionChart = new Chart(document.getElementById('conversionChart'), {
             ...chartConfig,
             data: {
-                labels: ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023'],
+                labels: conversionData.yearly.labels,
                 datasets: [{
-                    data: [10000, 12000, 25000, 50000, 12000, 20000, 45000, 95000],
+                    data: conversionData.yearly.data,
                     borderColor: '#10b981',
                     backgroundColor: 'rgba(16, 185, 129, 0.1)',
                     fill: true,
@@ -769,6 +845,26 @@
                     pointHoverBorderWidth: 2
                 }]
             }
+        });
+
+        // Function to update chart
+        function updateChart(chart, dataObj, period) {
+            chart.data.labels = dataObj[period].labels;
+            chart.data.datasets[0].data = dataObj[period].data;
+            chart.update();
+        }
+
+        // Event listeners for dropdowns
+        document.getElementById('monthlySalesDropdown').addEventListener('change', function(e) {
+            updateChart(monthlySalesChart, salesData, e.target.value);
+        });
+
+        document.getElementById('topProductsDropdown').addEventListener('change', function(e) {
+            updateChart(topProductsChart, productsData, e.target.value);
+        });
+
+        document.getElementById('conversionDropdown').addEventListener('change', function(e) {
+            updateChart(conversionChart, conversionData, e.target.value);
         });
 
         // Navigation Active State
