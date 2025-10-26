@@ -9,10 +9,10 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary-green: #059669;
-            --light-green: #d1fae5;
-            --yellow: #fbbf24;
-            --light-yellow: #fef3c7;
+            --primary-green: #0F6546;
+            --light-green: #e8f4f4;
+            --yellow: #FFECA0;
+            --light-yellow: #FFF9E6;
         }
 
         body {
@@ -578,15 +578,15 @@
                         <input type="text" class="form-control" placeholder="Search">
                     </div>
 
-                    <a href="seller-dashboard.html" class="nav-item text-decoration-none">
+                    <a href="seller-dashboard.html" class="nav-item text-decoration-none active">
                         <i class="fas fa-th-large"></i>
                         <span>Dashboard</span>
                     </a>
-                    <a href="sellers-products.html" class="nav-item text-decoration-none active">
+                    <a href="sellers-products.html" class="nav-item text-decoration-none ">
                         <i class="fas fa-box"></i>
                         <span>Products</span>
                     </a>
-                    <a href="sellers-orders.html" class="nav-item text-decoration-none">
+                    <a href="sellers-order.html" class="nav-item text-decoration-none">
                         <i class="fas fa-shopping-cart"></i>
                         <span>Orders</span>
                     </a>
@@ -802,7 +802,7 @@
             });
         }
 
-        // فرز المنتجات
+        
         function sortProducts(sortBy) {
             switch (sortBy) {
                 case 'newest':
