@@ -1,63 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customer Service - Wearopia</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-           /* footer */
-.custom-footer {
-    padding: 40px;
-    min-height: 372px;
-}
+        /* footer */
+        .custom-footer {
+            padding: 40px;
+            min-height: 372px;
+        }
 
-.social-icon {
-    width: 36px;
-    height: 36px;
-}
+        .social-icon {
+            width: 36px;
+            height: 36px;
+        }
 
-@media (min-width: 768px) {
-    .custom-footer {
-        padding-left: 80px;
-        padding-right: 80px;
-    }
-}
+        @media (min-width: 768px) {
+            .custom-footer {
+                padding-left: 80px;
+                padding-right: 80px;
+            }
+        }
 
-@media (min-width: 992px) {
-    .custom-footer {
-        padding-left: 120px;
-        padding-right: 120px;
-    }
-}
+        @media (min-width: 992px) {
+            .custom-footer {
+                padding-left: 120px;
+                padding-right: 120px;
+            }
+        }
 
-/*end of footer*/
+        /*end of footer*/
         :root {
             --primary-green: #047857;
             --light-green: #059669;
             --hover-green: #065f46;
         }
-        
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background-color: #f9fafb;
         }
-        
+
         .navbar {
             background-color: white;
             border-bottom: 1px solid #e5e7eb;
             padding: 1rem 0;
         }
-        
+
         .brand {
             color: var(--primary-green);
             font-size: 1.5rem;
             font-weight: 700;
         }
-        
+
         .btn-green {
             background-color: var(--primary-green);
             color: white;
@@ -65,26 +66,26 @@
             padding: 0.5rem 1.5rem;
             border-radius: 0.375rem;
         }
-        
+
         .btn-green:hover {
             background-color: var(--hover-green);
             color: white;
         }
-        
+
         .sidebar {
             background-color: white;
             border-radius: 0.5rem;
             padding: 1.5rem;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
-        
+
         .profile-section {
             text-align: center;
             padding-bottom: 1.5rem;
             border-bottom: 1px solid #e5e7eb;
             margin-bottom: 1rem;
         }
-        
+
         .profile-avatar {
             width: 60px;
             height: 60px;
@@ -97,24 +98,24 @@
             color: white;
             font-size: 1.5rem;
         }
-        
+
         .profile-name {
             font-weight: 600;
             color: #111827;
             margin-bottom: 0.25rem;
         }
-        
+
         .profile-email {
             font-size: 0.875rem;
             color: #6b7280;
             margin-bottom: 0.25rem;
         }
-        
+
         .profile-member {
             font-size: 0.75rem;
             color: #9ca3af;
         }
-        
+
         .menu-item {
             display: flex;
             align-items: center;
@@ -125,22 +126,22 @@
             margin-bottom: 0.25rem;
             transition: all 0.2s;
         }
-        
+
         .menu-item:hover {
             background-color: #f3f4f6;
             color: #111827;
         }
-        
+
         .menu-item.active {
             background-color: var(--primary-green);
             color: white;
         }
-        
+
         .menu-item i {
             margin-right: 0.75rem;
             font-size: 1.125rem;
         }
-        
+
         .content-card {
             background-color: white;
             border-radius: 0.5rem;
@@ -148,20 +149,20 @@
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
             margin-bottom: 1.5rem;
         }
-        
+
         .content-title {
             font-size: 1.25rem;
             font-weight: 600;
             color: #111827;
             margin-bottom: 0.5rem;
         }
-        
+
         .content-subtitle {
             color: #6b7280;
             font-size: 0.875rem;
             margin-bottom: 1.5rem;
         }
-        
+
         .form-label {
             font-size: 0.75rem;
             font-weight: 600;
@@ -170,19 +171,21 @@
             letter-spacing: 0.05em;
             margin-bottom: 0.5rem;
         }
-        
-        .form-control, .form-select {
+
+        .form-control,
+        .form-select {
             border: 1px solid #d1d5db;
             border-radius: 0.375rem;
             padding: 0.625rem 0.875rem;
             font-size: 0.875rem;
         }
-        
-        .form-control:focus, .form-select:focus {
+
+        .form-control:focus,
+        .form-select:focus {
             border-color: var(--primary-green);
             box-shadow: 0 0 0 3px rgba(4, 120, 87, 0.1);
         }
-        
+
         .ticket-item {
             display: flex;
             justify-content: space-between;
@@ -193,33 +196,33 @@
             margin-bottom: 0.75rem;
             transition: all 0.2s;
         }
-        
+
         .ticket-item:hover {
             border-color: var(--primary-green);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
-        
+
         .ticket-icon {
             font-size: 1.5rem;
             color: #6b7280;
             margin-right: 1rem;
         }
-        
+
         .ticket-info {
             flex: 1;
         }
-        
+
         .ticket-title {
             font-weight: 500;
             color: #111827;
             margin-bottom: 0.25rem;
         }
-        
+
         .ticket-meta {
             font-size: 0.75rem;
             color: #6b7280;
         }
-        
+
         .btn-view {
             background-color: transparent;
             color: #374151;
@@ -231,35 +234,49 @@
             align-items: center;
             gap: 0.5rem;
         }
-        
+
         .btn-view:hover {
             background-color: #f9fafb;
             border-color: #9ca3af;
         }
-        
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
+
+        .ticket-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 500;
         }
-        
-        .social-link {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background-color: #f3f4f6;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #6b7280;
-            text-decoration: none;
+
+        .status-open {
+            background-color: #dbeafe;
+            color: #1e40af;
         }
-        
-        .social-link:hover {
-            background-color: var(--primary-green);
-            color: white;
+
+        /* Success notification */
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
-        
+
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
         @media (max-width: 768px) {
             .sidebar {
                 margin-bottom: 1.5rem;
@@ -267,8 +284,9 @@
         }
     </style>
 </head>
+
 <body>
-  <div id="navbar-placeholder"></div>
+    <div id="navbar-placeholder"></div>
 
     <!-- Main Content -->
     <div class="container my-5">
@@ -315,19 +333,29 @@
                 <div class="content-card">
                     <h2 class="content-title">Submit a Support Ticket</h2>
                     <p class="content-subtitle">Describe your issue and we'll get back to you</p>
-                    
-                    <form>
+
+                    <form id="ticketForm">
                         <div class="mb-3">
                             <label class="form-label">Subject</label>
-                            <input type="text" class="form-control" placeholder="First name">
+                            <input type="text" class="form-control" id="ticketSubject"
+                                placeholder="e.g., Issue with order delivery" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Category</label>
-                            <input type="text" class="form-control" placeholder="Phone number">
+                            <select class="form-select" id="ticketCategory" required>
+                                <option value="">Select a category</option>
+                                <option value="Shipping & Delivery">Shipping & Delivery</option>
+                                <option value="Product Quality">Product Quality</option>
+                                <option value="Payment Issues">Payment Issues</option>
+                                <option value="Returns & Refunds">Returns & Refunds</option>
+                                <option value="Account Issues">Account Issues</option>
+                                <option value="Other">Other</option>
+                            </select>
                         </div>
                         <div class="mb-4">
                             <label class="form-label">Message</label>
-                            <textarea class="form-control" rows="4" placeholder="Your Email"></textarea>
+                            <textarea class="form-control" id="ticketMessage" rows="4"
+                                placeholder="Describe your issue in detail..." required></textarea>
                         </div>
                         <button type="submit" class="btn btn-green">
                             <i class="bi bi-file-earmark-text me-2"></i>
@@ -336,208 +364,295 @@
                     </form>
                 </div>
 
-                <!-- Your Support Tickets -->
+                
                 <div class="content-card">
                     <h2 class="content-title">Your Support Tickets</h2>
                     <p class="content-subtitle">View and track your support requests</p>
-                    
-                    <div class="ticket-item">
-                        <div class="d-flex align-items-center flex-grow-1">
-                            <i class="bi bi-file-earmark-text ticket-icon"></i>
-                            <div class="ticket-info">
-                                <div class="ticket-title">Issue with order delivery</div>
-                                <div class="ticket-meta">TKT-001 • Created Oct 20, 2024</div>
-                            </div>
-                        </div>
-                        <button class="btn btn-view">
-                            <i class="bi bi-eye"></i>
-                            View
-                        </button>
-                    </div>
 
-                    <div class="ticket-item">
-                        <div class="d-flex align-items-center flex-grow-1">
-                            <i class="bi bi-file-earmark-text ticket-icon"></i>
-                            <div class="ticket-info">
-                                <div class="ticket-title">Issue with order delivery</div>
-                                <div class="ticket-meta">TKT-001 • Created Oct 20, 2024</div>
-                            </div>
-                        </div>
-                        <button class="btn btn-view">
-                            <i class="bi bi-eye"></i>
-                            View
-                        </button>
-                    </div>
-
-                    <div class="ticket-item">
-                        <div class="d-flex align-items-center flex-grow-1">
-                            <i class="bi bi-file-earmark-text ticket-icon"></i>
-                            <div class="ticket-info">
-                                <div class="ticket-title">Issue with order delivery</div>
-                                <div class="ticket-meta">TKT-001 • Created Oct 20, 2024</div>
-                            </div>
-                        </div>
-                        <button class="btn btn-view">
-                            <i class="bi bi-eye"></i>
-                            View
-                        </button>
-                    </div>
-
-                    <div class="ticket-item">
-                        <div class="d-flex align-items-center flex-grow-1">
-                            <i class="bi bi-file-earmark-text ticket-icon"></i>
-                            <div class="ticket-info">
-                                <div class="ticket-title">Issue with order delivery</div>
-                                <div class="ticket-meta">TKT-001 • Created Oct 20, 2024</div>
-                            </div>
-                        </div>
-                        <button class="btn btn-view">
-                            <i class="bi bi-eye"></i>
-                            View
-                        </button>
-                    </div>
-
-                    <div class="ticket-item">
-                        <div class="d-flex align-items-center flex-grow-1">
-                            <i class="bi bi-file-earmark-text ticket-icon"></i>
-                            <div class="ticket-info">
-                                <div class="ticket-title">Issue with order delivery</div>
-                                <div class="ticket-meta">TKT-001 • Created Oct 20, 2024</div>
-                            </div>
-                        </div>
-                        <button class="btn btn-view">
-                            <i class="bi bi-eye"></i>
-                            View
-                        </button>
+                    <div id="userTicketsList">
+                        
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script src="JavaScript/navbar-test.js"></script>
-    <script>
-    $('<link/>', {
-  rel: 'stylesheet',
-  type: 'text/css',
-  href: 'CSS/navbar.css'
-}).appendTo('head');
-
-    // تحميل الناف بار
-    $("#navbar-placeholder").load("navbar-test.html", function () {
-      initNavbar();
-      renderWishlist();
-    });
-
-    // عرض الوش ليست
-    function renderWishlist() {
-      let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-      const container = $("#wishlistItems");
-      container.empty();
-
-      if (wishlist.length === 0) {
-        container.html("<p class='text-center text-muted'>Your wishlist is empty 💔</p>");
-        return;
-      }
-
-      wishlist.forEach((item, index) => {
-        container.append(`
-          <div class="wishlist-item">
-            <h5>${item.name}</h5>
-            <button class="btn btn-sm btn-danger remove-item" data-index="${index}">
-              <i class="bi bi-trash"></i> Remove
-            </button>
-          </div>
-        `);
-      });
-
-      $(".remove-item").on("click", function () {
-        const index = $(this).data("index");
-        wishlist.splice(index, 1);
-        localStorage.setItem("wishlist", JSON.stringify(wishlist));
-        renderWishlist();
-        Swal.fire("Removed!", "Item removed from wishlist.", "success");
-      });
-    }
-  </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-     <!--footer component-->
+    
     <footer class="container-fluid bg-white d-flex align-items-center custom-footer">
-      <div class="container">
-        <div class="row gy-4 gx-5">
-          <div class="col-12 col-md-6 col-lg-3">
-            <h4 class="fw-bold text-success mb-3 fs-3">Wearopia</h4>
-            <p class="text-secondary small mb-4">
-              Discover your unique style with our curated collection of modern fashion pieces.
-            </p>
-    
-            <ul class="list-unstyled text-secondary small mb-4">
-              <li class="mb-2">
-                <i class="fa-solid fa-location-dot me-2"></i>123 Fashion Street, Style City, SC 12345
-              </li>
-              <li class="mb-2">
-                <i class="fa-solid fa-phone me-2"></i>+1 (555) 123-STYLE
-              </li>
-              <li>
-                <i class="fa-solid fa-envelope me-2"></i>hello@stylehub.com
-              </li>
-            </ul>
-    
-            <div class="d-flex gap-3">
-              <a href="#"
-                class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 social-icon">
-                <i class="fa-brands fa-facebook-f"></i>
-              </a>
-              <a href="#"
-                class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 social-icon">
-                <i class="fa-brands fa-twitter"></i>
-              </a>
-              <a href="#"
-                class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 social-icon">
-                <i class="fa-brands fa-instagram"></i>
-              </a>
-              <a href="#"
-                class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 social-icon">
-                <i class="fa-brands fa-youtube"></i>
-              </a>
+        <div class="container">
+            <div class="row gy-4 gx-5">
+                <div class="col-12 col-md-6 col-lg-3">
+                    <h4 class="fw-bold text-success mb-3 fs-3">Wearopia</h4>
+                    <p class="text-secondary small mb-4">
+                        Discover your unique style with our curated collection of modern fashion pieces.
+                    </p>
+
+                    <ul class="list-unstyled text-secondary small mb-4">
+                        <li class="mb-2">
+                            <i class="fa-solid fa-location-dot me-2"></i>123 Fashion Street, Style City, SC 12345
+                        </li>
+                        <li class="mb-2">
+                            <i class="fa-solid fa-phone me-2"></i>+1 (555) 123-STYLE
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-envelope me-2"></i>hello@stylehub.com
+                        </li>
+                    </ul>
+
+                    <div class="d-flex gap-3">
+                        <a href="#"
+                            class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 social-icon">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                        <a href="#"
+                            class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 social-icon">
+                            <i class="fa-brands fa-twitter"></i>
+                        </a>
+                        <a href="#"
+                            class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 social-icon">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a href="#"
+                            class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 social-icon">
+                            <i class="fa-brands fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3 col-lg-3">
+                    <h5 class="fw-semibold text-black fs-6 mb-3">Quick Links</h5>
+                    <ul class="list-unstyled text-secondary small">
+                        <li class="mb-2">New Arrivals</li>
+                        <li class="mb-2">Best Sellers</li>
+                        <li class="mb-2">Sale</li>
+                        <li class="mb-2">Gift Cards</li>
+                        <li>Style Guide</li>
+                    </ul>
+                </div>
+                <div class="col-12 col-md-3 col-lg-3">
+                    <h5 class="fw-semibold text-black fs-6 mb-3">Customer Care</h5>
+                    <ul class="list-unstyled text-secondary small">
+                        <li class="mb-2">Contact Us</li>
+                        <li class="mb-2">Size Guide</li>
+                        <li class="mb-2">Shipping & Returns</li>
+                        <li class="mb-2">Track Your Order</li>
+                        <li>FAQ</li>
+                    </ul>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3">
+                    <h5 class="fw-semibold text-black fs-6 mb-3">Company</h5>
+                    <ul class="list-unstyled text-secondary small">
+                        <li class="mb-2">About Us</li>
+                        <li class="mb-2">Careers</li>
+                        <li class="mb-2">Press</li>
+                        <li class="mb-2">Sustainability</li>
+                        <li>Investors</li>
+                    </ul>
+                </div>
             </div>
-          </div>
-          <div class="col-12 col-md-3 col-lg-3">
-            <h5 class="fw-semibold text-black fs-6 mb-3">Quick Links</h5>
-            <ul class="list-unstyled text-secondary small">
-              <li class="mb-2">New Arrivals</li>
-              <li class="mb-2">Best Sellers</li>
-              <li class="mb-2">Sale</li>
-              <li class="mb-2">Gift Cards</li>
-              <li>Style Guide</li>
-            </ul>
-          </div>
-          <div class="col-12 col-md-3 col-lg-3">
-            <h5 class="fw-semibold text-black fs-6 mb-3">Customer Care</h5>
-            <ul class="list-unstyled text-secondary small">
-              <li class="mb-2">Contact Us</li>
-              <li class="mb-2">Size Guide</li>
-              <li class="mb-2">Shipping & Returns</li>
-              <li class="mb-2">Track Your Order</li>
-              <li>FAQ</li>
-            </ul>
-          </div>
-          <div class="col-12 col-md-6 col-lg-3">
-            <h5 class="fw-semibold text-black fs-6 mb-3">Company</h5>
-            <ul class="list-unstyled text-secondary small">
-              <li class="mb-2">About Us</li>
-              <li class="mb-2">Careers</li>
-              <li class="mb-2">Press</li>
-              <li class="mb-2">Sustainability</li>
-              <li>Investors</li>
-            </ul>
-          </div>
-    
         </div>
-      </div>
     </footer>
     <!--end of footer-->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="JavaScript/navbar-test.js"></script>
+    <script>
+        $('<link/>', {
+            rel: 'stylesheet',
+            type: 'text/css',
+            href: 'CSS/navbar.css'
+        }).appendTo('head');
+
+        // تحميل الناف بار
+        $("#navbar-placeholder").load("navbar-test.html", function () {
+            initNavbar();
+            renderWishlist();
+        });
+
+        // عرض الوش ليست
+        function renderWishlist() {
+            let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+            const container = $("#wishlistItems");
+            container.empty();
+
+            if (wishlist.length === 0) {
+                container.html("<p class='text-center text-muted'>Your wishlist is empty 💔</p>");
+                return;
+            }
+
+            wishlist.forEach((item, index) => {
+                container.append(`
+              <div class="wishlist-item">
+                <h5>${item.name}</h5>
+                <button class="btn btn-sm btn-danger remove-item" data-index="${index}">
+                  <i class="bi bi-trash"></i> Remove
+                </button>
+              </div>
+            `);
+            });
+
+            $(".remove-item").on("click", function () {
+                const index = $(this).data("index");
+                wishlist.splice(index, 1);
+                localStorage.setItem("wishlist", JSON.stringify(wishlist));
+                renderWishlist();
+                Swal.fire("Removed!", "Item removed from wishlist.", "success");
+            });
+        }
+    </script>
+
+    <script>
+        
+        function generateTicketId() {
+            const stored = JSON.parse(localStorage.getItem('wearopiaTickets')) || {};
+            const existingIds = Object.keys(stored);
+            let maxNum = 0;
+
+            existingIds.forEach(id => {
+                const num = parseInt(id.replace('TKT-', ''));
+                if (num > maxNum) maxNum = num;
+            });
+
+            return `TKT-${String(maxNum + 1).padStart(3, '0')}`;
+        }
+
+        
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#34C759' : '#dc3545'};
+                color: white;
+                padding: 15px 25px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 10000;
+                font-weight: 500;
+                animation: slideInRight 0.3s ease;
+            `;
+            notification.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i> ${message}`;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        
+        document.getElementById('ticketForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const subject = document.getElementById('ticketSubject').value.trim();
+            const category = document.getElementById('ticketCategory').value;
+            const message = document.getElementById('ticketMessage').value.trim();
+
+            if (!subject || !category || !message) {
+                showNotification('Please fill in all fields', 'error');
+                return;
+            }
+
+            
+            const ticketId = generateTicketId();
+
+            
+            const now = new Date();
+            const timestamp = now.toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric'
+            });
+
+            
+            const userName = document.querySelector('.profile-name').textContent;
+            const userEmail = document.querySelector('.profile-email').textContent;
+
+            
+            const ticket = {
+                id: ticketId,
+                subject: subject,
+                category: category,
+                message: message,
+                status: 'Open',
+                priority: 'Medium',
+                createdAt: timestamp,
+                createdBy: userName,
+                email: userEmail,
+                responses: [],
+                conversation: [{
+                    user: userName,
+                    text: message,
+                    timestamp: now.toLocaleString('en-US', {
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric',
+                        hour: 'numeric',
+                        minute: '2-digit',
+                        hour12: true
+                    })
+                }]
+            };
+
+            
+            const tickets = JSON.parse(localStorage.getItem('wearopiaTickets')) || {};
+            tickets[ticketId] = ticket;
+            localStorage.setItem('wearopiaTickets', JSON.stringify(tickets));
+
+            
+            showNotification('Ticket submitted successfully!');
+
+            
+            this.reset();
+
+            
+            loadUserTickets();
+        });
+
+        
+        function loadUserTickets() {
+            const tickets = JSON.parse(localStorage.getItem('wearopiaTickets')) || {};
+            const userName = document.querySelector('.profile-name').textContent;
+            const container = document.getElementById('userTicketsList');
+
+            
+            const userTickets = Object.entries(tickets).filter(([id, ticket]) =>
+                ticket.createdBy === userName
+            );
+
+            if (userTickets.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center text-muted py-4">
+                        <i class="bi bi-inbox" style="font-size: 3rem;"></i>
+                        <p class="mt-3">No tickets submitted yet</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = userTickets.map(([id, ticket]) => `
+                <div class="ticket-item">
+                    <div class="d-flex align-items-center flex-grow-1">
+                        <i class="bi bi-file-earmark-text ticket-icon"></i>
+                        <div class="ticket-info">
+                            <div class="ticket-title">${ticket.subject}</div>
+                            <div class="ticket-meta">${id} • Created ${ticket.createdAt}</div>
+                        </div>
+                    </div>
+                    <span class="ticket-status status-${ticket.status.toLowerCase()}">
+                        ${ticket.status}
+                    </span>
+                </div>
+            `).join('');
+        }
+
+        
+        document.addEventListener('DOMContentLoaded', function () {
+            loadUserTickets();
+        });
+    </script>
+
 </body>
+
 </html>
