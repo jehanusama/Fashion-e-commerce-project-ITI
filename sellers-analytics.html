@@ -549,7 +549,7 @@
             <!-- Sidebar -->
             <div class="sidebar-col">
                 <div class="sidebar">
-                    <a href="#" class="logo text-decoration-none">
+                    <a href="seller-dashboard.html" class="logo text-decoration-none">
                         <span class="logo-full">Wearopia</span>
                         <span class="logo-short">W</span>
                     </a>
@@ -559,19 +559,19 @@
                         <input type="text" class="form-control" placeholder="Search">
                     </div>
 
-                    <a href="#" class="nav-item text-decoration-none">
+                    <a href="seller-dashboard.html" class="nav-item text-decoration-none">
                         <i class="fas fa-th-large"></i>
                         <span>Dashboard</span>
                     </a>
-                    <a href="#" class="nav-item text-decoration-none">
+                    <a href="sellers-products.html" class="nav-item text-decoration-none">
                         <i class="fas fa-box"></i>
                         <span>products</span>
                     </a>
-                    <a href="#" class="nav-item text-decoration-none">
+                    <a href="sellers-order.html" class="nav-item text-decoration-none">
                         <i class="fas fa-shopping-cart"></i>
                         <span>orders</span>
                     </a>
-                    <a href="#" class="nav-item text-decoration-none active">
+                    <a href="sellers-analytics.html" class="nav-item text-decoration-none active">
                         <i class="fas fa-chart-line"></i>
                         <span>Analytics</span>
                     </a>
@@ -602,7 +602,7 @@
 
             <!-- Main Content -->
             <div class="main-content">
-                <!-- Monthly Sales Chart (Full Width) -->
+                
                 <div class="analytics-card">
                     <div class="section-header">
                         <h2 class="section-title">Monthly sales</h2>
@@ -637,9 +637,9 @@
                     </div>
                 </div>
 
-                <!-- Charts Row (Two Cards Side by Side) -->
+                
                 <div class="charts-row">
-                    <!-- Top-selling Products -->
+                    
                     <div class="analytics-card">
                         <div class="section-header">
                             <h2 class="section-title">Top-selling products</h2>
@@ -674,7 +674,7 @@
                         </div>
                     </div>
 
-                    <!-- Conversion Rate -->
+                    
                     <div class="analytics-card">
                         <div class="section-header">
                             <h2 class="section-title">Conversion rate</h2>
@@ -715,7 +715,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Data for different time periods
+        
         const salesData = {
             yearly: {
                 labels: ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023'],
@@ -832,7 +832,7 @@
             }
         };
 
-        // Monthly Sales Chart
+        
         const monthlySalesChart = new Chart(document.getElementById('monthlySalesChart'), {
             ...chartConfig,
             data: {
@@ -852,7 +852,7 @@
             }
         });
 
-        // Top Products Chart
+        
         const topProductsChart = new Chart(document.getElementById('topProductsChart'), {
             ...chartConfig,
             data: {
@@ -872,7 +872,7 @@
             }
         });
 
-        // Conversion Rate Chart
+        
         const conversionChart = new Chart(document.getElementById('conversionChart'), {
             ...chartConfig,
             data: {
@@ -892,14 +892,14 @@
             }
         });
 
-        // Function to update chart
+        
         function updateChart(chart, dataObj, period) {
             chart.data.labels = dataObj[period].labels;
             chart.data.datasets[0].data = dataObj[period].data;
             chart.update();
         }
 
-        // Event listeners for dropdowns
+        
         document.getElementById('monthlySalesDropdown').addEventListener('change', function(e) {
             updateChart(monthlySalesChart, salesData, e.target.value);
         });
@@ -912,14 +912,8 @@
             updateChart(conversionChart, conversionData, e.target.value);
         });
 
-        // Navigation Active State
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
+        
+        
     </script>
 </body>
 </html>
