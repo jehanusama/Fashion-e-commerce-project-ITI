@@ -219,7 +219,7 @@
     /* FOOTER */
     .custom-footer {
       padding: 50px 0;
-      margin-top: 50px;
+      
       border-top: 1px solid #eee;
     }
 
@@ -671,13 +671,13 @@
   href: 'CSS/navbar.css'
 }).appendTo('head');
 
-    // تحميل الناف بار
+    
     $("#navbar-placeholder").load("navbar-test.html", function () {
       initNavbar();
       renderWishlist();
     });
 
-    // عرض الوش ليست
+    
     function renderWishlist() {
       let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
       const container = $("#wishlistItems");
