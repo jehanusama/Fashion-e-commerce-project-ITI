@@ -618,6 +618,7 @@
 </head>
 
 <body>
+<div id="navbar-placeholder"></div>
 
     <div class="toast-container">
         <div id="cartToast" class="toast custom-toast" role="alert" aria-live="assertive" aria-atomic="true">
@@ -632,36 +633,7 @@
         </div>
     </div>
 
-    <div class="navbar-wrapper">
-        <nav class="navbar">
-            <button class="menu-toggle" id="menuToggle" aria-label="Menu">
-                <i class="bi bi-list"></i>
-            </button>
-            <a href="index.html" class="navbar-brand">Wearopia</a>
-            <ul class="navbar-menu">
-                <li><a href="men.html">Men</a></li>
-                <li><a href="women.html">Women</a></li>
-                <li><a href="kids.html">Kids</a></li>
-                <li><a href="accessories.html">Accessory</a></li>
-            </ul>
-            <div class="navbar-actions">
-                <a href="#" id="loginBtn">
-                    <i class="bi bi-box-arrow-in-right"></i>
-                    <span>Login</span>
-                </a>
-                <a href="#" id="wishlistBtn">
-                    <i class="bi bi-heart"></i>
-                    <span>Wishlist</span>
-                    <span class="badge-count" id="wishlistCount">0</span>
-                </a>
-                <a href="#" id="cartBtn">
-                    <i class="bi bi-bag"></i>
-                    <span>Cart</span>
-                    <span class="badge-count" id="cartCount">0</span>
-                </a>
-            </div>
-        </nav>
-    </div>
+    
 
     <button class="filter-toggle-btn" id="filterToggleBtn" aria-label="Toggle Filters">
         <i class="fas fa-filter"></i>
@@ -888,6 +860,56 @@
         </div>
     </div>
 </footer>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="JavaScript/navbar-test.js"></script>
+
+  <script>
+    $('<link/>', {
+  rel: 'stylesheet',
+  type: 'text/css',
+  href: 'CSS/navbar.css'
+}).appendTo('head');
+
+    // تحميل الناف بار
+    $("#navbar-placeholder").load("navbar-test.html", function () {
+      initNavbar();
+      renderWishlist();
+    });
+
+    // عرض الوش ليست
+    function renderWishlist() {
+      let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+      const container = $("#wishlistItems");
+      container.empty();
+
+      if (wishlist.length === 0) {
+        container.html("<p class='text-center text-muted'>Your wishlist is empty 💔</p>");
+        return;
+      }
+
+      wishlist.forEach((item, index) => {
+        container.append(`
+          <div class="wishlist-item">
+            <h5>${item.name}</h5>
+            <button class="btn btn-sm btn-danger remove-item" data-index="${index}">
+              <i class="bi bi-trash"></i> Remove
+            </button>
+          </div>
+        `);
+      });
+
+      $(".remove-item").on("click", function () {
+        const index = $(this).data("index");
+        wishlist.splice(index, 1);
+        localStorage.setItem("wishlist", JSON.stringify(wishlist));
+        renderWishlist();
+        Swal.fire("Removed!", "Item removed from wishlist.", "success");
+      });
+    }
+  </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         
