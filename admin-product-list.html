@@ -259,11 +259,18 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
         }
 
         .product-image i {
             color: #999;
             font-size: 20px;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .status-badge {
@@ -358,7 +365,30 @@
             cursor: not-allowed;
         }
 
-        /* Responsive Styles */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .empty-state i {
+            font-size: 64px;
+            margin-bottom: 20px;
+            color: #ddd;
+        }
+
+        .empty-state h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #666;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        
         @media (max-width: 1400px) {
             .sidebar-col {
                 width: 220px;
@@ -642,7 +672,7 @@
                         <input type="text" class="form-control" placeholder="Search">
                     </div>
 
-                   <a href="admin-dashboard.html" class="nav-item text-decoration-none ">
+                    <a href="admin-dashboard.html" class="nav-item text-decoration-none ">
                         <i class="fas fa-th-large"></i>
                         <span>Dashboard</span>
                     </a>
@@ -675,7 +705,8 @@
                         <div class="d-flex flex-column w-100">
                             <div class="d-flex my-3">
                                 <div>
-                                    <img src="https://ui-avatars.com/api/?name=Gustavo+Xavier&background=0F6546&color=fff" alt="User" class="user-avatar">
+                                    <img src="https://ui-avatars.com/api/?name=Gustavo+Xavier&background=0F6546&color=fff"
+                                        alt="User" class="user-avatar">
                                 </div>
                                 <div class="mx-3 user-info">
                                     <div class="user-name">Gustavo Xavier</div>
@@ -692,7 +723,7 @@
                 </div>
             </div>
 
-            <!-- Main Content -->
+            
             <div class="main-col">
                 <div class="main-content">
                     <div class="content-container">
@@ -704,9 +735,9 @@
                             </a>
                         </div>
 
-                        <!-- Products Table -->
+                        
                         <div class="products-table-container">
-                            <table class="products-table">
+                            <table class="products-table" id="productsTable">
                                 <thead>
                                     <tr>
                                         <th>#</th>
@@ -719,24 +750,31 @@
                                     </tr>
                                 </thead>
                                 <tbody id="productsTableBody">
-                                    <!-- Products will be inserted here by JavaScript -->
+                                    
                                 </tbody>
                             </table>
 
-                            <div class="pagination">
+                            <!-- Empty State -->
+                            <div class="empty-state" id="emptyState" style="display: none;">
+                                <i class="fas fa-box-open"></i>
+                                <h3>No Products Yet</h3>
+                                <p>Start adding products to see them here</p>
+                                <a href="add-product-admin.html" class="add-product-btn" style="display: inline-flex;">
+                                    <i class="fas fa-plus"></i>
+                                    Add Your First Product
+                                </a>
+                            </div>
+
+                            <div class="pagination" id="paginationContainer">
                                 <div class="pagination-info">
-                                    Showing data <span id="startRange">1</span> to <span id="endRange">8</span> of <span id="totalEntries">256</span>K entries
+                                    Showing data <span id="startRange">1</span> to <span id="endRange">8</span> of <span
+                                        id="totalEntries">0</span> entries
                                 </div>
-                                <div class="pagination-controls">
+                                <div class="pagination-controls" id="paginationControls">
                                     <button class="pagination-btn" onclick="changePage('prev')">
                                         <i class="fas fa-chevron-left"></i>
                                     </button>
-                                    <button class="pagination-btn active" onclick="changePage(1)">1</button>
-                                    <button class="pagination-btn" onclick="changePage(2)">2</button>
-                                    <button class="pagination-btn" onclick="changePage(3)">3</button>
-                                    <button class="pagination-btn" onclick="changePage(4)">4</button>
-                                    <span style="padding: 0 8px; color: #999;">...</span>
-                                    <button class="pagination-btn" onclick="changePage(40)">40</button>
+                                    <div id="pageNumbers"></div>
                                     <button class="pagination-btn" onclick="changePage('next')">
                                         <i class="fas fa-chevron-right"></i>
                                     </button>
@@ -750,51 +788,75 @@
     </div>
 
     <script>
-    // Sample products data
-    let products = [];
-    const productsPerPage = 8;
-    let currentPage = 1;
-    const totalProducts = 256000;
+        let allProducts = [];
+        let currentPageProducts = [];
+        const productsPerPage = 8;
+        let currentPage = 1;
+        let totalPages = 1;
 
-    const names = ["Emma", "Olivia", "Liam", "Noah", "Ava", "Isabella", "Mason", "Sophia", "Ethan", "Amelia"];
-    const sellers = ["Zara Store", "H&M", "Uniqlo", "Shein", "Nike", "Adidas", "Puma", "Mango", "Bershka", "Stradivarius"];
+        // Load products from localStorage
+        function loadProducts() {
+            const stored = localStorage.getItem('products');
+            if (stored) {
+                try {
+                    allProducts = JSON.parse(stored);
+                    console.log('Loaded products from localStorage:', allProducts.length);
+                } catch (e) {
+                    console.error('Error parsing products:', e);
+                    allProducts = [];
+                }
+            } else {
+                allProducts = [];
+            }
 
-    function generateRandomProduct(id) {
-        const randomName = names[Math.floor(Math.random() * names.length)];
-        const randomSeller = sellers[Math.floor(Math.random() * sellers.length)];
-        const randomProductId = `#${Math.floor(1000 + Math.random() * 9000)}`;
-        const randomPrice = Math.floor(50 + Math.random() * 950);
-        const randomStatus = Math.random() > 0.5 ? 'active' : 'inactive';
+            totalPages = Math.ceil(allProducts.length / productsPerPage);
+            if (totalPages === 0) totalPages = 1;
 
-        return {
-            id: id,
-            name: randomName,
-            seller: randomSeller,
-            productId: randomProductId,
-            price: randomPrice,
-            status: randomStatus
-        };
-    }
+            renderProducts();
+        }
 
-    for (let i = 0; i < productsPerPage; i++) {
-        products.push(generateRandomProduct(i + 1));
-    }
+        // Render products for current page
+        function renderProducts() {
+            const tbody = document.getElementById('productsTableBody');
+            const emptyState = document.getElementById('emptyState');
+            const productsTable = document.getElementById('productsTable');
+            const paginationContainer = document.getElementById('paginationContainer');
 
-    function renderProducts() {
-        const tbody = document.getElementById('productsTableBody');
-        tbody.innerHTML = '';
+            tbody.innerHTML = '';
 
-        products.forEach((product, index) => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>
-                    <div class="product-image">
-                        <i class="fas fa-shopping-bag"></i>
-                    </div>
-                </td>
+            // Check if no products
+            if (allProducts.length === 0) {
+                productsTable.style.display = 'none';
+                paginationContainer.style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            productsTable.style.display = 'table';
+            paginationContainer.style.display = 'flex';
+            emptyState.style.display = 'none';
+
+            // Calculate pagination
+            const startIndex = (currentPage - 1) * productsPerPage;
+            const endIndex = Math.min(startIndex + productsPerPage, allProducts.length);
+            currentPageProducts = allProducts.slice(startIndex, endIndex);
+
+            // Render products
+            currentPageProducts.forEach((product, index) => {
+                const globalIndex = startIndex + index;
+                const row = document.createElement('tr');
+
+                // Product image
+                let imageHtml = '<div class="product-image"><i class="fas fa-shopping-bag"></i></div>';
+                if (product.images && product.images.length > 0) {
+                    imageHtml = `<div class="product-image"><img src="${product.images[0]}" alt="${product.name}"></div>`;
+                }
+
+                row.innerHTML = `
+                <td>${imageHtml}</td>
                 <td><strong>${product.name}</strong></td>
-                <td>${product.seller}</td>
-                <td>${product.productId}</td>
+                <td>Gustavo Xavier</td>
+                <td>${product.productId || '#' + (globalIndex + 1)}</td>
                 <td>${product.price} $</td>
                 <td>
                     <span class="status-badge ${product.status === 'active' ? 'status-active' : 'status-inactive'}">
@@ -803,70 +865,116 @@
                 </td>
                 <td>
                     <div class="action-icons">
-                        <i class="fas fa-edit action-icon" onclick="editProduct(${index})"></i>
-                        <i class="fas fa-trash action-icon delete" onclick="deleteProduct(${index})"></i>
+                        <i class="fas fa-edit action-icon" onclick="editProduct(${globalIndex})"></i>
+                        <i class="fas fa-trash action-icon delete" onclick="deleteProduct(${globalIndex})"></i>
                     </div>
                 </td>
             `;
-            tbody.appendChild(row);
-        });
+                tbody.appendChild(row);
+            });
 
-        updatePaginationInfo();
-    }
+            updatePaginationInfo();
+        }
 
-    function updatePaginationInfo() {
-        const start = (currentPage - 1) * productsPerPage + 1;
-        const end = Math.min(currentPage * productsPerPage, totalProducts);
-        
-        document.getElementById('startRange').textContent = start;
-        document.getElementById('endRange').textContent = end;
-        document.getElementById('totalEntries').textContent = (totalProducts / 1000).toFixed(0);
+        // Update pagination controls
+        function updatePaginationInfo() {
+            const start = (currentPage - 1) * productsPerPage + 1;
+            const end = Math.min(currentPage * productsPerPage, allProducts.length);
 
-        document.querySelectorAll('.pagination-btn').forEach(btn => {
-            btn.classList.remove('active');
-            if (btn.textContent == currentPage) {
-                btn.classList.add('active');
+            document.getElementById('startRange').textContent = start;
+            document.getElementById('endRange').textContent = end;
+            document.getElementById('totalEntries').textContent = allProducts.length;
+
+            // Generate page numbers
+            const pageNumbersContainer = document.getElementById('pageNumbers');
+            pageNumbersContainer.innerHTML = '';
+
+            const maxVisiblePages = 5;
+            let startPage = Math.max(1, currentPage - 2);
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+            if (endPage - startPage < maxVisiblePages - 1) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                const btn = document.createElement('button');
+                btn.className = 'pagination-btn' + (i === currentPage ? ' active' : '');
+                btn.textContent = i;
+                btn.onclick = () => changePage(i);
+                pageNumbersContainer.appendChild(btn);
+            }
+
+            // Update prev/next buttons
+            const prevBtn = document.querySelector('.pagination-btn i.fa-chevron-left').parentElement;
+            prevBtn.disabled = currentPage === 1;
+
+            const nextBtn = document.querySelector('.pagination-btn i.fa-chevron-right').parentElement;
+            nextBtn.disabled = currentPage === totalPages;
+        }
+
+        // Change page
+        function changePage(page) {
+            if (page === 'prev') {
+                if (currentPage > 1) currentPage--;
+            } else if (page === 'next') {
+                if (currentPage < totalPages) currentPage++;
+            } else {
+                currentPage = page;
+            }
+
+            renderProducts();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Edit product
+        function editProduct(index) {
+            const product = allProducts[index];
+            // Redirect to edit page with product ID
+            window.location.href = `edit-product-admin.html?id=${product.id}`;
+        }
+
+        // Delete product
+        function deleteProduct(index) {
+            const product = allProducts[index];
+            if (confirm(`Are you sure you want to delete "${product.name}"?`)) {
+                allProducts.splice(index, 1);
+                localStorage.setItem('products', JSON.stringify(allProducts));
+
+                // Adjust current page if needed
+                totalPages = Math.ceil(allProducts.length / productsPerPage);
+                if (totalPages === 0) totalPages = 1;
+                if (currentPage > totalPages) currentPage = totalPages;
+
+                renderProducts();
+                console.log('Product deleted. Total products:', allProducts.length);
+            }
+        }
+
+        // Listen for storage changes (when product is added in another tab/window)
+        window.addEventListener('storage', function (e) {
+            if (e.key === 'products') {
+                console.log('Products updated in another tab');
+                loadProducts();
             }
         });
 
-        const prevBtn = document.querySelector('.pagination-btn i.fa-chevron-left').parentElement;
-        prevBtn.disabled = currentPage === 1;
+        // Initial load
+        loadProducts();
 
-        const nextBtn = document.querySelector('.pagination-btn i.fa-chevron-right').parentElement;
-        nextBtn.disabled = currentPage === 40;
-    }
-
-    function changePage(page) {
-        if (page === 'prev') {
-            if (currentPage > 1) currentPage--;
-        } else if (page === 'next') {
-            if (currentPage < 40) currentPage++;
-        } else {
-            currentPage = page;
-        }
-
-        products = [];
-        for (let i = 0; i < productsPerPage; i++) {
-            const id = (currentPage - 1) * productsPerPage + i + 1;
-            products.push(generateRandomProduct(id));
-        }
-
-        renderProducts();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function editProduct(index) {
-        alert('Edit functionality would open a modal with product details');
-    }
-
-    function deleteProduct(index) {
-        if (confirm('Are you sure you want to delete this product?')) {
-            products.splice(index, 1);
-            renderProducts();
-        }
-    }
-
-    renderProducts();
+        // Check for new products every 2 seconds (for when adding from same window)
+        let lastProductCount = allProducts.length;
+        setInterval(() => {
+            const stored = localStorage.getItem('products');
+            if (stored) {
+                const parsed = JSON.parse(stored);
+                if (parsed.length !== lastProductCount) {
+                    console.log('Products count changed, reloading...');
+                    lastProductCount = parsed.length;
+                    loadProducts();
+                }
+            }
+        }, 2000);
     </script>
 
 </body>
