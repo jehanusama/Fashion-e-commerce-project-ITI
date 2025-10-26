@@ -898,8 +898,8 @@
             productData.status = productData.stock > 0 ? 'active' : 'inactive';
             products.push(productData);
             localStorage.setItem('products', JSON.stringify(products));
-            console.log('✅ Product saved successfully!', productData);
-            console.log('📦 Total products in storage:', products.length);
+            console.log(' Product saved successfully!', productData);
+            console.log(' Total products in storage:', products.length);
         }
 
         document.querySelector('.btn-add-product').addEventListener('click', function () {

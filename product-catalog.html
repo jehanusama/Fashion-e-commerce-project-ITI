@@ -599,13 +599,11 @@
   href: 'CSS/navbar.css'
 }).appendTo('head');
 
-    // تحميل الناف بار
     $("#navbar-placeholder").load("navbar-test.html", function () {
       initNavbar();
       renderWishlist();
     });
 
-    // عرض الوش ليست
     function renderWishlist() {
       let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
       const container = $("#wishlistItems");

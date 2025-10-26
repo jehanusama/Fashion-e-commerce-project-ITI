@@ -24,12 +24,11 @@
     <div id="navbar-placeholder"></div>
 
   <div class="wishlist-page">
-    <h2 class="mb-4 text-center text-success">My Wishlist ❤️</h2>
+    <h2 class="mb-4 text-center text-success">My Wishlist </h2>
     <div id="wishlistItems"></div>
   </div>
 
   <script>
-    // نفس StorageManager اللي بتستخدميه في باقي الصفحات
     const StorageManager = {
       loadWishlist: () => JSON.parse(localStorage.getItem('wearopia_wishlist')) || {},
       saveWishlist: (wishlist) => localStorage.setItem('wearopia_wishlist', JSON.stringify(wishlist)),
@@ -111,13 +110,11 @@
   href: 'CSS/navbar.css'
 }).appendTo('head');
 
-    // تحميل الناف بار
     $("#navbar-placeholder").load("navbar-test.html", function () {
       initNavbar();
       renderWishlist();
     });
 
-    // عرض الوش ليست
     function renderWishlist() {
       let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
       const container = $("#wishlistItems");

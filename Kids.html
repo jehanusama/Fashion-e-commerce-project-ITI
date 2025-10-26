@@ -24,7 +24,6 @@
 
         
 
-        /* FILTER TOGGLE BUTTON - Mobile Only */
         .filter-toggle-btn {
             position: fixed;
             bottom: 20px;
@@ -46,7 +45,6 @@
             transform: scale(1.1);
         }
 
-        /* FILTER OVERLAY - Mobile */
         .filter-overlay {
             position: fixed;
             top: 0;
@@ -65,7 +63,6 @@
             pointer-events: auto;
         }
 
-        /* STICKY FILTER - Desktop */
         .filter-container {
             position: sticky;
             top: 100px;
@@ -77,7 +74,6 @@
             overflow-y: auto;
         }
 
-        /* Mobile Filter Sidebar */
         .filter-sidebar {
             position: fixed;
             top: 0;
@@ -122,7 +118,6 @@
             padding: 20px;
         }
 
-        /* Show mobile filter elements only on small screens */
         @media (max-width: 991px) {
             .filter-toggle-btn {
                 display: flex !important;
@@ -981,7 +976,6 @@
             const container = document.getElementById(containerId);
             const noProductsMsg = document.getElementById(noProductsId);
             
-            // الكود ده بيمنع حدوث أخطاء لأنه بيتأكد إن القسم موجود قبل ما يشتغل
             if (!container || !noProductsMsg) {
                 return; 
             }
@@ -1056,8 +1050,6 @@
                 });
             }
 
-            // الجافاسكريبت هيحاول ينادي الأقسام كلها
-            // بس مش هيحصل أخطاء لأن الدالة اللي فوق بتتأكد إن القسم موجود
             const menProducts = filterProducts('Men');
             const womenProducts = filterProducts('Women');
             const accessoriesProducts = filterProducts('Accessories');
@@ -1143,7 +1135,6 @@
 
                 clonedContent.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
                     checkbox.addEventListener("change", () => {
-                        // Sync with desktop filter
                         const desktopCheckbox = desktopFilterContent.querySelector(`#${checkbox.id}`);
                         if (desktopCheckbox) {
                             desktopCheckbox.checked = checkbox.checked;
