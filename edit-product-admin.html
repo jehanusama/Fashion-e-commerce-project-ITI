@@ -398,47 +398,147 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         @media (max-width: 1400px) {
-            .sidebar-col { width: 220px; }
-            .sidebar { padding: 14px; }
-            .card-body { padding: 25px; }
+            .sidebar-col {
+                width: 220px;
+            }
+
+            .sidebar {
+                padding: 14px;
+            }
+
+            .card-body {
+                padding: 25px;
+            }
         }
 
         @media (max-width: 1200px) {
-            .sidebar-col { width: 80px; }
-            .logo { margin-bottom: 20px; }
-            .logo-full { display: none; }
-            .logo-short { display: block; font-size: 28px; text-align: center; }
-            .search-box { display: flex; justify-content: center; align-items: center; margin-bottom: 10px; }
-            .search-box input { display: none; }
-            .search-box i { position: static; transform: none; font-size: 20px; padding: 12px; cursor: pointer; border-radius: 8px; }
-            .search-box i:hover { background-color: var(--light-green); color: var(--primary-green); }
-            .nav-item { justify-content: center; padding: 12px; }
-            .nav-item span { display: none; }
-            .nav-item i { font-size: 20px; margin: 0; }
-            .user-info { display: none; }
-            .user-profile { justify-content: center; padding: 15px 8px; }
-            .card-body { padding: 20px; }
+            .sidebar-col {
+                width: 80px;
+            }
+
+            .logo {
+                margin-bottom: 20px;
+            }
+
+            .logo-full {
+                display: none;
+            }
+
+            .logo-short {
+                display: block;
+                font-size: 28px;
+                text-align: center;
+            }
+
+            .search-box {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: 10px;
+            }
+
+            .search-box input {
+                display: none;
+            }
+
+            .search-box i {
+                position: static;
+                transform: none;
+                font-size: 20px;
+                padding: 12px;
+                cursor: pointer;
+                border-radius: 8px;
+            }
+
+            .search-box i:hover {
+                background-color: var(--light-green);
+                color: var(--primary-green);
+            }
+
+            .nav-item {
+                justify-content: center;
+                padding: 12px;
+            }
+
+            .nav-item span {
+                display: none;
+            }
+
+            .nav-item i {
+                font-size: 20px;
+                margin: 0;
+            }
+
+            .user-info {
+                display: none;
+            }
+
+            .user-profile {
+                justify-content: center;
+                padding: 15px 8px;
+            }
+
+            .card-body {
+                padding: 20px;
+            }
         }
 
         @media (max-width: 768px) {
-            .sidebar-col { width: 70px; }
-            .main-content { padding: 12px 8px; }
-            .section-title { font-size: 16px; }
-            .card-body { padding: 15px 12px; }
-            .image-upload-area { min-height: 180px; padding: 15px; }
-            .btn-update-product, .btn-cancel { padding: 12px; font-size: 14px; }
+            .sidebar-col {
+                width: 70px;
+            }
+
+            .main-content {
+                padding: 12px 8px;
+            }
+
+            .section-title {
+                font-size: 16px;
+            }
+
+            .card-body {
+                padding: 15px 12px;
+            }
+
+            .image-upload-area {
+                min-height: 180px;
+                padding: 15px;
+            }
+
+            .btn-update-product,
+            .btn-cancel {
+                padding: 12px;
+                font-size: 14px;
+            }
         }
 
         @media (max-width: 576px) {
-            .sidebar-col { width: 60px; }
-            .main-content { padding: 8px 6px; }
-            .card-body { padding: 15px 10px; }
-            .image-upload-area { min-height: 150px; padding: 12px; }
+            .sidebar-col {
+                width: 60px;
+            }
+
+            .main-content {
+                padding: 8px 6px;
+            }
+
+            .card-body {
+                padding: 15px 10px;
+            }
+
+            .image-upload-area {
+                min-height: 150px;
+                padding: 12px;
+            }
         }
     </style>
 </head>
@@ -495,7 +595,8 @@
                         <div class="d-flex flex-column w-100">
                             <div class="d-flex my-3">
                                 <div>
-                                    <img src="https://ui-avatars.com/api/?name=Gustavo+Xavier&background=0F6546&color=fff" alt="User" class="user-avatar">
+                                    <img src="https://ui-avatars.com/api/?name=Gustavo+Xavier&background=0F6546&color=fff"
+                                        alt="User" class="user-avatar">
                                 </div>
                                 <div class="mx-3 user-info">
                                     <div class="user-name">Gustavo Xavier</div>
@@ -522,13 +623,15 @@
 
                                     <div class="mb-3">
                                         <label class="form-label">Product Name</label>
-                                        <input type="text" class="form-control" id="productName" placeholder="Product Name">
+                                        <input type="text" class="form-control" id="productName"
+                                            placeholder="Product Name">
                                         <div class="invalid-feedback">Product Name is required</div>
                                     </div>
 
                                     <div class="mb-3">
                                         <label class="form-label">Description</label>
-                                        <textarea class="form-control" id="productDescription" placeholder="Product description..."></textarea>
+                                        <textarea class="form-control" id="productDescription"
+                                            placeholder="Product description..."></textarea>
                                         <div class="invalid-feedback">Description is required</div>
                                     </div>
 
@@ -548,14 +651,24 @@
                                         <div class="col-lg-6 col-12 mb-3">
                                             <label class="form-label">Color:</label>
                                             <div class="d-flex gap-2 flex-wrap">
-                                                <div class="color-option" style="background: #000;" data-color="black"></div>
-                                                <div class="color-option" style="background: #999;" data-color="grey"></div>
-                                                <div class="color-option" style="background: #1a1a1a;" data-color="dark"></div>
-                                                <div class="color-option" style="background: #1e3a5f;" data-color="navy"></div>
-                                                <div class="color-option" style="background: #2c3e50;" data-color="slate"></div>
-                                                <div class="color-option" style="background: #bbb;" data-color="silver"></div>
-                                                <div class="color-option" style="background: #fff; border: 1px solid #ddd;" data-color="white"></div>
-                                                <div class="color-option" style="background: #f5f5f5; border: 1px solid #ddd;" data-color="cream"></div>
+                                                <div class="color-option" style="background: #000;" data-color="black">
+                                                </div>
+                                                <div class="color-option" style="background: #999;" data-color="grey">
+                                                </div>
+                                                <div class="color-option" style="background: #1a1a1a;"
+                                                    data-color="dark"></div>
+                                                <div class="color-option" style="background: #1e3a5f;"
+                                                    data-color="navy"></div>
+                                                <div class="color-option" style="background: #2c3e50;"
+                                                    data-color="slate"></div>
+                                                <div class="color-option" style="background: #bbb;" data-color="silver">
+                                                </div>
+                                                <div class="color-option"
+                                                    style="background: #fff; border: 1px solid #ddd;"
+                                                    data-color="white"></div>
+                                                <div class="color-option"
+                                                    style="background: #f5f5f5; border: 1px solid #ddd;"
+                                                    data-color="cream"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -569,12 +682,14 @@
                                     <div class="row mb-3">
                                         <div class="col-lg-6 col-12 mb-3 mb-lg-0">
                                             <label class="form-label">Price</label>
-                                            <input type="number" class="form-control" id="price" placeholder="Price" min="0" step="0.01">
+                                            <input type="number" class="form-control" id="price" placeholder="Price"
+                                                min="0.01" step="0.01">
                                             <div class="invalid-feedback">Price is required</div>
                                         </div>
                                         <div class="col-lg-6 col-12">
                                             <label class="form-label">Stock</label>
-                                            <input type="number" class="form-control" id="stock" placeholder="stock" min="0">
+                                            <input type="number" class="form-control" id="stock" placeholder="stock"
+                                                min="0">
                                             <div class="invalid-feedback">Stock is required</div>
                                         </div>
                                     </div>
@@ -582,7 +697,8 @@
                                     <div class="row">
                                         <div class="col-lg-6 col-12 mb-3 mb-lg-0">
                                             <label class="form-label">Discount</label>
-                                            <input type="number" class="form-control" id="discount" placeholder="discount" min="0" step="0.01">
+                                            <input type="number" class="form-control" id="discount"
+                                                placeholder="discount" min="0" step="0.01">
                                         </div>
                                         <div class="col-lg-6 col-12">
                                             <label class="form-label">Discount Type</label>
@@ -649,10 +765,12 @@
     <input type="file" id="fileInput" accept="image/*" multiple style="display: none;">
 
     <div class="position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 1050">
-        <div id="productToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div id="productToast" class="toast align-items-center text-bg-success border-0" role="alert"
+            aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
                 <div class="toast-body py-4">Product updated successfully!</div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
             </div>
         </div>
     </div>
@@ -671,7 +789,7 @@
 
         function loadProductData() {
             document.getElementById('loadingOverlay').classList.add('active');
-            
+
             const productId = getProductIdFromURL();
             console.log('Loading product with ID:', productId);
 
@@ -735,13 +853,13 @@
         }
 
         document.querySelectorAll('.size-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
+            btn.addEventListener('click', function () {
                 this.classList.toggle('active');
             });
         });
 
         document.querySelectorAll('.color-option').forEach(option => {
-            option.addEventListener('click', function() {
+            option.addEventListener('click', function () {
                 this.classList.toggle('active');
             });
         });
@@ -852,49 +970,137 @@
             imagePreviewContainer.appendChild(addMore);
         }
 
-        function validateNumber(value, fieldName) {
-            const num = parseFloat(value);
-            if (isNaN(num) || num < 0) {
-                return { valid: false, message: `${fieldName} must be a valid positive number` };
+        function validateNumber(value, fieldName, isInteger = false, min = 0, max = null) {
+            const num = isInteger ? parseInt(value) : parseFloat(value);
+
+            if (isNaN(num)) {
+                return { valid: false, message: `${fieldName} must be a valid number` };
             }
+
+            if (num < min) {
+                return { valid: false, message: `${fieldName} must be at least ${min}` };
+            }
+
+            if (max !== null && num > max) {
+                return { valid: false, message: `${fieldName} cannot exceed ${max}` };
+            }
+
+            if (isInteger && !Number.isInteger(num)) {
+                return { valid: false, message: `${fieldName} must be a whole number` };
+            }
+
             return { valid: true };
         }
 
-        document.getElementById('updateBtn').addEventListener('click', function() {
-            const fields = [
-                { id: 'productName', value: document.getElementById('productName').value.trim(), required: true },
-                { id: 'productDescription', value: document.getElementById('productDescription').value.trim(), required: true },
-                { id: 'price', value: document.getElementById('price').value.trim(), required: true, type: 'number' },
-                { id: 'stock', value: document.getElementById('stock').value.trim(), required: true, type: 'number' }
-            ];
-
+        document.getElementById('updateBtn').addEventListener('click', function () {
             let hasError = false;
 
-            fields.forEach(f => {
-                const input = document.getElementById(f.id);
-                const feedback = input.nextElementSibling;
+            // Validate Product Name
+            const productName = document.getElementById('productName');
+            const productNameValue = productName.value.trim();
+            const productNameFeedback = productName.nextElementSibling;
+            if (!productNameValue) {
+                productName.classList.add('is-invalid');
+                productNameFeedback.textContent = 'Product Name is required';
+                productNameFeedback.style.display = 'block';
+                hasError = true;
+            } else if (productNameValue.length < 3) {
+                productName.classList.add('is-invalid');
+                productNameFeedback.textContent = 'Product Name must be at least 3 characters';
+                productNameFeedback.style.display = 'block';
+                hasError = true;
+            } else {
+                productName.classList.remove('is-invalid');
+                productNameFeedback.style.display = 'none';
+            }
 
-                if (f.required && !f.value) {
-                    input.classList.add('is-invalid');
-                    feedback.textContent = `${f.id.replace(/([A-Z])/g, ' $1').trim()} is required`;
-                    feedback.style.display = 'block';
+            // Validate Description
+            const productDesc = document.getElementById('productDescription');
+            const productDescValue = productDesc.value.trim();
+            const productDescFeedback = productDesc.nextElementSibling;
+            if (!productDescValue) {
+                productDesc.classList.add('is-invalid');
+                productDescFeedback.textContent = 'Description is required';
+                productDescFeedback.style.display = 'block';
+                hasError = true;
+            } else if (productDescValue.length < 10) {
+                productDesc.classList.add('is-invalid');
+                productDescFeedback.textContent = 'Description must be at least 10 characters';
+                productDescFeedback.style.display = 'block';
+                hasError = true;
+            } else {
+                productDesc.classList.remove('is-invalid');
+                productDescFeedback.style.display = 'none';
+            }
+
+            // Validate Price
+            const priceInput = document.getElementById('price');
+            const priceValue = priceInput.value.trim();
+            const priceFeedback = priceInput.nextElementSibling;
+            if (!priceValue) {
+                priceInput.classList.add('is-invalid');
+                priceFeedback.textContent = 'Price is required';
+                priceFeedback.style.display = 'block';
+                hasError = true;
+            } else {
+                const priceValidation = validateNumber(priceValue, 'Price', false, 0.01, 1000000);
+                if (!priceValidation.valid) {
+                    priceInput.classList.add('is-invalid');
+                    priceFeedback.textContent = priceValidation.message;
+                    priceFeedback.style.display = 'block';
                     hasError = true;
-                } else if (f.type === 'number' && f.value) {
-                    const validation = validateNumber(f.value, f.id);
-                    if (!validation.valid) {
-                        input.classList.add('is-invalid');
-                        feedback.textContent = validation.message;
-                        feedback.style.display = 'block';
-                        hasError = true;
-                    } else {
-                        input.classList.remove('is-invalid');
-                        feedback.style.display = 'none';
+                } else {
+                    priceInput.classList.remove('is-invalid');
+                    priceFeedback.style.display = 'none';
+                }
+            }
+
+            // Validate Stock
+            const stockInput = document.getElementById('stock');
+            const stockValue = stockInput.value.trim();
+            const stockFeedback = stockInput.nextElementSibling;
+            if (!stockValue) {
+                stockInput.classList.add('is-invalid');
+                stockFeedback.textContent = 'Stock is required';
+                stockFeedback.style.display = 'block';
+                hasError = true;
+            } else {
+                const stockValidation = validateNumber(stockValue, 'Stock', true, 0, 100000);
+                if (!stockValidation.valid) {
+                    stockInput.classList.add('is-invalid');
+                    stockFeedback.textContent = stockValidation.message;
+                    stockFeedback.style.display = 'block';
+                    hasError = true;
+                } else {
+                    stockInput.classList.remove('is-invalid');
+                    stockFeedback.style.display = 'none';
+                }
+            }
+
+            // Validate Discount (optional field)
+            const discountInput = document.getElementById('discount');
+            const discountValue = discountInput.value.trim();
+            const discountType = document.getElementById('discountType').value;
+
+            if (discountValue) {
+                let discountValidation;
+                if (discountType === 'percentage') {
+                    discountValidation = validateNumber(discountValue, 'Discount', false, 0, 100);
+                } else if (discountType === 'fixed') {
+                    const price = parseFloat(priceInput.value.trim()) || 0;
+                    discountValidation = validateNumber(discountValue, 'Discount', false, 0, price);
+                    if (discountValidation.valid && parseFloat(discountValue) >= price) {
+                        discountValidation = { valid: false, message: 'Discount cannot be greater than or equal to price' };
                     }
                 } else {
-                    input.classList.remove('is-invalid');
-                    feedback.style.display = 'none';
+                    discountValidation = { valid: true };
                 }
-            });
+
+                if (!discountValidation.valid) {
+                    showToast(discountValidation.message, 'danger');
+                    hasError = true;
+                }
+            }
 
             const imageError = document.getElementById('imageError');
             if (uploadedImages.length === 0) {
@@ -921,10 +1127,10 @@
             document.getElementById('loadingOverlay').classList.add('active');
 
             let products = JSON.parse(localStorage.getItem('products') || '[]');
-            
+
             if (currentProductIndex !== null && currentProductIndex >= 0) {
                 const originalProduct = products[currentProductIndex];
-                
+
                 products[currentProductIndex] = {
                     id: currentProductId,
                     productId: originalProduct.productId,
@@ -960,7 +1166,7 @@
             }
         });
 
-        document.getElementById('cancelBtn').addEventListener('click', function() {
+        document.getElementById('cancelBtn').addEventListener('click', function () {
             if (confirm('Are you sure you want to cancel? Any unsaved changes will be lost.')) {
                 window.location.href = 'admin-product-list.html';
             }
