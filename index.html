@@ -48,10 +48,9 @@
 }
 
 .wishlist-icon.active {
-  color: #dc3545; /* أحمر */
+  color: #dc3545; 
   transform: scale(1.2);
 }
-/* لو عايزة تأثير أكبر على القلب */
 .wishlist-active {
   transform: scale(1.15);
   transition: transform .18s ease;
@@ -64,7 +63,6 @@
 
 <body>
 
-<!-- استبدلي الكود ده في index.html -->
 <div id="navbar-placeholder"></div>
 
 
@@ -651,9 +649,7 @@
 <script src="JavaScript/navbar-test.js"></script>
 <script src="JavaScript/index.js"></script>
 <script>
-  // ==========================================
     // Featured Products Data
-    // ==========================================
     const featuredProducts = {
       2: {
         id: 2, name: 'Leather Bomber Jacket', mainCategory: 'Men',
@@ -697,9 +693,7 @@
       }
     };
 
-    // ==========================================
     // Load Navbar
-    // ==========================================
     function loadNavbar() {
       fetch('navbar-test.html')
         .then(response => {
@@ -710,7 +704,6 @@
           console.log('✅ Navbar HTML loaded');
           document.getElementById('navbar-placeholder').innerHTML = html;
 
-          // ننتظر frame واحد عشان الـ DOM يتحدث
           requestAnimationFrame(() => {
             console.log('🚀 Initializing navbar');
             if (typeof initNavbar === 'function') {
@@ -726,9 +719,6 @@
         });
     }
 
-    // ==========================================
-    // Go to Featured Product Details
-    // ==========================================
     function goToFeaturedProduct(productId) {
       const product = featuredProducts[productId];
       if (product) {
@@ -737,9 +727,6 @@
       }
     }
 
-    // ==========================================
-    // Wishlist Toggle Handler
-    // ==========================================
     function initWishlistToggle() {
       document.body.addEventListener('click', (e) => {
         const wrapper = e.target.closest('.custom-icon');
@@ -759,36 +746,27 @@
           }
           icon.classList.add('wishlist-active', 'text-danger');
         } else {
-          // إلغاء المفضلة
           if (icon.classList.contains('fa-solid')) {
             icon.classList.replace('fa-solid', 'fa-regular');
           }
           icon.classList.remove('wishlist-active', 'text-danger');
         }
 
-        // تحديث العدادات في الـ Navbar
         if (typeof updateNavbarBadges === 'function') {
           updateNavbarBadges();
         }
       });
     }
 
-    // ==========================================
-    // Add to Cart Handler
-    // ==========================================
     function initAddToCart() {
       document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
           e.stopPropagation();
-          // هنا ممكن تضيف منطق لحفظ المنتج في localStorage
           window.location.href = "shopping-cart.html";
         });
       });
     }
 
-    // ==========================================
-    // Initialize Everything on Page Load
-    // ==========================================
     document.addEventListener('DOMContentLoaded', () => {
       loadNavbar();
       initWishlistToggle();

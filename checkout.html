@@ -795,13 +795,11 @@
   href: 'CSS/navbar.css'
 }).appendTo('head');
 
-    // تحميل الناف بار
     $("#navbar-placeholder").load("navbar-test.html", function () {
       initNavbar();
       renderWishlist();
     });
 
-    // عرض الوش ليست
     function renderWishlist() {
       let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
       const container = $("#wishlistItems");
@@ -1190,13 +1188,10 @@ if (expiryInput) {
   // simulate getting cart items from localStorage or session
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-  // حساب عدد العناصر
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
-  // تحديث الرقم في الصفحة
   document.getElementById("cart-items-count").textContent = `Items: ${totalItems}`;
 
-بهف
 // --- HELPER: read cart/checkount data from known keys (robust) ---
 function getCartData() {
   // try checkout data in sessionStorage first (used by checkout page)

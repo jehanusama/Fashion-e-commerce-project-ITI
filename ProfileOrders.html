@@ -9,32 +9,6 @@
              <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* footer */
-.custom-footer {
-    padding: 40px;
-    min-height: 372px;
-}
-
-.social-icon {
-    width: 36px;
-    height: 36px;
-}
-
-@media (min-width: 768px) {
-    .custom-footer {
-        padding-left: 80px;
-        padding-right: 80px;
-    }
-}
-
-@media (min-width: 992px) {
-    .custom-footer {
-        padding-left: 120px;
-        padding-right: 120px;
-    }
-}
-
-/*end of footer*/
         :root {
             --primary-green: #047857;
             --light-green: #059669;
@@ -324,6 +298,33 @@
                 margin-top: 1rem;
             }
         }
+                /* footer */
+.custom-footer {
+    padding: 40px;
+    min-height: 372px;
+}
+
+.social-icon {
+    width: 36px;
+    height: 36px;
+}
+
+@media (min-width: 768px) {
+    .custom-footer {
+        padding-left: 80px;
+        padding-right: 80px;
+    }
+}
+
+@media (min-width: 992px) {
+    .custom-footer {
+        padding-left: 120px;
+        padding-right: 120px;
+    }
+}
+
+/*end of footer*/
+
     </style>
 </head>
 <body>
@@ -524,13 +525,11 @@
   href: 'CSS/navbar.css'
 }).appendTo('head');
 
-    // تحميل الناف بار
     $("#navbar-placeholder").load("navbar-test.html", function () {
       initNavbar();
       renderWishlist();
     });
 
-    // عرض الوش ليست
     function renderWishlist() {
       let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
       const container = $("#wishlistItems");

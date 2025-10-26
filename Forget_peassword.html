@@ -5,10 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Forgot Password</title>
 
-  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-  <!-- SweetAlert2 -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <style>
@@ -55,15 +53,12 @@
     <button type="button" class="btn btn-accent w-100" id="sendOtpBtn">Continue</button>
   </div>
 
-  <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- EmailJS Library -->
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
   <script>
     (function() {
-      // Public Key
       emailjs.init("0XfsHu8x1pGBCOYJs");
     })();
 
@@ -78,16 +73,13 @@
         return;
       }
 
-      // Generate 6-digit OTP
       const otp = Math.floor(1000 + Math.random() * 9000);
 
-      // Data sent to EmailJS
       const params = {
         to_email: email,
         otp: otp
       };
 
-      // Send email using EmailJS
       console.log(params);
       
       emailjs.send("service_m7hjqye", "template_vqfaygg", params)
@@ -98,11 +90,9 @@
             title: 'OTP Sent!',
             text: 'OTP sent successfully to ' + email
           }).then(() => {
-            // Save OTP locally (for verification)
             localStorage.setItem("otp", otp);
             localStorage.setItem("email", email);
 
-            // Go to verify page
             window.location.href = "varify_password.html";
           });
         }, function(error) {

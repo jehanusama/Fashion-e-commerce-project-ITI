@@ -870,13 +870,11 @@
   href: 'CSS/navbar.css'
 }).appendTo('head');
 
-    // تحميل الناف بار
     $("#navbar-placeholder").load("navbar-test.html", function () {
       initNavbar();
       renderWishlist();
     });
 
-    // عرض الوش ليست
     function renderWishlist() {
       let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
       const container = $("#wishlistItems");
@@ -1146,8 +1144,6 @@
                 });
             }
 
-            // الجافاسكريبت هيحاول ينادي الأقسام كلها
-            // بس مش هيحصل أخطاء لأن الدالة اللي فوق بتتأكد إن القسم موجود
             const menProducts = filterProducts('Men');
             const womenProducts = filterProducts('Women');
             const accessoriesProducts = filterProducts('Accessories');
