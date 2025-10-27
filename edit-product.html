@@ -334,25 +334,6 @@
             box-shadow: 0 4px 12px rgba(13, 110, 110, 0.3);
         }
 
-        .btn-cancel {
-            background: #6c757d;
-            color: white;
-            border: none;
-            padding: 15px;
-            border-radius: 8px;
-            width: 100%;
-            font-size: 16px;
-            font-weight: 600;
-            transition: all 0.3s;
-            margin-bottom: 10px;
-        }
-
-        .btn-cancel:hover {
-            background: #5a6268;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
-        }
-
         .remove-image {
             position: absolute;
             top: -5px;
@@ -598,8 +579,7 @@
                 padding: 15px;
             }
 
-            .btn-update-product,
-            .btn-cancel {
+            .btn-update-product {
                 margin-bottom: 20px;
                 padding: 12px;
                 font-size: 14px;
@@ -704,8 +684,7 @@
                 margin-bottom: 6px;
             }
 
-            .btn-update-product,
-            .btn-cancel {
+            .btn-update-product {
                 padding: 10px;
                 font-size: 13px;
             }
@@ -946,7 +925,6 @@
 
                     <div class="col-lg-7">
                         <button class="btn-update-product" id="updateBtn">Update Product</button>
-                        <button class="btn-cancel" id="cancelBtn">Cancel</button>
                     </div>
                 </div>
             </div>
@@ -1324,12 +1302,6 @@
             } else {
                 document.getElementById('loadingOverlay').classList.remove('active');
                 showToast('Error updating product', 'danger');
-            }
-        });
-
-        document.getElementById('cancelBtn').addEventListener('click', function () {
-            if (confirm('Are you sure you want to cancel? Any unsaved changes will be lost.')) {
-                window.location.href = 'products.html';
             }
         });
 
