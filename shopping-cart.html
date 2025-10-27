@@ -4,14 +4,17 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Wearopia – Cart</title>
+
+  <!-- Fonts & Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+  <!-- Custom Styles -->
   <link rel="stylesheet" href="./CSS/navbar.css">
   <link rel="stylesheet" href="CSS/shopping-cart.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     body { font-family: "Inter", sans-serif; background:#FEFEFE; color:#121212; margin:0; line-height:1.5; }
@@ -30,158 +33,41 @@
 
     .cart-layout { display:grid; grid-template-columns:1fr 413px; gap:64px; align-items:start; }
     .products-section { background:#FCFCFD; border:1px solid #E6E8EC; border-radius:16px; }
-    .products-header { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; padding:24px; border-bottom:1px solid #E6E8EC; font-size:12px; font-weight:700; color:#777E90; text-transform:uppercase; letter-spacing:1px; }
-    .product-item { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; align-items:center; padding:24px; border-bottom:1px solid #E6E8EC; gap:16px; background:transparent; transition:transform .28s ease, opacity .28s ease; }
-    .product-item.removing { opacity:0; transform:translateX(-20px); }
-    .product-item:last-child { border-bottom:none; }
-    .product-info { display:flex; gap:16px; }
-    .product-img { width:80px; height:80px; border-radius:12px; object-fit:cover; flex-shrink:0; }
-    .product-details { display:flex; flex-direction:column; gap:8px; }
-    .product-name { font-size:14px; font-weight:600; color:#23262F; line-height:1.4; }
-    .product-variant { font-size:13px; color:#777E90; }
-    .btn-remove { background:none; border:none; color:#198754; font-size:14px; font-weight:500; padding:0; cursor:pointer; display:inline-flex; align-items:center; gap:6px; margin-top:6px; transition:color .2s; }
-    .btn-remove:hover { color:#23262F; }
-    .qty-box { display:inline-flex; align-items:center; border:1px solid #E6E8EC; border-radius:90px; overflow:hidden; background:white; }
-    .qty-btn { width:36px; height:36px; border:none; background:transparent; color:#23262F; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .2s; font-weight:400; }
-    .qty-btn:hover { background:#F4F5F6; }
-    .qty-input { width:40px; height:36px; border:none; text-align:center; font-size:14px; font-weight:600; outline:none; background:transparent; }
-    .price-text { font-size:15px; font-weight:600; color:#23262F; }
-
     .summary-box { background:#FCFCFD; border:1px solid #E6E8EC; border-radius:16px; padding:32px; position:sticky; top:24px; }
+
     .summary-title { font-size:20px; font-weight:600; margin-bottom:24px; color:#23262F; }
     .summary-row { display:flex; justify-content:space-between; margin-bottom:16px; font-size:15px; }
     .summary-label { color:#777E90; font-weight:400; }
     .summary-value { color:#23262F; font-weight:600; }
-    .shipping-options { margin:20px 0; padding:20px 0; border-top:1px solid #E6E8EC; border-bottom:1px solid #E6E8EC; }
-    .radio-option { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; cursor:pointer; padding:8px 0; }
-    .radio-option input[type="radio"] { margin-right:10px; width:18px; height:18px; cursor:pointer; }
-    .radio-left { display:flex; align-items:center; }
-    .radio-option label { font-size:14px; color:#23262F; cursor:pointer; font-weight:500; }
-    .radio-price { font-size:14px; color:#777E90; font-weight:500; }
     .summary-total { display:flex; justify-content:space-between; margin-top:24px; padding-top:24px; border-top:1px solid #E6E8EC; font-size:20px; font-weight:700; color:#23262F; }
     .btn-checkout { width:100%; background:#198754; color:white; border:none; padding:16px; border-radius:90px; font-size:15px; font-weight:600; cursor:pointer; margin-top:24px; transition:all .3s; }
     .btn-checkout:hover { background:#141416; transform:translateY(-2px); box-shadow:0 8px 16px rgba(35,38,47,.16); }
-    .btn-checkout:active { transform:translateY(0); }
-    .coupon-section { margin-top:32px; padding-top:32px; border-top:1px solid #E6E8EC; }
-    .coupon-title { font-size:16px; font-weight:600; margin-bottom:8px; color:#23262F; }
-    .coupon-subtitle { font-size:13px; color:#777E90; margin-bottom:16px; }
-    .coupon-input-group { display:flex; gap:12px; }
-    .coupon-input { flex:1; padding:12px 16px; border:1px solid #E6E8EC; border-radius:90px; font-size:14px; outline:none; background:white; transition:all .2s; }
-    .coupon-input:focus { border-color:#23262F; }
-    .btn-apply { padding:12px 28px; background:#198754; color:white; border:none; border-radius:90px; font-size:14px; font-weight:600; cursor:pointer; transition:all .2s; white-space:nowrap; }
-    .btn-apply:hover { background:#141416; }
-
-    /* Toast Notifications */
-    .toast-container { position:fixed; top:24px; right:24px; z-index:9999; display:flex; flex-direction:column; gap:12px; }
-    .toast-notification { display:flex; align-items:center; gap:12px; background:white; padding:16px 20px; border-radius:12px; box-shadow:0 8px 24px rgba(0,0,0,.12); min-width:320px; animation:slideIn .3s ease; }
-    .toast-icon { width:24px; height:24px; flex-shrink:0; }
-    .toast-content { flex:1; }
-    .toast-title { font-size:14px; font-weight:600; color:#23262F; margin-bottom:4px; }
-    .toast-message { font-size:13px; color:#777E90; }
-    @keyframes slideIn { from { transform:translateX(400px); opacity:0; } to { transform:translateX(0); opacity:1; } }
-    @keyframes fadeOut { to { opacity:0; transform:translateX(400px); } }
-
-    .hero3 { padding:80px 0; text-align:center; background:#F8F9FA; }
-    .hero3-title { font-size:36px; font-weight:700; margin-bottom:16px; color:#23262F; }
-    .hero3-text { font-size:16px; margin-bottom:24px; color:#777E90; }
-    .hero3-form { display:flex; justify-content:center; gap:12px; flex-wrap:wrap; }
-    .hero3-input { padding:12px 16px; border-radius:90px; border:1px solid #E6E8EC; outline:none; width:250px; }
-    .hero3-btn { padding:12px 28px; border:none; border-radius:90px; background:#198754; color:#fff; cursor:pointer; font-weight:600; transition:0.3s; }
-    .hero3-btn:hover { background:#141416; }
 
     @media (max-width:991px) {
       .cart-layout { grid-template-columns:1fr; gap:32px; }
-      .products-header { display:none; }
-      .product-item { grid-template-columns:1fr; gap:16px; }
-      .product-info { grid-column:1; }
-      .steps-wrapper { gap:20px; }
-      .step-label { display:none; }
-      .summary-box { position:static; top:auto; }
+      .summary-box { position:static; }
     }
-.container-custom,
-.hero3,
-footer {
-  padding-left: 120px;
-  padding-right: 120px;
-  box-sizing: border-box;
-}
 
-@media (max-width: 992px) {
-  .container-custom,
-  .hero3,
-  footer {
-    padding-left: 60px;
-    padding-right: 60px;
-  }
-}
-
-@media (max-width: 576px) {
-  .container-custom,
-  .hero3,
-  footer {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-}
-
+    /* Spacing adjustments for responsiveness */
+    .container-custom, .hero3, footer { padding-left:120px; padding-right:120px; box-sizing:border-box; }
+    @media (max-width:992px) {
+      .container-custom, .hero3, footer { padding-left:60px; padding-right:60px; }
+    }
+    @media (max-width:576px) {
+      .container-custom, .hero3, footer { padding-left:20px; padding-right:20px; }
+    }
   </style>
 </head>
 <body>
 
+  
 <!-- Toast Container -->
 <div class="toast-container" id="toast-container"></div>
 
 <!-- Navbar -->
-<div class="navbar-wrapper">
-  <nav class="navbar">
-    <button class="menu-toggle" id="menuToggle" aria-label="Menu">
-      <i class="bi bi-list"></i>
-    </button>
-    <a href="index.html" class="navbar-brand">Wearopia</a>
-    <ul class="navbar-menu">
-      <li><a href="#Men-Section-category">Men</a></li>
-      <li><a href="#Women-Section-category">Women</a></li>
-      <li><a href="#Kids-Section-category">Kids</a></li>
-      <li><a href="#Accessories-Section-category">Accessory</a></li>
-    </ul>
-    <div class="search-container">
-      <i class="bi bi-search search-icon"></i>
-      <input type="text" class="search-box" placeholder="Search for outfits...">
-    </div>
-    <div class="navbar-actions">
-      <a href="#" class="search-link" style="display: none;">
-        <i class="bi bi-search"></i>
-        <span>Search</span>
-      </a>
-      <a href="login.html" id="loginBtn">
-        <i class="bi bi-box-arrow-in-right"></i>
-        <span>Login</span>
-      </a>
-      <a href="#" id="wishlistBtn">
-        <i class="bi bi-heart"></i>
-        <span>Wishlist</span>
-        <span class="badge-count" id="wishlistCount">0</span>
-      </a>
-      <a href="shopping-cart.html" id="cartBtn">
-        <i class="bi bi-bag"></i>
-        <span>Cart</span>
-        <span class="badge-count" id="cartCount">0</span>
-      </a>
-    </div>
-    <div class="mobile-dropdown" id="mobileMenu">
-      <ul>
-        <li><a href="#Men-Section-category">Men</a></li>
-        <li><a href="#Women-Section-category">Women</a></li>
-        <li><a href="#Kids-Section-category">Kids</a></li>
-        <li><a href="#Accessories-Section-category">Accessory</a></li>
-      </ul>
-      <div class="mobile-search">
-        <i class="bi bi-search search-icon"></i>
-        <input type="text" class="search-box" placeholder="Search for outfits...">
-      </div>
-    </div>
-  </nav>
-</div>
+<div id="navbar-placeholder"></div>
+
+<!-- (Include your navbar here if needed) -->
 
 <div class="container-custom">
   <div class="breadcrumb-nav">
@@ -203,465 +89,244 @@ footer {
     </div>
   </div>
 
+  <!-- Cart Layout -->
   <div class="cart-layout">
+    <!-- Left: Product List -->
     <div class="products-section">
-      <div class="products-header">
-        <div>Product</div>
-        <div style="text-align:center;">Quantity</div>
-        <div style="text-align:right;">Price</div>
-        <div style="text-align:right;">Subtotal</div>
-      </div>
-
-      <div id="products-list" aria-live="polite">
-        <div class="product-item" data-id="1" data-name="Grey Acid Wash Wide Leg Jogger" data-variant="Color: Black" data-image="Images/shoes.png" data-price="215">
-          <div class="product-info">
-            <img src="Images/men (14).jpg" class="product-img" alt="Jacket">
-            <div class="product-details">
-              <div class="product-name">Puffer Jacket</div>
-              <div class="product-variant">Color: Black</div>
-              <button class="btn-remove" data-name="Black Puffer Jacket">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M2 2L14 14M14 2L2 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                </svg> Remove
-              </button>
-            </div>
-          </div>
-          <div style="text-align:center;">
-            <div class="qty-box">
-              <button class="qty-btn qty-dec">−</button>
-              <input type="text" class="qty-input" value="2" readonly>
-              <button class="qty-btn qty-inc">+</button>
-            </div>
-          </div>
-          <div style="text-align:right;"><div class="price-text">$215.00</div></div>
-          <div style="text-align:right;"><div class="price-text item-subtotal">$430.00</div></div>
-        </div>
-
-        <div class="product-item" data-id="2" data-name="Tray Table" data-variant="Color: Red" data-image="Images/black t-shirt.png" data-price="19">
-          <div class="product-info">
-            <img src="Images/men (29).jpg" class="product-img" alt="Table">
-            <div class="product-details">
-              <div class="product-name">Wide Leg Jeans</div>
-              <div class="product-variant">Color: blue black</div>
-              <button class="btn-remove" data-name="Tray Table">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M2 2L14 14M14 2L2 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                </svg> Remove
-              </button>
-            </div>
-          </div>
-          <div style="text-align:center;">
-            <div class="qty-box">
-              <button class="qty-btn qty-dec">−</button>
-              <input type="text" class="qty-input" value="2" readonly>
-              <button class="qty-btn qty-inc">+</button>
-            </div>
-          </div>
-          <div style="text-align:right;"><div class="price-text">$19.00</div></div>
-          <div style="text-align:right;"><div class="price-text item-subtotal">$38.00</div></div>
-        </div>
-
-        <div class="product-item" data-id="3" data-name="Table lamp" data-variant="Color: Gold" data-image="Images/Image.png" data-price="39">
-          <div class="product-info">
-            <img src="Images/accessory (31).jpg" class="product-img" alt="Lamp">
-            <div class="product-details">
-              <div class="product-name">Leather belt</div>
-              <div class="product-variant">Color: black</div>
-              <button class="btn-remove" data-name="Table lamp">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M2 2L14 14M14 2L2 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                </svg> Remove
-              </button>
-            </div>
-          </div>
-          <div style="text-align:center;">
-            <div class="qty-box">
-              <button class="qty-btn qty-dec">−</button>
-              <input type="text" class="qty-input" value="1" readonly>
-              <button class="qty-btn qty-inc">+</button>
-            </div>
-          </div>
-          <div style="text-align:right;"><div class="price-text">$39.00</div></div>
-          <div style="text-align:right;"><div class="price-text item-subtotal">$39.00</div></div>
-        </div>
-      </div>
+      <div id="cartItemsContainer"></div>
     </div>
 
+    <!-- Right: Summary -->
     <div class="summary-box">
       <div class="summary-title">Cart summary</div>
 
       <div class="shipping-options">
-        <label class="radio-option">
-          <div class="radio-left">
-            <input type="radio" name="shipping" value="0" checked>
-            <span>Free shipping</span>
-          </div>
+        <label class="radio-option d-flex justify-content-between">
+          <div><input type="radio" name="shipping" value="0" checked> Free shipping</div>
           <span class="radio-price">$0.00</span>
         </label>
-        <label class="radio-option">
-          <div class="radio-left">
-            <input type="radio" name="shipping" value="15">
-            <span>Express shipping</span>
-          </div>
+        <label class="radio-option d-flex justify-content-between">
+          <div><input type="radio" name="shipping" value="15"> Express shipping</div>
           <span class="radio-price">+$15.00</span>
         </label>
-        <label class="radio-option">
-          <div class="radio-left">
-            <input type="radio" name="shipping" value="21">
-            <span>Pick Up</span>
-          </div>
+        <label class="radio-option d-flex justify-content-between">
+          <div><input type="radio" name="shipping" value="21"> Pick Up</div>
           <span class="radio-price">$21.00</span>
         </label>
       </div>
 
       <div class="summary-row">
         <span class="summary-label">Subtotal</span>
-        <span class="summary-value" id="subtotal">$0.00</span>
+        <span class="summary-value" id="cartSubtotal">$0.00</span>
       </div>
 
       <div class="summary-total">
         <span>Total</span>
-        <span id="total">$0.00</span>
+        <span id="cartTotal">$0.00</span>
       </div>
 
-      <button class="btn-checkout" id="checkoutBtn">Checkout</button>
+      <a href="checkout.html">
+        <button  class="btn-checkout" id="checkoutBtn">Checkout</button>
+      </a>
 
-      <div class="coupon-section">
+      <div class="coupon-section mt-4 pt-3 border-top">
         <div class="coupon-title">Have a coupon?</div>
         <div class="coupon-subtitle">Add your code for an instant cart discount</div>
-        <div class="coupon-input-group">
-          <input type="text" class="coupon-input" placeholder="Coupon Code" id="coupon-input">
-          <button class="btn-apply" id="apply-coupon">Apply</button>
+        <div class="coupon-input-group d-flex gap-2">
+          <input type="text" class="coupon-input form-control" placeholder="Coupon Code" id="coupon-input">
+          <button class="btn-apply btn btn-success" id="apply-coupon">Apply</button>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!--stay in style-->
+<!-- Newsletter -->
 <section class="hero3 text-center py-5" style="background-color: #f1f1f5;">
   <div class="container px-4">
-    <h2 class="fw-bold text-dark mb-3" style="font-family: 'Poppins', sans-serif;">
-      Stay in Style
-    </h2>
+    <h2 class="fw-bold text-dark mb-3" style="font-family: 'Poppins', sans-serif;">Stay in Style</h2>
     <p class="text-secondary mb-4 mx-auto" style="max-width: 600px; font-family: 'Poppins', sans-serif;">
-      Subscribe to our newsletter and be the first to know about new arrivals, exclusive offers, and fashion
-      tips.
+      Subscribe to our newsletter and be the first to know about new arrivals, exclusive offers, and fashion tips.
     </p>
-
     <form class="d-flex flex-column flex-sm-row justify-content-center align-items-center gap-3 mt-3 w-100">
       <div class="position-relative" style="max-width: 340px; width: 100%;">
         <i class="fa-solid fa-envelope text-muted position-absolute top-50 start-0 translate-middle-y ms-3"></i>
-        <input type="email" class="form-control ps-5 rounded-pill shadow-sm border-0" placeholder="Enter your email"
-          required />
+        <input type="email" class="form-control ps-5 rounded-pill shadow-sm border-0" placeholder="Enter your email" required />
       </div>
-
-      <button type="submit" class="btn fw-semibold text-white rounded-pill px-4 py-2"
-        style="background-color: hsl(158, 74%, 23%); min-width: 130px;">
-        Subscribe
-      </button>
+      <button type="submit" class="btn fw-semibold text-white rounded-pill px-4 py-2" style="background-color: hsl(158, 74%, 23%); min-width: 130px;">Subscribe</button>
     </form>
   </div>
 </section>
-<!--end of stay in style-->
-<!--footer component-->
+
+<!-- Footer -->
 <footer class="container-fluid bg-white d-flex align-items-center custom-footer">
   <div class="container">
     <div class="row gy-4 gx-5">
       <div class="col-12 col-md-6 col-lg-3">
         <h4 class="fw-bold text-success mb-3 fs-3">Wearopia</h4>
-        <p class="text-secondary small mb-4">
-          Discover your unique style with our curated collection of modern fashion pieces.
-        </p>
-
+        <p class="text-secondary small mb-4">Discover your unique style with our curated collection of modern fashion pieces.</p>
         <ul class="list-unstyled text-secondary small mb-4">
-          <li class="mb-2">
-            <i class="fa-solid fa-location-dot me-2"></i>123 Fashion Street, Style City, SC 12345
-          </li>
-          <li class="mb-2">
-            <i class="fa-solid fa-phone me-2"></i>+1 (555) 123-STYLE
-          </li>
-          <li>
-            <i class="fa-solid fa-envelope me-2"></i>hello@stylehub.com
-          </li>
-        </ul>
-
-        <div class="d-flex gap-3">
-          <a href="#"
-            class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 social-icon">
-            <i class="fa-brands fa-facebook-f"></i>
-          </a>
-          <a href="#"
-            class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 social-icon">
-            <i class="fa-brands fa-twitter"></i>
-          </a>
-          <a href="#"
-            class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 social-icon">
-            <i class="fa-brands fa-instagram"></i>
-          </a>
-          <a href="#"
-            class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 social-icon">
-            <i class="fa-brands fa-youtube"></i>
-          </a>
-        </div>
-      </div>
-      <div class="col-12 col-md-3 col-lg-3">
-        <h5 class="fw-semibold text-black fs-6 mb-3">Quick Links</h5>
-        <ul class="list-unstyled text-secondary small">
-          <li class="mb-2">New Arrivals</li>
-          <li class="mb-2">Best Sellers</li>
-          <li class="mb-2">Sale</li>
-          <li class="mb-2">Gift Cards</li>
-          <li>Style Guide</li>
+          <li class="mb-2"><i class="fa-solid fa-location-dot me-2"></i>123 Fashion Street, Style City</li>
+          <li class="mb-2"><i class="fa-solid fa-phone me-2"></i>+1 (555) 123-STYLE</li>
+          <li><i class="fa-solid fa-envelope me-2"></i>hello@stylehub.com</li>
         </ul>
       </div>
-      <div class="col-12 col-md-3 col-lg-3">
-        <h5 class="fw-semibold text-black fs-6 mb-3">Customer Care</h5>
-        <ul class="list-unstyled text-secondary small">
-          <li class="mb-2">Contact Us</li>
-          <li class="mb-2">Size Guide</li>
-          <li class="mb-2">Shipping & Returns</li>
-          <li class="mb-2">Track Your Order</li>
-          <li>FAQ</li>
-        </ul>
-      </div>
-      <div class="col-12 col-md-6 col-lg-3">
-        <h5 class="fw-semibold text-black fs-6 mb-3">Company</h5>
-        <ul class="list-unstyled text-secondary small">
-          <li class="mb-2">About Us</li>
-          <li class="mb-2">Careers</li>
-          <li class="mb-2">Press</li>
-          <li class="mb-2">Sustainability</li>
-          <li>Investors</li>
-        </ul>
-      </div>
-
     </div>
   </div>
 </footer>
-<!--end of footer-->
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-// Navbar functionality
-const menuToggle = document.getElementById('menuToggle');
-const mobileMenu = document.getElementById('mobileMenu');
-let wishlistCount = 0;
+<!-- ✅ Working JavaScript -->
 
-const wishlistBadge = document.getElementById('wishlistCount');
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="JavaScript/navbar-test.js"></script>
 
-menuToggle.addEventListener('click', () => {
-  mobileMenu.classList.toggle('show');
-  const icon = menuToggle.querySelector('i');
-  if (mobileMenu.classList.contains('show')) {
-    icon.classList.remove('bi-list');
-    icon.classList.add('bi-x');
-  } else {
-    icon.classList.remove('bi-x');
-    icon.classList.add('bi-list');
-  }
-});
+  <script>
+    $('<link/>', {
+  rel: 'stylesheet',
+  type: 'text/css',
+  href: 'CSS/navbar.css'
+}).appendTo('head');
 
-// Cart Variables
-const productsList = document.getElementById('products-list');
-const subtotalEl = document.getElementById('subtotal');
-const totalEl = document.getElementById('total');
-const cartBadge = document.getElementById('cartCount');
-const toastContainer = document.getElementById('toast-container');
-const STORAGE_KEY = 'wearopia_cart_v1';
-
-// Toast notification
-function showToast(title, message, type = 'success') {
-  const icons = {
-    success: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#58BD7D"/><path d="M8 12L11 15L16 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-    error: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#FF6A55"/><path d="M15 9L9 15M9 9L15 15" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>',
-    warning: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#FFB020"/><path d="M12 7V13M12 16V17" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>'
-  };
-  const toast = document.createElement('div');
-  toast.className = `toast-notification toast-${type}`;
-  toast.innerHTML = `${icons[type]}<div class="toast-content"><div class="toast-title">${title}</div><div class="toast-message">${message}</div></div>`;
-  toastContainer.appendChild(toast);
-  setTimeout(() => { toast.style.animation = 'fadeOut .3s ease forwards'; setTimeout(() => toast.remove(), 300); }, 3000);
-}
-
-// Update totals
-function updateTotals() {
-  const items = [...productsList.querySelectorAll('.product-item')];
-  let subtotal = 0, qtySum = 0;
-  items.forEach(it => {
-    const price = parseFloat(it.dataset.price) || 0;
-    const qty = parseInt(it.querySelector('.qty-input').value) || 0;
-    const itemTotal = price * qty;
-    const subEl = it.querySelector('.item-subtotal');
-    if (subEl) subEl.textContent = '$' + itemTotal.toFixed(2);
-    subtotal += itemTotal;
-    qtySum += qty;
-  });
-  const shipping = parseFloat(document.querySelector('input[name="shipping"]:checked')?.value || 0);
-  const total = subtotal + shipping;
-  subtotalEl.textContent = '$' + subtotal.toFixed(2);
-  totalEl.textContent = '$' + total.toFixed(2);
-
-  cartBadge.textContent = qtySum;
-  if (qtySum > 0) cartBadge.classList.add('show'); else cartBadge.classList.remove('show');
-  
-  persistFromDOM();
-}
-
-// Save state
-function persistFromDOM() {
-  const items = [...productsList.querySelectorAll('.product-item')].map(it => ({
-    id: it.dataset.id,
-    name: it.dataset.name,
-    variant: it.dataset.variant,
-    image: it.dataset.image,
-    price: parseFloat(it.dataset.price) || 0,
-    qty: parseInt(it.querySelector('.qty-input').value) || 1
-  }));
-  const shipping = document.querySelector('input[name="shipping"]:checked')?.value || '0';
-  const state = { items, shipping: parseFloat(shipping) || 0 };
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) { }
-}
-
-// Handle clicks
-productsList.addEventListener('click', (e) => {
-  const inc = e.target.closest('.qty-inc');
-  const dec = e.target.closest('.qty-dec');
-  if (inc || dec) {
-    const box = (inc || dec).closest('.qty-box');
-    const input = box.querySelector('.qty-input');
-    let v = parseInt(input.value) || 0;
-    v = inc ? v + 1 : Math.max(1, v - 1);
-    input.value = v;
-    updateTotals();
-    return;
-  }
-
-  const rem = e.target.closest('.btn-remove');
-  if (rem) {
-    const item = rem.closest('.product-item');
-    const name = rem.dataset.name || 'Item';
-    item.classList.add('removing');
-    item.addEventListener('transitionend', function onEnd(ev) {
-      item.removeEventListener('transitionend', onEnd);
-      item.remove();
-      updateTotals();
-      showToast('Item Removed', `${name} has been removed from your cart`, 'success');
+    // تحميل الناف بار
+    $("#navbar-placeholder").load("navbar-test.html", function () {
+      initNavbar();
+      renderWishlist();
     });
-  }
-});
 
-// Shipping change
-document.querySelectorAll('input[name="shipping"]').forEach(r => r.addEventListener('change', updateTotals));
+    // عرض الوش ليست
+    function renderWishlist() {
+      let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+      const container = $("#wishlistItems");
+      container.empty();
 
-// Coupon apply
-document.getElementById('apply-coupon').addEventListener('click', () => {
-  const input = document.getElementById('coupon-input');
-  const code = input.value.trim().toUpperCase();
-  if (!code) { showToast('Missing Code', 'Please enter a coupon code', 'warning'); return; }
+      if (wishlist.length === 0) {
+        container.html("<p class='text-center text-muted'>Your wishlist is empty 💔</p>");
+        return;
+      }
 
-  const valid = {
-    'JENKATEMW': { discount: 25, type: 'fixed' },
-    'SAVE25': { discount: 25, type: 'fixed' },
-    'WEAR10': { discount: 10, type: 'percentage' },
-    'SAVE20': { discount: 20, type: 'percentage' }
-  };
+      wishlist.forEach((item, index) => {
+        container.append(`
+          <div class="wishlist-item">
+            <h5>${item.name}</h5>
+            <button class="btn btn-sm btn-danger remove-item" data-index="${index}">
+              <i class="bi bi-trash"></i> Remove
+            </button>
+          </div>
+        `);
+      });
 
-  if (!valid[code]) {
-    showToast('Invalid Code', 'The coupon code you entered is not valid', 'error');
-    return;
-  }
+      $(".remove-item").on("click", function () {
+        const index = $(this).data("index");
+        wishlist.splice(index, 1);
+        localStorage.setItem("wishlist", JSON.stringify(wishlist));
+        renderWishlist();
+        Swal.fire("Removed!", "Item removed from wishlist.", "success");
+      });
+    }
+  </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-  const coupon = valid[code];
-  const subtotal = parseFloat(subtotalEl.textContent.replace('$', '')) || 0;
-  const shipping = parseFloat(document.querySelector('input[name="shipping"]:checked')?.value || 0);
-
-  let discountValue = 0;
-  if (coupon.type === 'percentage') discountValue = subtotal * (coupon.discount / 100);
-  else discountValue = coupon.discount;
-
-  const total = subtotal + shipping - discountValue;
-  totalEl.textContent = '$' + total.toFixed(2);
-
-  showToast('Coupon Applied!', `You saved ${coupon.type === 'percentage' ? coupon.discount + '%' : '$' + coupon.discount} on your order`, 'success');
-  
-  const saved = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
-  saved.coupon = { code, type: coupon.type, value: coupon.discount };
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
-
-  input.value = '';
-});
-
-// Checkout button
-document.getElementById('checkoutBtn').addEventListener('click', function() {
-  const items = [...productsList.querySelectorAll('.product-item')].map(it => ({
-    id: it.dataset.id,
-    name: it.dataset.name,
-    variant: it.dataset.variant,
-    image: it.dataset.image,
-    price: parseFloat(it.dataset.price) || 0,
-    qty: parseInt(it.querySelector('.qty-input').value) || 1
-  }));
-
-  if (items.length === 0) {
-    showToast('Empty Cart', 'Please add items to your cart before checkout', 'warning');
-    return;
-  }
-
-  const subtotal = parseFloat(subtotalEl.textContent.replace('$', '')) || 0;
-  const shipping = parseFloat(document.querySelector('input[name="shipping"]:checked')?.value || 0);
-  const total = parseFloat(totalEl.textContent.replace('$', '')) || 0;
-
-  // Get saved coupon
-  const saved = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
-  const coupon = saved.coupon || null;
-
-  const checkoutData = { 
-    items, 
-    subtotal, 
-    shipping, 
-    total,
-    coupon,
-    timestamp: Date.now() 
-  };
-
-  try {
-    sessionStorage.setItem('wearopia_checkout_data', JSON.stringify(checkoutData));
-    window.location.href = 'checkout.html';
-  } catch (e) {
-    showToast('Error', 'Could not proceed to checkout. Please try again.', 'error');
-  }
-});
-
-// Initialize
-updateTotals();
-</script>
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const cartContainer = document.getElementById("cart-items");
+document.addEventListener("DOMContentLoaded", function () {
+  const cartContainer = document.getElementById("cartItemsContainer");
+  const cartSubtotalEl = document.getElementById("cartSubtotal");
+  const cartTotalEl = document.getElementById("cartTotal");
 
-    if (cart.length === 0) {
-      cartContainer.innerHTML = "<p>Your cart is empty.</p>";
+  // Load cart and products from localStorage
+  let cart = JSON.parse(localStorage.getItem("wearopia_cart")) || {};
+  const allProducts = JSON.parse(localStorage.getItem("wearopia_products")) || {};
+
+  // Helper: fetch product details
+  function getProductDetails(id) {
+    return allProducts[id] || null;
+  }
+
+  // Update total considering shipping
+  function updateTotalWithShipping() {
+    const subtotal = parseFloat(cartSubtotalEl.textContent.replace("$", "")) || 0;
+    const selectedShipping = document.querySelector('input[name="shipping"]:checked');
+    const shippingCost = selectedShipping ? parseFloat(selectedShipping.value) : 0;
+    cartTotalEl.textContent = "$" + (subtotal + shippingCost).toFixed(2);
+  }
+
+  // Render cart items
+  function renderCart() {
+    cartContainer.innerHTML = "";
+    let subtotal = 0;
+    const productIds = Object.keys(cart);
+
+    if (productIds.length === 0) {
+      cartContainer.innerHTML = "<p class='text-center text-muted py-5'>Your cart is empty 🛒</p>";
+      cartSubtotalEl.textContent = "$0.00";
+      cartTotalEl.textContent = "$0.00";
       return;
     }
 
-    cart.forEach(item => {
+    productIds.forEach(id => {
+      const product = getProductDetails(id);
+      if (!product) return;
+      const quantity = cart[id];
+      const itemTotal = product.price * quantity;
+      subtotal += itemTotal;
+
       cartContainer.innerHTML += `
-        <div class="card mb-3 p-3">
-          <div class="d-flex align-items-center">
-            <img src="${item.image}" width="80" class="me-3">
+        <div class="d-flex align-items-center justify-content-between border-bottom py-3" data-id="${id}">
+          <div class="d-flex align-items-center gap-3">
+            <img src="${product.image}" alt="${product.name}" width="80" height="80" class="rounded">
             <div>
-              <h5 class="mb-1">${item.name}</h5>
-              <p class="mb-0 text-success fw-bold">$${item.price.toFixed(2)}</p>
+              <h6 class="mb-1">${product.name}</h6>
+              <small class="text-muted">Color: ${product.color || "-"} | Size: ${product.size || "-"}</small><br>
+              <small class="text-muted">Price: $${product.price.toFixed(2)}</small>
             </div>
+          </div>
+          <div class="d-flex align-items-center gap-3">
+            <input type="number" min="1" value="${quantity}" class="form-control form-control-sm cart-qty" style="width:70px;" data-id="${id}">
+            <strong>$${itemTotal.toFixed(2)}</strong>
+            <button class="btn btn-sm btn-outline-danger remove-item" data-id="${id}"><i class="bi bi-trash"></i></button>
           </div>
         </div>
       `;
     });
+
+    cartSubtotalEl.textContent = "$" + subtotal.toFixed(2);
+    updateTotalWithShipping();
+  }
+
+  // Remove item
+  cartContainer.addEventListener("click", e => {
+    const btn = e.target.closest(".remove-item");
+    if (!btn) return;
+    const id = btn.dataset.id;
+    if (!id) return;
+
+    delete cart[id];
+    localStorage.setItem("wearopia_cart", JSON.stringify(cart));
+    renderCart();
   });
+
+  // Update quantity
+  cartContainer.addEventListener("input", e => {
+    const input = e.target.closest(".cart-qty");
+    if (!input) return;
+
+    const id = input.dataset.id;
+    const newQty = Math.max(1, parseInt(input.value) || 1);
+    cart[id] = newQty;
+    localStorage.setItem("wearopia_cart", JSON.stringify(cart));
+    renderCart();
+  });
+
+  // Update total when shipping option changes
+  document.querySelectorAll('input[name="shipping"]').forEach(radio => {
+    radio.addEventListener('change', updateTotalWithShipping);
+  });
+
+  // Initial render
+  renderCart();
+});
 </script>
-<div id="cart-items"></div>
+
 
 
 </body>

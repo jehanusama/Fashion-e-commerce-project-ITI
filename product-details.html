@@ -893,16 +893,33 @@
       updateWishlistButton();
     }
 
-    function addToCart() {
-      if (!currentProduct) return;
+   function addToCart() {
+  if (!currentProduct) return;
 
-      cart[currentProduct.id] = (cart[currentProduct.id] || 0) + 1;
+  // Load existing cart and product data
+  let cart = StorageManager.loadCart();
+  let allProducts = JSON.parse(localStorage.getItem("wearopia_products")) || {};
 
-      StorageManager.saveCart(cart);
-      StorageManager.updateCounts(cart, wishlist);
+  // Save/update the product details in the master product list
+  allProducts[currentProduct.id] = {
+    id: currentProduct.id,
+    name: currentProduct.name,
+    price: currentProduct.price,
+    image: currentProduct.image,
+    color: selectedColor,
+    size: selectedSize
+  };
 
-      showToast('Product added to cart successfully!', 'success');
-    }
+  // Add or increase quantity
+  cart[currentProduct.id] = (cart[currentProduct.id] || 0) + 1;
+
+  // Save everything back
+  localStorage.setItem("wearopia_products", JSON.stringify(allProducts));
+  StorageManager.saveCart(cart);
+  StorageManager.updateCounts(cart, wishlist);
+
+  showToast('Product added to cart successfully!', 'success');
+}
 
     function showToast(message, type = 'success') {
       const toastContainer = document.getElementById('toastContainer');
