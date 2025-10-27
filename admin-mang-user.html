@@ -698,10 +698,10 @@
                         <div class="d-flex flex-column w-100">
                             <div class="d-flex my-3">
                                 <div>
-                                    <img src="https://ui-avatars.com/api/?name=Gustavo+Xavier&background=0F6546&color=fff" alt="User" class="user-avatar">
+                                    <img src="Images/Admin image.jpg" alt="User" class="user-avatar">
                                 </div>
                                 <div class="mx-3 user-info">
-                                    <div class="user-name">Gustavo Xavier</div>
+                                    <div class="user-name">Amr Magdy</div>
                                     <span class="user-role">Admin</span>
                                 </div>
                             </div>
@@ -836,7 +836,7 @@
             let sellersCurrentPage = 1;
             let customersCurrentPage = 1;
 
-            // Load data from localStorage or use default
+            
             let sellersData = JSON.parse(localStorage.getItem('sellersData')) || [
                 { name: 'Amina Khalil', phone: '(225) 555-0118', added: 5045, sold: 320, status: 'active' },
                 { name: 'Omar Hassan', phone: '(225) 555-0119', added: 3200, sold: 245, status: 'suspended' },
@@ -864,7 +864,7 @@
                 localStorage.setItem('customersData', JSON.stringify(customersData));
             }
 
-            // Validation Functions
+            
             function validateName(name) {
                  const trimmed = name.trim();
 
@@ -874,7 +874,7 @@
             }
 
             function validatePhone(phone) {
-                // Allow formats like (225) 555-0118 or +20 2 33325789
+               
                 const phoneRegex = /^[\d\s\(\)\+\-]+$/;
                 return phoneRegex.test(phone) && phone.replace(/\D/g, '').length >= 10;
             }
@@ -907,7 +907,7 @@
                 $('.error-message').hide();
             }
 
-            // Real-time validation
+            
             $('#sellerName').on('input', function() {
                 const isValid = validateName($(this).val());
                 showError('sellerName', 'nameError', isValid);
@@ -1007,7 +1007,7 @@
                 
                 paginationEl.empty();
                 
-                // Previous button
+                
                 const prevDisabled = currentPage === 1 ? 'disabled' : '';
                 paginationEl.append(`
                     <li class="pagination-item ${prevDisabled}" data-page="${currentPage - 1}" data-type="${type}">
@@ -1015,7 +1015,7 @@
                     </li>
                 `);
                 
-                // Page numbers
+                
                 let startPage = Math.max(1, currentPage - 1);
                 let endPage = Math.min(totalPages, currentPage + 1);
                 
@@ -1044,7 +1044,7 @@
                     `);
                 }
                 
-                // Next button
+                
                 const nextDisabled = currentPage === totalPages ? 'disabled' : '';
                 paginationEl.append(`
                     <li class="pagination-item ${nextDisabled}" data-page="${currentPage + 1}" data-type="${type}">
@@ -1053,7 +1053,7 @@
                 `);
             }
 
-            // Modal handlers
+            
             $('#addSellerBtn').click(function() {
                 $('#sellerModal').addClass('show');
             });
@@ -1072,25 +1072,25 @@
                 }
             });
 
-            // Add seller form submit
+            
             $('#sellerForm').submit(function(e) {
                 e.preventDefault();
                 
-                // Get form values
+                
                 const name = $('#sellerName').val();
                 const phone = $('#sellerPhone').val();
                 const added = $('#sellerAdded').val();
                 const sold = $('#sellerSold').val();
                 const status = $('#sellerStatus').val();
                 
-                // Validate all fields
+                
                 const isNameValid = showError('sellerName', 'nameError', validateName(name));
                 const isPhoneValid = showError('sellerPhone', 'phoneError', validatePhone(phone));
                 const isAddedValid = showError('sellerAdded', 'addedError', validateNumber(added));
                 const isSoldValid = showError('sellerSold', 'soldError', validateNumber(sold));
                 const isStatusValid = showError('sellerStatus', 'statusError', validateStatus(status));
                 
-                // Check if all validations passed
+                
                 if (!isNameValid || !isPhoneValid || !isAddedValid || !isSoldValid || !isStatusValid) {
                     return false;
                 }
@@ -1113,11 +1113,11 @@
                 sellersCurrentPage = 1;
                 renderSellers(sellersCurrentPage);
                 
-                // Show success message
+                
                 alert('Seller added successfully!');
             });
 
-            // Pagination click handler
+            
             $(document).on('click', '.pagination-item:not(.disabled)', function() {
                 const page = parseInt($(this).data('page'));
                 const type = $(this).data('type');
@@ -1133,7 +1133,7 @@
                 }
             });
 
-            // Delete seller
+            
             $(document).on('click', '.delete-seller', function() {
                 if (confirm('Are you sure you want to delete this seller?')) {
                     const row = $(this).closest('tr');
@@ -1142,7 +1142,7 @@
                     sellersData.splice(index, 1);
                     saveToLocalStorage();
                     
-                    // Adjust current page if needed
+                    
                     const totalPages = Math.ceil(sellersData.length / ITEMS_PER_PAGE);
                     if (sellersCurrentPage > totalPages && totalPages > 0) {
                         sellersCurrentPage = totalPages;
@@ -1156,7 +1156,7 @@
                 }
             });
 
-            // Delete customer
+            
             $(document).on('click', '.delete-customer', function() {
                 if (confirm('Are you sure you want to delete this customer?')) {
                     const row = $(this).closest('tr');
@@ -1165,7 +1165,7 @@
                     customersData.splice(index, 1);
                     saveToLocalStorage();
                     
-                    // Adjust current page if needed
+                    
                     const totalPages = Math.ceil(customersData.length / ITEMS_PER_PAGE);
                     if (customersCurrentPage > totalPages && totalPages > 0) {
                         customersCurrentPage = totalPages;
@@ -1179,7 +1179,7 @@
                 }
             });
 
-            // Edit handlers (placeholder)
+            
             $(document).on('click', '.edit-seller, .edit-customer', function() {
                 alert('Edit functionality - Opening edit modal...');
             });
@@ -1190,7 +1190,7 @@
 
            
 
-            // Logout
+            
             $('.logout-btn').click(function(e) {
                 e.preventDefault();
                 if(confirm('Are you sure you want to logout?')) {
@@ -1198,7 +1198,7 @@
                 }
             });
 
-            // Initial render
+            
             renderSellers(sellersCurrentPage);
             renderCustomers(customersCurrentPage);
         });

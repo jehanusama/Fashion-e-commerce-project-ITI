@@ -782,11 +782,11 @@
                         <div class="d-flex flex-column w-100">
                             <div class="d-flex my-3">
                                 <div>
-                                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='45' height='45'%3E%3Ccircle cx='22.5' cy='22.5' r='22.5' fill='%23e0e0e0'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='%23666' font-size='16' font-weight='bold'%3EGX%3C/text%3E%3C/svg%3E"
+                                    <img src="Images/seller image.png"
                                         alt="User" class="user-avatar">
                                 </div>
                                 <div class="mx-3 user-info">
-                                    <div class="user-name">Gustavo Xavier</div>
+                                    <div class="user-name">Mohamed Amr</div>
                                     <span class="user-role">Seller</span>
                                 </div>
                             </div>
@@ -891,6 +891,7 @@
                                             <label class="form-label">Discount</label>
                                             <input type="text" class="form-control" id="discount"
                                                 placeholder="discount">
+                                            <div class="invalid-feedback"></div>
                                         </div>
                                         <div class="col-lg-6 col-12">
                                             <label class="form-label">Discount Type</label>
@@ -973,20 +974,18 @@
         let selectedImageIndex = 0;
         let currentProductId = null;
 
-        // Get product ID from URL
         function getProductIdFromURL() {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get('id');
         }
 
-        // Load product data
         function loadProductData() {
             const productId = getProductIdFromURL();
 
             if (!productId) {
                 showToast('No product ID provided', 'danger');
                 setTimeout(() => {
-                    window.location.href = 'products.html'; // Redirect to products page
+                    window.location.href = 'products.html';
                 }, 2000);
                 return;
             }
@@ -1004,7 +1003,6 @@
 
             currentProductId = product.id;
 
-            // Fill form with product data
             document.getElementById('productName').value = product.name || '';
             document.getElementById('productDescription').value = product.description || '';
             document.getElementById('price').value = product.price || '';
@@ -1013,7 +1011,6 @@
             document.getElementById('discountType').value = product.discountType || '';
             document.getElementById('productCategory').value = product.category || 'Jacket';
 
-            // Set sizes
             if (product.sizes && product.sizes.length > 0) {
                 document.querySelectorAll('.size-btn').forEach(btn => {
                     if (product.sizes.includes(btn.dataset.size)) {
@@ -1022,7 +1019,6 @@
                 });
             }
 
-            // Set colors
             if (product.colors && product.colors.length > 0) {
                 document.querySelectorAll('.color-option').forEach(option => {
                     if (product.colors.includes(option.dataset.color)) {
@@ -1031,7 +1027,6 @@
                 });
             }
 
-            // Set images
             if (product.images && product.images.length > 0) {
                 uploadedImages = [...product.images];
                 selectedImageIndex = 0;
@@ -1044,21 +1039,18 @@
             }
         }
 
-        // Size button toggle
         document.querySelectorAll('.size-btn').forEach(btn => {
             btn.addEventListener('click', function () {
                 this.classList.toggle('active');
             });
         });
 
-        // Color option toggle
         document.querySelectorAll('.color-option').forEach(option => {
             option.addEventListener('click', function () {
                 this.classList.toggle('active');
             });
         });
 
-        // Image upload functionality
         const fileInput = document.getElementById('fileInput');
         const imageUploadArea = document.getElementById('imageUploadArea');
         const mainImage = document.getElementById('mainImage');
@@ -1161,7 +1153,6 @@
                 });
             }
 
-            // Add "Add More" button
             const addMore = document.createElement('div');
             addMore.className = 'image-preview add-more';
             addMore.id = 'addMoreBtn';
@@ -1170,7 +1161,6 @@
             imagePreviewContainer.appendChild(addMore);
         }
 
-        // Validation
         function validateNumber(value, fieldName) {
             const num = parseFloat(value);
             if (isNaN(num) || num < 0) {
@@ -1179,19 +1169,40 @@
             return { valid: true };
         }
 
-        // Update product
+        function validateInteger(value, fieldName) {
+            const num = parseInt(value);
+            if (isNaN(num) || num < 0 || !Number.isInteger(parseFloat(value))) {
+                return { valid: false, message: `${fieldName} must be a valid positive integer` };
+            }
+            return { valid: true };
+        }
+
+        function validateDiscount(value, type) {
+            if (!value || value === '0') return { valid: true };
+
+            const num = parseFloat(value);
+            if (isNaN(num) || num < 0) {
+                return { valid: false, message: 'Discount must be a valid positive number' };
+            }
+
+            if (type === 'percentage' && num > 100) {
+                return { valid: false, message: 'Discount percentage cannot exceed 100%' };
+            }
+
+            return { valid: true };
+        }
+
         document.getElementById('updateBtn').addEventListener('click', function () {
             const fields = [
                 { id: 'productName', value: document.getElementById('productName').value.trim(), required: true },
                 { id: 'productDescription', value: document.getElementById('productDescription').value.trim(), required: true },
                 { id: 'price', value: document.getElementById('price').value.trim(), required: true, type: 'number' },
-                { id: 'stock', value: document.getElementById('stock').value.trim(), required: true, type: 'number' },
+                { id: 'stock', value: document.getElementById('stock').value.trim(), required: true, type: 'integer' },
                 { id: 'productCategory', value: document.getElementById('productCategory').value, required: true }
             ];
 
             let hasError = false;
 
-            // Validate fields
             fields.forEach(f => {
                 const input = document.getElementById(f.id);
                 const feedback = input.nextElementSibling;
@@ -1212,13 +1223,49 @@
                         input.classList.remove('is-invalid');
                         feedback.style.display = 'none';
                     }
+                } else if (f.type === 'integer' && f.value) {
+                    const validation = validateInteger(f.value, f.id);
+                    if (!validation.valid) {
+                        input.classList.add('is-invalid');
+                        feedback.textContent = validation.message;
+                        feedback.style.display = 'block';
+                        hasError = true;
+                    } else {
+                        input.classList.remove('is-invalid');
+                        feedback.style.display = 'none';
+                    }
                 } else {
                     input.classList.remove('is-invalid');
                     feedback.style.display = 'none';
                 }
             });
 
-            // Validate images
+            const discountValue = document.getElementById('discount').value.trim();
+            const discountTypeValue = document.getElementById('discountType').value.trim().toLowerCase();
+
+            if (discountValue && discountValue !== '0') {
+                const discountInput = document.getElementById('discount');
+                const discountFeedback = discountInput.nextElementSibling;
+
+                const discountValidation = validateDiscount(discountValue, discountTypeValue);
+                if (!discountValidation.valid) {
+                    discountInput.classList.add('is-invalid');
+                    if (!discountFeedback) {
+                        const feedback = document.createElement('div');
+                        feedback.className = 'invalid-feedback';
+                        discountInput.parentNode.appendChild(feedback);
+                    }
+                    discountInput.nextElementSibling.textContent = discountValidation.message;
+                    discountInput.nextElementSibling.style.display = 'block';
+                    hasError = true;
+                } else {
+                    discountInput.classList.remove('is-invalid');
+                    if (discountFeedback) {
+                        discountFeedback.style.display = 'none';
+                    }
+                }
+            }
+
             const imageError = document.getElementById('imageError');
             if (uploadedImages.length === 0) {
                 imageError.style.display = 'block';
@@ -1227,14 +1274,12 @@
                 imageError.style.display = 'none';
             }
 
-            // Validate sizes
             const selectedSizes = document.querySelectorAll('.size-btn.active');
             if (selectedSizes.length === 0) {
                 showToast('Please select at least one size', 'danger');
                 hasError = true;
             }
 
-            // Validate colors
             const selectedColors = document.querySelectorAll('.color-option.active');
             if (selectedColors.length === 0) {
                 showToast('Please select at least one color', 'danger');
@@ -1243,10 +1288,8 @@
 
             if (hasError) return;
 
-            // Show loading
             document.getElementById('loadingOverlay').classList.add('active');
 
-            // Update product data
             const updatedProduct = {
                 id: currentProductId,
                 name: document.getElementById('productName').value.trim(),
@@ -1262,24 +1305,20 @@
                 updatedAt: new Date().toISOString()
             };
 
-            // Get all products and update the specific one
             let products = JSON.parse(localStorage.getItem('products') || '[]');
             const productIndex = products.findIndex(p => p.id == currentProductId);
 
             if (productIndex !== -1) {
-                // Keep the original createdAt date
                 updatedProduct.createdAt = products[productIndex].createdAt;
                 products[productIndex] = updatedProduct;
                 localStorage.setItem('products', JSON.stringify(products));
 
-                // Hide loading
                 setTimeout(() => {
                     document.getElementById('loadingOverlay').classList.remove('active');
                     showToast('Product updated successfully!', 'success');
 
-                    // Redirect after 2 seconds
                     setTimeout(() => {
-                        window.location.href = 'sellers-products.html'; // Redirect to products page
+                        window.location.href = 'sellers-products.html';
                     }, 2000);
                 }, 500);
             } else {
@@ -1288,14 +1327,12 @@
             }
         });
 
-        // Cancel button
         document.getElementById('cancelBtn').addEventListener('click', function () {
             if (confirm('Are you sure you want to cancel? Any unsaved changes will be lost.')) {
-                window.location.href = 'products.html'; // Redirect to products page
+                window.location.href = 'products.html';
             }
         });
 
-        // Toast notification
         function showToast(message, type) {
             const toastContainer = document.getElementById('productToast');
             toastContainer.classList.remove('text-bg-success', 'text-bg-danger');
@@ -1305,7 +1342,6 @@
             toast.show();
         }
 
-        // Load product data on page load
         window.addEventListener('DOMContentLoaded', () => {
             loadProductData();
         });

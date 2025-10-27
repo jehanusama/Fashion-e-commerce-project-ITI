@@ -705,11 +705,11 @@
                         <div class="d-flex flex-column w-100">
                             <div class="d-flex my-3">
                                 <div>
-                                    <img src="https://ui-avatars.com/api/?name=Gustavo+Xavier&background=0F6546&color=fff"
+                                    <img src="Images/Admin image.jpg"
                                         alt="User" class="user-avatar">
                                 </div>
                                 <div class="mx-3 user-info">
-                                    <div class="user-name">Gustavo Xavier</div>
+                                    <div class="user-name">Amr Magdy</div>
                                     <span class="user-role">Seller</span>
                                 </div>
                             </div>
@@ -754,7 +754,7 @@
                                 </tbody>
                             </table>
 
-                            <!-- Empty State -->
+                            
                             <div class="empty-state" id="emptyState" style="display: none;">
                                 <i class="fas fa-box-open"></i>
                                 <h3>No Products Yet</h3>
@@ -794,7 +794,7 @@
         let currentPage = 1;
         let totalPages = 1;
 
-        // Load products from localStorage
+        
         function loadProducts() {
             const stored = localStorage.getItem('products');
             if (stored) {
@@ -815,7 +815,7 @@
             renderProducts();
         }
 
-        // Render products for current page
+        
         function renderProducts() {
             const tbody = document.getElementById('productsTableBody');
             const emptyState = document.getElementById('emptyState');
@@ -824,7 +824,7 @@
 
             tbody.innerHTML = '';
 
-            // Check if no products
+            
             if (allProducts.length === 0) {
                 productsTable.style.display = 'none';
                 paginationContainer.style.display = 'none';
@@ -836,17 +836,17 @@
             paginationContainer.style.display = 'flex';
             emptyState.style.display = 'none';
 
-            // Calculate pagination
+            
             const startIndex = (currentPage - 1) * productsPerPage;
             const endIndex = Math.min(startIndex + productsPerPage, allProducts.length);
             currentPageProducts = allProducts.slice(startIndex, endIndex);
 
-            // Render products
+            
             currentPageProducts.forEach((product, index) => {
                 const globalIndex = startIndex + index;
                 const row = document.createElement('tr');
 
-                // Product image
+                
                 let imageHtml = '<div class="product-image"><i class="fas fa-shopping-bag"></i></div>';
                 if (product.images && product.images.length > 0) {
                     imageHtml = `<div class="product-image"><img src="${product.images[0]}" alt="${product.name}"></div>`;
@@ -876,7 +876,7 @@
             updatePaginationInfo();
         }
 
-        // Update pagination controls
+        
         function updatePaginationInfo() {
             const start = (currentPage - 1) * productsPerPage + 1;
             const end = Math.min(currentPage * productsPerPage, allProducts.length);
@@ -885,7 +885,7 @@
             document.getElementById('endRange').textContent = end;
             document.getElementById('totalEntries').textContent = allProducts.length;
 
-            // Generate page numbers
+            
             const pageNumbersContainer = document.getElementById('pageNumbers');
             pageNumbersContainer.innerHTML = '';
 
@@ -905,7 +905,7 @@
                 pageNumbersContainer.appendChild(btn);
             }
 
-            // Update prev/next buttons
+            
             const prevBtn = document.querySelector('.pagination-btn i.fa-chevron-left').parentElement;
             prevBtn.disabled = currentPage === 1;
 
@@ -913,7 +913,7 @@
             nextBtn.disabled = currentPage === totalPages;
         }
 
-        // Change page
+        
         function changePage(page) {
             if (page === 'prev') {
                 if (currentPage > 1) currentPage--;
@@ -927,21 +927,21 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Edit product
+        
         function editProduct(index) {
             const product = allProducts[index];
-            // Redirect to edit page with product ID
+            
             window.location.href = `edit-product-admin.html?id=${product.id}`;
         }
 
-        // Delete product
+        
         function deleteProduct(index) {
             const product = allProducts[index];
             if (confirm(`Are you sure you want to delete "${product.name}"?`)) {
                 allProducts.splice(index, 1);
                 localStorage.setItem('products', JSON.stringify(allProducts));
 
-                // Adjust current page if needed
+                
                 totalPages = Math.ceil(allProducts.length / productsPerPage);
                 if (totalPages === 0) totalPages = 1;
                 if (currentPage > totalPages) currentPage = totalPages;
@@ -951,7 +951,7 @@
             }
         }
 
-        // Listen for storage changes (when product is added in another tab/window)
+        
         window.addEventListener('storage', function (e) {
             if (e.key === 'products') {
                 console.log('Products updated in another tab');
@@ -959,10 +959,10 @@
             }
         });
 
-        // Initial load
+        
         loadProducts();
 
-        // Check for new products every 2 seconds (for when adding from same window)
+        
         let lastProductCount = allProducts.length;
         setInterval(() => {
             const stored = localStorage.getItem('products');
