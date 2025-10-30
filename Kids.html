@@ -851,6 +851,9 @@
 
         
         function generateProducts() {
+            let products = localStorage.getItem('wearopia_products');
+            if (products) return JSON.parse(products);
+
             const categories = ['Men', 'Women', 'Accessories', 'Kids'];
             const subcategories = ['Jeans', 'Jacket', 'Pullover', 'T-shirt', 'Homewear', 'Hoddie', 'Sportwear'];
             const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
@@ -888,7 +891,7 @@
                     nameIndex++;
                 }
             });
-
+            localStorage.setItem('wearopia_products', JSON.stringify(allProducts));
             return allProducts;
         }
 

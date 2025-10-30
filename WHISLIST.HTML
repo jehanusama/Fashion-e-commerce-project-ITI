@@ -116,7 +116,10 @@
     });
 
     function renderWishlist() {
-      let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+      let wishlist = JSON.parse(localStorage.getItem("wearopia_wishlist")) || [];
+ 
+      console.log();
+      
       const container = $("#wishlistItems");
       container.empty();
 
@@ -124,8 +127,10 @@
         container.html("<p class='text-center text-muted'>Your wishlist is empty 💔</p>");
         return;
       }
+      
+      Object.keys(wishlist).forEach((item, index) => {
 
-      wishlist.forEach((item, index) => {
+        item = getProductDetails(item);
         container.append(`
           <div class="wishlist-item">
             <h5>${item.name}</h5>
@@ -143,6 +148,11 @@
         renderWishlist();
         Swal.fire("Removed!", "Item removed from wishlist.", "success");
       });
+    }
+
+    function getProductDetails(id) {
+      allProducts = JSON.parse(localStorage.getItem('wearopia_products')) || {};
+      return allProducts[id] || null;
     }
   </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
