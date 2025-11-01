@@ -946,5 +946,62 @@ footer {
   }
 }
 
+.custom-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.custom-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.custom-img {
+  height: 280px;
+  object-fit: cover;
+}
+
+.custom-icon {
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.custom-icon:hover {
+  color: #198754;
+  transform: scale(1.1);
+}
+
+.add-to-cart-btn {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+}
+
+.custom-card:hover .add-to-cart-btn {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.wishlist-icon {
+  color: #6c757d;
+  font-size: 16px;
+  transition: color 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+}
+
+.wishlist-icon.active {
+  color: #dc3545;
+  transform: scale(1.2);
+}
+
+.wishlist-active {
+  transform: scale(1.15);
+  transition: transform 0.18s ease;
+}
+
+.text-danger {
+  color: #dc3545 !important;
+}
 
 /*end of footer*/

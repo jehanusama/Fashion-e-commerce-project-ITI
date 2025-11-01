@@ -7,8 +7,10 @@
     <title>Home</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
     <link rel="stylesheet" href="CSS/index.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+<link rel="stylesheet" href="./CSS/components.css">
+<script src="./JavaScript/components.js" defer></script>
     <style>
         .custom-card {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -20,7 +22,9 @@
 .custom-img {
   height: 280px;
   object-fit: cover;
-}
+}console.log('🔐 Login page loaded');
+
+const
 .custom-icon {
   width: 28px;
   height: 28px;
@@ -63,8 +67,7 @@
 
 <body>
 
-<div id="navbar-placeholder"></div>
-
+  <div id="navbar-container"></div>
 
 
 
@@ -219,176 +222,8 @@
     <section class="py-5 text-center">
       <div class="container" style="max-width: 1200px;">
         <h2 class="fw-bold mb-5" style="color: #0F6546;">Featured Products</h2>
-        <div class="row g-4">
-    
-          
-          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-            <div class="card bg-white border border-light rounded-4 shadow-sm overflow-hidden custom-card position-relative"
-              onclick="goToFeaturedProduct(2)" style="cursor: pointer;">
-              <img src="Images/product2.jpg" class="card-img-top object-fit-cover custom-img" alt="Men's Black T-Shirt">
-              <div class="p-3">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                  <h5 class="fs-6 fw-medium mb-0 text-dark">Leather Bomber Jacket</h5>
-                  <div class="d-flex justify-content-center align-items-center rounded-2 shadow-sm bg-white custom-icon"
-                    onclick="event.stopPropagation();">
-                    <i class="fa-regular fa-heart"></i>
-                  </div>
-                </div>
-                <div class="d-flex align-items-center mb-3">
-                  <span class="fw-semibold fs-6 text-dark me-2">$29.99</span>
-                  <span class="text-decoration-line-through text-muted small">$39.99</span>
-                </div>
-              </div>
-            </div>
-          </div>
-    
-          
-          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-            <div class="card bg-white border border-light rounded-4 shadow-sm overflow-hidden custom-card position-relative"
-              onclick="goToFeaturedProduct(33)" style="cursor: pointer;">
-              <img src="Images/product33.jpg" class="card-img-top object-fit-cover custom-img" alt="Women's Summer Dress">
-              <div class="p-3">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                  <h5 class="fs-6 fw-medium mb-0 text-dark">Comfortable Andora Hoddie</h5>
-                  <div class="d-flex justify-content-center align-items-center rounded-2 shadow-sm bg-white custom-icon"
-                    onclick="event.stopPropagation();">
-                    <i class="fa-regular fa-heart"></i>
-                  </div>
-                </div>
-                <div class="d-flex align-items-center mb-3">
-                  <span class="fw-semibold fs-6 text-dark me-2">$49.99</span>
-                  <span class="text-decoration-line-through text-muted small">$59.99</span>
-                </div>
-              </div>
-            </div>
-          </div>
-    
-          
-          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-            <div class="card bg-white border border-light rounded-4 shadow-sm overflow-hidden custom-card position-relative"
-              onclick="goToFeaturedProduct(15)" style="cursor: pointer;">
-              <img src="Images/product15.jpg" class="card-img-top object-fit-cover custom-img" alt="Blue Jeans">
-              <div class="p-3">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                  <h5 class="fs-6 fw-medium mb-0 text-dark">Classic Blue Jeans</h5>
-                  <div class="d-flex justify-content-center align-items-center rounded-2 shadow-sm bg-white custom-icon"
-                    onclick="event.stopPropagation();">
-                    <i class="fa-regular fa-heart"></i>
-                  </div>
-                </div>
-                <div class="d-flex align-items-center mb-3">
-                  <span class="fw-semibold fs-6 text-dark me-2">$44.99</span>
-                  <span class="text-decoration-line-through text-muted small">$54.99</span>
-                </div>
-              </div>
-            </div>
-          </div>
-    
-          
-          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-            <div class="card bg-white border border-light rounded-4 shadow-sm overflow-hidden custom-card position-relative"
-              onclick="goToFeaturedProduct(76)" style="cursor: pointer;">
-              <img src="Images/product76.jpg" class="card-img-top object-fit-cover custom-img" alt="Denim Jacket">
-              <div class="p-3">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                  <h5 class="fs-6 fw-medium mb-0 text-dark">Fleece Jacket</h5>
-                  <div class="d-flex justify-content-center align-items-center rounded-2 shadow-sm bg-white custom-icon"
-                    onclick="event.stopPropagation();">
-                    <i class="fa-regular fa-heart"></i>
-                  </div>
-                </div>
-                <div class="d-flex align-items-center mb-3">
-                  <span class="fw-semibold fs-6 text-dark me-2">$69.99</span>
-                  <span class="text-decoration-line-through text-muted small">$89.99</span>
-                </div>
-              </div>
-            </div>
-          </div>
-    
-          
-          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-            <div class="card bg-white border border-light rounded-4 shadow-sm overflow-hidden custom-card position-relative"
-              onclick="goToFeaturedProduct(23)" style="cursor: pointer;">
-              <img src="Images/product23.jpg" class="card-img-top object-fit-cover custom-img" alt="Kids Outfit">
-              <div class="p-3">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                  <h5 class="fs-6 fw-medium mb-0 text-dark">Thick fleece Hoddie</h5>
-                  <div class="d-flex justify-content-center align-items-center rounded-2 shadow-sm bg-white custom-icon"
-                    onclick="event.stopPropagation();">
-                    <i class="fa-regular fa-heart"></i>
-                  </div>
-                </div>
-                <div class="d-flex align-items-center mb-3">
-                  <span class="fw-semibold fs-6 text-dark me-2">$34.99</span>
-                  <span class="text-decoration-line-through text-muted small">$44.99</span>
-                </div>
-              </div>
-            </div>
-          </div>
-    
-          
-          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-            <div class="card bg-white border border-light rounded-4 shadow-sm overflow-hidden custom-card position-relative"
-              onclick="goToFeaturedProduct(80)" style="cursor: pointer;">
-              <img src="Images/product80.jpg" class="card-img-top object-fit-cover custom-img" alt="Leather Handbag">
-              <div class="p-3">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                  <h5 class="fs-6 fw-medium mb-0 text-dark">Two Sweet Hoddie</h5>
-                  <div class="d-flex justify-content-center align-items-center rounded-2 shadow-sm bg-white custom-icon"
-                    onclick="event.stopPropagation();">
-                    <i class="fa-regular fa-heart"></i>
-                  </div>
-                </div>
-                <div class="d-flex align-items-center mb-3">
-                  <span class="fw-semibold fs-6 text-dark me-2">$79.99</span>
-                  <span class="text-decoration-line-through text-muted small">$99.99</span>
-                </div>
-              </div>
-            </div>
-          </div>
-    
-          
-          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-            <div class="card bg-white border border-light rounded-4 shadow-sm overflow-hidden custom-card position-relative"
-              onclick="goToFeaturedProduct(55)" style="cursor: pointer;">
-              <img src="Images/product55.jpg" class="card-img-top object-fit-cover custom-img" alt="Sunglasses">
-              <div class="p-3">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                  <h5 class="fs-6 fw-medium mb-0 text-dark">Stylish Sunglasses</h5>
-                  <div class="d-flex justify-content-center align-items-center rounded-2 shadow-sm bg-white custom-icon"
-                    onclick="event.stopPropagation();">
-                    <i class="fa-regular fa-heart"></i>
-                  </div>
-                </div>
-                <div class="d-flex align-items-center mb-3">
-                  <span class="fw-semibold fs-6 text-dark me-2">$24.99</span>
-                  <span class="text-decoration-line-through text-muted small">$34.99</span>
-                </div>
-              </div>
-            </div>
-          </div>
-    
-          
-          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-            <div class="card bg-white border border-light rounded-4 shadow-sm overflow-hidden custom-card position-relative"
-              onclick="goToFeaturedProduct(46)" style="cursor: pointer;">
-              <img src="Images/product46.jpg" class="card-img-top object-fit-cover custom-img" alt="Sneakers">
-              <div class="p-3">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                  <h5 class="fs-6 fw-medium mb-0 text-dark">Designer Chronograph</h5>
-                  <div class="d-flex justify-content-center align-items-center rounded-2 shadow-sm bg-white custom-icon"
-                    onclick="event.stopPropagation();">
-                    <i class="fa-regular fa-heart"></i>
-                  </div>
-                </div>
-                <div class="d-flex align-items-center mb-3">
-                  <span class="fw-semibold fs-6 text-dark me-2">$59.99</span>
-                  <span class="text-decoration-line-through text-muted small">$69.99</span>
-                </div>
-              </div>
-            </div>
-          </div>
-    
+        <div class="row g-4" id="featured-products-row">
+          <!-- Products will be dynamically inserted here -->
         </div>
         <a href="product-catalog.html" class="border-0 text-light px-5 py-2 my-5 rounded-pill d-inline-block text-decoration-none view-all" >View All</a>
       </div>
@@ -645,135 +480,53 @@
     <!--end of footer-->
 
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="JavaScript/navbar-test.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="JavaScript/components.js"></script>
 <script src="JavaScript/index.js"></script>
+<script src="JavaScript/featured.js" defer></script>
 <script>
-    // Featured Products Data
-    const featuredProducts = {
-      2: {
-        id: 2, name: 'Leather Bomber Jacket', mainCategory: 'Men',
-        category: 'Jacket', size: 'L', color: 'Black',
-        price: 29.99, oldPrice: 39.99, image: 'Images/product2.jpg'
-      },
-      33: {
-        id: 33, name: 'Comfortable Andora Hoddie', mainCategory: 'Women',
-        category: 'Homewear', size: 'M', color: 'Grey',
-        price: 49.99, oldPrice: 59.99, image: 'Images/product33.jpg'
-      },
-      15: {
-        id: 15, name: 'Classic Blue Jeans', mainCategory: 'Men',
-        category: 'Jeans', size: 'L', color: 'Blue',
-        price: 44.99, oldPrice: 54.99, image: 'Images/product15.jpg'
-      },
-      76: {
-        id: 76, name: 'Fleece Jacket', mainCategory: 'Women',
-        category: 'Jacket', size: 'M', color: 'Dark Blue',
-        price: 69.99, oldPrice: 89.99, image: 'Images/product76.jpg'
-      },
-      23: {
-        id: 23, name: 'Thick fleece Hoddie', mainCategory: 'Kids',
-        category: 'Homewear', size: 'S', color: 'Orange',
-        price: 34.99, oldPrice: 44.99, image: 'Images/product23.jpg'
-      },
-      80: {
-        id: 80, name: 'Two Sweet Hoddie', mainCategory: 'Women',
-        category: 'Homewear', size: 'L', color: 'Green',
-        price: 79.99, oldPrice: 99.99, image: 'Images/product80.jpg'
-      },
-      55: {
-        id: 55, name: 'Stylish Sunglasses', mainCategory: 'Accessories',
-        category: 'Perfume', size: 'M', color: 'Blue',
-        price: 24.99, oldPrice: 34.99, image: 'Images/product55.jpg'
-      },
-      46: {
-        id: 46, name: 'Designer Chronograph', mainCategory: 'Accessories',
-        category: 'Perfume', size: 'L', color: 'Dark Blue',
-        price: 59.99, oldPrice: 69.99, image: 'Images/product46.jpg'
-      }
+// Migrate data from wearopia_wishlist -> wishlist (safe, idempotent).
+(function migrateWishlistKey() {
+  try {
+    const srcKey = 'wearopia_wishlist';
+    const dstKey = 'wishlist';
+
+    // Read both keys (if dst already present we'll merge)
+    const rawSrc = localStorage.getItem(srcKey);
+    const rawDst = localStorage.getItem(dstKey);
+
+    const parseSafe = (r) => {
+      try { return r ? JSON.parse(r) : null; } catch { return null; }
     };
 
-    // Load Navbar
-    function loadNavbar() {
-      fetch('navbar-test.html')
-        .then(response => {
-          if (!response.ok) throw new Error('Failed to load navbar');
-          return response.text();
-        })
-        .then(html => {
-          console.log('✅ Navbar HTML loaded');
-          document.getElementById('navbar-placeholder').innerHTML = html;
+    const src = parseSafe(rawSrc);
+    const dst = parseSafe(rawDst);
 
-          requestAnimationFrame(() => {
-            console.log('🚀 Initializing navbar');
-            if (typeof initNavbar === 'function') {
-              initNavbar();
-            }
-            if (typeof updateNavbarBadges === 'function') {
-              updateNavbarBadges();
-            }
-          });
-        })
-        .catch(error => {
-          console.error('❌ Error loading navbar:', error);
-        });
-    }
+    // Normalize to numeric id array
+    const toArray = (v) => {
+      if (!v) return [];
+      if (Array.isArray(v)) return v.slice();
+      if (typeof v === 'object') return Object.keys(v);
+      return [];
+    };
 
-    function goToFeaturedProduct(productId) {
-      const product = featuredProducts[productId];
-      if (product) {
-        localStorage.setItem('selected_product', JSON.stringify(product));
-        window.location.href = 'product-details.html';
-      }
-    }
+    let a = toArray(src).map(x => (x === null ? null : Number(x))).filter(x => x !== null && !Number.isNaN(x));
+    let b = toArray(dst).map(x => (x === null ? null : Number(x))).filter(x => x !== null && !Number.isNaN(x));
 
-    function initWishlistToggle() {
-      document.body.addEventListener('click', (e) => {
-        const wrapper = e.target.closest('.custom-icon');
-        if (!wrapper) return;
+    // merge unique
+    const merged = Array.from(new Set([...(b || []), ...(a || [])]));
 
-        const icon = wrapper.querySelector('i');
-        if (!icon) return;
+    // save under canonical 'wishlist'
+    localStorage.setItem(dstKey, JSON.stringify(merged));
+    // optional: remove source key (do it if you want)
+    // localStorage.removeItem(srcKey);
 
-        const isActive = icon.classList.contains('wishlist-active');
-
-        if (!isActive) {
-          // تفعيل المفضلة
-          if (icon.classList.contains('fa-regular')) {
-            icon.classList.replace('fa-regular', 'fa-solid');
-          } else {
-            icon.classList.add('fa-solid');
-          }
-          icon.classList.add('wishlist-active', 'text-danger');
-        } else {
-          if (icon.classList.contains('fa-solid')) {
-            icon.classList.replace('fa-solid', 'fa-regular');
-          }
-          icon.classList.remove('wishlist-active', 'text-danger');
-        }
-
-        if (typeof updateNavbarBadges === 'function') {
-          updateNavbarBadges();
-        }
-      });
-    }
-
-    function initAddToCart() {
-      document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          window.location.href = "shopping-cart.html";
-        });
-      });
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      loadNavbar();
-      initWishlistToggle();
-      initAddToCart();
-    });
+    console.log(`Migrated ${merged.length} wishlist id(s) -> localStorage['${dstKey}']`, merged);
+  } catch (e) {
+    console.error('Wishlist migration failed', e);
+  }
+})();
 </script>
-
 </body>
 
 </html>

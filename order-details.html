@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Order Details</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="./CSS/components.css">
+
+  <style>
+    body { background:#f8f9fb; }
+    .card { max-width: 980px; margin: 36px auto; }
+    .item-img { width:64px; height:64px; object-fit:cover; border-radius:6px; }
+    .muted { color: #6c757d; }
+  </style>
+</head>
+<body>
+
+  <div id="navbar-container"></div>
+
+  <div class="container">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div id="no-order" class="text-center py-5" style="display:none;">
+          <i class="bi bi-exclamation-circle fs-1 text-muted"></i>
+          <p class="muted mt-3">No order selected. Go back to <a href="profile.html">Orders</a>.</p>
+        </div>
+
+        <div id="order-details" style="display:none;">
+          <div class="d-flex justify-content-between align-items-start mb-4">
+            <div>
+              <h5 id="order-id" class="mb-1"></h5>
+              <div class="muted" id="order-date"></div>
+              <div class="muted" id="order-payment"></div>
+            </div>
+            <div class="text-end">
+              <div class="h5 text-success" id="order-total"></div>
+              <small class="muted">Status: <span id="order-status">Processing</span></small>
+            </div>
+          </div>
+
+          <div class="table-responsive mb-3">
+            <table class="table align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th style="width:80px;"></th>
+                  <th>Product</th>
+                  <th class="text-center" style="width:100px;">Price</th>
+                  <th class="text-center" style="width:100px;">Qty</th>
+                  <th class="text-end" style="width:120px;">Line Total</th>
+                </tr>
+              </thead>
+              <tbody id="items-tbody"></tbody>
+            </table>
+          </div>
+
+          <div class="d-flex justify-content-end gap-4 mb-3">
+            <div class="text-muted">Subtotal:</div>
+            <div id="subtotal-value" class="fw-bold"></div>
+          </div>
+
+          <div class="d-flex justify-content-between">
+            <div>
+              <button id="backBtn" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i> Back to Orders
+              </button>
+            </div>
+            <div>
+              <button id="reorderBtn" class="btn-green">
+                <i class="bi bi-cart-plus"></i> Reorder
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div id="footer-container"></div>
+
+  <!-- Scripts -->
+  <script src="./JavaScript/components.js"></script>
+  <script>
+  // Helper: safe currency formatting
+  function fmt(n) {
+    const num = Number(n);
+    if (!Number.isFinite(num)) return '$0.00';
+    return '$' + num.toFixed(2);
+  }
+
+  // Safe number coercion with fallback
+  function safeNum(v, fallback = 0) {
+    const n = Number(v);
+    return Number.isFinite(n) ? n : fallback;
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const selectedRaw = localStorage.getItem('selected_order');
+    if (!selectedRaw) {
+      document.getElementById('no-order').style.display = 'block';
+      return;
+    }
+
+    let order;
+    try {
+      order = JSON.parse(selectedRaw);
+    } catch (e) {
+      console.error('Invalid selected_order JSON', e);
+      document.getElementById('no-order').style.display = 'block';
+      return;
+    }
+
+    if (!order || !Array.isArray(order.items) || order.items.length === 0) {
+      // still show if there are items? But for safety:
+      if (!order || !order.items) {
+        document.getElementById('no-order').style.display = 'block';
+        return;
+      }
+    }
+
+    // Normalize items: ensure price and quantity fields exist and are numbers
+    order.items = order.items.map(it => {
+      return {
+        id: it.id ?? it.productId ?? '',
+        name: it.name ?? it.title ?? 'Product',
+        image: it.image ?? it.img ?? '',
+        price: safeNum(it.price ?? it.unitPrice ?? it.amount ?? 0, 0),
+        quantity: safeNum(it.quantity ?? it.qty ?? it.q ?? 1, 1)
+      };
+    });
+
+    // Compute subtotal from items
+    const subtotal = order.items.reduce((s, it) => s + (Number(it.price) * Number(it.quantity)), 0);
+
+    // If order.total is missing / invalid, derive it from subtotal + shipping/tax if available
+    let total = safeNum(order.total, NaN);
+    if (!Number.isFinite(total) || total === 0) {
+      // prefer pre-existing shipping/taxes if present
+      const shipping = safeNum(order.shipping ?? order.shippingCost ?? order.shipping_fee, 0);
+      const tax = safeNum(order.tax ?? order.taxAmount ?? order.vat, 0);
+      total = subtotal + shipping + tax;
+      // persist computed total back to order object
+      order.total = total;
+      // also persist shipping/tax if they weren't numbers
+      if (!Number.isFinite(order.shipping)) order.shipping = shipping;
+      if (!Number.isFinite(order.tax)) order.tax = tax;
+      // update selected_order in localStorage so reloading doesn't show 0 again
+      try { localStorage.setItem('selected_order', JSON.stringify(order)); } catch (e) { console.warn('Could not persist selected_order', e); }
+      // also update the orders list (if present) to keep global data consistent
+      try {
+        const allOrdersRaw = localStorage.getItem('orders');
+        if (allOrdersRaw) {
+          const allOrders = JSON.parse(allOrdersRaw);
+          if (Array.isArray(allOrders)) {
+            const idx = allOrders.findIndex(o => String(o.orderId) === String(order.orderId));
+            if (idx >= 0) {
+              allOrders[idx].total = order.total;
+              allOrders[idx].items = order.items;
+              localStorage.setItem('orders', JSON.stringify(allOrders));
+            }
+          }
+        }
+      } catch (e) {
+        console.warn('Could not update orders array in localStorage', e);
+      }
+    }
+
+    // Render header
+    document.getElementById('order-id').innerText = `Order ${order.orderId || ''}`;
+    document.getElementById('order-date').innerText = order.date || '';
+    document.getElementById('order-payment').innerText = order.payment && order.payment.method ? `Payment: ${order.payment.method}` : '';
+
+    // show totals
+    document.getElementById('order-total').innerText = fmt(total);
+    document.getElementById('subtotal-value').innerText = fmt(subtotal);
+
+    // Render items table
+    const tbody = document.getElementById('items-tbody');
+    tbody.innerHTML = '';
+
+    order.items.forEach(it => {
+      const line = safeNum(it.price, 0) * safeNum(it.quantity, 0);
+      const tr = document.createElement('tr');
+
+      // use local image with onerror fallback to local image to avoid external DNS failures
+      const imgSrc = it.image && it.image.trim() ? it.image : 'Images/Image.png';
+      tr.innerHTML = `
+        <td><img src="${imgSrc}" onerror="this.onerror=null;this.src='Images/Image.png';" class="item-img" alt=""></td>
+        <td>
+          <div class="fw-semibold">${it.name}</div>
+          <div class="muted small">${it.id ? 'SKU: ' + it.id : ''}</div>
+        </td>
+        <td class="text-center">${fmt(it.price)}</td>
+        <td class="text-center">${Number(it.quantity)}</td>
+        <td class="text-end">${fmt(line)}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    // Show details area
+    document.getElementById('order-details').style.display = 'block';
+
+    // Back button handler
+    const backBtn = document.getElementById('backBtn');
+    if (backBtn) backBtn.addEventListener('click', () => {
+      window.location.href = 'profile.html';
+    });
+
+    // Reorder: merge into wearopia_cart
+    const reorderBtn = document.getElementById('reorderBtn');
+    if (reorderBtn) {
+      reorderBtn.addEventListener('click', () => {
+        const existingCart = JSON.parse(localStorage.getItem('wearopia_cart') || '{}');
+        order.items.forEach(item => {
+          const id = item.id || item.productId || (item.name && item.name.replace(/\s+/g,'_').toLowerCase());
+          if (!id) return;
+          const qty = Number(item.quantity || 1);
+          existingCart[id] = (existingCart[id] || 0) + qty;
+        });
+        localStorage.setItem('wearopia_cart', JSON.stringify(existingCart));
+        window.location.href = 'shopping-cart.html';
+      });
+    }
+
+  });
+</script>
+</body>
+</html>

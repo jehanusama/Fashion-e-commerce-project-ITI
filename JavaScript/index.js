@@ -1,144 +1,189 @@
-//navbar
-// Variables
-let wishlistCount = 0;
-let cartCount = 0;
+function loadNavbar() {
+  const navbarHTML = `
+    <nav class="navbar-wrapper">
+      <nav class="navbar">
+        <a href="index.html" class="navbar-brand">Wearopia</a>
 
-const wishlistBadge = document.getElementById('wishlistCount');
-const cartBadge = document.getElementById('cartCount');
-const menuToggle = document.getElementById('menuToggle');
-const mobileMenu = document.getElementById('mobileMenu');
+        <ul class="navbar-menu" id="navbarMenu">
+          <li><a href="product-catalog.html?category=men">Man</a></li>
+          <li><a href="product-catalog.html?category=women">Women</a></li>
+          <li><a href="product-catalog.html?category=kids">Kids</a></li>
+          <li><a href="product-catalog.html?category=accessory">Accessory</a></li>
+        </ul>
 
-// Add to Wishlist
-function addToWishlist() {
-  wishlistCount++;
-  wishlistBadge.textContent = wishlistCount;
-  wishlistBadge.classList.add('show');
-}
+        <div class="search-container">
+          <i class="bi bi-search search-icon"></i>
+          <input type="text" class="search-box" placeholder="Search for outfits...">
+        </div>
 
-// Add to Cart
-function addToCart() {
-  cartCount++;
-  cartBadge.textContent = cartCount;
-  cartBadge.classList.add('show');
-}
+        <div class="navbar-actions">
 
-// Mobile Menu Toggle
-menuToggle.addEventListener('click', () => {
-  mobileMenu.classList.toggle('show');
-  const icon = menuToggle.querySelector('i');
-  
-  if (mobileMenu.classList.contains('show')) {
-    icon.classList.remove('bi-list');
-    icon.classList.add('bi-x');
-  } else {
-    icon.classList.remove('bi-x');
-    icon.classList.add('bi-list');
+          <!-- Login (appears only when logged out) -->
+          <a href="login.html" id="loginBtn">
+            <i class="bi bi-box-arrow-in-right"></i>
+            <span>Login</span>
+          </a>
+
+          <!-- Account Dropdown (appears only when logged in) -->
+          <div class="dropdown" id="accountDropdown" style="display:none;">
+            <a href="#" id="accountToggle">
+              <i class="bi bi-person-circle"></i>
+              <span id="accountName">Account</span>
+            </a>
+            <div class="dropdown-menu" id="accountMenu">
+              <a href="mainProfile.html" class="dropdown-item"><i class="bi bi-person"></i> Profile</a>
+              <a href="#" class="dropdown-item"><i class="bi bi-bag"></i> Orders</a>
+              <a href="WHISLIST.HTML" class="dropdown-item"><i class="bi bi-heart"></i> Wishlist</a>
+              <hr>
+              <a href="#" class="dropdown-item text-danger" id="logoutBtn">
+                <i class="bi bi-box-arrow-right"></i> Logout
+              </a>
+            </div>
+          </div>
+
+          <a href="WHISLIST.HTML" id="wishlistBtn" class="nav-action">
+            <i class="bi bi-heart"></i>
+            <span>Wishlist</span>
+            <span class="badge-count" id="wishlistCount">0</span>
+          </a>
+
+          <a href="shopping-cart.html" id="cartBtn" class="nav-action">
+            <i class="bi bi-bag"></i>
+            <span>Cart</span>
+            <span class="badge-count" id="cartCount">0</span>
+          </a>
+        </div>
+
+        <button class="menu-toggle" id="menuToggle">
+          <i class="bi bi-list"></i>
+        </button>
+      </nav>
+
+      <div class="mobile-dropdown" id="mobileMenu">
+        <ul>
+          <li><a href="product-catalog.html?category=men">Man</a></li>
+          <li><a href="product-catalog.html?category=women">Women</a></li>
+          <li><a href="product-catalog.html?category=kids">Kids</a></li>
+          <li><a href="product-catalog.html?category=accessory">Accessory</a></li>
+        </ul>
+      </div>
+    </nav>
+  `;
+
+  const container = document.getElementById('navbar-container') || document.getElementById('navbar');
+  if (!container) return;
+  container.innerHTML = navbarHTML;
+
+  // --- Event listeners ---
+  const menuToggle = document.getElementById('menuToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const accountDropdown = document.getElementById('accountDropdown');
+  const accountMenu = document.getElementById('accountMenu');
+  const accountToggle = document.getElementById('accountToggle');
+  const logoutBtn = document.getElementById('logoutBtn');
+  const searchBox = document.querySelector('.search-box');
+
+  // Toggle mobile menu
+  if (menuToggle) {
+    menuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('show');
+    });
   }
-});
 
-// Close mobile menu when clicking on links
-const mobileLinks = mobileMenu.querySelectorAll('a');
-mobileLinks.forEach(link => {
-  link.addEventListener('click', (e) => {
-    mobileLinks.forEach(l => l.classList.remove('active'));
-    link.classList.add('active');
-    
-    if (window.innerWidth <= 768) {
-      mobileMenu.classList.remove('show');
-      const icon = menuToggle.querySelector('i');
-      icon.classList.remove('bi-x');
-      icon.classList.add('bi-list');
+  // Toggle account dropdown
+  if (accountToggle) {
+    accountToggle.addEventListener('click', (e) => {
+      e.preventDefault();
+      accountMenu.classList.toggle('show');
+    });
+  }
+
+  // Close dropdowns when clicking outside
+  document.addEventListener('click', (e) => {
+    if (accountMenu && !accountDropdown.contains(e.target)) {
+      accountMenu.classList.remove('show');
     }
   });
-});
 
-// Desktop menu active state
-const desktopLinks = document.querySelectorAll('.navbar-menu a');
-
-
-desktopLinks.forEach(link => {
-  link.addEventListener('click', (e) => {
-    e.preventDefault();
-    desktopLinks.forEach(l => l.classList.remove('active'));
-    link.classList.add('active');
-  });
-});
-//end of navbar
-
-//  featured products
-
-
-let products = JSON.parse(localStorage.getItem("products")) || [];
-let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-const productRow = document.getElementById("product-row");
-
-function displayProducts(list) {
-  productRow.innerHTML = ""; 
-
-  list.slice(0, 8).forEach((product) => {
-    const isInWishlist = wishlist.some((item) => item.id === product.id);
-
-    const col = document.createElement("div");
-    col.className = "col-12 col-sm-6 col-md-4 col-lg-3";
-
-    col.innerHTML = `
-      <div class="card bg-white border-0 rounded-4 shadow-sm overflow-hidden custom-card h-100">
-        <div class="position-relative">
-          <img src="${product.image}" class="card-img-top object-fit-cover custom-img" alt="${product.name}">
-          <button class="wishlist-btn position-absolute top-0 end-0 m-2 btn btn-light rounded-circle p-2 ${
-            isInWishlist ? "active" : ""
-          }" data-id="${product.id}">
-            <i class="${isInWishlist ? "fa-solid" : "fa-regular"} fa-heart"></i>
-          </button>
-        </div>
-        <div class="p-3 text-start">
-          <h6 class="fw-semibold text-dark mb-2">${product.name}</h6>
-          <div class="d-flex align-items-center">
-            <span class="fw-semibold text-dark me-2">$${product.price.toFixed(2)}</span>
-            ${
-              product.oldPrice
-                ? `<span class="text-decoration-line-through text-muted small">$${product.oldPrice.toFixed(
-                    2
-                  )}</span>`
-                : ""
-            }
-          </div>
-        </div>
-      </div>
-    `;
-
-    productRow.appendChild(col);
-  });
-
-  activateWishlistButtons();
-}
-
-function activateWishlistButtons() {
-  document.querySelectorAll(".wishlist-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const productId = btn.getAttribute("data-id");
-      const product = products.find((p) => p.id == productId);
-      const icon = btn.querySelector("i");
-
-      btn.classList.toggle("active");
-
-      if (btn.classList.contains("active")) {
-        icon.classList.replace("fa-regular", "fa-solid");
-        if (!wishlist.some((item) => item.id === product.id)) {
-          wishlist.push(product);
-        }
-      } else {
-        icon.classList.replace("fa-solid", "fa-regular");
-        wishlist = wishlist.filter((item) => item.id !== product.id);
-      }
-
-      localStorage.setItem("wishlist", JSON.stringify(wishlist));
+  // Logout
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      // use consistent key 'isLoggedIn'
+      localStorage.setItem('isLoggedIn', 'false');
+      // clear both possible user name keys used across the project
+      localStorage.removeItem('userName');
+      localStorage.removeItem('loggedInUser');
+      renderAuthState(); // refresh view
     });
-  });
+  }
+
+  // Search functionality
+  if (searchBox) {
+    searchBox.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        const q = encodeURIComponent(searchBox.value.trim());
+        if (q) window.location.href = `product-catalog.html?q=${q}`;
+      }
+    });
+    // Optional: click on the search icon (if you have one)
+    const searchIcon = document.querySelector('.search-icon');
+    if (searchIcon) {
+      searchIcon.addEventListener('click', () => {
+        const q = encodeURIComponent(searchBox.value.trim());
+        if (q) window.location.href = `product-catalog.html?q=${q}`;
+      });
+    }
+  }
+
+  // Render user state and counts
+  renderAuthState();
+  updateNavbarCounts();
 }
 
+// 🔹 Show Login or Account dropdown depending on login state
+function renderAuthState() {
+  // use consistent key 'isLoggedIn' (capital I)
+  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
 
-displayProducts(products);
+  // Prefer `loggedInUser` object (JSON), fallback to `userName` string
+  let userName = 'Account';
+  try {
+    const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser') || 'null');
+    if (loggedInUser && (loggedInUser.name || loggedInUser.fullname || loggedInUser.email)) {
+      userName = loggedInUser.name || loggedInUser.fullname || loggedInUser.email;
+    } else {
+      const storedName = localStorage.getItem('userName');
+      if (storedName) userName = storedName;
+    }
+  } catch (err) {
+    const storedName = localStorage.getItem('userName');
+    if (storedName) userName = storedName;
+  }
 
-// end of featured products
+  const loginBtn = document.getElementById('loginBtn');
+  const accountDropdown = document.getElementById('accountDropdown');
+  const accountName = document.getElementById('accountName');
+
+  if (isLoggedIn) {
+    if (loginBtn) loginBtn.style.display = 'none';
+    if (accountDropdown) accountDropdown.style.display = 'inline-block';
+    if (accountName) accountName.textContent = userName;
+  } else {
+    if (loginBtn) loginBtn.style.display = 'inline-block';
+    if (accountDropdown) accountDropdown.style.display = 'none';
+  }
+}
+
+// 🔹 Update Wishlist & Cart numbers
+function updateNavbarCounts() {
+  const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+  document.getElementById('wishlistCount').textContent = wishlist.length;
+  document.getElementById('cartCount').textContent = cart.length;
+}
+
+// Auto-run when page loads
+document.addEventListener('DOMContentLoaded', loadNavbar);
 

@@ -1,0 +1,1362 @@
+[
+    {
+        "id": 1,
+        "name": "Classic Denim Jeans",
+        "mainCategory": "Men",
+        "category": "Jeans",
+        "size": "XS",
+        "color": "Blue",
+        "price": 66,
+        "oldPrice": null,
+        "image": "Images/product1.jpg",
+        "images": [
+            "Images/product1.jpg",
+            "Images/product1.jpg",
+            "Images/product1.jpg",
+            "Images/product1.jpg"
+        ]
+    },
+    {
+        "id": 2,
+        "name": "Leather Bomber Jacket",
+        "mainCategory": "Men",
+        "category": "Jacket",
+        "size": "S",
+        "color": "Green",
+        "price": 51,
+        "oldPrice": null,
+        "image": "Images/product2.jpg",
+        "images": [
+            "Images/product2.jpg",
+            "Images/product2.jpg",
+            "Images/product2.jpg",
+            "Images/product2.jpg"
+        ]
+    },
+    {
+        "id": 3,
+        "name": "Wool Pullover Sweater",
+        "mainCategory": "Men",
+        "category": "Pullover",
+        "size": "M",
+        "color": "Orange",
+        "price": 30,
+        "oldPrice": 87,
+        "image": "Images/product3.jpg",
+        "images": [
+            "Images/product3.jpg",
+            "Images/product3.jpg",
+            "Images/product3.jpg",
+            "Images/product3.jpg"
+        ]
+    },
+    {
+        "id": 4,
+        "name": "Cotton V-Neck Tee",
+        "mainCategory": "Men",
+        "category": "T-shirt",
+        "size": "L",
+        "color": "Dark Blue",
+        "price": 30,
+        "oldPrice": 89,
+        "image": "Images/product4.jpg",
+        "images": [
+            "Images/product4.jpg",
+            "Images/product4.jpg",
+            "Images/product4.jpg",
+            "Images/product4.jpg"
+        ]
+    },
+    {
+        "id": 5,
+        "name": "Classic Denim Jeans",
+        "mainCategory": "Men",
+        "category": "Homewear",
+        "size": "XL",
+        "color": "Blue",
+        "price": 51,
+        "oldPrice": null,
+        "image": "Images/product5.jpg",
+        "images": [
+            "Images/product5.jpg",
+            "Images/product5.jpg",
+            "Images/product5.jpg",
+            "Images/product5.jpg"
+        ]
+    },
+    {
+        "id": 6,
+        "name": "Leather Bomber Jacket",
+        "mainCategory": "Men",
+        "category": "Hoddie",
+        "size": "XXL",
+        "color": "Green",
+        "price": 57,
+        "oldPrice": 63,
+        "image": "Images/product6.jpg",
+        "images": [
+            "Images/product6.jpg",
+            "Images/product6.jpg",
+            "Images/product6.jpg",
+            "Images/product6.jpg"
+        ]
+    },
+    {
+        "id": 7,
+        "name": "Wool Pullover Sweater",
+        "mainCategory": "Men",
+        "category": "Sportwear",
+        "size": "XS",
+        "color": "Orange",
+        "price": 33,
+        "oldPrice": 69,
+        "image": "Images/product7.jpg",
+        "images": [
+            "Images/product7.jpg",
+            "Images/product7.jpg",
+            "Images/product7.jpg",
+            "Images/product7.jpg"
+        ]
+    },
+    {
+        "id": 8,
+        "name": "Cotton V-Neck Tee",
+        "mainCategory": "Men",
+        "category": "Jeans",
+        "size": "S",
+        "color": "Dark Blue",
+        "price": 59,
+        "oldPrice": 70,
+        "image": "Images/product8.jpg",
+        "images": [
+            "Images/product8.jpg",
+            "Images/product8.jpg",
+            "Images/product8.jpg",
+            "Images/product8.jpg"
+        ]
+    },
+    {
+        "id": 9,
+        "name": "Classic Denim Jeans",
+        "mainCategory": "Men",
+        "category": "Jacket",
+        "size": "M",
+        "color": "Blue",
+        "price": 70,
+        "oldPrice": null,
+        "image": "Images/product9.jpg",
+        "images": [
+            "Images/product9.jpg",
+            "Images/product9.jpg",
+            "Images/product9.jpg",
+            "Images/product9.jpg"
+        ]
+    },
+    {
+        "id": 10,
+        "name": "Leather Bomber Jacket",
+        "mainCategory": "Men",
+        "category": "Pullover",
+        "size": "L",
+        "color": "Green",
+        "price": 57,
+        "oldPrice": null,
+        "image": "Images/product10.jpg",
+        "images": [
+            "Images/product10.jpg",
+            "Images/product10.jpg",
+            "Images/product10.jpg",
+            "Images/product10.jpg"
+        ]
+    },
+    {
+        "id": 11,
+        "name": "Wool Pullover Sweater",
+        "mainCategory": "Men",
+        "category": "T-shirt",
+        "size": "XL",
+        "color": "Orange",
+        "price": 54,
+        "oldPrice": 106,
+        "image": "Images/product11.jpg",
+        "images": [
+            "Images/product11.jpg",
+            "Images/product11.jpg",
+            "Images/product11.jpg",
+            "Images/product11.jpg"
+        ]
+    },
+    {
+        "id": 12,
+        "name": "Cotton V-Neck Tee",
+        "mainCategory": "Men",
+        "category": "Homewear",
+        "size": "XXL",
+        "color": "Dark Blue",
+        "price": 43,
+        "oldPrice": null,
+        "image": "Images/product12.jpg",
+        "images": [
+            "Images/product12.jpg",
+            "Images/product12.jpg",
+            "Images/product12.jpg",
+            "Images/product12.jpg"
+        ]
+    },
+    {
+        "id": 13,
+        "name": "Classic Denim Jeans",
+        "mainCategory": "Men",
+        "category": "Hoddie",
+        "size": "XS",
+        "color": "Blue",
+        "price": 39,
+        "oldPrice": 79,
+        "image": "Images/product13.jpg",
+        "images": [
+            "Images/product13.jpg",
+            "Images/product13.jpg",
+            "Images/product13.jpg",
+            "Images/product13.jpg"
+        ]
+    },
+    {
+        "id": 14,
+        "name": "Leather Bomber Jacket",
+        "mainCategory": "Men",
+        "category": "Sportwear",
+        "size": "S",
+        "color": "Green",
+        "price": 62,
+        "oldPrice": null,
+        "image": "Images/product14.jpg",
+        "images": [
+            "Images/product14.jpg",
+            "Images/product14.jpg",
+            "Images/product14.jpg",
+            "Images/product14.jpg"
+        ]
+    },
+    {
+        "id": 15,
+        "name": "Wool Pullover Sweater",
+        "mainCategory": "Men",
+        "category": "Jeans",
+        "size": "M",
+        "color": "Orange",
+        "price": 39,
+        "oldPrice": 106,
+        "image": "Images/product15.jpg",
+        "images": [
+            "Images/product15.jpg",
+            "Images/product15.jpg",
+            "Images/product15.jpg",
+            "Images/product15.jpg"
+        ]
+    },
+    {
+        "id": 16,
+        "name": "Cotton V-Neck Tee",
+        "mainCategory": "Men",
+        "category": "Jacket",
+        "size": "L",
+        "color": "Dark Blue",
+        "price": 37,
+        "oldPrice": 59,
+        "image": "Images/product16.jpg",
+        "images": [
+            "Images/product16.jpg",
+            "Images/product16.jpg",
+            "Images/product16.jpg",
+            "Images/product16.jpg"
+        ]
+    },
+    {
+        "id": 17,
+        "name": "Classic Denim Jeans",
+        "mainCategory": "Men",
+        "category": "Pullover",
+        "size": "XL",
+        "color": "Blue",
+        "price": 29,
+        "oldPrice": null,
+        "image": "Images/product17.jpg",
+        "images": [
+            "Images/product17.jpg",
+            "Images/product17.jpg",
+            "Images/product17.jpg",
+            "Images/product17.jpg"
+        ]
+    },
+    {
+        "id": 18,
+        "name": "Leather Bomber Jacket",
+        "mainCategory": "Men",
+        "category": "T-shirt",
+        "size": "XXL",
+        "color": "Green",
+        "price": 64,
+        "oldPrice": 73,
+        "image": "Images/product18.jpg",
+        "images": [
+            "Images/product18.jpg",
+            "Images/product18.jpg",
+            "Images/product18.jpg",
+            "Images/product18.jpg"
+        ]
+    },
+    {
+        "id": 19,
+        "name": "Wool Pullover Sweater",
+        "mainCategory": "Men",
+        "category": "Homewear",
+        "size": "XS",
+        "color": "Orange",
+        "price": 66,
+        "oldPrice": 98,
+        "image": "Images/product19.jpg",
+        "images": [
+            "Images/product19.jpg",
+            "Images/product19.jpg",
+            "Images/product19.jpg",
+            "Images/product19.jpg"
+        ]
+    },
+    {
+        "id": 20,
+        "name": "Cotton V-Neck Tee",
+        "mainCategory": "Men",
+        "category": "Hoddie",
+        "size": "S",
+        "color": "Dark Blue",
+        "price": 49,
+        "oldPrice": null,
+        "image": "Images/product20.jpg",
+        "images": [
+            "Images/product20.jpg",
+            "Images/product20.jpg",
+            "Images/product20.jpg",
+            "Images/product20.jpg"
+        ]
+    },
+    {
+        "id": 21,
+        "name": "High-Waist Skinny Jeans",
+        "mainCategory": "Women",
+        "category": "Jeans",
+        "size": "XS",
+        "color": "Blue",
+        "price": 29,
+        "oldPrice": 99,
+        "image": "Images/product21.jpg",
+        "images": [
+            "Images/product21.jpg",
+            "Images/product21.jpg",
+            "Images/product21.jpg",
+            "Images/product21.jpg"
+        ]
+    },
+    {
+        "id": 22,
+        "name": "Faux Fur Trench Coat",
+        "mainCategory": "Women",
+        "category": "Jacket",
+        "size": "S",
+        "color": "Green",
+        "price": 58,
+        "oldPrice": 65,
+        "image": "Images/product22.jpg",
+        "images": [
+            "Images/product22.jpg",
+            "Images/product22.jpg",
+            "Images/product22.jpg",
+            "Images/product22.jpg"
+        ]
+    },
+    {
+        "id": 23,
+        "name": "Turtleneck Beige Top",
+        "mainCategory": "Women",
+        "category": "Pullover",
+        "size": "M",
+        "color": "Orange",
+        "price": 67,
+        "oldPrice": 113,
+        "image": "Images/product23.jpg",
+        "images": [
+            "Images/product23.jpg",
+            "Images/product23.jpg",
+            "Images/product23.jpg",
+            "Images/product23.jpg"
+        ]
+    },
+    {
+        "id": 24,
+        "name": "Floral Wrap Blouse",
+        "mainCategory": "Women",
+        "category": "T-shirt",
+        "size": "L",
+        "color": "Dark Blue",
+        "price": 23,
+        "oldPrice": 114,
+        "image": "Images/product24.jpg",
+        "images": [
+            "Images/product24.jpg",
+            "Images/product24.jpg",
+            "Images/product24.jpg",
+            "Images/product24.jpg"
+        ]
+    },
+    {
+        "id": 25,
+        "name": "High-Waist Skinny Jeans",
+        "mainCategory": "Women",
+        "category": "Homewear",
+        "size": "XL",
+        "color": "Blue",
+        "price": 57,
+        "oldPrice": 50,
+        "image": "Images/product25.jpg",
+        "images": [
+            "Images/product25.jpg",
+            "Images/product25.jpg",
+            "Images/product25.jpg",
+            "Images/product25.jpg"
+        ]
+    },
+    {
+        "id": 26,
+        "name": "Faux Fur Trench Coat",
+        "mainCategory": "Women",
+        "category": "Hoddie",
+        "size": "XXL",
+        "color": "Green",
+        "price": 37,
+        "oldPrice": 79,
+        "image": "Images/product26.jpg",
+        "images": [
+            "Images/product26.jpg",
+            "Images/product26.jpg",
+            "Images/product26.jpg",
+            "Images/product26.jpg"
+        ]
+    },
+    {
+        "id": 27,
+        "name": "Turtleneck Beige Top",
+        "mainCategory": "Women",
+        "category": "Sportwear",
+        "size": "XS",
+        "color": "Orange",
+        "price": 32,
+        "oldPrice": 73,
+        "image": "Images/product27.jpg",
+        "images": [
+            "Images/product27.jpg",
+            "Images/product27.jpg",
+            "Images/product27.jpg",
+            "Images/product27.jpg"
+        ]
+    },
+    {
+        "id": 28,
+        "name": "Floral Wrap Blouse",
+        "mainCategory": "Women",
+        "category": "Jeans",
+        "size": "S",
+        "color": "Dark Blue",
+        "price": 47,
+        "oldPrice": null,
+        "image": "Images/product28.jpg",
+        "images": [
+            "Images/product28.jpg",
+            "Images/product28.jpg",
+            "Images/product28.jpg",
+            "Images/product28.jpg"
+        ]
+    },
+    {
+        "id": 29,
+        "name": "High-Waist Skinny Jeans",
+        "mainCategory": "Women",
+        "category": "Jacket",
+        "size": "M",
+        "color": "Blue",
+        "price": 45,
+        "oldPrice": null,
+        "image": "Images/product29.jpg",
+        "images": [
+            "Images/product29.jpg",
+            "Images/product29.jpg",
+            "Images/product29.jpg",
+            "Images/product29.jpg"
+        ]
+    },
+    {
+        "id": 30,
+        "name": "Faux Fur Trench Coat",
+        "mainCategory": "Women",
+        "category": "Pullover",
+        "size": "L",
+        "color": "Green",
+        "price": 49,
+        "oldPrice": 108,
+        "image": "Images/product30.jpg",
+        "images": [
+            "Images/product30.jpg",
+            "Images/product30.jpg",
+            "Images/product30.jpg",
+            "Images/product30.jpg"
+        ]
+    },
+    {
+        "id": 31,
+        "name": "Turtleneck Beige Top",
+        "mainCategory": "Women",
+        "category": "T-shirt",
+        "size": "XL",
+        "color": "Orange",
+        "price": 51,
+        "oldPrice": null,
+        "image": "Images/product31.jpg",
+        "images": [
+            "Images/product31.jpg",
+            "Images/product31.jpg",
+            "Images/product31.jpg",
+            "Images/product31.jpg"
+        ]
+    },
+    {
+        "id": 32,
+        "name": "Floral Wrap Blouse",
+        "mainCategory": "Women",
+        "category": "Homewear",
+        "size": "XXL",
+        "color": "Dark Blue",
+        "price": 44,
+        "oldPrice": null,
+        "image": "Images/product32.jpg",
+        "images": [
+            "Images/product32.jpg",
+            "Images/product32.jpg",
+            "Images/product32.jpg",
+            "Images/product32.jpg"
+        ]
+    },
+    {
+        "id": 33,
+        "name": "High-Waist Skinny Jeans",
+        "mainCategory": "Women",
+        "category": "Hoddie",
+        "size": "XS",
+        "color": "Blue",
+        "price": 60,
+        "oldPrice": null,
+        "image": "Images/product33.jpg",
+        "images": [
+            "Images/product33.jpg",
+            "Images/product33.jpg",
+            "Images/product33.jpg",
+            "Images/product33.jpg"
+        ]
+    },
+    {
+        "id": 34,
+        "name": "Faux Fur Trench Coat",
+        "mainCategory": "Women",
+        "category": "Sportwear",
+        "size": "S",
+        "color": "Green",
+        "price": 68,
+        "oldPrice": null,
+        "image": "Images/product34.jpg",
+        "images": [
+            "Images/product34.jpg",
+            "Images/product34.jpg",
+            "Images/product34.jpg",
+            "Images/product34.jpg"
+        ]
+    },
+    {
+        "id": 35,
+        "name": "Turtleneck Beige Top",
+        "mainCategory": "Women",
+        "category": "Jeans",
+        "size": "M",
+        "color": "Orange",
+        "price": 67,
+        "oldPrice": null,
+        "image": "Images/product35.jpg",
+        "images": [
+            "Images/product35.jpg",
+            "Images/product35.jpg",
+            "Images/product35.jpg",
+            "Images/product35.jpg"
+        ]
+    },
+    {
+        "id": 36,
+        "name": "Floral Wrap Blouse",
+        "mainCategory": "Women",
+        "category": "Jacket",
+        "size": "L",
+        "color": "Dark Blue",
+        "price": 36,
+        "oldPrice": 95,
+        "image": "Images/product36.jpg",
+        "images": [
+            "Images/product36.jpg",
+            "Images/product36.jpg",
+            "Images/product36.jpg",
+            "Images/product36.jpg"
+        ]
+    },
+    {
+        "id": 37,
+        "name": "High-Waist Skinny Jeans",
+        "mainCategory": "Women",
+        "category": "Pullover",
+        "size": "XL",
+        "color": "Blue",
+        "price": 64,
+        "oldPrice": 58,
+        "image": "Images/product37.jpg",
+        "images": [
+            "Images/product37.jpg",
+            "Images/product37.jpg",
+            "Images/product37.jpg",
+            "Images/product37.jpg"
+        ]
+    },
+    {
+        "id": 38,
+        "name": "Faux Fur Trench Coat",
+        "mainCategory": "Women",
+        "category": "T-shirt",
+        "size": "XXL",
+        "color": "Green",
+        "price": 42,
+        "oldPrice": null,
+        "image": "Images/product38.jpg",
+        "images": [
+            "Images/product38.jpg",
+            "Images/product38.jpg",
+            "Images/product38.jpg",
+            "Images/product38.jpg"
+        ]
+    },
+    {
+        "id": 39,
+        "name": "Turtleneck Beige Top",
+        "mainCategory": "Women",
+        "category": "Homewear",
+        "size": "XS",
+        "color": "Orange",
+        "price": 34,
+        "oldPrice": 71,
+        "image": "Images/product39.jpg",
+        "images": [
+            "Images/product39.jpg",
+            "Images/product39.jpg",
+            "Images/product39.jpg",
+            "Images/product39.jpg"
+        ]
+    },
+    {
+        "id": 40,
+        "name": "Floral Wrap Blouse",
+        "mainCategory": "Women",
+        "category": "Hoddie",
+        "size": "S",
+        "color": "Dark Blue",
+        "price": 32,
+        "oldPrice": 116,
+        "image": "Images/product40.jpg",
+        "images": [
+            "Images/product40.jpg",
+            "Images/product40.jpg",
+            "Images/product40.jpg",
+            "Images/product40.jpg"
+        ]
+    },
+    {
+        "id": 41,
+        "name": "Leather Crossbody Bag",
+        "mainCategory": "Kids",
+        "category": "Jeans",
+        "size": "XS",
+        "color": "Blue",
+        "price": 63,
+        "oldPrice": 76,
+        "image": "Images/product41.jpg",
+        "images": [
+            "Images/product41.jpg",
+            "Images/product41.jpg",
+            "Images/product41.jpg",
+            "Images/product41.jpg"
+        ]
+    },
+    {
+        "id": 42,
+        "name": "Gold Chain Necklace",
+        "mainCategory": "Kids",
+        "category": "Jacket",
+        "size": "S",
+        "color": "Green",
+        "price": 41,
+        "oldPrice": null,
+        "image": "Images/product42.jpg",
+        "images": [
+            "Images/product42.jpg",
+            "Images/product42.jpg",
+            "Images/product42.jpg",
+            "Images/product42.jpg"
+        ]
+    },
+    {
+        "id": 43,
+        "name": "Aviator Sunglasses",
+        "mainCategory": "Kids",
+        "category": "Pullover",
+        "size": "M",
+        "color": "Orange",
+        "price": 39,
+        "oldPrice": 85,
+        "image": "Images/product43.jpg",
+        "images": [
+            "Images/product43.jpg",
+            "Images/product43.jpg",
+            "Images/product43.jpg",
+            "Images/product43.jpg"
+        ]
+    },
+    {
+        "id": 44,
+        "name": "Wool Beanie Hat",
+        "mainCategory": "Kids",
+        "category": "T-shirt",
+        "size": "L",
+        "color": "Dark Blue",
+        "price": 28,
+        "oldPrice": 115,
+        "image": "Images/product44.jpg",
+        "images": [
+            "Images/product44.jpg",
+            "Images/product44.jpg",
+            "Images/product44.jpg",
+            "Images/product44.jpg"
+        ]
+    },
+    {
+        "id": 45,
+        "name": "Leather Crossbody Bag",
+        "mainCategory": "Kids",
+        "category": "Homewear",
+        "size": "XL",
+        "color": "Blue",
+        "price": 24,
+        "oldPrice": null,
+        "image": "Images/product45.jpg",
+        "images": [
+            "Images/product45.jpg",
+            "Images/product45.jpg",
+            "Images/product45.jpg",
+            "Images/product45.jpg"
+        ]
+    },
+    {
+        "id": 46,
+        "name": "Gold Chain Necklace",
+        "mainCategory": "Kids",
+        "category": "Hoddie",
+        "size": "XXL",
+        "color": "Green",
+        "price": 34,
+        "oldPrice": 113,
+        "image": "Images/product46.jpg",
+        "images": [
+            "Images/product46.jpg",
+            "Images/product46.jpg",
+            "Images/product46.jpg",
+            "Images/product46.jpg"
+        ]
+    },
+    {
+        "id": 47,
+        "name": "Aviator Sunglasses",
+        "mainCategory": "Kids",
+        "category": "Sportwear",
+        "size": "XS",
+        "color": "Orange",
+        "price": 20,
+        "oldPrice": null,
+        "image": "Images/product47.jpg",
+        "images": [
+            "Images/product47.jpg",
+            "Images/product47.jpg",
+            "Images/product47.jpg",
+            "Images/product47.jpg"
+        ]
+    },
+    {
+        "id": 48,
+        "name": "Wool Beanie Hat",
+        "mainCategory": "Kids",
+        "category": "Jeans",
+        "size": "S",
+        "color": "Dark Blue",
+        "price": 40,
+        "oldPrice": 108,
+        "image": "Images/product48.jpg",
+        "images": [
+            "Images/product48.jpg",
+            "Images/product48.jpg",
+            "Images/product48.jpg",
+            "Images/product48.jpg"
+        ]
+    },
+    {
+        "id": 49,
+        "name": "Leather Crossbody Bag",
+        "mainCategory": "Kids",
+        "category": "Jacket",
+        "size": "M",
+        "color": "Blue",
+        "price": 40,
+        "oldPrice": null,
+        "image": "Images/product49.jpg",
+        "images": [
+            "Images/product49.jpg",
+            "Images/product49.jpg",
+            "Images/product49.jpg",
+            "Images/product49.jpg"
+        ]
+    },
+    {
+        "id": 50,
+        "name": "Gold Chain Necklace",
+        "mainCategory": "Kids",
+        "category": "Pullover",
+        "size": "L",
+        "color": "Green",
+        "price": 56,
+        "oldPrice": 105,
+        "image": "Images/product50.jpg",
+        "images": [
+            "Images/product50.jpg",
+            "Images/product50.jpg",
+            "Images/product50.jpg",
+            "Images/product50.jpg"
+        ]
+    },
+    {
+        "id": 51,
+        "name": "Aviator Sunglasses",
+        "mainCategory": "Kids",
+        "category": "T-shirt",
+        "size": "XL",
+        "color": "Orange",
+        "price": 53,
+        "oldPrice": 72,
+        "image": "Images/product51.jpg",
+        "images": [
+            "Images/product51.jpg",
+            "Images/product51.jpg",
+            "Images/product51.jpg",
+            "Images/product51.jpg"
+        ]
+    },
+    {
+        "id": 52,
+        "name": "Wool Beanie Hat",
+        "mainCategory": "Kids",
+        "category": "Homewear",
+        "size": "XXL",
+        "color": "Dark Blue",
+        "price": 47,
+        "oldPrice": 119,
+        "image": "Images/product52.jpg",
+        "images": [
+            "Images/product52.jpg",
+            "Images/product52.jpg",
+            "Images/product52.jpg",
+            "Images/product52.jpg"
+        ]
+    },
+    {
+        "id": 53,
+        "name": "Leather Crossbody Bag",
+        "mainCategory": "Kids",
+        "category": "Hoddie",
+        "size": "XS",
+        "color": "Blue",
+        "price": 70,
+        "oldPrice": 102,
+        "image": "Images/product53.jpg",
+        "images": [
+            "Images/product53.jpg",
+            "Images/product53.jpg",
+            "Images/product53.jpg",
+            "Images/product53.jpg"
+        ]
+    },
+    {
+        "id": 54,
+        "name": "Gold Chain Necklace",
+        "mainCategory": "Kids",
+        "category": "Sportwear",
+        "size": "S",
+        "color": "Green",
+        "price": 30,
+        "oldPrice": null,
+        "image": "Images/product54.jpg",
+        "images": [
+            "Images/product54.jpg",
+            "Images/product54.jpg",
+            "Images/product54.jpg",
+            "Images/product54.jpg"
+        ]
+    },
+    {
+        "id": 55,
+        "name": "Aviator Sunglasses",
+        "mainCategory": "Kids",
+        "category": "Jeans",
+        "size": "M",
+        "color": "Orange",
+        "price": 70,
+        "oldPrice": 80,
+        "image": "Images/product55.jpg",
+        "images": [
+            "Images/product55.jpg",
+            "Images/product55.jpg",
+            "Images/product55.jpg",
+            "Images/product55.jpg"
+        ]
+    },
+    {
+        "id": 56,
+        "name": "Wool Beanie Hat",
+        "mainCategory": "Kids",
+        "category": "Jacket",
+        "size": "L",
+        "color": "Dark Blue",
+        "price": 49,
+        "oldPrice": 64,
+        "image": "Images/product56.jpg",
+        "images": [
+            "Images/product56.jpg",
+            "Images/product56.jpg",
+            "Images/product56.jpg",
+            "Images/product56.jpg"
+        ]
+    },
+    {
+        "id": 57,
+        "name": "Leather Crossbody Bag",
+        "mainCategory": "Kids",
+        "category": "Pullover",
+        "size": "XL",
+        "color": "Blue",
+        "price": 42,
+        "oldPrice": null,
+        "image": "Images/product57.jpg",
+        "images": [
+            "Images/product57.jpg",
+            "Images/product57.jpg",
+            "Images/product57.jpg",
+            "Images/product57.jpg"
+        ]
+    },
+    {
+        "id": 58,
+        "name": "Gold Chain Necklace",
+        "mainCategory": "Kids",
+        "category": "T-shirt",
+        "size": "XXL",
+        "color": "Green",
+        "price": 20,
+        "oldPrice": null,
+        "image": "Images/product58.jpg",
+        "images": [
+            "Images/product58.jpg",
+            "Images/product58.jpg",
+            "Images/product58.jpg",
+            "Images/product58.jpg"
+        ]
+    },
+    {
+        "id": 59,
+        "name": "Aviator Sunglasses",
+        "mainCategory": "Kids",
+        "category": "Homewear",
+        "size": "XS",
+        "color": "Orange",
+        "price": 48,
+        "oldPrice": null,
+        "image": "Images/product59.jpg",
+        "images": [
+            "Images/product59.jpg",
+            "Images/product59.jpg",
+            "Images/product59.jpg",
+            "Images/product59.jpg"
+        ]
+    },
+    {
+        "id": 60,
+        "name": "Wool Beanie Hat",
+        "mainCategory": "Kids",
+        "category": "Hoddie",
+        "size": "S",
+        "color": "Dark Blue",
+        "price": 59,
+        "oldPrice": 89,
+        "image": "Images/product60.jpg",
+        "images": [
+            "Images/product60.jpg",
+            "Images/product60.jpg",
+            "Images/product60.jpg",
+            "Images/product60.jpg"
+        ]
+    },
+    {
+        "id": 61,
+        "name": "Toddler Denim Jeans",
+        "mainCategory": "Accessories",
+        "category": "Jeans",
+        "size": "XS",
+        "color": "Blue",
+        "price": 45,
+        "oldPrice": 85,
+        "image": "Images/product61.jpg",
+        "images": [
+            "Images/product61.jpg",
+            "Images/product61.jpg",
+            "Images/product61.jpg",
+            "Images/product61.jpg"
+        ]
+    },
+    {
+        "id": 62,
+        "name": "Kids Puffer Jacket",
+        "mainCategory": "Accessories",
+        "category": "Jacket",
+        "size": "S",
+        "color": "Green",
+        "price": 60,
+        "oldPrice": 112,
+        "image": "Images/product62.jpg",
+        "images": [
+            "Images/product62.jpg",
+            "Images/product62.jpg",
+            "Images/product62.jpg",
+            "Images/product62.jpg"
+        ]
+    },
+    {
+        "id": 63,
+        "name": "Wide Lined Pullover",
+        "mainCategory": "Accessories",
+        "category": "Pullover",
+        "size": "M",
+        "color": "Orange",
+        "price": 36,
+        "oldPrice": 94,
+        "image": "Images/product63.jpg",
+        "images": [
+            "Images/product63.jpg",
+            "Images/product63.jpg",
+            "Images/product63.jpg",
+            "Images/product63.jpg"
+        ]
+    },
+    {
+        "id": 64,
+        "name": "Peanuts T-shirt",
+        "mainCategory": "Accessories",
+        "category": "T-shirt",
+        "size": "L",
+        "color": "Dark Blue",
+        "price": 33,
+        "oldPrice": null,
+        "image": "Images/product64.jpg",
+        "images": [
+            "Images/product64.jpg",
+            "Images/product64.jpg",
+            "Images/product64.jpg",
+            "Images/product64.jpg"
+        ]
+    },
+    {
+        "id": 65,
+        "name": "Toddler Denim Jeans",
+        "mainCategory": "Accessories",
+        "category": "Homewear",
+        "size": "XL",
+        "color": "Blue",
+        "price": 70,
+        "oldPrice": 74,
+        "image": "Images/product65.jpg",
+        "images": [
+            "Images/product65.jpg",
+            "Images/product65.jpg",
+            "Images/product65.jpg",
+            "Images/product65.jpg"
+        ]
+    },
+    {
+        "id": 66,
+        "name": "Kids Puffer Jacket",
+        "mainCategory": "Accessories",
+        "category": "Hoddie",
+        "size": "XXL",
+        "color": "Green",
+        "price": 61,
+        "oldPrice": null,
+        "image": "Images/product66.jpg",
+        "images": [
+            "Images/product66.jpg",
+            "Images/product66.jpg",
+            "Images/product66.jpg",
+            "Images/product66.jpg"
+        ]
+    },
+    {
+        "id": 67,
+        "name": "Wide Lined Pullover",
+        "mainCategory": "Accessories",
+        "category": "Sportwear",
+        "size": "XS",
+        "color": "Orange",
+        "price": 44,
+        "oldPrice": null,
+        "image": "Images/product67.jpg",
+        "images": [
+            "Images/product67.jpg",
+            "Images/product67.jpg",
+            "Images/product67.jpg",
+            "Images/product67.jpg"
+        ]
+    },
+    {
+        "id": 68,
+        "name": "Peanuts T-shirt",
+        "mainCategory": "Accessories",
+        "category": "Jeans",
+        "size": "S",
+        "color": "Dark Blue",
+        "price": 56,
+        "oldPrice": 77,
+        "image": "Images/product68.jpg",
+        "images": [
+            "Images/product68.jpg",
+            "Images/product68.jpg",
+            "Images/product68.jpg",
+            "Images/product68.jpg"
+        ]
+    },
+    {
+        "id": 69,
+        "name": "Toddler Denim Jeans",
+        "mainCategory": "Accessories",
+        "category": "Jacket",
+        "size": "M",
+        "color": "Blue",
+        "price": 60,
+        "oldPrice": null,
+        "image": "Images/product69.jpg",
+        "images": [
+            "Images/product69.jpg",
+            "Images/product69.jpg",
+            "Images/product69.jpg",
+            "Images/product69.jpg"
+        ]
+    },
+    {
+        "id": 70,
+        "name": "Kids Puffer Jacket",
+        "mainCategory": "Accessories",
+        "category": "Pullover",
+        "size": "L",
+        "color": "Green",
+        "price": 30,
+        "oldPrice": 61,
+        "image": "Images/product70.jpg",
+        "images": [
+            "Images/product70.jpg",
+            "Images/product70.jpg",
+            "Images/product70.jpg",
+            "Images/product70.jpg"
+        ]
+    },
+    {
+        "id": 71,
+        "name": "Wide Lined Pullover",
+        "mainCategory": "Accessories",
+        "category": "T-shirt",
+        "size": "XL",
+        "color": "Orange",
+        "price": 62,
+        "oldPrice": null,
+        "image": "Images/product71.jpg",
+        "images": [
+            "Images/product71.jpg",
+            "Images/product71.jpg",
+            "Images/product71.jpg",
+            "Images/product71.jpg"
+        ]
+    },
+    {
+        "id": 72,
+        "name": "Peanuts T-shirt",
+        "mainCategory": "Accessories",
+        "category": "Homewear",
+        "size": "XXL",
+        "color": "Dark Blue",
+        "price": 46,
+        "oldPrice": null,
+        "image": "Images/product72.jpg",
+        "images": [
+            "Images/product72.jpg",
+            "Images/product72.jpg",
+            "Images/product72.jpg",
+            "Images/product72.jpg"
+        ]
+    },
+    {
+        "id": 73,
+        "name": "Toddler Denim Jeans",
+        "mainCategory": "Accessories",
+        "category": "Hoddie",
+        "size": "XS",
+        "color": "Blue",
+        "price": 42,
+        "oldPrice": 51,
+        "image": "Images/product73.jpg",
+        "images": [
+            "Images/product73.jpg",
+            "Images/product73.jpg",
+            "Images/product73.jpg",
+            "Images/product73.jpg"
+        ]
+    },
+    {
+        "id": 74,
+        "name": "Kids Puffer Jacket",
+        "mainCategory": "Accessories",
+        "category": "Sportwear",
+        "size": "S",
+        "color": "Green",
+        "price": 40,
+        "oldPrice": null,
+        "image": "Images/product74.jpg",
+        "images": [
+            "Images/product74.jpg",
+            "Images/product74.jpg",
+            "Images/product74.jpg",
+            "Images/product74.jpg"
+        ]
+    },
+    {
+        "id": 75,
+        "name": "Wide Lined Pullover",
+        "mainCategory": "Accessories",
+        "category": "Jeans",
+        "size": "M",
+        "color": "Orange",
+        "price": 54,
+        "oldPrice": null,
+        "image": "Images/product75.jpg",
+        "images": [
+            "Images/product75.jpg",
+            "Images/product75.jpg",
+            "Images/product75.jpg",
+            "Images/product75.jpg"
+        ]
+    },
+    {
+        "id": 76,
+        "name": "Peanuts T-shirt",
+        "mainCategory": "Accessories",
+        "category": "Jacket",
+        "size": "L",
+        "color": "Dark Blue",
+        "price": 49,
+        "oldPrice": null,
+        "image": "Images/product76.jpg",
+        "images": [
+            "Images/product76.jpg",
+            "Images/product76.jpg",
+            "Images/product76.jpg",
+            "Images/product76.jpg"
+        ]
+    },
+    {
+        "id": 77,
+        "name": "Toddler Denim Jeans",
+        "mainCategory": "Accessories",
+        "category": "Pullover",
+        "size": "XL",
+        "color": "Blue",
+        "price": 33,
+        "oldPrice": 91,
+        "image": "Images/product77.jpg",
+        "images": [
+            "Images/product77.jpg",
+            "Images/product77.jpg",
+            "Images/product77.jpg",
+            "Images/product77.jpg"
+        ]
+    },
+    {
+        "id": 78,
+        "name": "Kids Puffer Jacket",
+        "mainCategory": "Accessories",
+        "category": "T-shirt",
+        "size": "XXL",
+        "color": "Green",
+        "price": 25,
+        "oldPrice": 79,
+        "image": "Images/product78.jpg",
+        "images": [
+            "Images/product78.jpg",
+            "Images/product78.jpg",
+            "Images/product78.jpg",
+            "Images/product78.jpg"
+        ]
+    },
+    {
+        "id": 79,
+        "name": "Wide Lined Pullover",
+        "mainCategory": "Accessories",
+        "category": "Homewear",
+        "size": "XS",
+        "color": "Orange",
+        "price": 22,
+        "oldPrice": null,
+        "image": "Images/product79.jpg",
+        "images": [
+            "Images/product79.jpg",
+            "Images/product79.jpg",
+            "Images/product79.jpg",
+            "Images/product79.jpg"
+        ]
+    },
+    {
+        "id": 80,
+        "name": "Peanuts T-shirt",
+        "mainCategory": "Accessories",
+        "category": "Hoddie",
+        "size": "S",
+        "color": "Dark Blue",
+        "price": 37,
+        "oldPrice": 100,
+        "image": "Images/product80.jpg",
+        "images": [
+            "Images/product80.jpg",
+            "Images/product80.jpg",
+            "Images/product80.jpg",
+            "Images/product80.jpg"
+        ]
+    }
+]

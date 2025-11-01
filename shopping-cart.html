@@ -43,6 +43,97 @@
     .btn-checkout { width:100%; background:#198754; color:white; border:none; padding:16px; border-radius:90px; font-size:15px; font-weight:600; cursor:pointer; margin-top:24px; transition:all .3s; }
     .btn-checkout:hover { background:#141416; transform:translateY(-2px); box-shadow:0 8px 16px rgba(35,38,47,.16); }
 
+    /* Cart item styling to match provided screenshot */
+    .cart-item {
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+    .cart-item-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .cart-item-img {
+      width: 84px;
+      height: 84px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: #f3f5f7;
+      flex-shrink: 0;
+    }
+    .product-meta h6 {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 600;
+      color: #23262F;
+    }
+    .product-meta .meta-sub {
+      font-size: 13px;
+      color: #6C7275;
+      margin-top: 6px;
+    }
+    .remove-link {
+      display: inline-block;
+      margin-top: 8px;
+      font-size: 13px;
+      color: #6C757D;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+    }
+    .remove-link.text-danger { color: #dc3545; }
+    .product-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .qty-control {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid #E6E8EC;
+      padding: 6px;
+      border-radius: 8px;
+      background: #fff;
+    }
+    .qty-btn {
+      width: 30px;
+      height: 30px;
+      line-height: 1;
+      border-radius: 6px;
+      border: none;
+      background: #F3F5F7;
+      cursor: pointer;
+      font-weight: 600;
+      color: #23262F;
+    }
+    .qty-input {
+      width: 56px;
+      text-align: center;
+      border: none;
+      font-size: 14px;
+      background: transparent;
+      outline: none;
+    }
+    .price-block {
+      text-align: right;
+      min-width: 120px;
+    }
+    .price-strong {
+      font-size: 15px;
+      font-weight: 700;
+      color: #23262F;
+    }
+    .price-subtle {
+      font-size: 13px;
+      color: #6C7275;
+    }
+    .cart-row { border-bottom: 1px solid #E6E8EC; }
+
     @media (max-width:991px) {
       .cart-layout { grid-template-columns:1fr; gap:32px; }
       .summary-box { position:static; }
@@ -60,12 +151,12 @@
 </head>
 <body>
 
-  
+  <div id="navbar-container"></div>
+
 <!-- Toast Container -->
 <div class="toast-container" id="toast-container"></div>
 
 <!-- Navbar -->
-<div id="navbar-placeholder"></div>
 
 <!-- (Include your navbar here if needed) -->
 
@@ -177,55 +268,8 @@
 
 <!-- ✅ Working JavaScript -->
 
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script src="JavaScript/navbar-test.js"></script>
 
-  <script>
-    $('<link/>', {
-  rel: 'stylesheet',
-  type: 'text/css',
-  href: 'CSS/navbar.css'
-}).appendTo('head');
-
-    // تحميل الناف بار
-    $("#navbar-placeholder").load("navbar-test.html", function () {
-      initNavbar();
-      renderWishlist();
-    });
-
-    // عرض الوش ليست
-    function renderWishlist() {
-      let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-      const container = $("#wishlistItems");
-      container.empty();
-
-      if (wishlist.length === 0) {
-        container.html("<p class='text-center text-muted'>Your wishlist is empty 💔</p>");
-        return;
-      }
-
-      wishlist.forEach((item, index) => {
-        container.append(`
-          <div class="wishlist-item">
-            <h5>${item.name}</h5>
-            <button class="btn btn-sm btn-danger remove-item" data-index="${index}">
-              <i class="bi bi-trash"></i> Remove
-            </button>
-          </div>
-        `);
-      });
-
-      $(".remove-item").on("click", function () {
-        const index = $(this).data("index");
-        wishlist.splice(index, 1);
-        localStorage.setItem("wishlist", JSON.stringify(wishlist));
-        renderWishlist();
-        Swal.fire("Removed!", "Item removed from wishlist.", "success");
-      });
-    }
-  </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="JavaScript/components.js" defer></script>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -250,7 +294,7 @@ document.addEventListener("DOMContentLoaded", function () {
     cartTotalEl.textContent = "$" + (subtotal + shippingCost).toFixed(2);
   }
 
-  // Render cart items
+  // Render cart items (new markup matches supplied design)
   function renderCart() {
     cartContainer.innerHTML = "";
     let subtotal = 0;
@@ -266,24 +310,33 @@ document.addEventListener("DOMContentLoaded", function () {
     productIds.forEach(id => {
       const product = getProductDetails(id);
       if (!product) return;
-      const quantity = cart[id];
-      const itemTotal = product.price * quantity;
+      const quantity = Number(cart[id]) || 1;
+      const itemTotal = (Number(product.price) || 0) * quantity;
       subtotal += itemTotal;
 
       cartContainer.innerHTML += `
-        <div class="d-flex align-items-center justify-content-between border-bottom py-3" data-id="${id}">
-          <div class="d-flex align-items-center gap-3">
-            <img src="${product.image}" alt="${product.name}" width="80" height="80" class="rounded">
-            <div>
-              <h6 class="mb-1">${product.name}</h6>
-              <small class="text-muted">Color: ${product.color || "-"} | Size: ${product.size || "-"}</small><br>
-              <small class="text-muted">Price: $${product.price.toFixed(2)}</small>
+        <div class="cart-item cart-row py-3" data-id="${id}">
+          <div class="cart-item-left">
+            <img src="${product.image || 'Images/Image.png'}" alt="${product.name || ''}" class="cart-item-img" onerror="this.onerror=null;this.src='Images/Image.png'">
+            <div class="product-meta">
+              <h6>${product.name || 'Product'}</h6>
+              <div class="meta-sub">Color: ${product.color || "-"} <span class="mx-2">|</span> Size: ${product.size || "-"}</div>
+              <button class="remove-link remove-item" data-id="${id}">Remove</button>
             </div>
           </div>
-          <div class="d-flex align-items-center gap-3">
-            <input type="number" min="1" value="${quantity}" class="form-control form-control-sm cart-qty" style="width:70px;" data-id="${id}">
-            <strong>$${itemTotal.toFixed(2)}</strong>
-            <button class="btn btn-sm btn-outline-danger remove-item" data-id="${id}"><i class="bi bi-trash"></i></button>
+
+          <div class="product-actions">
+            <div class="qty-control" aria-label="Quantity control for ${product.name || ''}">
+              <button class="qty-btn qty-decrease" data-id="${id}" aria-label="Decrease quantity">−</button>
+              <input type="number" min="1" value="${quantity}" class="cart-qty qty-input" data-id="${id}">
+              <button class="qty-btn qty-increase" data-id="${id}" aria-label="Increase quantity">+</button>
+            </div>
+
+            <div class="price-block">
+              <div class="price-strong">$${Number(product.price || 0).toFixed(2)}</div>
+              <div class="price-subtle">Subtotal</div>
+              <div class="price-strong">$${itemTotal.toFixed(2)}</div>
+            </div>
           </div>
         </div>
       `;
@@ -293,19 +346,45 @@ document.addEventListener("DOMContentLoaded", function () {
     updateTotalWithShipping();
   }
 
-  // Remove item
+  // Remove item (click on remove link or trash icon)
   cartContainer.addEventListener("click", e => {
-    const btn = e.target.closest(".remove-item");
-    if (!btn) return;
-    const id = btn.dataset.id;
-    if (!id) return;
+    // remove button
+    const removeBtn = e.target.closest(".remove-item");
+    if (removeBtn) {
+      const id = removeBtn.dataset.id;
+      if (!id) return;
+      delete cart[id];
+      localStorage.setItem("wearopia_cart", JSON.stringify(cart));
+      renderCart();
+      return;
+    }
 
-    delete cart[id];
-    localStorage.setItem("wearopia_cart", JSON.stringify(cart));
-    renderCart();
+    // quantity +/- buttons
+    const dec = e.target.closest(".qty-decrease");
+    if (dec) {
+      const id = dec.dataset.id;
+      if (!id) return;
+      const current = Number(cart[id] || 1);
+      const next = Math.max(1, current - 1);
+      cart[id] = next;
+      localStorage.setItem("wearopia_cart", JSON.stringify(cart));
+      renderCart();
+      return;
+    }
+    const inc = e.target.closest(".qty-increase");
+    if (inc) {
+      const id = inc.dataset.id;
+      if (!id) return;
+      const current = Number(cart[id] || 1);
+      const next = current + 1;
+      cart[id] = next;
+      localStorage.setItem("wearopia_cart", JSON.stringify(cart));
+      renderCart();
+      return;
+    }
   });
 
-  // Update quantity
+  // Update quantity when user edits the input directly
   cartContainer.addEventListener("input", e => {
     const input = e.target.closest(".cart-qty");
     if (!input) return;
@@ -314,7 +393,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const newQty = Math.max(1, parseInt(input.value) || 1);
     cart[id] = newQty;
     localStorage.setItem("wearopia_cart", JSON.stringify(cart));
-    renderCart();
+    // don't re-render immediately to avoid losing focus during typing;
+    // instead, update totals after a short debounce
+    setTimeout(() => renderCart(), 150);
   });
 
   // Update total when shipping option changes

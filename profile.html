@@ -287,7 +287,7 @@
 </head>
 
 <body>
-    <div id="navbar-placeholder"></div>
+    <div id="navbar-container"></div>
 
     <!-- Main Content -->
     <div class="container my-5">
@@ -453,204 +453,14 @@
         </div>
     </footer>
     <!--end of footer-->
-
+<script src="JavaScript/components.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="./JavaScript/profile.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="JavaScript/navbar-test.js"></script>
-    <script>
-        $('<link/>', {
-            rel: 'stylesheet',
-            type: 'text/css',
-            href: 'CSS/navbar.css'
-        }).appendTo('head');
-
-        $("#navbar-placeholder").load("navbar-test.html", function () {
-            initNavbar();
-            renderWishlist();
-        });
-
-        function renderWishlist() {
-            let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-            const container = $("#wishlistItems");
-            container.empty();
-
-            if (wishlist.length === 0) {
-                container.html("<p class='text-center text-muted'>Your wishlist is empty 💔</p>");
-                return;
-            }
-
-            wishlist.forEach((item, index) => {
-                container.append(`
-              <div class="wishlist-item">
-                <h5>${item.name}</h5>
-                <button class="btn btn-sm btn-danger remove-item" data-index="${index}">
-                  <i class="bi bi-trash"></i> Remove
-                </button>
-              </div>
-            `);
-            });
-
-            $(".remove-item").on("click", function () {
-                const index = $(this).data("index");
-                wishlist.splice(index, 1);
-                localStorage.setItem("wishlist", JSON.stringify(wishlist));
-                renderWishlist();
-                Swal.fire("Removed!", "Item removed from wishlist.", "success");
-            });
-        }
-    </script>
-
-    <script>
-        
-        function generateTicketId() {
-            const stored = JSON.parse(localStorage.getItem('wearopiaTickets')) || {};
-            const existingIds = Object.keys(stored);
-            let maxNum = 0;
-
-            existingIds.forEach(id => {
-                const num = parseInt(id.replace('TKT-', ''));
-                if (num > maxNum) maxNum = num;
-            });
-
-            return `TKT-${String(maxNum + 1).padStart(3, '0')}`;
-        }
-
-        
-        function showNotification(message, type = 'success') {
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: ${type === 'success' ? '#34C759' : '#dc3545'};
-                color: white;
-                padding: 15px 25px;
-                border-radius: 8px;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-                z-index: 10000;
-                font-weight: 500;
-                animation: slideInRight 0.3s ease;
-            `;
-            notification.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i> ${message}`;
-            document.body.appendChild(notification);
-
-            setTimeout(() => {
-                notification.style.animation = 'slideOutRight 0.3s ease';
-                setTimeout(() => notification.remove(), 300);
-            }, 3000);
-        }
-
-        
-        document.getElementById('ticketForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            const subject = document.getElementById('ticketSubject').value.trim();
-            const category = document.getElementById('ticketCategory').value;
-            const message = document.getElementById('ticketMessage').value.trim();
-
-            if (!subject || !category || !message) {
-                showNotification('Please fill in all fields', 'error');
-                return;
-            }
-
-            
-            const ticketId = generateTicketId();
-
-            
-            const now = new Date();
-            const timestamp = now.toLocaleDateString('en-US', {
-                month: 'short',
-                day: 'numeric',
-                year: 'numeric'
-            });
-
-            
-            const userName = document.querySelector('.profile-name').textContent;
-            const userEmail = document.querySelector('.profile-email').textContent;
-
-            
-            const ticket = {
-                id: ticketId,
-                subject: subject,
-                category: category,
-                message: message,
-                status: 'Open',
-                priority: 'Medium',
-                createdAt: timestamp,
-                createdBy: userName,
-                email: userEmail,
-                responses: [],
-                conversation: [{
-                    user: userName,
-                    text: message,
-                    timestamp: now.toLocaleString('en-US', {
-                        month: 'short',
-                        day: 'numeric',
-                        year: 'numeric',
-                        hour: 'numeric',
-                        minute: '2-digit',
-                        hour12: true
-                    })
-                }]
-            };
-
-            
-            const tickets = JSON.parse(localStorage.getItem('wearopiaTickets')) || {};
-            tickets[ticketId] = ticket;
-            localStorage.setItem('wearopiaTickets', JSON.stringify(tickets));
-
-            
-            showNotification('Ticket submitted successfully!');
-
-            
-            this.reset();
-
-            
-            loadUserTickets();
-        });
-
-        
-        function loadUserTickets() {
-            const tickets = JSON.parse(localStorage.getItem('wearopiaTickets')) || {};
-            const userName = document.querySelector('.profile-name').textContent;
-            const container = document.getElementById('userTicketsList');
-
-            
-            const userTickets = Object.entries(tickets).filter(([id, ticket]) =>
-                ticket.createdBy === userName
-            );
-
-            if (userTickets.length === 0) {
-                container.innerHTML = `
-                    <div class="text-center text-muted py-4">
-                        <i class="bi bi-inbox" style="font-size: 3rem;"></i>
-                        <p class="mt-3">No tickets submitted yet</p>
-                    </div>
-                `;
-                return;
-            }
-
-            container.innerHTML = userTickets.map(([id, ticket]) => `
-                <div class="ticket-item">
-                    <div class="d-flex align-items-center flex-grow-1">
-                        <i class="bi bi-file-earmark-text ticket-icon"></i>
-                        <div class="ticket-info">
-                            <div class="ticket-title">${ticket.subject}</div>
-                            <div class="ticket-meta">${id} • Created ${ticket.createdAt}</div>
-                        </div>
-                    </div>
-                    <span class="ticket-status status-${ticket.status.toLowerCase()}">
-                        ${ticket.status}
-                    </span>
-                </div>
-            `).join('');
-        }
-
-        
-        document.addEventListener('DOMContentLoaded', function () {
-            loadUserTickets();
-        });
-    </script>
+ 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 

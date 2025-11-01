@@ -1,602 +1,544 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Wearopia Products</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <style>
-        :root {
-            --primary-color: #0f6546;
-            --light-blue: #1e90ff;
-            --mid-green: #3cb371;
-            --orange-red: #ff4500;
-            --dark-navy: #191970;
-        }
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wearopia Products</title>
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8f9fa;
-        }
+  <!-- Fonts & Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
 
-        .category-section {
-            padding: 60px 0;
-        }
+  <style>
+    :root{
+      --primary-color: #0f6546;
+      --light-bg: #f8f9fa;
+      --card-radius: 12px;
+    }
 
-        .category-section:nth-child(even) {
-            background-color: var(--primary-color);
-            color: white;
-        }
+    html,body{
+      height:100%;
+      margin:0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--light-bg);
+    }
 
-        .category-section:nth-child(odd) {
-            background-color: #ffffff;
-            color: #333;
-        }
+    .category-section{
+      padding: 64px 0;
+    }
 
-        .category-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 1rem;
-            
-        }
+    /* alternate backgrounds (keeps same pattern from your design) */
+    .category-section:nth-of-type(odd) { background: #fff; color: #222; }
+    .category-section:nth-of-type(even) { background: var(--primary-color); color: #fff; }
 
-        .category-subtitle {
-            text-align: center;
-            margin-bottom: 3rem;
-            opacity: 0.9;
-            font-size: 1rem;
-            
-        }
-        .green-color{
-            color: #0F6546;
-        }
-        .white-color{
-            color: white;
-        }
+    .category-title{
+      font-size: 2.5rem;
+      font-weight:700;
+      text-align:center;
+      margin-bottom:.5rem;
+    }
+    .category-subtitle{
+      text-align:center;
+      margin-bottom:2.5rem;
+      opacity:.9;
+      font-size:1rem;
+    }
 
-        .custom-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            height: 100%;
-            cursor: pointer;
-            border-radius: 12px !important;
-        }
+    /* cards */
+    .product-card {
+      border-radius: var(--card-radius);
+      overflow: hidden;
+      transition: transform .25s ease, box-shadow .25s ease;
+      height: 100%;
+      display:flex;
+      flex-direction:column;
+      background:#fff;
+    }
+    .product-card:hover{ transform: translateY(-8px); box-shadow: 0 10px 30px rgba(0,0,0,.12); }
 
-        .custom-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-        }
+    /* image area */
+    .product-card .img-wrap{
+      height: 260px;
+      flex: 0 0 260px;
+      background: #e9ecef;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .product-card img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
 
-        .custom-img {
-            height: 280px;
-            object-fit: cover;
-            background-color: #e9ecef;
-            width: 100%;
-        }
+    /* product details */
+    .product-info{
+      padding: 14px 16px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      flex:1 1 auto;
+    }
+    .product-title{
+      font-size: .95rem;
+      font-weight:600;
+      color:#222;
+      margin:0;
+      line-height:1.2;
+      min-height:2.4em; /* keep cards aligned */
+    }
+    .price-row{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      margin-top:auto;
+    }
+    .price-current{
+      font-weight:700;
+      color:#0f6546;
+      font-size:1rem;
+    }
+    .price-old{
+      color:#999;
+      text-decoration:line-through;
+      font-size:.85rem;
+    }
 
-        .custom-img::before {
-            content: '';
-            display: block;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #f5f5f5 25%, transparent 25%, transparent 75%, #f5f5f5 75%, #f5f5f5),
-                        linear-gradient(135deg, #f5f5f5 25%, transparent 25%, transparent 75%, #f5f5f5 75%, #f5f5f5);
-            background-size: 20px 20px;
-            background-position: 0 0, 10px 10px;
-        }
+    /* wishlist icon */
+    .wishlist-btn{
+      width:36px;
+      height:36px;
+      border-radius:50%;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      background:#fff;
+      border: 1px solid rgba(0,0,0,.06);
+      cursor:pointer;
+    }
+    .wishlist-btn.active i{ color:#d9534f; }
 
-        .custom-icon {
-            width: 36px;
-            height: 36px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+    /* view all button */
+    .view-all-btn{
+      display:inline-block;
+      padding:8px 46px;
+      border-radius:40px;
+      border:none;
+      font-weight:600;
+      text-decoration:none;
+      background: var(--primary-color);
+      color: #fff;
+      margin-top:28px;
+    }
+    /* for odd sections where view-all should be green-on-white, and even sections white-on-green */
+    .category-section:nth-of-type(odd) .view-all-btn{ background: var(--primary-color); color:#fff; }
+    .category-section:nth-of-type(even) .view-all-btn{ background: #fff; color: var(--primary-color); }
 
-        .custom-icon:hover {
-            background-color: #f8f9fa !important;
-            transform: scale(1.1);
-        }
+    /* placeholder card (when no product) */
+    .placeholder {
+      background: linear-gradient(90deg,#e9ecef 25%, #f5f5f5 50%, #e9ecef 75%);
+      background-size: 200% 100%;
+      animation: placeholder-shimmer 1.6s linear infinite;
+    }
+    @keyframes placeholder-shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
 
-        .custom-icon i {
-            color: var(--primary-color);
-        }
+    /* responsive tweaks */
+    @media (max-width:768px){
+      .product-card .img-wrap{ height:200px; flex:0 0 200px; }
+      .category-title{ font-size:1.8rem; }
+    }
 
-        .custom-btn {
-            background-color: var(--primary-color);
-            border: none;
-            transition: all 0.3s ease;
-        }
+    /* spacing similar to your screenshot: more vertical breathing room between sections */
+    .category-section + .category-section { border-top: 1px solid rgba(0,0,0,.04); }
 
-        .custom-btn:hover {
-            background-color: #0d5439;
-            transform: translateY(-2px);
-        }
-
-        .view-all-btn {
-            display: inline-block;
-            padding: 4px 52px;
-            background-color: white;
-            color: var(--primary-color);
-            border: 2px solid white;
-            border-radius: 50px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            margin-top: 2rem;
-        }
-
-        .category-section:nth-child(odd) .view-all-btn {
-            background-color: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-        }
-
-        .view-all-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .custom-footer {
-            background-color: #f8f9fa;
-            padding: 60px 0 30px;
-           
-        }
-
-        .social-icon {
-            width: 40px;
-            height: 40px;
-            transition: all 0.3s ease;
-        }
-
-        .social-icon:hover {
-            background-color: var(--primary-color) !important;
-            border-color: var(--primary-color) !important;
-            color: white !important;
-        }
-
-        .no-products {
-            text-align: center;
-            padding: 40px 20px;
-            font-size: 1.1rem;
-            color: #6c757d;
-        }
-
-        @media (max-width: 768px) {
-            .category-title {
-                font-size: 2rem;
-            }
-
-            .custom-img {
-                height: 220px;
-            }
-        }
-    </style>
+    /* container for filtered single view header */
+    .filtered-container {
+      padding: 48px 0;
+      text-align:center;
+    }
+  </style>
 </head>
-
 <body>
-    <div id="navbar-placeholder"></div>
-
-    <!-- Toast Notification -->
-    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-        <div id="cartToast" class="toast" role="alert">
-            <div class="toast-header bg-success text-white">
-                <i class="bi bi-check-circle me-2"></i>
-                <strong class="me-auto">Success</strong>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
-            </div>
-            <div class="toast-body">
-                Product added to cart successfully!
-            </div>
-        </div>
+  <!-- Toast for add-to-cart -->
+  <div class="position-fixed bottom-0 end-0 p-3" style="z-index:11">
+    <div id="cartToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header bg-success text-white">
+        <i class="bi bi-check-circle me-2"></i>
+        <strong class="me-auto">Success</strong>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body">Product added to cart successfully!</div>
     </div>
+  </div>
 
-    <!-- Men Section -->
-    <section class="category-section">
-        <div class="container">
-            <h2 class="category-title green-color">Men Products</h2>
-            <p class="category-subtitle green-color">Don't miss out on our biggest sale of the season. Shop your favorite brands <br> at unbeatable prices.</p>
-            <div id="men-products" class="row g-4"></div>
-            <div id="no-men-products" class="no-products d-none">
-                No men's products available.
-            </div>
-            <div class="text-center">
-                <a href="Men.html" class="view-all-btn">View All</a>
-            </div>
+  <!-- Men Section -->
+  <section class="category-section" id="Men-Section-category">
+    <div class="container">
+      <h2 class="category-title white-color">Men Products</h2>
+      <p class="category-subtitle white-color">Don't miss out on our biggest sale of the season. Shop your favorite brands <br/> at unbeatable prices.</p>
+      <div id="men-products" class="row g-4"></div>
+      <div id="no-men-products" class="no-products d-none">No men's products available.</div>
+      <div class="text-center">
+        <a class="view-all-btn" href="product-catalog.html?category=Men">View All</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Women Section -->
+  <section class="category-section">
+    <div class="container">
+      <h2 class="category-title green-color">Women Products</h2>
+      <p class="category-subtitle green-color">Don't miss out on our biggest sale of the season. Shop your favorite brands <br/> at unbeatable prices.</p>
+      <div id="women-products" class="row g-4"></div>
+      <div id="no-women-products" class="no-products d-none">No women's products available.</div>
+      <div class="text-center">
+        <a class="view-all-btn" href="product-catalog.html?category=Women">View All</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Accessories Section -->
+  <section class="category-section">
+    <div class="container">
+      <h2 class="category-title white-color">Accessories Products</h2>
+      <p class="category-subtitle white-color">Don't miss out on our biggest sale of the season. Shop your favorite brands <br/> at unbeatable prices.</p>
+      <div id="accessories-products" class="row g-4"></div>
+      <div id="no-kids-products" class="no-products d-none">No accessories products available.</div>
+      <div class="text-center">
+        <a class="view-all-btn" href="product-catalog.html?category=Accessories">View All</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Kids Section -->
+  <section class="category-section">
+    <div class="container">
+      <h2 class="category-title green-color">Kids Products</h2>
+      <p class="category-subtitle green-color">Don't miss out on our biggest sale of the season. Shop your favorite brands <br/> at unbeatable prices.</p>
+      <div id="kids-products" class="row g-4"></div>
+      <div id="no-accessories-products" class="no-products d-none">No Kids available.</div>
+      <div class="text-center">
+        <a class="view-all-btn" href="product-catalog.html?category=Kids">View All</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="container-fluid bg-white d-flex align-items-center custom-footer">
+    <div class="container">
+      <div class="row gy-4 gx-5">
+        <div class="col-12 col-md-6 col-lg-3">
+          <h4 class="fw-bold text-success mb-3 fs-3">Wearopia</h4>
+          <p class="text-secondary small mb-4">Discover your unique style with our curated collection of modern fashion pieces.</p>
+          <ul class="list-unstyled text-secondary small mb-4">
+            <li class="mb-2"><i class="fa-solid fa-location-dot me-2"></i>123 Fashion Street, Style City, SC 12345</li>
+            <li class="mb-2"><i class="fa-solid fa-phone me-2"></i>+1 (555) 123-STYLE</li>
+            <li><i class="fa-solid fa-envelope me-2"></i>hello@stylehub.com</li>
+          </ul>
         </div>
-    </section>
-
-    <!-- Women Section -->
-    <section class="category-section">
-        <div class="container">
-            <h2 class="category-title white-color ">Women Products</h2>
-            <p class="category-subtitle white-color ">Don't miss out on our biggest sale of the season. Shop your favorite brands <br> at unbeatable prices.</p>
-            <div id="women-products" class="row g-4"></div>
-            <div id="no-women-products" class="no-products d-none">
-                No women's products available.
-            </div>
-            <div class="text-center">
-                <a href="Women.html" class="view-all-btn">View All</a>
-            </div>
+        <div class="col-12 col-md-3 col-lg-3">
+          <h5 class="fw-semibold text-black fs-6 mb-3">Quick Links</h5>
+          <ul class="list-unstyled text-secondary small">
+            <li class="mb-2">New Arrivals</li>
+            <li class="mb-2">Best Sellers</li>
+            <li class="mb-2">Sale</li>
+            <li class="mb-2">Gift Cards</li>
+            <li>Style Guide</li>
+          </ul>
         </div>
-    </section>
-
-    <!-- Accessories Section -->
-    <section class="category-section">
-        <div class="container">
-            <h2 class="category-title green-color">Accessories Products</h2>
-            <p class="category-subtitle green-color">Don't miss out on our biggest sale of the season. Shop your favorite brands <br> at unbeatable prices.</p>
-            <div id="kids-products" class="row g-4"></div>
-            <div id="no-kids-products" class="no-products d-none">
-                No accessories products available.
-            </div>
-            <div class="text-center">
-                <a href="Accessory.html" class="view-all-btn">View All</a>
-            </div>
+        <div class="col-12 col-md-3 col-lg-3">
+          <h5 class="fw-semibold text-black fs-6 mb-3">Customer Care</h5>
+          <ul class="list-unstyled text-secondary small">
+            <li class="mb-2">Contact Us</li>
+            <li class="mb-2">Size Guide</li>
+            <li class="mb-2">Shipping & Returns</li>
+            <li class="mb-2">Track Your Order</li>
+            <li>FAQ</li>
+          </ul>
         </div>
-    </section>
-
-    <!-- Kids Section -->
-    <section class="category-section">
-        <div class="container">
-            <h2 class="category-title white-color"> Kids Products</h2>
-            <p class="category-subtitle white-color">Don't miss out on our biggest sale of the season. Shop your favorite brands <br> at unbeatable prices.</p>
-            <div id="accessories-products" class="row g-4"></div>
-            <div id="no-accessories-products" class="no-products d-none">
-                No Kids available.
-            </div>
-            <div class="text-center">
-                <a href="Kids.html" class="view-all-btn">View All</a>
-            </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <h5 class="fw-semibold text-black fs-6 mb-3">Company</h5>
+          <ul class="list-unstyled text-secondary small">
+            <li class="mb-2">About Us</li>
+            <li class="mb-2">Careers</li>
+            <li class="mb-2">Press</li>
+            <li class="mb-2">Sustainability</li>
+            <li>Investors</li>
+          </ul>
         </div>
-    </section>
+      </div>
+    </div>
+  </footer>
 
-    <!-- Footer -->
-    <footer class="container-fluid bg-white d-flex align-items-center custom-footer">
-        <div class="container">
-            <div class="row gy-4 gx-5">
-                <div class="col-12 col-md-6 col-lg-3">
-                    <h4 class="fw-bold text-success mb-3 fs-3">Wearopia</h4>
-                    <p class="text-secondary small mb-4">
-                        Discover your unique style with our curated collection of modern fashion pieces.
-                    </p>
-                    <ul class="list-unstyled text-secondary small mb-4">
-                        <li class="mb-2">
-                            <i class="fa-solid fa-location-dot me-2"></i>123 Fashion Street, Style City, SC 12345
-                        </li>
-                        <li class="mb-2">
-                            <i class="fa-solid fa-phone me-2"></i>+1 (555) 123-STYLE
-                        </li>
-                        <li>
-                            <i class="fa-solid fa-envelope me-2"></i>hello@stylehub.com
-                        </li>
-                    </ul>
-                    <div class="d-flex gap-3">
-                        <a href="#" class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 social-icon">
-                            <i class="fa-brands fa-facebook-f"></i>
-                        </a>
-                        <a href="#" class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 social-icon">
-                            <i class="fa-brands fa-twitter"></i>
-                        </a>
-                        <a href="#" class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 social-icon">
-                            <i class="fa-brands fa-instagram"></i>
-                        </a>
-                        <a href="#" class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 social-icon">
-                            <i class="fa-brands fa-youtube"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-12 col-md-3 col-lg-3">
-                    <h5 class="fw-semibold text-black fs-6 mb-3">Quick Links</h5>
-                    <ul class="list-unstyled text-secondary small">
-                        <li class="mb-2">New Arrivals</li>
-                        <li class="mb-2">Best Sellers</li>
-                        <li class="mb-2">Sale</li>
-                        <li class="mb-2">Gift Cards</li>
-                        <li>Style Guide</li>
-                    </ul>
-                </div>
-                <div class="col-12 col-md-3 col-lg-3">
-                    <h5 class="fw-semibold text-black fs-6 mb-3">Customer Care</h5>
-                    <ul class="list-unstyled text-secondary small">
-                        <li class="mb-2">Contact Us</li>
-                        <li class="mb-2">Size Guide</li>
-                        <li class="mb-2">Shipping & Returns</li>
-                        <li class="mb-2">Track Your Order</li>
-                        <li>FAQ</li>
-                    </ul>
-                </div>
-                <div class="col-12 col-md-6 col-lg-3">
-                    <h5 class="fw-semibold text-black fs-6 mb-3">Company</h5>
-                    <ul class="list-unstyled text-secondary small">
-                        <li class="mb-2">About Us</li>
-                        <li class="mb-2">Careers</li>
-                        <li class="mb-2">Press</li>
-                        <li class="mb-2">Sustainability</li>
-                        <li>Investors</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </footer>
+  <!-- Bootstrap + jQuery (for optional small jQuery usage you had) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="./JavaScript/components.js" defer></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-      <script src="JavaScript/navbar-test.js"></script>
+  <!-- Place this in product-catalog.html in place of the existing product scripts (after the components.js <script> line) -->
+<script>
+/* ============================
+   Product loading & rendering (single, cleaned block)
+   Reads product_data.json, renders sections and filtered views,
+   and provides robust wishlist helpers that migrate legacy shapes.
+============================ */
 
-  <script>
-    $('<link/>', {
-  rel: 'stylesheet',
-  type: 'text/css',
-  href: 'CSS/navbar.css'
-}).appendTo('head');
+let products = [];
+let cart = JSON.parse(localStorage.getItem('wearopia_cart') || '{}');
 
-    $("#navbar-placeholder").load("navbar-test.html", function () {
-      initNavbar();
-      renderWishlist();
-    });
+// ---- Wishlist compatibility helpers ----
+// Read wishlist as an Array; support canonical 'wishlist' (array) and legacy 'wearopia_wishlist'
+// which could be array OR object map { "12": true, ... }.
+function getWishlistArray() {
+  try {
+    const canonical = JSON.parse(localStorage.getItem('wishlist') || 'null');
+    if (Array.isArray(canonical)) return canonical;
+  } catch (e) { /* ignore */ }
 
-    function renderWishlist() {
-      let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-      const container = $("#wishlistItems");
-      container.empty();
+  try {
+    const legacy = JSON.parse(localStorage.getItem('wearopia_wishlist') || 'null');
+    if (Array.isArray(legacy)) return legacy;
+    if (legacy && typeof legacy === 'object') {
+      return Object.keys(legacy).map(k => Number(k)).filter(n => !Number.isNaN(n));
+    }
+  } catch (e) { /* ignore */ }
 
-      if (wishlist.length === 0) {
-        container.html("<p class='text-center text-muted'>Your wishlist is empty 💔</p>");
-        return;
-      }
+  return [];
+}
 
-      wishlist.forEach((item, index) => {
-        container.append(`
-          <div class="wishlist-item">
-            <h5>${item.name}</h5>
-            <button class="btn btn-sm btn-danger remove-item" data-index="${index}">
-              <i class="bi bi-trash"></i> Remove
-            </button>
+function setWishlistArray(arr) {
+  try { localStorage.setItem('wishlist', JSON.stringify(arr)); } catch (e) { /* ignore */ }
+  try { localStorage.setItem('wearopia_wishlist', JSON.stringify(arr)); } catch (e) { /* ignore */ }
+  updateWishlistBadge();
+}
+
+function isInWishlist(id) {
+  const list = getWishlistArray();
+  return list.includes(Number(id));
+}
+
+function toggleWishlistId(id) {
+  const numeric = Number(id);
+  if (Number.isNaN(numeric)) return;
+  const list = getWishlistArray();
+  const idx = list.indexOf(numeric);
+  if (idx === -1) {
+    list.push(numeric);
+  } else {
+    list.splice(idx, 1);
+  }
+  setWishlistArray(list);
+}
+
+// ---- helpers ----
+function fmtPrice(v){ return Number(v).toFixed(2); }
+
+async function loadProductsJSON(){
+  try{
+    const res = await fetch('product_data.json', {cache: "no-cache"});
+    products = await res.json();
+  }catch(err){
+    console.error('Failed to load product_data.json', err);
+    products = [];
+  }
+}
+
+function escapeHtml(str){
+  if(!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+function productCardHTML(p){
+  const img = p.image ? p.image : 'Images/Image.png';
+  const oldPriceHtml = p.oldPrice ? `<span class="price-old">$${fmtPrice(p.oldPrice)}</span>` : '';
+  const inWishlist = isInWishlist(p.id);
+  const heartClass = inWishlist ? 'fa-solid' : 'fa-regular';
+
+  // note: product card contains a wishlist button; click handlers attached after insertion
+  return `
+    <div class="product-card">
+      <div class="img-wrap">
+        <img src="${img}" alt="${escapeHtml(p.name)}" onerror="this.onerror=null;this.src='Images/Image.png'">
+      </div>
+      <div class="product-info">
+        <h3 class="product-title">${escapeHtml(p.name)}</h3>
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="price-row">
+            <div class="price-current">$${fmtPrice(p.price)}</div>
+            ${oldPriceHtml}
           </div>
-        `);
-      });
+          <button class="wishlist-btn ${inWishlist ? 'active' : ''}" data-id="${p.id}" title="Add to wishlist">
+            <i class="${heartClass} fa-heart"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+}
 
-      $(".remove-item").on("click", function () {
-        const index = $(this).data("index");
-        wishlist.splice(index, 1);
-        localStorage.setItem("wishlist", JSON.stringify(wishlist));
-        renderWishlist();
-        Swal.fire("Removed!", "Item removed from wishlist.", "success");
+function placeholderCardHTML(){
+  return `
+    <div class="product-card">
+      <div class="img-wrap placeholder"></div>
+      <div class="product-info">
+        <h3 class="product-title" style="color:transparent; background:#eee; height:1.2em; width:70%; border-radius:6px"></h3>
+        <div class="d-flex justify-content-between align-items-center">
+          <div style="width:70px;height:16px;background:#eee;border-radius:6px"></div>
+          <div style="width:36px;height:36px;border-radius:50%;background:#fff"></div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderCategoryProducts(categoryProducts, containerId, noProductsId, limit = 4){
+  const container = document.getElementById(containerId);
+  const noProductsMsg = noProductsId ? document.getElementById(noProductsId) : null;
+  if(!container) return;
+
+  container.innerHTML = '';
+
+  const display = categoryProducts.slice(0, limit);
+
+  if(display.length === 0){
+    if(noProductsMsg) noProductsMsg.classList.remove('d-none');
+    for(let i=0;i<4;i++){
+      const col = document.createElement('div');
+      col.className = 'col-12 col-sm-6 col-lg-3';
+      col.innerHTML = placeholderCardHTML();
+      container.appendChild(col);
+    }
+    return;
+  } else {
+    if(noProductsMsg) noProductsMsg.classList.add('d-none');
+  }
+
+  display.forEach(p=>{
+    const col = document.createElement('div');
+    col.className = 'col-12 col-sm-6 col-lg-3';
+    col.innerHTML = productCardHTML(p);
+    // card click navigates to details (but avoid triggering when clicking wishlist button)
+    const cardEl = col.querySelector('.product-card');
+    if(cardEl){
+      cardEl.addEventListener('click', (ev)=>{
+        // if click target is wishlist button or inside it, ignore navigation
+        if (ev.target.closest('.wishlist-btn')) return;
+        localStorage.setItem('selected_product', JSON.stringify(p));
+        window.location.href = 'product-details.html';
       });
     }
-  </script>
+    container.appendChild(col);
+  });
 
-    <script>
-        const StorageManager = {
-            saveCart: function (cart) {
-                localStorage.setItem('wearopia_cart', JSON.stringify(cart));
-            },
+  // append placeholders if fewer than limit
+  if(display.length < limit){
+    const remaining = limit - display.length;
+    for(let i=0;i<remaining;i++){
+      const col = document.createElement('div');
+      col.className = 'col-12 col-sm-6 col-lg-3';
+      col.innerHTML = placeholderCardHTML();
+      container.appendChild(col);
+    }
+  }
 
-            loadCart: function () {
-                const saved = localStorage.getItem('wearopia_cart');
-                return saved ? JSON.parse(saved) : {};
-            },
+  // attach wishlist button handlers for the appended real product cards
+  container.querySelectorAll('.wishlist-btn').forEach(btn=>{
+    btn.addEventListener('click', (ev)=>{
+      ev.stopPropagation();
+      const id = btn.getAttribute('data-id');
+      const icon = btn.querySelector('i');
+      // toggle in storage
+      toggleWishlistId(id);
+      const nowIn = isInWishlist(id);
+      if(nowIn){
+        btn.classList.add('active');
+        if(icon) icon.classList.replace('fa-regular','fa-solid');
+      } else {
+        btn.classList.remove('active');
+        if(icon) icon.classList.replace('fa-solid','fa-regular');
+      }
+    });
+  });
+}
 
-            saveWishlist: function (wishlist) {
-                localStorage.setItem('wearopia_wishlist', JSON.stringify(wishlist));
-            },
+async function initializeProducts(){
+  await loadProductsJSON();
 
-            loadWishlist: function () {
-                const saved = localStorage.getItem('wearopia_wishlist');
-                return saved ? JSON.parse(saved) : {};
-            },
+  const params = new URLSearchParams(window.location.search);
+  const selectedCategoryParam = params.get('category'); // e.g., 'Men' / 'Women' / 'Kids' / 'Accessories' or null
+  const qParam = (params.get('q') || '').trim().toLowerCase();
 
-            updateCounts: function (cart, wishlist) {
-                const cartCount = Object.values(cart).reduce((sum, qty) => sum + qty, 0);
-                const wishlistCount = Object.keys(wishlist).length;
+  // group by mainCategory from JSON (case-sensitive in JSON: 'Men','Women','Kids','Accessories')
+  const menProducts = products.filter(p => p.mainCategory === 'Men');
+  const womenProducts = products.filter(p => p.mainCategory === 'Women');
+  const kidsProducts = products.filter(p => p.mainCategory === 'Kids');
+  const accessoriesProducts = products.filter(p => p.mainCategory === 'Accessories');
 
-                const cartCountEl = document.getElementById('cartCount');
-                const wishlistCountEl = document.getElementById('wishlistCount');
-                
-                if (cartCountEl) cartCountEl.textContent = cartCount;
-                if (wishlistCountEl) wishlistCountEl.textContent = wishlistCount;
-            }
-        };
+  if(selectedCategoryParam){
+    // hide sections and show filtered list
+    document.querySelectorAll('.category-section').forEach(sec => sec.style.display = 'none');
 
-        let cart = StorageManager.loadCart();
-        let wishlist = StorageManager.loadWishlist();
+    const filteredProducts = products.filter(p => {
+      const matchCategory = p.mainCategory === selectedCategoryParam;
+      const matchQuery = !qParam || (p.name && p.name.toLowerCase().includes(qParam)) || (p.category && p.category.toLowerCase().includes(qParam));
+      return matchCategory && matchQuery;
+    });
 
-        function generateProducts() {
-            const categories = ['Men', 'Women', 'Kids', 'Accessories'];
-            const subcategories = ['Jeans', 'Jacket', 'Pullover', 'T-shirt', 'Homewear', 'Hoddie', 'Sportwear'];
-            const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
-            const colors = ['Blue', 'Green', 'Orange', 'Dark Blue'];
+    const filteredWrap = document.createElement('section');
+    filteredWrap.className = 'filtered-container';
+    filteredWrap.innerHTML = `
+      <div class="container">
+        <h2 class="category-title">${escapeHtml(selectedCategoryParam)} Products</h2>
+        <p class="category-subtitle">Showing ${filteredProducts.length} ${escapeHtml(selectedCategoryParam.toLowerCase())} products</p>
+        <div id="filtered-products" class="row g-4"></div>
+        <div class="text-center"><a class="view-all-btn" href="product-catalog.html">Back to All</a></div>
+      </div>
+    `;
+    document.body.insertBefore(filteredWrap, document.querySelector('footer'));
+    renderCategoryProducts(filteredProducts, 'filtered-products', null, filteredProducts.length || 4);
+  } else {
+    // default: show previews for each section
+    renderCategoryProducts(menProducts, 'men-products', 'no-men-products', 4);
+    renderCategoryProducts(womenProducts, 'women-products', 'no-women-products', 4);
+    renderCategoryProducts(accessoriesProducts, 'accessories-products', 'no-kids-products', 4);
+    renderCategoryProducts(kidsProducts, 'kids-products', 'no-accessories-products', 4);
+  }
 
-            const productNames = [
-                'Classic Denim Jeans',  'Leather Bomber Jacket','Wool Pullover Sweater' ,'Cotton V-Neck Tee',
-                'Classic Denim Jeans',  'Leather Bomber Jacket','Wool Pullover Sweater' ,'Cotton V-Neck Tee',
-                'Classic Denim Jeans',  'Leather Bomber Jacket','Wool Pullover Sweater' ,'Cotton V-Neck Tee',
-                'Classic Denim Jeans',  'Leather Bomber Jacket','Wool Pullover Sweater' ,'Cotton V-Neck Tee',
-                'Classic Denim Jeans',  'Leather Bomber Jacket','Wool Pullover Sweater' ,'Cotton V-Neck Tee',
+  // ensure navbar badge updated after initial render
+  updateWishlistBadge();
+}
 
-                'High-Waist Skinny Jeans', 'Faux Fur Trench Coat', 'Turtleneck Beige Top', 'Floral Wrap Blouse',
-                'High-Waist Skinny Jeans', 'Faux Fur Trench Coat', 'Turtleneck Beige Top', 'Floral Wrap Blouse',
-                'High-Waist Skinny Jeans', 'Faux Fur Trench Coat', 'Turtleneck Beige Top', 'Floral Wrap Blouse',
-                'High-Waist Skinny Jeans', 'Faux Fur Trench Coat', 'Turtleneck Beige Top', 'Floral Wrap Blouse',
-                'High-Waist Skinny Jeans', 'Faux Fur Trench Coat', 'Turtleneck Beige Top', 'Floral Wrap Blouse',
+// simple addToCart (keeps previous toast behavior)
+function addToCartById(productId){
+  cart[productId] = (cart[productId] || 0) + 1;
+  localStorage.setItem('wearopia_cart', JSON.stringify(cart));
+  const toastEl = document.getElementById('cartToast');
+  if (toastEl && window.bootstrap) {
+    const bsToast = new bootstrap.Toast(toastEl, {animation:true, autohide:true, delay:2000});
+    bsToast.show();
+  }
+}
 
-                'Leather Crossbody Bag', 'Gold Chain Necklace', 'Aviator Sunglasses', 'Wool Beanie Hat',
-                'Leather Crossbody Bag', 'Gold Chain Necklace', 'Aviator Sunglasses', 'Wool Beanie Hat',
-                'Leather Crossbody Bag', 'Gold Chain Necklace', 'Aviator Sunglasses', 'Wool Beanie Hat',
-                'Leather Crossbody Bag', 'Gold Chain Necklace', 'Aviator Sunglasses', 'Wool Beanie Hat',
-                'Leather Crossbody Bag', 'Gold Chain Necklace', 'Aviator Sunglasses', 'Wool Beanie Hat',
+// Update navbar wishlist badge (if present)
+function updateWishlistBadge() {
+  const el = document.getElementById('wishlistCount');
+  if (el) el.textContent = String(getWishlistArray().length);
+}
 
-                'Toddler Denim Jeans', 'Kids Puffer Jacket', 'Wide Lined Pullover', 'Peanuts T-shirt',
-                'Toddler Denim Jeans', 'Kids Puffer Jacket', 'Wide Lined Pullover', 'Peanuts T-shirt',
-                'Toddler Denim Jeans', 'Kids Puffer Jacket', 'Wide Lined Pullover', 'Peanuts T-shirt',
-                'Toddler Denim Jeans', 'Kids Puffer Jacket', 'Wide Lined Pullover', 'Peanuts T-shirt',
-                'Toddler Denim Jeans', 'Kids Puffer Jacket', 'Wide Lined Pullover', 'Peanuts T-shirt',
-
-                
-            ];
-
-            const allProducts = [];
-            let productId = 1;
-            let nameIndex = 0;
-
-            categories.forEach(mainCategory => {
-                for (let i = 0; i < 20; i++) {
-                    const product = {
-                        id: productId,
-                        name: productNames[nameIndex] || 'Product',
-                        mainCategory: mainCategory,
-                        category: subcategories[i % subcategories.length],
-                        size: sizes[i % sizes.length],
-                        color: colors[i % colors.length],
-                        price: Math.floor(Math.random() * 50) + 20,
-                        oldPrice: Math.random() > 0.5 ? Math.floor(Math.random() * 70) + 50 : null,
-                        image: `Images/product${productId}.jpg`,
-                        images: [
-                            `Images/product${productId}.jpg`,
-                            `Images/product${productId}.jpg`,
-                            `Images/product${productId}.jpg`,
-                            `Images/product${productId}.jpg`
-                        ]
-                    };
-                    allProducts.push(product);
-                    productId++;
-                    nameIndex++;
-                }
-            });
-
-            return allProducts;
-        }
-
-        const products = generateProducts();
-
-        function isInWishlist(productId) {
-            return wishlist[productId] === true;
-        }
-
-        function toggleWishlist(event, productId) {
-            event.stopPropagation();
-            const product = products.find(p => p.id === productId);
-            if (!product) return;
-
-            const heartIcon = event.currentTarget.querySelector('i');
-
-            if (wishlist[productId]) {
-                delete wishlist[productId];
-                heartIcon.classList.remove('fa-solid');
-                heartIcon.classList.add('fa-regular');
-            } else {
-                wishlist[productId] = true;
-                heartIcon.classList.remove('fa-regular');
-                heartIcon.classList.add('fa-solid');
-            }
-
-            StorageManager.saveWishlist(wishlist);
-            StorageManager.updateCounts(cart, wishlist);
-        }
-
-        function addToCart(event, productId) {
-            event.stopPropagation();
-            const product = products.find(p => p.id === productId);
-            if (!product) return;
-
-            cart[productId] = (cart[productId] || 0) + 1;
-
-            StorageManager.saveCart(cart);
-            StorageManager.updateCounts(cart, wishlist);
-
-            const toastElement = document.getElementById('cartToast');
-            const toast = new bootstrap.Toast(toastElement, {
-                animation: true,
-                autohide: true,
-                delay: 3000
-            });
-            toast.show();
-        }
-
-        function goToProductDetails(productId) {
-            const product = products.find(p => p.id === productId);
-            if (product) {
-                // Update breadcrumb
-                const breadcrumbContainer = document.getElementById('breadcrumb-container');
-                const breadcrumbProductName = document.getElementById('breadcrumb-product-name');
-                
-                if (breadcrumbContainer && breadcrumbProductName) {
-                    breadcrumbProductName.textContent = product.name;
-                    breadcrumbContainer.style.display = 'block';
-                }
-                
-                localStorage.setItem('selected_product', JSON.stringify(product));
-                window.location.href = 'product-details.html';
-            }
-        }
-
-        function renderCategoryProducts(categoryProducts, containerId, noProductsId, limit = 4) {
-            const container = document.getElementById(containerId);
-            const noProductsMsg = document.getElementById(noProductsId);
-            container.innerHTML = "";
-
-            const displayProducts = categoryProducts.slice(0, limit);
-
-            if (displayProducts.length === 0) {
-                noProductsMsg.classList.remove("d-none");
-                return;
-            }
-            noProductsMsg.classList.add("d-none");
-
-            displayProducts.forEach((p) => {
-                const oldPriceHtml = p.oldPrice
-                    ? `<span class="text-decoration-line-through text-muted small">$${p.oldPrice.toFixed(2)}</span>`
-                    : '';
-
-                const inWishlist = isInWishlist(p.id);
-                const heartClass = inWishlist ? 'fa-solid' : 'fa-regular';
-
-                const card = document.createElement("div");
-                card.className = "col-12 col-sm-6 col-lg-3";
-                card.innerHTML = `
-                    <div class="card bg-white border-0 shadow-sm custom-card" onclick="goToProductDetails(${p.id})">
-                        <img src="${p.image}" class="card-img-top custom-img" alt="${p.name}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22280%22%3E%3Crect fill=%22%23e9ecef%22 width=%22400%22 height=%22280%22/%3E%3Ctext fill=%22%23999%22 font-family=%22Arial%22 font-size=%2218%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22%3EProduct Image%3C/text%3E%3C/svg%3E'">
-                        <div class="p-3 d-flex flex-column justify-content-between h-100">
-                            <div>
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <h5 class="fs-6 fw-medium mb-0 text-dark">${p.name}</h5>
-                                    <div class="d-flex justify-content-center align-items-center rounded-2 shadow-sm bg-white custom-icon" onclick="toggleWishlist(event, ${p.id})">
-                                        <i class="${heartClass} fa-heart"></i>
-                                    </div>
-                                </div>
-                                <div class="d-flex align-items-center mb-3">
-                                    <span class="fw-semibold fs-6 text-dark me-2">${p.price.toFixed(2)}</span>
-                                    ${oldPriceHtml}
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        function initializeProducts() {
-            const menProducts = products.filter(p => p.mainCategory === 'Men');
-            const womenProducts = products.filter(p => p.mainCategory === 'Women');
-            const kidsProducts = products.filter(p => p.mainCategory === 'Kids');
-            const accessoriesProducts = products.filter(p => p.mainCategory === 'Accessories');
-
-            renderCategoryProducts(menProducts, 'men-products', 'no-men-products', 4);
-            renderCategoryProducts(womenProducts, 'women-products', 'no-women-products', 4);
-            renderCategoryProducts(kidsProducts, 'kids-products', 'no-kids-products', 4);
-            renderCategoryProducts(accessoriesProducts, 'accessories-products', 'no-accessories-products', 4);
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            initializeProducts();
-            StorageManager.updateCounts(cart, wishlist);
-        });
-    </script>
+// initialize on DOM ready
+document.addEventListener('DOMContentLoaded', () => {
+  initializeProducts();
+  // also ensure badge is set (in case other pages updated storage earlier)
+  updateWishlistBadge();
+});
+</script>
 </body>
-
 </html>

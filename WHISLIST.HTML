@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="./JavaScript/components.js" defer></script>
+
   <style>
     body { font-family: "Segoe UI", sans-serif; background: #f9f9f9; }
     .wishlist-page { max-width: 1100px; margin: 50px auto; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
@@ -21,102 +23,185 @@
   </style>
 </head>
 <body>
-    <div id="navbar-placeholder"></div>
+    <div id="navbar-container"></div>
 
   <div class="wishlist-page">
     <h2 class="mb-4 text-center text-success">My Wishlist </h2>
     <div id="wishlistItems"></div>
   </div>
 
-  <script>
-    const StorageManager = {
-      loadWishlist: () => JSON.parse(localStorage.getItem('wearopia_wishlist')) || {},
-      saveWishlist: (wishlist) => localStorage.setItem('wearopia_wishlist', JSON.stringify(wishlist)),
-      loadCart: () => JSON.parse(localStorage.getItem('wearopia_cart')) || {},
-      saveCart: (cart) => localStorage.setItem('wearopia_cart', JSON.stringify(cart)),
-      updateCounts: () => {
-        const cart = JSON.parse(localStorage.getItem('wearopia_cart')) || {};
-        const wishlist = JSON.parse(localStorage.getItem('wearopia_wishlist')) || {};
-        const cartCountEl = document.getElementById('cartCount');
-        const wishlistCountEl = document.getElementById('wishlistCount');
-        if (cartCountEl) cartCountEl.textContent = Object.values(cart).reduce((a,b)=>a+b,0);
-        if (wishlistCountEl) wishlistCountEl.textContent = Object.keys(wishlist).length;
+  <!-- Replace existing wishlist scripts with this single block -->
+<script>
+/* Vanilla JS wishlist renderer for WHISLIST.HTML
+   - canonical key: 'wearopia_wishlist' (array of numeric IDs)
+   - fetches product_data.json to show name/image/price
+   - safe (no $ / jQuery)
+*/
+
+(async function () {
+  const WKEY = 'wearopia_wishlist';
+  const CART_KEY = 'wearopia_cart';
+  const PRODUCTS_JSON = 'product_data.json';
+  const container = document.getElementById('wishlistItems');
+
+  function updateNavbarCounts() {
+    if (window.NavbarComponent && typeof NavbarComponent.updateCounts === 'function') {
+      NavbarComponent.updateCounts();
+      return;
+    }
+    // fallback
+    const wl = JSON.parse(localStorage.getItem(WKEY) || '[]');
+    const cart = JSON.parse(localStorage.getItem(CART_KEY) || '{}');
+    const wishlistEl = document.getElementById('wishlistCount');
+    const cartEl = document.getElementById('cartCount');
+    if (wishlistEl) wishlistEl.textContent = wl.length ? String(wl.length) : '';
+    if (cartEl) {
+      const qty = Object.values(cart).reduce((a,b) => a + (Number(b)||0), 0);
+      cartEl.textContent = qty ? String(qty) : '';
+    }
+  }
+
+  function canonicalizeWishlist() {
+    try {
+      const raw = localStorage.getItem(WKEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) return parsed.map(Number);
+        if (parsed && typeof parsed === 'object') return Object.keys(parsed).map(k => Number(k));
       }
-    };
-
-    function renderWishlist() {
-      const wishlistContainer = document.getElementById("wishlistItems");
-      const wishlist = StorageManager.loadWishlist();
-      const productData = JSON.parse(localStorage.getItem("product_data") || "{}");
-
-      wishlistContainer.innerHTML = "";
-
-      if (Object.keys(wishlist).length === 0) {
-        wishlistContainer.innerHTML = "<p class='text-center text-muted'>Your wishlist is empty ❤️</p>";
-        return;
+      const alt = localStorage.getItem('wishlist');
+      if (alt) {
+        const p = JSON.parse(alt);
+        if (Array.isArray(p)) return p.map(Number);
+        if (p && typeof p === 'object') return Object.keys(p).map(k => Number(k));
       }
+    } catch (e) { console.warn('Wishlist parse error', e); }
+    return [];
+  }
 
-      Object.keys(wishlist).forEach((productId) => {
-        const p = productData[productId] || { name: "Unknown Product", price: 0, image: "https://via.placeholder.com/120" };
+  function saveWishlist(arr) {
+    const unique = Array.from(new Set(arr.map(Number).filter(x => !Number.isNaN(x))));
+    localStorage.setItem(WKEY, JSON.stringify(unique));
+    updateNavbarCounts();
+  }
 
-        const item = document.createElement("div");
-        item.classList.add("wishlist-item");
-        item.innerHTML = `
-          <img src="${p.image}" alt="${p.name}" />
-          <div class="wishlist-info">
-            <h3>${p.name}</h3>
-            <p>$${p.price}</p>
-            <div class="wishlist-actions">
-              <button class="btn-add-cart" onclick="addToCart('${productId}')"><i class='bi bi-bag-plus'></i> Add to Cart</button>
-              <button class="btn-remove" onclick="removeFromWishlist('${productId}')"><i class='bi bi-trash'></i> Remove</button>
-            </div>
+  function loadCart() {
+    try { return JSON.parse(localStorage.getItem(CART_KEY) || '{}'); } catch(e) { return {}; }
+  }
+  function saveCart(obj) {
+    localStorage.setItem(CART_KEY, JSON.stringify(obj));
+    updateNavbarCounts();
+  }
+
+  async function loadProductsMap() {
+    const map = {};
+    try {
+      const res = await fetch(PRODUCTS_JSON, { cache: 'no-cache' });
+      if (res.ok) {
+        const arr = await res.json();
+        arr.forEach(p => map[String(p.id)] = p);
+        return map;
+      }
+    } catch (err) {
+      console.warn('product_data.json fetch failed, falling back to local products', err);
+    }
+    try {
+      const stored = JSON.parse(localStorage.getItem('wearopia_products') || '{}');
+      Object.keys(stored).forEach(k => map[String(k)] = stored[k]);
+    } catch (e) {}
+    return map;
+  }
+
+  async function renderWishlist() {
+    if (!container) return;
+    container.innerHTML = '';
+
+    let wishlist = canonicalizeWishlist();
+    saveWishlist(wishlist);
+
+    if (!wishlist.length) {
+      container.innerHTML = "<p class='text-center text-muted'>Your wishlist is empty ❤️</p>";
+      updateNavbarCounts();
+      return;
+    }
+
+    const productsMap = await loadProductsMap();
+
+    wishlist.forEach(id => {
+      const pid = String(id);
+      const p = productsMap[pid] || { name: "Unknown Product", price: 0, image: "Images/placeholder.png" };
+
+      const item = document.createElement('div');
+      item.className = 'wishlist-item d-flex align-items-center justify-content-between my-3';
+      item.innerHTML = `
+        <div class="d-flex align-items-center gap-3">
+          <img src="${p.image || 'Images/placeholder.png'}" alt="${(p.name||'Product')}" style="width:110px;height:110px;object-fit:cover;border-radius:8px;">
+          <div>
+            <h5 style="margin:0;color:#0f6546">${p.name || 'Unknown Product'}</h5>
+            <div style="font-weight:700;margin-top:6px">$${(p.price||0).toFixed(2)}</div>
           </div>
-        `;
-        wishlistContainer.appendChild(item);
-      });
-    }
-
-    function addToCart(productId) {
-      const cart = StorageManager.loadCart();
-      cart[productId] = (cart[productId] || 0) + 1;
-      StorageManager.saveCart(cart);
-      Swal.fire({ icon: "success", title: "Added to Cart!", timer: 1500, showConfirmButton: false });
-      StorageManager.updateCounts();
-    }
-
-    function removeFromWishlist(productId) {
-      const wishlist = StorageManager.loadWishlist();
-      delete wishlist[productId];
-      StorageManager.saveWishlist(wishlist);
-      renderWishlist();
-      Swal.fire({ icon: "success", title: "Removed from Wishlist!", timer: 1500, showConfirmButton: false });
-      StorageManager.updateCounts();
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      renderWishlist();
-      StorageManager.updateCounts();
+        </div>
+        <div class="d-flex gap-2">
+          <button class="btn-add-cart btn btn-sm btn-success" data-id="${pid}"><i class="bi bi-bag-plus"></i> Add to cart</button>
+          <button class="btn-remove btn btn-sm btn-danger" data-id="${pid}"><i class="bi bi-trash"></i> Remove</button>
+        </div>
+      `;
+      container.appendChild(item);
     });
-  </script>
+
+    // Attach handlers after DOM insertion
+    container.querySelectorAll('.btn-remove').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-id');
+        let wl = JSON.parse(localStorage.getItem(WKEY) || '[]');
+        wl = wl.filter(x => String(x) !== String(id));
+        saveWishlist(wl);
+        renderWishlist();
+        if (window.Swal) Swal.fire({ icon: 'success', title: 'Removed from wishlist', timer: 1200, showConfirmButton: false });
+      });
+    });
+
+    container.querySelectorAll('.btn-add-cart').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-id');
+        const cart = loadCart();
+        cart[id] = (cart[id] || 0) + 1;
+        saveCart(cart);
+        if (window.Swal) Swal.fire({ icon: 'success', title: 'Added to cart', timer: 1000, showConfirmButton: false });
+      });
+    });
+
+    updateNavbarCounts();
+  }
+
+  // Initialize when DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderWishlist);
+  } else {
+    renderWishlist();
+  }
+
+  // Sync across tabs
+  window.addEventListener('storage', (e) => {
+    if (e.key === WKEY || e.key === 'wishlist' || e.key === 'wearopia_cart') {
+      renderWishlist();
+    }
+  });
+
+})();
+</script>
   
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script src="JavaScript/navbar-test.js"></script>
+  
 
   <script>
-    $('<link/>', {
-  rel: 'stylesheet',
-  type: 'text/css',
-  href: 'CSS/navbar.css'
-}).appendTo('head');
-
-    $("#navbar-placeholder").load("navbar-test.html", function () {
-      initNavbar();
-      renderWishlist();
-    });
 
     function renderWishlist() {
-      let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+      let wishlist = JSON.parse(localStorage.getItem("wearopia_wishlist")) || [];
+ 
+      console.log();
+      
       const container = $("#wishlistItems");
       container.empty();
 
@@ -124,8 +209,10 @@
         container.html("<p class='text-center text-muted'>Your wishlist is empty 💔</p>");
         return;
       }
+      
+      Object.keys(wishlist).forEach((item, index) => {
 
-      wishlist.forEach((item, index) => {
+        item = getProductDetails(item);
         container.append(`
           <div class="wishlist-item">
             <h5>${item.name}</h5>
@@ -144,12 +231,40 @@
         Swal.fire("Removed!", "Item removed from wishlist.", "success");
       });
     }
+
+    function getProductDetails(id) {
+      allProducts = JSON.parse(localStorage.getItem('wearopia_products')) || {};
+      return allProducts[id] || null;
+    }
   </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    
+    <script src="JavaScript/whishlist.js" defer></script>
   
 </body>
 </html>
+
+<!-- --- Wishlist key normalization (run once on load) ---
+(function normalizeWishlistKey() {
+  try {
+    const canonicalKey = 'wearopia_wishlist';
+    const raw = localStorage.getItem(canonicalKey);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) return; // already good
+      if (parsed && typeof parsed === 'object') {
+        localStorage.setItem(canonicalKey, JSON.stringify(Object.keys(parsed).map(k => Number(k))));
+        return;
+      }
+    }
+    // migrate from old 'wishlist' if present
+    const old = localStorage.getItem('wishlist');
+    if (old) {
+      const p = JSON.parse(old);
+      if (Array.isArray(p)) localStorage.setItem(canonicalKey, JSON.stringify(p.map(Number)));
+      else if (p && typeof p === 'object') localStorage.setItem(canonicalKey, JSON.stringify(Object.keys(p).map(k => Number(k))));
+    }
+  } catch (e) { console.warn('Wishlist normalization failed', e); }
+})(); -->

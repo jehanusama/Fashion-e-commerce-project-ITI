@@ -280,54 +280,9 @@ footer {
   </style>
 </head>
 <body>
+    <div id="navbar-container"></div>
 
-<!-- Navbar -->
-<div class="navbar-wrapper">
-  <nav class="navbar">
-    <button class="menu-toggle" id="menuToggle" aria-label="Menu">
-      <i class="bi bi-list"></i>
-    </button>
-    <a href="index.html" class="navbar-brand">Wearopia</a>
-    <ul class="navbar-menu">
-      <li><a href="#">Man</a></li>
-      <li><a href="#">Women</a></li>
-      <li><a href="#">Kids</a></li>
-      <li><a href="#">Accessory</a></li>
-    </ul>
-    <div class="search-container">
-      <i class="bi bi-search search-icon"></i>
-      <input type="text" class="search-box" placeholder="Search for outfits...">
-    </div>
-    <div class="navbar-actions">
-      <a href="login.html" id="loginBtn">
-        <i class="bi bi-box-arrow-in-right"></i>
-        <span>Login</span>
-      </a>
-      <a href="#" id="wishlistBtn">
-        <i class="bi bi-heart"></i>
-        <span>Wishlist</span>
-        <span class="badge-count" id="wishlistCount">0</span>
-      </a>
-      <a href="shopping-cart.html" id="cartBtn">
-        <i class="bi bi-bag"></i>
-        <span>Cart</span>
-        <span class="badge-count" id="cartCount">0</span>
-      </a>
-    </div>
-    <div class="mobile-dropdown" id="mobileMenu">
-      <ul>
-        <li><a href="#">Man</a></li>
-        <li><a href="#">Women</a></li>
-        <li><a href="#">Kids</a></li>
-        <li><a href="#">Accessory</a></li>
-      </ul>
-      <div class="mobile-search">
-        <i class="bi bi-search search-icon"></i>
-        <input type="text" class="search-box" placeholder="Search for outfits...">
-      </div>
-    </div>
-  </nav>
-</div>
+
 
 <div class="container-custom">
   <!-- Breadcrumb -->
@@ -577,6 +532,7 @@ document.addEventListener('DOMContentLoaded', function() {
   cartBadge.classList.remove('show');
 });
 </script> -->
+  <script src="./JavaScript/components.js" defer></script>
 
 
 <script>

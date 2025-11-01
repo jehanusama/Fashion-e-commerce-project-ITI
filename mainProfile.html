@@ -228,7 +228,7 @@
     </style>
 </head>
 <body>
-  <div id="navbar-placeholder"></div>
+  <div id="navbar-container"></div>
 
     <!-- Main Content -->
     <div class="container my-5" style="max-width: none; padding-left: 120px; padding-right: 120px;">
@@ -305,126 +305,11 @@
         </div>
     </div>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script src="JavaScript/navbar-test.js"></script>
-
-  <script>
-    $('<link/>', {
-  rel: 'stylesheet',
-  type: 'text/css',
-  href: 'CSS/navbar.css'
-}).appendTo('head');
-
-    $("#navbar-placeholder").load("navbar-test.html", function () {
-      initNavbar();
-      renderWishlist();
-    });
-
-    function renderWishlist() {
-      let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-      const container = $("#wishlistItems");
-      container.empty();
-
-      if (wishlist.length === 0) {
-        container.html("<p class='text-center text-muted'>Your wishlist is empty 💔</p>");
-        return;
-      }
-
-      wishlist.forEach((item, index) => {
-        container.append(`
-          <div class="wishlist-item">
-            <h5>${item.name}</h5>
-            <button class="btn btn-sm btn-danger remove-item" data-index="${index}">
-              <i class="bi bi-trash"></i> Remove
-            </button>
-          </div>
-        `);
-      });
-
-      $(".remove-item").on("click", function () {
-        const index = $(this).data("index");
-        wishlist.splice(index, 1);
-        localStorage.setItem("wishlist", JSON.stringify(wishlist));
-        renderWishlist();
-        Swal.fire("Removed!", "Item removed from wishlist.", "success");
-      });
-    }
-  </script>
+  
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-     <!--footer component-->
-    <footer class="container-fluid bg-white d-flex align-items-center custom-footer">
-      <div class="container">
-        <div class="row gy-4 gx-5">
-          <div class="col-12 col-md-6 col-lg-3">
-            <h4 class="fw-bold text-success mb-3 fs-3">Wearopia</h4>
-            <p class="text-secondary small mb-4">
-              Discover your unique style with our curated collection of modern fashion pieces.
-            </p>
-    
-            <ul class="list-unstyled text-secondary small mb-4">
-              <li class="mb-2">
-                <i class="fa-solid fa-location-dot me-2"></i>123 Fashion Street, Style City, SC 12345
-              </li>
-              <li class="mb-2">
-                <i class="fa-solid fa-phone me-2"></i>+1 (555) 123-STYLE
-              </li>
-              <li>
-                <i class="fa-solid fa-envelope me-2"></i>hello@stylehub.com
-              </li>
-            </ul>
-    
-            <div class="d-flex gap-3">
-              <a href="#"
-                class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 social-icon">
-                <i class="fa-brands fa-facebook-f"></i>
-              </a>
-              <a href="#"
-                class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 social-icon">
-                <i class="fa-brands fa-twitter"></i>
-              </a>
-              <a href="#"
-                class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 social-icon">
-                <i class="fa-brands fa-instagram"></i>
-              </a>
-              <a href="#"
-                class="d-flex align-items-center justify-content-center border border-secondary rounded-circle text-dark text-decoration-none fs-6 social-icon">
-                <i class="fa-brands fa-youtube"></i>
-              </a>
-            </div>
-          </div>
-          <div class="col-12 col-md-3 col-lg-3">
-            <h5 class="fw-semibold text-black fs-6 mb-3">Quick Links</h5>
-            <ul class="list-unstyled text-secondary small">
-              <li class="mb-2">New Arrivals</li>
-              <li class="mb-2">Best Sellers</li>
-              <li class="mb-2">Sale</li>
-              <li class="mb-2">Gift Cards</li>
-              <li>Style Guide</li>
-            </ul>
-          </div>
-          <div class="col-12 col-md-3 col-lg-3">
-            <h5 class="fw-semibold text-black fs-6 mb-3">Customer Care</h5>
-            <ul class="list-unstyled text-secondary small">
-              <li class="mb-2">Contact Us</li>
-              <li class="mb-2">Size Guide</li>
-              <li class="mb-2">Shipping & Returns</li>
-              <li class="mb-2">Track Your Order</li>
-              <li>FAQ</li>
-            </ul>
-          </div>
-          <div class="col-12 col-md-6 col-lg-3">
-            <h5 class="fw-semibold text-black fs-6 mb-3">Company</h5>
-            <ul class="list-unstyled text-secondary small">
-              <li class="mb-2">About Us</li>
-              <li class="mb-2">Careers</li>
-              <li class="mb-2">Press</li>
-              <li class="mb-2">Sustainability</li>
-              <li>Investors</li>
-            </ul>
-          </div>
-    
-        </div>
-      </div>
-    </footer>
-    <!--end of footer-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="./JavaScript/profile.js"></script>
+    <script src="JavaScript/components.js" defer></script>
 </body>
+
 </html>

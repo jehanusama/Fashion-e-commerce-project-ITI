@@ -496,11 +496,14 @@
   }
 }
 
+.error-border { border-color: #d9534f !important; box-shadow: none !important; }
+.error-msg { margin-top: 6px; color: #d9534f; font-size: 13px; }
+
   </style>
 
 </head>
 <body>
-    <div id="navbar-placeholder"></div>
+    <div id="navbar-container"></div>
 
 <!-- Toast Container -->
 <div class="toast-container" id="toast-container"></div>
@@ -786,909 +789,8 @@
 <!--end of footer-->
 
 
-
-
-<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script src="JavaScript/navbar-test.js"></script>
-
-  <script>
-    $('<link/>', {
-  rel: 'stylesheet',
-  type: 'text/css',
-  href: 'CSS/navbar.css'
-}).appendTo('head');
-
-    $("#navbar-placeholder").load("navbar-test.html", function () {
-      initNavbar();
-      renderWishlist();
-    });
-
-    function renderWishlist() {
-      let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-      const container = $("#wishlistItems");
-      container.empty();
-
-      if (wishlist.length === 0) {
-        container.html("<p class='text-center text-muted'>Your wishlist is empty 💔</p>");
-        return;
-      }
-
-      wishlist.forEach((item, index) => {
-        container.append(`
-          <div class="wishlist-item">
-            <h5>${item.name}</h5>
-            <button class="btn btn-sm btn-danger remove-item" data-index="${index}">
-              <i class="bi bi-trash"></i> Remove
-            </button>
-          </div>
-        `);
-      });
-
-      $(".remove-item").on("click", function () {
-        const index = $(this).data("index");
-        wishlist.splice(index, 1);
-        localStorage.setItem("wishlist", JSON.stringify(wishlist));
-        renderWishlist();
-        Swal.fire("Removed!", "Item removed from wishlist.", "success");
-      });
-    }
-  </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-
-// Helper: Luhn algorithm for credit card validation
-function validateCreditCard(number) {
-  const clean = number.replace(/\D/g, '');
-  if (!/^\d{13,19}$/.test(clean)) return false;
-  let sum = 0;
-  let doubleIt = false;
-  for (let i = clean.length - 1; i >= 0; i--) {
-    let digit = parseInt(clean[i]);
-    if (doubleIt) {
-      digit *= 2;
-      if (digit > 9) digit -= 9;
-    }
-    sum += digit;
-    doubleIt = !doubleIt;
-  }
-  return sum % 10 === 0;
-}
-
-// --- Updated Place Order with All Validations ---
-function placeOrder() {
-  const firstName = document.getElementById('firstName');
-  const lastName = document.getElementById('lastName');
-  const phone = document.getElementById('phone');
-  const email = document.getElementById('email');
-  const address = document.getElementById('address');
-  const country = document.getElementById('country');
-  const city = document.getElementById('city');
-  const cardNumber = document.getElementById('cardNumber');
-  const expiry = document.getElementById('expiryDate');
-  const cvc = document.getElementById('cvc');
-
-  // Helper: scroll + focus on invalid field
-  function focusAndScroll(element) {
-    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    element.focus();
-  }
-
-  // --- Name validation ---
-  const nameRegex = /^[A-Za-z]+$/;
-  if (!nameRegex.test(firstName.value.trim())) {
-    showToast('Invalid Name', 'First name must contain letters only', 'error');
-    focusAndScroll(firstName);
-    return;
-  }
-  if (lastName.value.trim() && !nameRegex.test(lastName.value.trim())) {
-    showToast('Invalid Name', 'Last name must contain letters only', 'error');
-    focusAndScroll(lastName);
-    return;
-  }
-
-  // --- Phone validation ---
-  const phoneValue = phone.value.trim();
-  const phoneRegex = /^\d{10,15}$/; // 10–15 digits only
-  if (!phoneRegex.test(phoneValue)) {
-    showToast('Invalid Phone', 'Please enter a valid phone number (10–15 digits)', 'error');
-    focusAndScroll(phone);
-    return;
-  }
-
-  // --- Email validation ---
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email.value.trim())) {
-    showToast('Invalid Email', 'Please enter a valid email address', 'error');
-    focusAndScroll(email);
-    return;
-  }
-
-  // --- Address validation ---
-  if (!address.value.trim()) {
-    showToast('Missing Information', 'Please enter your street address', 'warning');
-    focusAndScroll(address);
-    return;
-  }
-
-  if (!country.value) {
-    showToast('Missing Information', 'Please select your country', 'warning');
-    focusAndScroll(country);
-    return;
-  }
-
-  if (!city.value.trim()) {
-    showToast('Missing Information', 'Please enter your city', 'warning');
-    focusAndScroll(city);
-    return;
-  }
-
-  // --- Payment validation (Credit Card) ---
-  const paymentMethod = document.querySelector('input[name="payment"]:checked')?.value;
-  if (paymentMethod === 'Credit Card') {
-    if (!validateCreditCard(cardNumber.value.trim())) {
-      showToast('Invalid Card', 'Please enter a valid credit card number', 'error');
-      focusAndScroll(cardNumber);
-      return;
-    }
-
-    const expMatch = expiry.value.trim().match(/^(0[1-9]|1[0-2])\/(\d{2})$/);
-    if (!expMatch) {
-      showToast('Invalid Expiry', 'Expiration must be in MM/YY format', 'error');
-      focusAndScroll(expiry);
-      return;
-    }
-
-    const [_, mm, yy] = expMatch;
-    const expDate = new Date(`20${yy}`, mm);
-    const now = new Date();
-    if (expDate <= now) {
-      showToast('Expired Card', 'This card has expired', 'error');
-      focusAndScroll(expiry);
-      return;
-    }
-
-    if (!/^\d{3}$/.test(cvc.value.trim())) {
-      showToast('Invalid CVC', 'CVC must be 3 digits', 'error');
-      focusAndScroll(cvc);
-      return;
-    }
-  }
-
-  // --- Continue checkout logic ---
-  const checkoutData = loadCheckoutData();
-  if (!checkoutData) {
-    showToast('Empty Cart', 'Your cart is empty', 'error');
-    return;
-  }
-
-  const orderId = generateOrderId();
-  const orderData = {
-    orderId,
-    customer: {
-      firstName: firstName.value.trim(),
-      lastName: lastName.value.trim(),
-      phone: phone.value.trim(),
-      email: email.value.trim()
-    },
-    shipping: {
-      address: address.value.trim(),
-      country: country.value,
-      city: city.value.trim(),
-      state: document.getElementById('state').value,
-      zipCode: document.getElementById('zipCode').value
-    },
-    payment: { method: paymentMethod },
-    items: checkoutData.items,
-    subtotal: checkoutData.subtotal,
-    total: checkoutData.total,
-    orderDate: new Date().toISOString()
-  };
-
-  sessionStorage.setItem('wearopia_order_complete', JSON.stringify(orderData));
-  sessionStorage.removeItem('wearopia_checkout_data');
-  localStorage.removeItem('wearopia_cart_v1');
-
-  showToast('Order Placed!', 'Redirecting to confirmation...', 'success');
-  setTimeout(() => (window.location.href = 'complete-order.html'), 1200);
-}
-
-</script>
-<script>
-// Toast notification function
-function showToast(title, message, type = 'success') {
-  const toastContainer = document.getElementById('toast-container');
-  const icons = {
-    success: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#58BD7D"/><path d="M8 12L11 15L16 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-    error: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#FF6A55"/><path d="M15 9L9 15M9 9L15 15" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>',
-    warning: '<svg class="toast-icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#FFB020"/><path d="M12 7V13M12 16V17" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>'
-  };
-  const toast = document.createElement('div');
-  toast.className = `toast-notification toast-${type}`;
-  toast.innerHTML = `${icons[type]}<div class="toast-content"><div class="toast-title">${title}</div><div class="toast-message">${message}</div></div>`;
-  toastContainer.appendChild(toast);
-  setTimeout(() => { 
-    toast.style.animation = 'fadeOut .3s ease forwards'; 
-    setTimeout(() => toast.remove(), 300); 
-  }, 3000);
-}
-
-// Navbar functionality
-const menuToggle = document.getElementById('menuToggle');
-const mobileMenu = document.getElementById('mobileMenu');
-let wishlistCount = 0;
-let cartCount = 0;
-
-const wishlistBadge = document.getElementById('wishlistCount');
-const cartBadge = document.getElementById('cartCount');
-
-menuToggle.addEventListener('click', () => {
-  mobileMenu.classList.toggle('show');
-  const icon = menuToggle.querySelector('i');
-  
-  if (mobileMenu.classList.contains('show')) {
-    icon.classList.remove('bi-list');
-    icon.classList.add('bi-x');
-  } else {
-    icon.classList.remove('bi-x');
-    icon.classList.add('bi-list');
-  }
-});
-
-// Payment selection
-function selectPayment(element) {
-  document.querySelectorAll('.payment-option').forEach(opt => {
-    opt.classList.remove('active');
-    opt.querySelector('.payment-radio').checked = false;
-  });
-  element.classList.add('active');
-  element.querySelector('.payment-radio').checked = true;
-
-  const cardFields = document.getElementById('cardFields');
-  const isCreditCard = element.querySelector('.payment-label').textContent === 'Pay by Card Credit';
-  cardFields.style.display = isCreditCard ? 'block' : 'none';
-}
-
-// Load checkout data
-function loadCheckoutData() {
-  try {
-    const data = sessionStorage.getItem('wearopia_checkout_data');
-    if (!data) {
-      showToast('Empty Cart', 'Your cart is empty. Redirecting to cart page...', 'warning');
-      setTimeout(() => window.location.href = 'shopping-cart.html', 1500);
-      return null;
-    }
-    return JSON.parse(data);
-  } catch (e) {
-    console.error('Error loading checkout data:', e);
-    return null;
-  }
-}
-
-// Render order items
-function renderCheckoutItems(items) {
-  const container = document.getElementById('orderItemsContainer');
-  const itemsHTML = items.map((item, index) => `
-    <div class="order-item" data-index="${index}">
-      <div class="item-image" style="background-image: url('${item.image}');"></div>
-      <div class="item-details">
-        <div class="item-name">${item.name}</div>
-        <div class="item-color">${item.variant}</div>
-        <div class="item-qty">
-<span id="cart-items-count">Items: 0</span>
-          
-        </div>
-      </div>
-      <div class="item-price">${(item.price * item.qty).toFixed(2)}</div>
-    </div>
-  `).join('');
-  
-  container.innerHTML = itemsHTML;
-}
-
-// Update quantity
-function updateQty(index, change) {
-  const checkoutData = loadCheckoutData();
-  if (!checkoutData) return;
-
-  checkoutData.items[index].qty = Math.max(1, checkoutData.items[index].qty + change);
-  sessionStorage.setItem('wearopia_checkout_data', JSON.stringify(checkoutData));
-  
-  renderCheckoutItems(checkoutData.items);
-  recalculateTotals(checkoutData);
-}
-
-// Recalculate totals
-function recalculateTotals(data) {
-  let subtotal = 0;
-  data.items.forEach(item => {
-    subtotal += item.price * item.qty;
-  });
-  
-  document.getElementById('subtotal').textContent = `${subtotal.toFixed(2)}`;
-  
-  // Handle coupon discount
-  let discount = 0;
-  if (data.coupon) {
-    const discountBadge = document.getElementById('discountBadge');
-    discountBadge.style.display = 'flex';
-    document.getElementById('couponCode').textContent = data.coupon.code;
-    
-    if (data.coupon.type === 'percentage') {
-      discount = subtotal * (data.coupon.value / 100);
-    } else {
-      discount = data.coupon.value;
-    }
-    
-    document.getElementById('discountValue').textContent = `-${discount.toFixed(2)}`;
-  }
-  
-  const shipping = data.shipping || 0;
-  document.getElementById('shippingCost').textContent = shipping > 0 ? `${shipping.toFixed(2)}` : 'Free';
-  
-  const total = subtotal + shipping - discount;
-  document.getElementById('total').textContent = `${total.toFixed(2)}`;
-  
-  data.subtotal = subtotal;
-  data.discount = discount;
-  data.total = total;
-  sessionStorage.setItem('wearopia_checkout_data', JSON.stringify(data));
-}
-
-// Generate order ID
-function generateOrderId() {
-  const timestamp = Date.now();
-  const random = Math.floor(Math.random() * 10000);
-  return `#${timestamp.toString().slice(-5)}_${random}`;
-}
-
-// Place order
-
-
-// Initialize
-document.addEventListener('DOMContentLoaded', function() {
-  const checkoutData = loadCheckoutData();
-  
-  if (checkoutData) {
-    renderCheckoutItems(checkoutData.items);
-    recalculateTotals(checkoutData);
-    
-    // Update cart badge
-    const totalQty = checkoutData.items.reduce((sum, item) => sum + item.qty, 0);
-    cartBadge.textContent = totalQty;
-    if (totalQty > 0) cartBadge.classList.add('show');
-  }
-  
-  document.getElementById('placeOrderBtn').addEventListener('click', placeOrder);
-});
-
-// Format card number
-const cardNumberInput = document.getElementById('cardNumber');
-if (cardNumberInput) {
-  cardNumberInput.addEventListener('input', function(e) {
-    let value = e.target.value.replace(/\s/g, '');
-    let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
-    e.target.value = formattedValue;
-  });
-}
-
-// Format expiry date
-const expiryInput = document.getElementById('expiryDate');
-if (expiryInput) {
-  expiryInput.addEventListener('input', function(e) {
-    let value = e.target.value.replace(/\D/g, '');
-    if (value.length >= 2) {
-      value = value.slice(0, 2) + '/' + value.slice(2, 4);
-    }
-    e.target.value = value;
-  });
-}
-
-
-
-  // simulate getting cart items from localStorage or session
-  const cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-
-  document.getElementById("cart-items-count").textContent = `Items: ${totalItems}`;
-
-// --- HELPER: read cart/checkount data from known keys (robust) ---
-function getCartData() {
-  // try checkout data in sessionStorage first (used by checkout page)
-  const checkoutRaw = sessionStorage.getItem('wearopia_checkout_data');
-  if (checkoutRaw) {
-    try {
-      const parsed = JSON.parse(checkoutRaw);
-      if (parsed && Array.isArray(parsed.items)) return parsed;
-    } catch (e) { /* ignore parse error */ }
-  }
-
-  // fallback to cart in localStorage (used by site cart)
-  const cartRaw = localStorage.getItem('wearopia_cart_v1') || localStorage.getItem('wearopia_cart');
-  if (cartRaw) {
-    try {
-      const parsed = JSON.parse(cartRaw);
-      // normalize to { items: [...] }
-      if (Array.isArray(parsed)) return { items: parsed };
-      if (parsed && Array.isArray(parsed.items)) return parsed;
-    } catch (e) { /* ignore */ }
-  }
-
-  return { items: [] };
-}
-
-// --- update cart counts (badge + any global displays) ---
-function updateCartCounts() {
-  const data = getCartData();
-  const totalQty = data.items.reduce((s, it) => s + (Number(it.qty) || Number(it.quantity) || 0), 0);
-
-  // update top navbar badge (if exists)
-  const cartBadge = document.getElementById('cartCount');
-  if (cartBadge) {
-    cartBadge.textContent = totalQty;
-    if (totalQty > 0) cartBadge.classList.add('show'); // keep existing behavior
-    else cartBadge.classList.remove('show');
-  }
-
-  // update any global element that should show total items (optional)
-  const globalCountEls = document.querySelectorAll('.global-cart-items-count');
-  globalCountEls.forEach(el => el.textContent = totalQty);
-}
-
-// --- render order items: show qty as plain text, remove qty-btn ---
-function renderCheckoutItems(items) {
-  const container = document.getElementById('orderItemsContainer');
-  if (!container) return;
-
-  const itemsHTML = items.map((item, index) => {
-    const qty = Number(item.qty) || Number(item.quantity) || 1;
-    const price = Number(item.price) || 0;
-    const totalPrice = (price * qty).toFixed(2);
-
-    return `
-      <div class="order-item" data-index="${index}">
-        <div class="item-image" style="background-image: url('${item.image || ''}');"></div>
-        <div class="item-details">
-          <div class="item-name">${item.name || 'Product'}</div>
-          <div class="item-color">${item.variant || ''}</div>
-          <div class="item-qty-text">Quantity: <span class="item-qty-value">${qty}</span></div>
-        </div>
-        <div class="item-price">${totalPrice}</div>
-      </div>
-    `;
-  }).join('');
-
-  container.innerHTML = itemsHTML;
-}
-
-// --- recalc totals (unchanged behavior but ensure numbers are correct) ---
-function recalculateTotals(data) {
-  let subtotal = 0;
-  (data.items || []).forEach(item => {
-    const qty = Number(item.qty) || Number(item.quantity) || 1;
-    const price = Number(item.price) || 0;
-    subtotal += price * qty;
-  });
-
-  document.getElementById('subtotal').textContent = `${subtotal.toFixed(2)}`;
-
-  let discount = 0;
-  if (data.coupon) {
-    const discountBadge = document.getElementById('discountBadge');
-    if (discountBadge) discountBadge.style.display = 'flex';
-    document.getElementById('couponCode').textContent = data.coupon.code || 'Coupon';
-
-    if (data.coupon.type === 'percentage') discount = subtotal * (data.coupon.value / 100);
-    else discount = Number(data.coupon.value) || 0;
-
-    document.getElementById('discountValue').textContent = `-${discount.toFixed(2)}`;
-  } else {
-    const discountBadge = document.getElementById('discountBadge');
-    if (discountBadge) discountBadge.style.display = 'none';
-  }
-
-  const shipping = Number(data.shipping) || 0;
-  document.getElementById('shippingCost').textContent = shipping > 0 ? `${shipping.toFixed(2)}` : 'Free';
-
-  const total = subtotal + shipping - discount;
-  document.getElementById('total').textContent = `${total.toFixed(2)}`;
-
-  // persist computed fields
-  data.subtotal = subtotal;
-  data.discount = discount;
-  data.total = total;
-  sessionStorage.setItem('wearopia_checkout_data', JSON.stringify(data));
-}
-
-// --- initialize page: load data, render, update counts ---
-document.addEventListener('DOMContentLoaded', function() {
-  const checkoutData = getCartData();
-
-  // render list
-  renderCheckoutItems(checkoutData.items || []);
-
-  // recalc totals and write them (if checkout-style object)
-  recalculateTotals(checkoutData);
-
-  // update global cart count/badge
-  updateCartCounts();
-
-  // optional: observe storage changes from other tabs/windows
-  window.addEventListener('storage', (e) => {
-    if (['wearopia_checkout_data', 'wearopia_cart_v1', 'wearopia_cart'].includes(e.key)) {
-      const newData = getCartData();
-      renderCheckoutItems(newData.items || []);
-      recalculateTotals(newData);
-      updateCartCounts();
-    }
-  });
-});
-
-// Helper: Luhn algorithm for credit card validation
-function validateCreditCard(number) {
-  const clean = number.replace(/\D/g, '');
-  if (!/^\d{13,19}$/.test(clean)) return false;
-  let sum = 0;
-  let doubleIt = false;
-  for (let i = clean.length - 1; i >= 0; i--) {
-    let digit = parseInt(clean[i]);
-    if (doubleIt) {
-      digit *= 2;
-      if (digit > 9) digit -= 9;
-    }
-    sum += digit;
-    doubleIt = !doubleIt;
-  }
-  return sum % 10 === 0;
-}
-
-// --- Updated Place Order with All Validations ---
-function placeOrder() {
-  const firstName = document.getElementById('firstName');
-  const lastName = document.getElementById('lastName');
-  const phone = document.getElementById('phone');
-  const email = document.getElementById('email');
-  const address = document.getElementById('address');
-  const country = document.getElementById('country');
-  const city = document.getElementById('city');
-  const cardNumber = document.getElementById('cardNumber');
-  const expiry = document.getElementById('expiryDate');
-  const cvc = document.getElementById('cvc');
-
-  // Helper: scroll + focus on invalid field
-  function focusAndScroll(element) {
-    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    element.focus();
-  }
-
-  // --- Name validation ---
-  const nameRegex = /^[A-Za-z]+$/;
-  if (!nameRegex.test(firstName.value.trim())) {
-    showToast('Invalid Name', 'First name must contain letters only', 'error');
-    focusAndScroll(firstName);
-    return;
-  }
-  if (lastName.value.trim() && !nameRegex.test(lastName.value.trim())) {
-    showToast('Invalid Name', 'Last name must contain letters only', 'error');
-    focusAndScroll(lastName);
-    return;
-  }
-
-  // --- Phone validation ---
-  const phoneValue = phone.value.trim();
-  const phoneRegex = /^\d{10,15}$/; // 10–15 digits only
-  if (!phoneRegex.test(phoneValue)) {
-    showToast('Invalid Phone', 'Please enter a valid phone number (10–15 digits)', 'error');
-    focusAndScroll(phone);
-    return;
-  }
-
-  // --- Email validation ---
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email.value.trim())) {
-    showToast('Invalid Email', 'Please enter a valid email address', 'error');
-    focusAndScroll(email);
-    return;
-  }
-
-  // --- Address validation ---
-  if (!address.value.trim()) {
-    showToast('Missing Information', 'Please enter your street address', 'warning');
-    focusAndScroll(address);
-    return;
-  }
-
-  if (!country.value) {
-    showToast('Missing Information', 'Please select your country', 'warning');
-    focusAndScroll(country);
-    return;
-  }
-
-  if (!city.value.trim()) {
-    showToast('Missing Information', 'Please enter your city', 'warning');
-    focusAndScroll(city);
-    return;
-  }
-
-  // --- Payment validation (Credit Card) ---
-  const paymentMethod = document.querySelector('input[name="payment"]:checked')?.value;
-  if (paymentMethod === 'Credit Card') {
-    if (!validateCreditCard(cardNumber.value.trim())) {
-      showToast('Invalid Card', 'Please enter a valid credit card number', 'error');
-      focusAndScroll(cardNumber);
-      return;
-    }
-
-    const expMatch = expiry.value.trim().match(/^(0[1-9]|1[0-2])\/(\d{2})$/);
-    if (!expMatch) {
-      showToast('Invalid Expiry', 'Expiration must be in MM/YY format', 'error');
-      focusAndScroll(expiry);
-      return;
-    }
-
-    const [_, mm, yy] = expMatch;
-    const expDate = new Date(`20${yy}`, mm);
-    const now = new Date();
-    if (expDate <= now) {
-      showToast('Expired Card', 'This card has expired', 'error');
-      focusAndScroll(expiry);
-      return;
-    }
-
-    if (!/^\d{3}$/.test(cvc.value.trim())) {
-      showToast('Invalid CVC', 'CVC must be 3 digits', 'error');
-      focusAndScroll(cvc);
-      return;
-    }
-  }
-
-  // --- Continue checkout logic ---
-  const checkoutData = loadCheckoutData();
-  if (!checkoutData) {
-    showToast('Empty Cart', 'Your cart is empty', 'error');
-    return;
-  }
-
-  const orderId = generateOrderId();
-  const orderData = {
-    orderId,
-    customer: {
-      firstName: firstName.value.trim(),
-      lastName: lastName.value.trim(),
-      phone: phone.value.trim(),
-      email: email.value.trim()
-    },
-    shipping: {
-      address: address.value.trim(),
-      country: country.value,
-      city: city.value.trim(),
-      state: document.getElementById('state').value,
-      zipCode: document.getElementById('zipCode').value
-    },
-    payment: { method: paymentMethod },
-    items: checkoutData.items,
-    subtotal: checkoutData.subtotal,
-    total: checkoutData.total,
-    orderDate: new Date().toISOString()
-  };
-
-  sessionStorage.setItem('wearopia_order_complete', JSON.stringify(orderData));
-  sessionStorage.removeItem('wearopia_checkout_data');
-  localStorage.removeItem('wearopia_cart_v1');
-
-  showToast('Order Placed!', 'Redirecting to confirmation...', 'success');
-  setTimeout(() => (window.location.href = 'complete-order.html'), 1200);
-}
-
-
-
-
-// Helper: Luhn algorithm for credit card validation
-function validateCreditCard(number) {
-  const clean = number.replace(/\D/g, '');
-  if (!/^\d{13,19}$/.test(clean)) return false;
-  let sum = 0;
-  let doubleIt = false;
-  for (let i = clean.length - 1; i >= 0; i--) {
-    let digit = parseInt(clean[i]);
-    if (doubleIt) {
-      digit *= 2;
-      if (digit > 9) digit -= 9;
-    }
-    sum += digit;
-    doubleIt = !doubleIt;
-  }
-  return sum % 10 === 0;
-}
-
-// --- Updated Place Order with All Validations ---
-function placeOrder() {
-  const firstName = document.getElementById('firstName');
-  const lastName = document.getElementById('lastName');
-  const phone = document.getElementById('phone');
-  const email = document.getElementById('email');
-  const address = document.getElementById('address');
-  const country = document.getElementById('country');
-  const city = document.getElementById('city');
-  const cardNumber = document.getElementById('cardNumber');
-  const expiry = document.getElementById('expiryDate');
-  const cvc = document.getElementById('cvc');
-
-  // Helper: scroll + focus on invalid field
-  function focusAndScroll(element) {
-    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    element.focus();
-  }
-
-  // --- Name validation ---
-  const nameRegex = /^[A-Za-z]+$/;
-  if (!nameRegex.test(firstName.value.trim())) {
-    showToast('Invalid Name', 'First name must contain letters only', 'error');
-    focusAndScroll(firstName);
-    return;
-  }
-  if (lastName.value.trim() && !nameRegex.test(lastName.value.trim())) {
-    showToast('Invalid Name', 'Last name must contain letters only', 'error');
-    focusAndScroll(lastName);
-    return;
-  }
-
-  // --- Phone validation ---
-  const phoneValue = phone.value.trim();
-  const phoneRegex = /^\d{10,15}$/; // 10–15 digits only
-  if (!phoneRegex.test(phoneValue)) {
-    showToast('Invalid Phone', 'Please enter a valid phone number (10–15 digits)', 'error');
-    focusAndScroll(phone);
-    return;
-  }
-
-  // --- Email validation ---
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email.value.trim())) {
-    showToast('Invalid Email', 'Please enter a valid email address', 'error');
-    focusAndScroll(email);
-    return;
-  }
-
-  // --- Address validation ---
-  if (!address.value.trim()) {
-    showToast('Missing Information', 'Please enter your street address', 'warning');
-    focusAndScroll(address);
-    return;
-  }
-
-  if (!country.value) {
-    showToast('Missing Information', 'Please select your country', 'warning');
-    focusAndScroll(country);
-    return;
-  }
-
-  if (!city.value.trim()) {
-    showToast('Missing Information', 'Please enter your city', 'warning');
-    focusAndScroll(city);
-    return;
-  }
-
-  // --- Payment validation (Credit Card) ---
-  const paymentMethod = document.querySelector('input[name="payment"]:checked')?.value;
-  if (paymentMethod === 'Credit Card') {
-    if (!validateCreditCard(cardNumber.value.trim())) {
-      showToast('Invalid Card', 'Please enter a valid credit card number', 'error');
-      focusAndScroll(cardNumber);
-      return;
-    }
-
-    const expMatch = expiry.value.trim().match(/^(0[1-9]|1[0-2])\/(\d{2})$/);
-    if (!expMatch) {
-      showToast('Invalid Expiry', 'Expiration must be in MM/YY format', 'error');
-      focusAndScroll(expiry);
-      return;
-    }
-
-    const [_, mm, yy] = expMatch;
-    const expDate = new Date(`20${yy}`, mm);
-    const now = new Date();
-    if (expDate <= now) {
-      showToast('Expired Card', 'This card has expired', 'error');
-      focusAndScroll(expiry);
-      return;
-    }
-
-    if (!/^\d{3}$/.test(cvc.value.trim())) {
-      showToast('Invalid CVC', 'CVC must be 3 digits', 'error');
-      focusAndScroll(cvc);
-      return;
-    }
-  }
-
-  // --- Continue checkout logic ---
-  const checkoutData = loadCheckoutData();
-  if (!checkoutData) {
-    showToast('Empty Cart', 'Your cart is empty', 'error');
-    return;
-  }
-
-  const orderId = generateOrderId();
-  const orderData = {
-    orderId,
-    customer: {
-      firstName: firstName.value.trim(),
-      lastName: lastName.value.trim(),
-      phone: phone.value.trim(),
-      email: email.value.trim()
-    },
-    shipping: {
-      address: address.value.trim(),
-      country: country.value,
-      city: city.value.trim(),
-      state: document.getElementById('state').value,
-      zipCode: document.getElementById('zipCode').value
-    },
-    payment: { method: paymentMethod },
-    items: checkoutData.items,
-    subtotal: checkoutData.subtotal,
-    total: checkoutData.total,
-    orderDate: new Date().toISOString()
-  };
-
-  sessionStorage.setItem('wearopia_order_complete', JSON.stringify(orderData));
-  sessionStorage.removeItem('wearopia_checkout_data');
-  localStorage.removeItem('wearopia_cart_v1');
-
-  showToast('Order Placed!', 'Redirecting to confirmation...', 'success');
-  setTimeout(() => (window.location.href = 'complete-order.html'), 1200);
-} -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script src="JavaScript/navbar-test.js"></script>
-
-<script>
-    $('<link/>', {
-  rel: 'stylesheet',
-  type: 'text/css',
-  href: 'CSS/navbar.css'
-}).appendTo('head');
-
-    // تحميل الناف بار
-    $("#navbar-placeholder").load("navbar-test.html", function () {
-      initNavbar();
-      renderWishlist();
-    });
-
-    // عرض الوش ليست
-    function renderWishlist() {
-      let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-      const container = $("#wishlistItems");
-      container.empty();
-
-      if (wishlist.length === 0) {
-        container.html("<p class='text-center text-muted'>Your wishlist is empty 💔</p>");
-        return;
-      }
-
-      wishlist.forEach((item, index) => {
-        container.append(`
-          <div class="wishlist-item">
-            <h5>${item.name}</h5>
-            <button class="btn btn-sm btn-danger remove-item" data-index="${index}">
-              <i class="bi bi-trash"></i> Remove
-            </button>
-          </div>
-        `);
-      });
-
-      $(".remove-item").on("click", function () {
-        const index = $(this).data("index");
-        wishlist.splice(index, 1);
-        localStorage.setItem("wishlist", JSON.stringify(wishlist));
-        renderWishlist();
-        Swal.fire("Removed!", "Item removed from wishlist.", "success");
-      });
-    }
-  </script>
+<script src="JavaScript/components.js" defer></script>
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
@@ -1699,133 +801,356 @@ document.addEventListener("DOMContentLoaded", function() {
   const totalEl = document.getElementById("total");
   const discountValueEl = document.getElementById("discountValue");
   const shippingCostEl = document.getElementById("shippingCost");
+  const toastContainer = document.getElementById("toast-container");
+
+  // --- small toast helper (lightweight, no external deps) ---
+  function showToast(title, message, type = "info", timeout = 3000) {
+    if (!toastContainer) return;
+    const el = document.createElement("div");
+    el.className = "toast-notification";
+    el.style.border = "1px solid rgba(0,0,0,.06)";
+    el.innerHTML = `
+      <div class="toast-icon">${type === "success" ? '✅' : type === "error" ? '⛔' : 'ℹ️' }</div>
+      <div class="toast-content"><div class="toast-title">${title}</div><div class="toast-message">${message}</div></div>
+    `;
+    toastContainer.appendChild(el);
+    setTimeout(() => {
+      el.style.animation = "fadeOut 0.4s forwards";
+      setTimeout(()=> el.remove(), 450);
+    }, timeout);
+  }
 
   // ---------- Validation Helpers ----------
-  function showError(field, message) {
-    field.classList.add("error-border");
-    let errorEl = field.nextElementSibling;
-    if (!errorEl || !errorEl.classList.contains("error-msg")) {
-      errorEl = document.createElement("div");
-      errorEl.classList.add("error-msg");
-      field.parentNode.insertBefore(errorEl, field.nextSibling);
+  function makeErrorEl(field) {
+    let next = field.nextElementSibling;
+    if (!next || !next.classList || !next.classList.contains("error-msg")) {
+      next = document.createElement("div");
+      next.className = "error-msg";
+      next.style.color = "#d9534f";
+      next.style.fontSize = "13px";
+      next.style.marginTop = "6px";
+      field.parentNode.insertBefore(next, field.nextSibling);
     }
-    errorEl.textContent = message;
+    return next;
+  }
+
+  function showError(field, message) {
+    if (!field) return;
+    field.classList.add("error-border");
+    const err = makeErrorEl(field);
+    err.textContent = message;
   }
 
   function clearError(field) {
+    if (!field) return;
     field.classList.remove("error-border");
-    let errorEl = field.nextElementSibling;
-    if (errorEl && errorEl.classList.contains("error-msg")) {
-      errorEl.textContent = "";
+    const next = field.nextElementSibling;
+    if (next && next.classList && next.classList.contains("error-msg")) {
+      next.textContent = "";
     }
   }
 
-  function validateField(fieldId, message) {
-    const field = document.getElementById(fieldId);
-    if (!field.value.trim()) {
-      showError(field, message);
-      field.focus();
+  // clear errors on input/change
+  ["input","change"].forEach(evt => {
+    document.addEventListener(evt, (e) => {
+      const t = e.target;
+      if (!t) return;
+      if (t.classList && (t.classList.contains("form-control") || t.classList.contains("form-select"))) {
+        clearError(t);
+      }
+    }, {capture:true});
+  });
+
+  function validateRequired(fieldId, message) {
+    const f = document.getElementById(fieldId);
+    if (!f) return false;
+    if (!String(f.value || "").trim()) {
+      showError(f, message);
+      f.focus();
       return false;
-    } else {
-      clearError(field);
-      return true;
     }
+    clearError(f);
+    return true;
   }
 
   function validateEmail(fieldId) {
-    const field = document.getElementById(fieldId);
+    const f = document.getElementById(fieldId);
+    if (!f) return false;
+    const v = (f.value || "").trim();
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!re.test(field.value)) {
-      showError(field, "Please enter a valid email.");
-      field.focus();
+    if (!re.test(v)) {
+      showError(f, "Please enter a valid email.");
+      f.focus();
       return false;
-    } else {
-      clearError(field);
-      return true;
     }
+    clearError(f);
+    return true;
   }
+
+  // ---- add this helper to validate names ----
+  function validateName(fieldId, message = "Please enter a valid name (letters only).") {
+    const f = document.getElementById(fieldId);
+    if (!f) return false;
+    const v = (f.value || "").trim();
+    if (!v) {
+      showError(f, message);
+      f.focus();
+      return false;
+    }
+    // allow letters, accents, spaces, hyphen and apostrophe
+    // Note: using a conservative charset to work across browsers
+    const nameRe = /^[A-Za-zÀ-ÖØ-öø-ÿ' -]+$/;
+    if (!nameRe.test(v) || v.length < 2) {
+      showError(f, message);
+      f.focus();
+      return false;
+    }
+    clearError(f);
+    return true;
+  }
+
+  // Prevent typing numbers into name fields (soft UX guard)
+  // (this will remove digits if pasted/typed)
+  ["firstName","lastName"].forEach(id=>{
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('input', () => {
+      const before = el.value;
+      const after = before.replace(/[0-9]/g,'');
+      if (before !== after) el.value = after;
+    });
+  });
 
   function validatePhone(fieldId) {
-    const field = document.getElementById(fieldId);
-    const re = /^[0-9]{7,15}$/;
-    if (!re.test(field.value)) {
-      showError(field, "Please enter a valid phone number.");
-      field.focus();
+    const f = document.getElementById(fieldId);
+    if (!f) return false;
+    const raw = (f.value || "").trim();
+    // allow plus sign, spaces, dashes, parentheses; count digits only
+    const digits = raw.replace(/[^\d]/g, "");
+    if (digits.length < 7 || digits.length > 15) {
+      showError(f, "Please enter a valid phone number (7–15 digits).");
+      f.focus();
       return false;
-    } else {
-      clearError(field);
-      return true;
     }
+    clearError(f);
+    return true;
   }
 
+  // Luhn algorithm for basic credit card validation
+  function luhnCheck(number) {
+    const digits = number.replace(/\D/g,'')
+    let sum = 0
+    let toggle = false
+    for (let i = digits.length - 1; i >= 0; i--) {
+      let d = parseInt(digits[i], 10)
+      if (toggle) {
+        d *= 2
+        if (d > 9) d -= 9
+      }
+      sum += d
+      toggle = !toggle
+    }
+    return digits.length >= 13 && digits.length <= 19 && sum % 10 === 0
+  }
+
+  function validateCardNumber(fieldId) {
+    const f = document.getElementById(fieldId);
+    if (!f) return false;
+    const v = (f.value || "").replace(/\s+/g,"");
+    if (!/^\d{13,19}$/.test(v) || !luhnCheck(v)) {
+      showError(f, "Enter a valid card number.");
+      f.focus();
+      return false;
+    }
+    clearError(f);
+    return true;
+  }
+
+  function validateExpiry(fieldId) {
+    const f = document.getElementById(fieldId);
+    if (!f) return false;
+    const val = (f.value || "").trim();
+    // Accept MM/YY or MM/YYYY
+    const m = val.match(/^(\d{1,2})\/(\d{2}|\d{4})$/);
+    if (!m) {
+      showError(f, "Enter expiration in MM/YY format.");
+      f.focus();
+      return false;
+    }
+    let month = Number(m[1]);
+    let year = Number(m[2]);
+    if (m[2].length === 2) {
+      year += 2000;
+    }
+    if (month < 1 || month > 12) {
+      showError(f, "Enter a valid month (01–12).");
+      f.focus();
+      return false;
+    }
+    const now = new Date();
+    const expiry = new Date(year, month); // first day of next month
+    if (expiry <= now) {
+      showError(f, "Card has expired.");
+      f.focus();
+      return false;
+    }
+    clearError(f);
+    return true;
+  }
+
+  function validateCVC(fieldId) {
+    const f = document.getElementById(fieldId);
+    if (!f) return false;
+    const v = (f.value || "").trim();
+    if (!/^\d{3,4}$/.test(v)) {
+      showError(f, "Enter a valid CVC (3 or 4 digits).");
+      f.focus();
+      return false;
+    }
+    clearError(f);
+    return true;
+  }
+
+  // ---- updated validateAll to use name & phone rules + credit-card checks ----
   function validateAll() {
-    let valid = true;
+    // name (first required, last optional but if provided must be valid)
+    if (!validateName("firstName", "First name is required and must contain only letters.")) return false;
+    const lastEl = document.getElementById("lastName");
+    if (lastEl && lastEl.value.trim()) {
+      if (!validateName("lastName", "Last name must contain only letters.")) return false;
+    }
 
-    valid = validateField("firstName", "First name is required.") && valid;
-    valid = validateField("phone", "Phone number is required.") && valid;
-    valid = validatePhone("phone") && valid;
-    valid = validateField("email", "Email is required.") && valid;
-    valid = validateEmail("email") && valid;
-    valid = validateField("address", "Address is required.") && valid;
-    valid = validateField("country", "Country is required.") && valid;
-    valid = validateField("city", "City is required.") && valid;
+    // phone & email & address & country & city
+    if (!validateRequired("phone", "Phone number is required.")) return false;
+    if (!validatePhone("phone")) return false;
+    if (!validateRequired("email", "Email is required.")) return false;
+    if (!validateEmail("email")) return false;
+    if (!validateRequired("address", "Address is required.")) return false;
+    if (!validateRequired("country", "Country is required.")) return false;
+    if (!validateRequired("city", "City is required.")) return false;
 
-    const paymentMethod = document.querySelector('input[name="payment"]:checked')?.value;
-    if (!paymentMethod) {
-      alert("Please select a payment method.");
+    // cart must not be empty
+    const cart = JSON.parse(localStorage.getItem("wearopia_cart") || "{}");
+    if (Object.keys(cart).length === 0) {
+      showToast("Cart empty", "You have no items in your cart.", "error");
       return false;
     }
 
+    // payment checks
+    const paymentMethod = document.querySelector('input[name="payment"]:checked')?.value;
+    if (!paymentMethod) {
+      showToast("Payment required", "Please select a payment method.", "error");
+      return false;
+    }
     if (paymentMethod === "Credit Card") {
-      valid = validateField("cardNumber", "Card number is required.") && valid;
-      valid = validateField("expiryDate", "Expiration date is required.") && valid;
-      valid = validateField("cvc", "CVC is required.") && valid;
+      if (!validateRequired("cardNumber", "Card number is required.")) return false;
+      if (!validateCardNumber("cardNumber")) return false;
+      if (!validateRequired("expiryDate", "Expiration date is required.")) return false;
+      if (!validateExpiry("expiryDate")) return false;
+      if (!validateRequired("cvc", "CVC is required.")) return false;
+      if (!validateCVC("cvc")) return false;
     }
 
-    return valid;
+    return true;
   }
 
   // ---------- Payment Selection ----------
   window.selectPayment = function(el) {
     document.querySelectorAll(".payment-option").forEach(opt => {
       opt.classList.remove("active");
-      opt.querySelector("input").checked = false;
+      const inp = opt.querySelector("input");
+      if (inp) inp.checked = false;
     });
     el.classList.add("active");
-    el.querySelector("input").checked = true;
-    cardFields.style.display = el.querySelector("input").value === "Credit Card" ? "block" : "none";
+    const inp = el.querySelector("input");
+    if (inp) inp.checked = true;
+    if (inp && inp.value === "Credit Card") {
+      cardFields.style.display = "block";
+    } else {
+      cardFields.style.display = "none";
+      // clear card errors if switching away
+      ["cardNumber","expiryDate","cvc"].forEach(id => {
+        const f = document.getElementById(id);
+        if (f) {
+          f.value = f.value || "";
+          clearError(f);
+        }
+      });
+    }
   };
 
-  // ---------- Order Placement ----------
-  function placeOrder() {
-    const cart = JSON.parse(localStorage.getItem("wearopia_cart")) || {};
-    const allProducts = JSON.parse(localStorage.getItem("wearopia_products")) || {};
-    const orderItems = Object.keys(cart).map(id => {
-      const product = allProducts[id] || {};
-      return {
-        id,
-        name: product.name,
-        image: product.image,
-        price: product.price,
-        quantity: cart[id]
+  // ---------- Place Order ----------
+  async function placeOrder() {
+    // disable button to prevent double submits
+    placeOrderBtn.disabled = true;
+    placeOrderBtn.textContent = "Processing...";
+
+    try {
+      const cart = JSON.parse(localStorage.getItem("wearopia_cart")) || {};
+      const allProducts = JSON.parse(localStorage.getItem("wearopia_products")) || {};
+      const orderItems = [];
+
+      // build items; if product details are missing, provide minimal fallback
+      Object.keys(cart).forEach(id => {
+        const qty = Number(cart[id]) || 0;
+        if (qty <= 0) return;
+        const product = allProducts[id] || { id, name: `Product ${id}`, image: "Images/Image.png", price: 0 };
+        const price = Number(product.price || 0);
+        orderItems.push({
+          id,
+          name: product.name || `Product ${id}`,
+          image: product.image || "Images/Image.png",
+          price,
+          quantity: qty
+        });
+      });
+
+      const subtotal = orderItems.reduce((s, it) => s + (Number(it.price) || 0) * (Number(it.quantity) || 0), 0);
+      const discount = subtotal > 100 ? subtotal * 0.1 : 0;
+      const shipping = 0;
+      const total = subtotal + shipping - discount;
+
+      const orderData = {
+        orderId: `chk_${Date.now()}`,
+        date: new Date().toISOString(),
+        total: Number(total.toFixed(2)),
+        items: orderItems,
+        payment: {
+          method: document.querySelector('input[name="payment"]:checked').value
+        },
+        contact: {
+          firstName: (document.getElementById("firstName").value || "").trim(),
+          lastName: (document.getElementById("lastName").value || "").trim(),
+          email: (document.getElementById("email").value || "").trim(),
+          phone: (document.getElementById("phone").value || "").trim()
+        },
+        shippingAddress: {
+          address: (document.getElementById("address").value || "").trim(),
+          country: (document.getElementById("country").value || "").trim(),
+          city: (document.getElementById("city").value || "").trim(),
+          state: (document.getElementById("state").value || "").trim(),
+          zip: (document.getElementById("zipCode").value || "").trim()
+        }
       };
-    });
 
-    const subtotal = orderItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    const discount = subtotal > 100 ? subtotal * 0.1 : 0;
-    const total = subtotal - discount;
+      // Save to localStorage
+      const existingOrders = JSON.parse(localStorage.getItem("orders")) || [];
+      existingOrders.push(orderData);
+      localStorage.setItem("orders", JSON.stringify(existingOrders));
 
-    const orderData = {
-      orderId: `#${Math.floor(Math.random() * 9000 + 1000)}_${Math.floor(Math.random() * 90000 + 10000)}`,
-      orderDate: new Date(),
-      total,
-      payment: { method: document.querySelector('input[name="payment"]:checked').value },
-      items: orderItems
-    };
+      // Clear cart and persist
+      localStorage.removeItem("wearopia_cart");
 
-    sessionStorage.setItem("wearopia_order_complete", JSON.stringify(orderData));
-    localStorage.removeItem("wearopia_cart");
-    window.location.href = "complete-order.html";
+      // Optionally show success toast and redirect to order complete
+      sessionStorage.setItem("wearopia_order_complete", JSON.stringify(orderData));
+      showToast("Order placed", "Your order has been placed successfully!", "success", 2200);
+      setTimeout(()=> window.location.href = "complete-order.html", 900);
+    } catch (err) {
+      console.error(err);
+      showToast("Error", "Failed to place order. Try again.", "error");
+      placeOrderBtn.disabled = false;
+      placeOrderBtn.textContent = "Place Order";
+    }
   }
 
   placeOrderBtn.addEventListener("click", function() {
@@ -1846,22 +1171,26 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     Object.keys(cart).forEach(id => {
-      const product = allProducts[id];
-      if (!product) return;
-      const quantity = cart[id];
-      const totalPrice = product.price * quantity;
+      const product = allProducts[id] || null;
+      const quantity = Number(cart[id]) || 0;
+      const price = product ? Number(product.price || 0) : 0;
+      const totalPrice = price * quantity;
       subtotal += totalPrice;
 
-      orderItemsContainer.innerHTML += `
-        <div class="d-flex align-items-center py-2 gap-3">
-          <img src="${product.image}" alt="${product.name}" style="width:50px;height:50px;object-fit:cover;border-radius:4px;">
-          <div class="flex-grow-1">
-            <div>${product.name}</div>
-            <div class="text-muted">Qty: ${quantity}</div>
-          </div>
-          <div>$${totalPrice.toFixed(2)}</div>
+      const img = product && product.image ? product.image : "Images/Image.png";
+      const name = product && product.name ? product.name : `Product ${id}`;
+
+      const wrapper = document.createElement("div");
+      wrapper.className = "d-flex align-items-center py-2 gap-3";
+      wrapper.innerHTML = `
+        <img src="${img}" alt="${name}" style="width:50px;height:50px;object-fit:cover;border-radius:4px;">
+        <div class="flex-grow-1">
+          <div>${name}</div>
+          <div class="text-muted">Qty: ${quantity}</div>
         </div>
+        <div>$${totalPrice.toFixed(2)}</div>
       `;
+      orderItemsContainer.appendChild(wrapper);
     });
 
     const discount = subtotal > 100 ? subtotal * 0.1 : 0;
@@ -1870,12 +1199,21 @@ document.addEventListener("DOMContentLoaded", function() {
     const shipping = 0;
     shippingCostEl.textContent = shipping === 0 ? "Free" : "$" + shipping.toFixed(2);
     totalEl.textContent = "$" + (subtotal + shipping - discount).toFixed(2);
+
+    // ensure Place Order is enabled/disabled accordingly
+    placeOrderBtn.disabled = Object.keys(cart).length === 0;
   }
 
   renderOrderSummary();
+
+  // update summary if storage changes in another tab
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'wearopia_cart' || e.key === 'wearopia_products') {
+      renderOrderSummary();
+    }
+  });
 });
 </script>
-
 
 
 

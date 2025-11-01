@@ -9,6 +9,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
   <link rel="stylesheet" href="CSS/product-details.css">
+  <script src="./JavaScript/components.js" defer></script>
+<script src="product-details.js"></script>
+
 
   <style>
     :root {
@@ -257,7 +260,7 @@
 
 <body>
 
-    <div id="navbar-placeholder"></div>
+    <div id="navbar-container"></div>
 
 
   <!--breadcrumb-->
@@ -664,50 +667,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="JavaScript/navbar-test.js"></script>
 
-  <script>
-    $('<link/>', {
-  rel: 'stylesheet',
-  type: 'text/css',
-  href: 'CSS/navbar.css'
-}).appendTo('head');
-
-    
-    $("#navbar-placeholder").load("navbar-test.html", function () {
-      initNavbar();
-      renderWishlist();
-    });
-
-    
-    function renderWishlist() {
-      let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-      const container = $("#wishlistItems");
-      container.empty();
-
-      if (wishlist.length === 0) {
-        container.html("<p class='text-center text-muted'>Your wishlist is empty 💔</p>");
-        return;
-      }
-
-      wishlist.forEach((item, index) => {
-        container.append(`
-          <div class="wishlist-item">
-            <h5>${item.name}</h5>
-            <button class="btn btn-sm btn-danger remove-item" data-index="${index}">
-              <i class="bi bi-trash"></i> Remove
-            </button>
-          </div>
-        `);
-      });
-
-      $(".remove-item").on("click", function () {
-        const index = $(this).data("index");
-        wishlist.splice(index, 1);
-        localStorage.setItem("wishlist", JSON.stringify(wishlist));
-        renderWishlist();
-        Swal.fire("Removed!", "Item removed from wishlist.", "success");
-      });
-    }
-  </script>
+  
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
