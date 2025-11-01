@@ -492,6 +492,7 @@ async function initializeProducts(){
       return matchCategory && matchQuery;
     });
 
+<<<<<<< HEAD
     const filteredWrap = document.createElement('section');
     filteredWrap.className = 'filtered-container';
     filteredWrap.innerHTML = `
@@ -511,6 +512,14 @@ async function initializeProducts(){
     renderCategoryProducts(accessoriesProducts, 'accessories-products', 'no-kids-products', 4);
     renderCategoryProducts(kidsProducts, 'kids-products', 'no-accessories-products', 4);
   }
+=======
+        function generateProducts() {
+            
+            const categories = ['Men', 'Women', 'Kids', 'Accessories'];
+            const subcategories = ['Jeans', 'Jacket', 'Pullover', 'T-shirt', 'Homewear', 'Hoddie', 'Sportwear'];
+            const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+            const colors = ['Blue', 'Green', 'Orange', 'Dark Blue'];
+>>>>>>> 082fb8e15c99d8ef32f218c54a258df9f25d6b4c
 
   // ensure navbar badge updated after initial render
   updateWishlistBadge();
